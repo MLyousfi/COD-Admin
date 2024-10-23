@@ -15,6 +15,8 @@ const RouteNames = {
     callCenterFollowUp: '/call-center/follow-up',
     callCenterMyAgent: '/call-center-manager/my-agent',
     callCenterAgentsRequests: '/call-center-manager/agents-requests',
+    StockManagement: '/StockManagement'
+
 };
 
 const RoutesConfig = [
@@ -48,6 +50,24 @@ const RoutesConfig = [
         name: 'Recover Email Sent',
         path: RouteNames.recoverEmailSent,
         showInSidebar: false,
+    },
+    {
+        name: 'Stock Management',
+        path: RouteNames.StockManagement,
+        showInSidebar: true,
+        icon: Task01Icon,
+        children: [
+            {
+                name: 'Products',
+                path: RouteNames.StockManagement,
+                showInSidebar: true,
+            },
+            {
+                name: 'Warehouses',
+                path: RouteNames.callCenterFollowUp,
+                showInSidebar: true,
+            },
+        ],
     },
     {
         name: 'Call Center',
