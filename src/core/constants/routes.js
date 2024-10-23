@@ -1,4 +1,4 @@
-import { CustomerService01Icon, Home01Icon, Task01Icon } from "hugeicons-react";
+import { Briefcase01Icon, CustomerService01Icon, Home01Icon, Task01Icon } from "hugeicons-react";
 
 
 
@@ -10,9 +10,11 @@ const RouteNames = {
     changePassword: '/change-password',
     recoverEmailSent: '/recover-email-sent',
     callCenter: '/call-center',
+    callCenterManager: '/call-center-manager',
     callCenterConfirmation: '/call-center/confirmation',
     callCenterFollowUp: '/call-center/follow-up',
-    storeManager: '/storemanager'
+    callCenterMyAgent: '/call-center-manager/my-agent',
+    callCenterAgentsRequests: '/call-center-manager/agents-requests',
 };
 
 const RoutesConfig = [
@@ -48,12 +50,6 @@ const RoutesConfig = [
         showInSidebar: false,
     },
     {
-        name: 'Store Management',
-        path: RouteNames.storeManager,
-        showInSidebar: true,
-        icon: Task01Icon,
-    },
-    {
         name: 'Call Center',
         path: RouteNames.callCenter,
         showInSidebar: true,
@@ -67,6 +63,24 @@ const RoutesConfig = [
             {
                 name: 'Follow Up',
                 path: RouteNames.callCenterFollowUp,
+                showInSidebar: true,
+            },
+        ],
+    },
+    {
+        name: 'Call Center Manager',
+        path: RouteNames.callCenterManager,
+        showInSidebar: true,
+        icon: Briefcase01Icon,
+        children: [
+            {
+                name: 'My Agent',
+                path: RouteNames.callCenterMyAgent,
+                showInSidebar: true,
+            },
+            {
+                name: 'Agents Requests',
+                path: RouteNames.callCenterAgentsRequests,
                 showInSidebar: true,
             },
         ],

@@ -15,8 +15,17 @@ const routes = createBrowserRouter([
         element: <Dashboard />
     },
     {
-        path: RouteNames.storeManager,
-        element: <Dashboard />
+        path: RouteNames.callCenterManager,
+        children: [
+            {
+                path: RouteNames.callCenterMyAgent,
+                element: <Confirmation />
+            },
+            {
+                path: RouteNames.callCenterAgentsRequests,
+                element: <FollowUp />
+            },
+        ],
     },
     {
         path: RouteNames.login,

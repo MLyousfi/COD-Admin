@@ -25,6 +25,10 @@ export default {
         ghost: '#E9E9EE',
         selected: '#CDE7FF',
 
+        dark_selected: '#0258E8',
+        dark_selected_hover: '#0258E850',
+
+
       }
     },
   },

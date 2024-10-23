@@ -39,6 +39,9 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
     const location = useLocation();
     const { pathname } = location;
 
+    console.log(pathname.split('/'));
+
+
     const trigger = useRef(null);
     const sidebar = useRef(null);
 
@@ -92,7 +95,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                 <>
                                     <button
                                         onClick={() => toggleRoute(route.name)}
-                                        className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-gray-200 `}
+                                        className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname.split('/')[1] === route.path ? "bg-dark_selected text-white" : ""} `}
                                     >
                                         <div className="flex items-center">
                                             {React.createElement(route.icon, { className: "mr-2 ml-1", size: 20 })}
@@ -106,7 +109,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                     {expandedRoutes[route.name] && (
                                         <ul className="pl-4">
                                             {route.children.map((child, childIndex) => (
-                                                <li key={childIndex} className={`flex  justify-between items-center ml-6 px-2 py-2 rounded-xl hover:bg-gray-200 ${pathname.includes(child.path) ? "bg-ghost" : ""}`}>
+                                                <li key={childIndex} className={`flex  justify-between items-center ml-6 px-2 py-2 rounded-xl hover:text-dark_selected_hover  ${pathname === child.path ? "text-dark_selected " : "text-white"}`}>
                                                     <Link to={child.path} className="flex w-full items-center">
                                                         {child.name}
                                                     </Link>
@@ -116,7 +119,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                     )}
                                 </>
                             ) : (
-                                <Link to={route.path} className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-gray-200 ${pathname.includes(route.path) ? "bg-ghost" : ""}`}>
+                                <Link to={route.path} className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname.split('/')[1] === route.path ? "bg-dark_selected text-white" : ""}`}>
                                     {React.createElement(route.icon, { className: "mr-2 ml-1", size: 20 })}
                                     {route.name}
                                 </Link>
