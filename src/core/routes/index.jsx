@@ -8,11 +8,16 @@ import { RouteNames } from "@/core/constants/routes.js";
 import RecoverPasswordEmailSent from "@/modules/onboarding/pages/RecoverPasswordEmailSent.jsx";
 import Confirmation from "@/modules/call-center/pages/Confirmation.jsx";
 import FollowUp from "@/modules/call-center/pages/FollowUp.jsx";
+import StockManagement from "../../modules/stockManagement.jsx/components/StockManagement.jsx";
 
 const routes = createBrowserRouter([
     {
         path: RouteNames.dashboard,
         element: <Dashboard />
+    },
+    {
+        path: RouteNames.StockManagement,
+        element: <StockManagement />
     },
     {
         path: RouteNames.callCenterManager,
