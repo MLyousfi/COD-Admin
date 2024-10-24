@@ -13,10 +13,10 @@ import ListOfShipments from "../../modules/collects/components/ListOfShipments.j
 import FirstMileDashboard from "../../modules/first-mile/components/Dashboard.jsx";
 import MyAgent from "../../modules/call-center-manager/pages/MyAgent.jsx";
 import AgentsRequests from "../../modules/call-center-manager/pages/AgentsRequests.jsx";
-import ListOfOrders from "../../modules/ordersManagement/pages/listOfOrders.jsx";
 import Products from "../../modules/statistics/pages/Products.jsx";
 import Statistics from "../../modules/statistics/pages/Statistics.jsx";
 import SellersInvoices from "../../modules/invoices/components/SellersInvoices.jsx";
+import ListOfOrders from "../../modules/ordersManagement/pages/ListOfOrders.jsx";
 
 
 const routes = createBrowserRouter([
