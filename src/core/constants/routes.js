@@ -1,5 +1,4 @@
-import { Briefcase01Icon, CustomerService01Icon, DeliveryTruck01Icon, Home01Icon, Home09Icon, Square01Icon, Suit01Icon, Task01Icon } from "hugeicons-react";
-import ListOfShipments from "../../modules/collects/components/ListOfShipments";
+import { Briefcase01Icon, CustomerService01Icon, DeliveryTruck01Icon, Home01Icon, DeliveryBox01Icon, Task01Icon } from "hugeicons-react";
 
 
 
@@ -92,7 +91,7 @@ const RoutesConfig = [
     {
         name: 'First Mile',
         showInSidebar: true,
-        icon: Home09Icon,
+        icon: DeliveryBox01Icon,
         children: [
             {
                 name: 'Dashboard',
