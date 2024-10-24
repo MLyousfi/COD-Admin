@@ -9,6 +9,8 @@ import RecoverPasswordEmailSent from "@/modules/onboarding/pages/RecoverPassword
 import Confirmation from "@/modules/call-center/pages/Confirmation.jsx";
 import FollowUp from "@/modules/call-center/pages/FollowUp.jsx";
 import StockManagement from "../../modules/stockManagement.jsx/components/StockManagement.jsx";
+import ListOfShipments from "../../modules/collects/components/ListOfShipments.jsx";
+import FirstMileDashboard from "../../modules/first-mile/components/Dashboard.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -18,6 +20,14 @@ const routes = createBrowserRouter([
     {
         path: RouteNames.StockManagement,
         element: <StockManagement />
+    },
+    {
+        path: RouteNames.collectsListOfShipments,
+        element: <ListOfShipments />
+    },
+    {
+        path: RouteNames.firstMileDashboard,
+        element: <FirstMileDashboard />
     },
     {
         path: RouteNames.callCenterManager,
