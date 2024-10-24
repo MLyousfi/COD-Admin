@@ -1,7 +1,4 @@
-import { Briefcase01Icon, CustomerService01Icon, DeliveryTruck01Icon, Home01Icon, Home09Icon, Square01Icon, Suit01Icon, Task01Icon } from "hugeicons-react";
-import ListOfShipments from "../../modules/collects/components/ListOfShipments";
-import { Briefcase01Icon, CustomerService01Icon, DeliveryBox01Icon, Home01Icon, Task01Icon } from "hugeicons-react";
-
+import { Briefcase01Icon, CustomerService01Icon, DeliveryTruck01Icon, Home01Icon, DeliveryBox01Icon, Task01Icon } from "hugeicons-react";
 
 
 
@@ -66,6 +63,24 @@ const RoutesConfig = [
         showInSidebar: false,
     },
     {
+        name: 'Stock Management',
+        path: RouteNames.StockManagement,
+        showInSidebar: true,
+        icon: Task01Icon,
+        children: [
+            {
+                name: 'Products',
+                path: RouteNames.StockManagement,
+                showInSidebar: true,
+            },
+            {
+                name: 'Warehouses',
+                path: RouteNames.callCenterFollowUp,
+                showInSidebar: true,
+            },
+        ],
+    },
+    {
         name: 'Collects',
         showInSidebar: true,
         icon: DeliveryTruck01Icon,
@@ -85,7 +100,7 @@ const RoutesConfig = [
     {
         name: 'First Mile',
         showInSidebar: true,
-        icon: Home09Icon,
+        icon: DeliveryBox01Icon,
         children: [
             {
                 name: 'Dashboard',
@@ -135,7 +150,7 @@ const RoutesConfig = [
     {
         name: 'First Mile',
         showInSidebar: true,
-        icon: Home09Icon,
+        icon: DeliveryBox01Icon,
         children: [
             {
                 name: 'Dashboard',
