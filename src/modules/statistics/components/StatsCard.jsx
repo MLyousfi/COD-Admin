@@ -25,7 +25,7 @@ const StatsCard = ({
 
                     <p className="text-2xl font-bold">{percentage}</p>
 
-                    <div className="text-sm rounded-full bg-dark_opacity text-white font-bold px-4 flex items-center">
+                    <div className="text-sm rounded-full bg-light_opacity dark:bg-dark_opacity text-black dark:text-white font-bold px-4 flex items-center">
                         {total}
                     </div>
                 </div>

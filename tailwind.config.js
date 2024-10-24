@@ -26,6 +26,7 @@ export default {
         selected: '#CDE7FF',
 
         dark_opacity: '#FFFFFF10',
+        light_opacity: '#00000010',
 
         dark_selected: '#0258E8',
         dark_selected_hover: '#0258E850',
