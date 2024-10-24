@@ -4,6 +4,7 @@ import { Briefcase01Icon, CustomerService01Icon, DeliveryBox01Icon, Home01Icon, 
 
 
 
+
 const RouteNames = {
     dashboard: '/dashboard',
     login: '/login',
@@ -27,6 +28,8 @@ const RouteNames = {
     chatBotConfirmation: '/ordersManagement/chatbot-confirmation',
     ConfirmedOrders: '/ordersManagement/confirmed-orders',
     scheduleOrders: '/ordersManagement/schedule-orders',
+    collectsListOfShipments:'/Collects/listOfShipments',
+    firstMileDashboard: '/First-Mile/dashboard'
 
 };
 
@@ -112,6 +115,55 @@ const RoutesConfig = [
         ],
     },
 
+    {
+        name: 'Collects',
+        showInSidebar: true,
+        icon: DeliveryTruck01Icon,
+        children: [
+            {
+                name: 'List  of Shipments',
+                path: RouteNames.collectsListOfShipments,
+                showInSidebar: true,
+            },
+            {
+                name: 'Shipments in Transit',
+                path: RouteNames.collectsListOfShipments,
+                showInSidebar: true,
+            },
+        ],
+    },
+    {
+        name: 'First Mile',
+        showInSidebar: true,
+        icon: Home09Icon,
+        children: [
+            {
+                name: 'Dashboard',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Orders',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Collects',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Stock',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Warehouse',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+        ],
+    },
     {
         name: 'Call Center',
         path: RouteNames.callCenter,
