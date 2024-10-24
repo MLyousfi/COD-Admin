@@ -1,7 +1,4 @@
-import { Briefcase01Icon, CustomerService01Icon, DeliveryTruck01Icon, Home01Icon, Home09Icon, Square01Icon, Suit01Icon, Task01Icon } from "hugeicons-react";
-import ListOfShipments from "../../modules/collects/components/ListOfShipments";
-import { Briefcase01Icon, CustomerService01Icon, DeliveryBox01Icon, Home01Icon, Task01Icon } from "hugeicons-react";
-
+import { Briefcase01Icon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliveryTruck01Icon, Home01Icon, Home09Icon, Square01Icon, Suit01Icon, Task01Icon } from "hugeicons-react";
 
 
 
@@ -28,8 +25,18 @@ const RouteNames = {
     chatBotConfirmation: '/ordersManagement/chatbot-confirmation',
     ConfirmedOrders: '/ordersManagement/confirmed-orders',
     scheduleOrders: '/ordersManagement/schedule-orders',
-    collectsListOfShipments:'/Collects/listOfShipments',
-    firstMileDashboard: '/First-Mile/dashboard'
+    collectsListOfShipments: '/Collects/listOfShipments',
+    firstMileDashboard: '/First-Mile/dashboard',
+    statisctics: '/statistics',
+    statiscticsProducts: '/statistics/products',
+    statiscticsFunds: '/statistics/funds',
+    statiscticsSponsoring: '/statistics/sponsoring',
+    statiscticsAgents: '/statistics/agents',
+    statiscticsAgentsActivities: '/statistics/agents/activities',
+    statiscticsAgentscallCenter: '/statistics/agents/call-center',
+    statiscticsAgentsFollowup: '/statistics/agents/follow-up',
+
+
 
 };
 
@@ -65,105 +72,9 @@ const RoutesConfig = [
         path: RouteNames.recoverEmailSent,
         showInSidebar: false,
     },
-    {
-        name: 'Collects',
-        showInSidebar: true,
-        icon: DeliveryTruck01Icon,
-        children: [
-            {
-                name: 'List  of Shipments',
-                path: RouteNames.collectsListOfShipments,
-                showInSidebar: true,
-            },
-            {
-                name: 'Shipments in Transit',
-                path: RouteNames.collectsListOfShipments,
-                showInSidebar: true,
-            },
-        ],
-    },
-    {
-        name: 'First Mile',
-        showInSidebar: true,
-        icon: Home09Icon,
-        children: [
-            {
-                name: 'Dashboard',
-                path: RouteNames.firstMileDashboard,
-                showInSidebar: true,
-            },
-            {
-                name: 'Orders',
-                path: RouteNames.firstMileDashboard,
-                showInSidebar: true,
-            },
-            {
-                name: 'Collects',
-                path: RouteNames.firstMileDashboard,
-                showInSidebar: true,
-            },
-            {
-                name: 'Stock',
-                path: RouteNames.firstMileDashboard,
-                showInSidebar: true,
-            },
-            {
-                name: 'Warehouse',
-                path: RouteNames.firstMileDashboard,
-                showInSidebar: true,
-            },
-        ],
-    },
 
-    {
-        name: 'Collects',
-        showInSidebar: true,
-        icon: DeliveryTruck01Icon,
-        children: [
-            {
-                name: 'List  of Shipments',
-                path: RouteNames.collectsListOfShipments,
-                showInSidebar: true,
-            },
-            {
-                name: 'Shipments in Transit',
-                path: RouteNames.collectsListOfShipments,
-                showInSidebar: true,
-            },
-        ],
-    },
-    {
-        name: 'First Mile',
-        showInSidebar: true,
-        icon: Home09Icon,
-        children: [
-            {
-                name: 'Dashboard',
-                path: RouteNames.firstMileDashboard,
-                showInSidebar: true,
-            },
-            {
-                name: 'Orders',
-                path: RouteNames.firstMileDashboard,
-                showInSidebar: true,
-            },
-            {
-                name: 'Collects',
-                path: RouteNames.firstMileDashboard,
-                showInSidebar: true,
-            },
-            {
-                name: 'Stock',
-                path: RouteNames.firstMileDashboard,
-                showInSidebar: true,
-            },
-            {
-                name: 'Warehouse',
-                path: RouteNames.firstMileDashboard,
-                showInSidebar: true,
-            },
-        ],
-    },
+
+
     {
         name: 'Call Center',
         path: RouteNames.callCenter,
@@ -244,6 +155,101 @@ const RoutesConfig = [
                 path: RouteNames.warehouses,
                 showInSidebar: true,
             },
+        ],
+    },
+    {
+        name: 'Collects',
+        showInSidebar: true,
+        icon: DeliveryTruck01Icon,
+        children: [
+            {
+                name: 'List  of Shipments',
+                path: RouteNames.collectsListOfShipments,
+                showInSidebar: true,
+            },
+            {
+                name: 'Shipments in Transit',
+                path: RouteNames.collectsListOfShipments,
+                showInSidebar: true,
+            },
+        ],
+    },
+    {
+        name: 'First Mile',
+        showInSidebar: true,
+        icon: Home09Icon,
+        children: [
+            {
+                name: 'Dashboard',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Orders',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Collects',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Stock',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Warehouse',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+        ],
+    },
+    {
+        name: 'Statistics',
+        showInSidebar: true,
+        icon: ChartHistogramIcon,
+        children: [
+            {
+                name: 'Products',
+                path: RouteNames.statiscticsProducts,
+                showInSidebar: true,
+            },
+            {
+                name: 'Funds',
+                path: RouteNames.statiscticsFunds,
+                showInSidebar: true,
+            },
+            {
+                name: 'Sponsoring',
+                path: RouteNames.statiscticsSponsoring,
+                showInSidebar: true,
+            },
+            {
+                name: 'Agents',
+                path: RouteNames.statiscticsAgents,
+                showInSidebar: true,
+                children: [
+                    {
+                        name: 'Activities',
+                        path: RouteNames.statiscticsAgentsActivities,
+                        showInSidebar: true,
+                    },
+                    {
+                        name: 'Call Center',
+                        path: RouteNames.statiscticsAgentscallCenter,
+                        showInSidebar: true,
+                    },
+                    {
+                        name: 'Follow Up',
+                        path: RouteNames.statiscticsAgentsFollowup,
+                        showInSidebar: true,
+                    },
+
+                ]
+            },
+
         ],
     },
 

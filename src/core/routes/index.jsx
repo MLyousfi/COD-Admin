@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import Dashboard from '../../modules/dashboard/pages/Dashboard.jsx';
 import Login from "../../modules/onboarding/pages/Login.jsx";
 import ForgotPassword from "../../modules/onboarding/pages/ForgotPassword.jsx";
@@ -14,9 +14,16 @@ import FirstMileDashboard from "../../modules/first-mile/components/Dashboard.js
 import MyAgent from "../../modules/call-center-manager/pages/MyAgent.jsx";
 import AgentsRequests from "../../modules/call-center-manager/pages/AgentsRequests.jsx";
 import ListOfOrders from "../../modules/ordersManagement/pages/listOfOrders.jsx";
+import Products from "../../modules/statistics/pages/Products.jsx";
+import Statistics from "../../modules/statistics/pages/Statistics.jsx";
 
 
 const routes = createBrowserRouter([
+    {
+        //redirection code
+        path: "/",
+        element: <Navigate to={RouteNames.dashboard} replace />
+    },
     {
         path: RouteNames.dashboard,
         element: <Dashboard />
@@ -124,6 +131,43 @@ const routes = createBrowserRouter([
                 path: RouteNames.warehouses,
                 element: <FollowUp />
             },
+        ],
+    },
+    {
+        path: RouteNames.Statistics,
+        children: [
+            {
+                path: RouteNames.statiscticsProducts,
+                element: <Products />
+            },
+            {
+                path: RouteNames.statiscticsFunds,
+                element: <Products />
+            },
+            {
+                path: RouteNames.statiscticsSponsoring,
+                element: <Products />
+            },
+            {
+                path: RouteNames.statiscticsAgents,
+
+                children: [
+                    {
+                        path: RouteNames.statiscticsAgentsActivities,
+                        element: <Products />
+                    },
+                    {
+                        path: RouteNames.statiscticsAgentscallCenter,
+                        element: <Products />
+                    },
+                    {
+                        path: RouteNames.statiscticsAgentsFollowup,
+                        element: <Products />
+                    },
+
+                ],
+            },
+
         ],
     },
 ]);
