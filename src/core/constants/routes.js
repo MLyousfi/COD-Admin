@@ -1,4 +1,5 @@
-import { Briefcase01Icon, CustomerService01Icon, Home01Icon, Task01Icon } from "hugeicons-react";
+import { Briefcase01Icon, CustomerService01Icon, DeliveryTruck01Icon, Home01Icon, Home09Icon, Square01Icon, Suit01Icon, Task01Icon } from "hugeicons-react";
+import ListOfShipments from "../../modules/collects/components/ListOfShipments";
 
 
 
@@ -15,7 +16,9 @@ const RouteNames = {
     callCenterFollowUp: '/call-center/follow-up',
     callCenterMyAgent: '/call-center-manager/my-agent',
     callCenterAgentsRequests: '/call-center-manager/agents-requests',
-    StockManagement: '/StockManagement'
+    StockManagement: '/StockManagement',
+    collectsListOfShipments:'/Collects/listOfShipments',
+    firstMileDashboard: '/First-Mile/dashboard'
 
 };
 
@@ -65,6 +68,55 @@ const RoutesConfig = [
             {
                 name: 'Warehouses',
                 path: RouteNames.callCenterFollowUp,
+                showInSidebar: true,
+            },
+        ],
+    },
+    {
+        name: 'Collects',
+        showInSidebar: true,
+        icon: DeliveryTruck01Icon,
+        children: [
+            {
+                name: 'List  of Shipments',
+                path: RouteNames.collectsListOfShipments,
+                showInSidebar: true,
+            },
+            {
+                name: 'Shipments in Transit',
+                path: RouteNames.collectsListOfShipments,
+                showInSidebar: true,
+            },
+        ],
+    },
+    {
+        name: 'First Mile',
+        showInSidebar: true,
+        icon: Home09Icon,
+        children: [
+            {
+                name: 'Dashboard',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Orders',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Collects',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Stock',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Warehouse',
+                path: RouteNames.firstMileDashboard,
                 showInSidebar: true,
             },
         ],
