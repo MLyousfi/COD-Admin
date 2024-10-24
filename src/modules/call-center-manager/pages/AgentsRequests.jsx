@@ -5,6 +5,8 @@ import {
     ArrowRight02Icon,
     Calling02Icon,
     CustomerService01Icon,
+    Edit01Icon,
+    Logout03Icon,
     PencilEdit01Icon
 } from "hugeicons-react";
 import { Tab, Tabs } from "@nextui-org/tabs";
@@ -12,131 +14,52 @@ import { Chip } from "@nextui-org/chip";
 import { Button } from "@nextui-org/button";
 import { Pagination } from "@nextui-org/pagination";
 import { useCallback, useMemo, useState } from "react";
+// import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
 import { Link } from "react-router-dom";
 import Table from "../../stockManagement.jsx/components/Table";
 
 const rows = [
-    {
-        key: "1",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
-    },
-    {
-        key: "2",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
-    },
-    {
-        key: "3",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
-    },
-    {
-        key: "4",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
-    },
-    {
-        key: "5",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
-    },
-    {
-        key: "6",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
-    },
+    { key: 1, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
+    { key: 2, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
+    { key: 3, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Affiliate Marketer", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
+    { key: 4, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Logistics", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
+    { key: 5, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
+    { key: 6, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
+    { key: 7, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
+    { key: 8, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
+    { key: 9, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
+    { key: 10, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" }
+
 ];
 
 const columns = [
-    { key: "checkbox", label: "#" },
-    {
-        key: "orderNum",
-        label: "Order Number",
-    },
-    {
-        key: "store",
-        label: "Store",
-    },
-    {
-        key: "product",
-        label: "Product",
-    },
     {
         key: "name",
         label: "Name",
     },
     {
-        key: "country",
-        label: "Country",
+        key: "email",
+        label: "Email",
     },
     {
-        key: "price",
-        label: "Price",
+        key: "role",
+        label: "Role",
     },
     {
-        key: "agent",
-        label: "Agent",
+        key: "workingTime",
+        label: "Working Time",
     },
     {
-        key: "status",
-        label: "Status",
+        key: "actions",
+        label: "Actions",
     },
+
 ];
 
-export default function Confirmation() {
+export default function AgentsRequests() {
 
     const [selectionBehavior, setSelectionBehavior] = useState("toggle");
 
-    const [currentPage, setCurrentPage] = useState(1);
     const [selectedRows, setSelectedRows] = useState([]);
     const rowsPerPage = 10;
 
@@ -147,52 +70,52 @@ export default function Confirmation() {
             setSelectedRows([...selectedRows, key]);
         }
     };
+    const [currentPage, setCurrentPage] = useState(1);
+
     const renderCell = useCallback((item, columnKey) => {
         const cellValue = item[columnKey];
 
         switch (columnKey) {
 
-            case "orderNum":
-                return (
-                    <div>
-                        <p>{item.orderNum}</p>
-                        <Link to="#" className="text-blue-500">({item.subNum})</Link>
-                    </div>
-                );
-            case "store":
-                return (
-                    <span>{item.store}</span>
-                );
-            case "product":
-                return (
-                    <div>
-                        <p>{item.product}</p>
-                        <Link to="#" className="text-blue-500">(SKU: {item.productId})</Link>
-                    </div>
-                );
             case "name":
                 return (
                     <span>{item.name}</span>
                 );
-            case "country":
+            case "email":
                 return (
-                    <span>{item.country}</span>
+                    <span>{item.email}</span>
                 );
-            case "price":
+            case "role":
                 return (
-                    <span>{item.price}</span>
+                    <span>{item.role}</span>
                 );
-            case "agent":
+            case "workingTime":
                 return (
-                    <span>{item.agent}</span>
+                    <span>{item.workingTime}</span>
                 );
-            case "status":
-                return (
-                    <span>{item.status}</span>
-                );
+
             case "actions":
                 return (
-                    <span></span>
+                    <div className="flex space-x-2 justify-center">
+                        <Button
+                            variant="flat"
+                            size="sm"
+                            className="w-7 h-7 rounded-full p-0 flex items-center justify-center"
+                            style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
+                        >
+                            <Logout03Icon size={14} style={{ color: 'white' }} />
+                        </Button>
+
+                        <Button
+                            variant="flat"
+                            size="sm"
+                            className="w-7 h-7 rounded-full p-0 flex items-center justify-center"
+                            style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
+                            onClick={() => handleDelete(item.key)} // Call handleDelete with the item's key
+                        >
+                            <Edit01Icon size={14} style={{ color: 'white' }} />
+                        </Button>
+                    </div>
                 );
             default:
                 return cellValue;
@@ -220,12 +143,8 @@ export default function Confirmation() {
     );
     return (
         <>
-            <DashboardLayout title="Call Center - Confirmation" icon={<CustomerService01Icon className="text-info" />}
-                additionalContent={
-                    <div className="dark:bg-info/10 w-fit rounded-full px-4 py-1.5 text-center">
-                        <span className="text-lg"><strong
-                            className="text-info">Call</strong> Whatsapp</span>
-                    </div>}>
+            <DashboardLayout title="Call Center Manager - Agents Requests" icon={<CustomerService01Icon className="text-info" />}
+            >
                 <div>
                     {/*Tabs*/}
                     <div className="flex flex-row justify-between items-center gap-4 px-12">
@@ -243,7 +162,7 @@ export default function Confirmation() {
                                 title={
                                     <div className="flex items-center space-x-2">
                                         <strong>Active</strong>
-                                        <Chip color="danger" size="sm">12345</Chip>
+                                        <Chip color="danger" size="sm">10</Chip>
                                     </div>
                                 }
                             />
@@ -253,7 +172,7 @@ export default function Confirmation() {
                                 title={
                                     <div className="flex items-center space-x-2">
                                         <strong>Archived</strong>
-                                        <Chip color="default" size="sm" className="text-gray-400">12345</Chip>
+                                        <Chip color="default" size="sm" className="text-gray-400">10928</Chip>
                                     </div>
                                 }
                             />
@@ -262,19 +181,13 @@ export default function Confirmation() {
                         {/*Tab content*/}
 
                         <div className="flex flex-row gap-2">
-                            <Button color="default" className="rounded-full bg-info">
-                                <Calling02Icon size={18} /> Start Call
-                            </Button>
-                            <Button variant="bordered" className="rounded-full">
-                                List of Agents <ArrowDown01Icon size={16} />
-                            </Button>
+
                             <Button color="default" className="rounded-full bg-danger">
                                 <PencilEdit01Icon size={18} /> Actions
                             </Button>
                         </div>
                     </div>
                 </div>
-
                 <Table
                     columns={columns}
                     data={rows}  // Pass filtered products based on the view
@@ -284,6 +197,7 @@ export default function Confirmation() {
                     rowsPerPage={rowsPerPage}  // Pass rows per page
                     className="dark:bg-gray-800 dark:text-white" // Dark mode support
                 />
+
             </DashboardLayout>
         </>
     )
