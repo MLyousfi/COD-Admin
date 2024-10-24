@@ -16,6 +16,15 @@ const RouteNames = {
     callCenterMyAgent: '/call-center-manager/my-agent',
     callCenterAgentsRequests: '/call-center-manager/agents-requests',
     StockManagement: '/StockManagement',
+    collectsListOfShipments: '/Collects/listOfShipments',
+    firstMileDashboard: '/First-Mile/dashboard',
+    products: '/StockManagement/products',
+    warehouses: '/StockManagement/warehouses',
+    ordersManagement: '/ordersManagement',
+    listOfOrders: '/ordersManagement/list-of-orders',
+    chatBotConfirmation: '/ordersManagement/chatbot-confirmation',
+    ConfirmedOrders: '/ordersManagement/confirmed-orders',
+    scheduleOrders: '/ordersManagement/schedule-orders',
     collectsListOfShipments:'/Collects/listOfShipments',
     firstMileDashboard: '/First-Mile/dashboard'
 
@@ -120,6 +129,56 @@ const RoutesConfig = [
             },
         ],
     },
+
+    {
+        name: 'Collects',
+        showInSidebar: true,
+        icon: DeliveryTruck01Icon,
+        children: [
+            {
+                name: 'List  of Shipments',
+                path: RouteNames.collectsListOfShipments,
+                showInSidebar: true,
+            },
+            {
+                name: 'Shipments in Transit',
+                path: RouteNames.collectsListOfShipments,
+                showInSidebar: true,
+            },
+        ],
+    },
+    {
+        name: 'First Mile',
+        showInSidebar: true,
+        icon: DeliveryBox01Icon,
+        children: [
+            {
+                name: 'Dashboard',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Orders',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Collects',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Stock',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+            {
+                name: 'Warehouse',
+                path: RouteNames.firstMileDashboard,
+                showInSidebar: true,
+            },
+        ],
+    },
     {
         name: 'Call Center',
         path: RouteNames.callCenter,
@@ -152,6 +211,52 @@ const RoutesConfig = [
             {
                 name: 'Agents Requests',
                 path: RouteNames.callCenterAgentsRequests,
+                showInSidebar: true,
+            },
+        ],
+    },
+    {
+        name: 'Orders Management',
+        path: RouteNames.callCenterManager,
+        showInSidebar: true,
+        icon: DeliveryBox01Icon,
+        children: [
+            {
+                name: 'List Of Orders',
+                path: RouteNames.listOfOrders,
+                showInSidebar: true,
+            },
+            {
+                name: 'ChatBot Confirmation',
+                path: RouteNames.chatBotConfirmation,
+                showInSidebar: true,
+            },
+            {
+                name: 'Confirmed Orders',
+                path: RouteNames.ConfirmedOrders,
+                showInSidebar: true,
+            },
+            {
+                name: 'Schedule Orders',
+                path: RouteNames.scheduleOrders,
+                showInSidebar: true,
+            },
+
+        ],
+    }, {
+        name: 'Stock Management',
+        path: RouteNames.StockManagement,
+        showInSidebar: true,
+        icon: Task01Icon,
+        children: [
+            {
+                name: 'Products',
+                path: RouteNames.products,
+                showInSidebar: true,
+            },
+            {
+                name: 'Warehouses',
+                path: RouteNames.warehouses,
                 showInSidebar: true,
             },
         ],
