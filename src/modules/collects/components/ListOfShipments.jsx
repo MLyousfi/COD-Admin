@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { DeliveryTruck01Icon, PencilEdit01Icon, PlusSignIcon } from "hugeicons-react";
+import { DeliveryTruck01Icon, PencilEdit01Icon, PlusSignIcon,Delete01Icon ,ArrowDown01Icon, EyeIcon,CheckmarkCircle01Icon, Recycle03Icon} from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table'; 
 import { rows } from '../../../core/utils/data2'; 
-import { AiOutlineEye, AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
-import { HiOutlineChevronDown } from 'react-icons/hi'; 
-import { FaArrowsRotate, FaRegCircleCheck } from "react-icons/fa6";
 
 const columns = [
   { key: "number", label: "N°" },  
@@ -64,15 +61,15 @@ const ListOfShipments = () => {
         return (
           <div className="flex space-x-2 justify-center">
             <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: ' #747d80  ', padding: 0, minWidth: '32px', height: '32px' }}>
-              <AiOutlineEye size={14} style={{ color: 'white' }}/>
+              <EyeIcon size={14} style={{ color: 'white' }}/>
             </Button>
 
             <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}>
-              <AiOutlineEdit size={14} style={{ color: 'white' }} />
+              <PencilEdit01Icon size={14} style={{ color: 'white' }} />
             </Button>
 
             <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }} onClick={() => handleDelete(item.key)}>
-              <AiOutlineDelete size={14} style={{ color: 'white' }} />
+              <Delete01Icon size={14} style={{ color: 'white' }} />
             </Button>
           </div>
         );
@@ -80,7 +77,7 @@ const ListOfShipments = () => {
       case "statut":
         return (
           <div className="flex items-center bg-[#4912a2] text-white px-2 py-1 rounded-full">
-            <FaArrowsRotate size={16} className="mr-1" />
+            <Recycle03Icon size={16} className="mr-1" />
             {item.statut}
           </div>
         );
@@ -89,7 +86,7 @@ const ListOfShipments = () => {
         return (
           <div className="flex items-center">
             <span className={item.send === "Shipped" ? "bg-[#147893] text-white px-2 py-1 rounded-full flex items-center" : "bg-[#14a944] text-white px-2 py-1 rounded-full flex items-center"}>
-              <FaRegCircleCheck size={16} className="mr-1" />
+              <CheckmarkCircle01Icon size={16} className="mr-1" />
               {item.send}
             </span>
           </div>
@@ -155,7 +152,7 @@ const ListOfShipments = () => {
   }}
 >
   <span className="text-black dark:text-white">Status</span>
-  <HiOutlineChevronDown className="ml-1 text-black dark:text-white" />
+  <ArrowDown01Icon className="ml-1 text-black dark:text-white" />
 </Button>
 
 
