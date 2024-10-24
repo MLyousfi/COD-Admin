@@ -9,6 +9,8 @@ import RecoverPasswordEmailSent from "@/modules/onboarding/pages/RecoverPassword
 import Confirmation from "@/modules/call-center/pages/Confirmation.jsx";
 import FollowUp from "@/modules/call-center/pages/FollowUp.jsx";
 import StockManagement from "../../modules/stockManagement.jsx/components/StockManagement.jsx";
+import ListOfShipments from "../../modules/collects/components/ListOfShipments.jsx";
+import FirstMileDashboard from "../../modules/first-mile/components/Dashboard.jsx";
 import MyAgent from "../../modules/call-center-manager/pages/MyAgent.jsx";
 import AgentsRequests from "../../modules/call-center-manager/pages/AgentsRequests.jsx";
 import ListOfOrders from "../../modules/ordersManagement/pages/listOfOrders.jsx";
@@ -17,6 +19,31 @@ const routes = createBrowserRouter([
     {
         path: RouteNames.dashboard,
         element: <Dashboard />
+    },
+    {
+        path: RouteNames.StockManagement,
+        element: <StockManagement />
+    },
+    {
+        path: RouteNames.collectsListOfShipments,
+        element: <ListOfShipments />
+    },
+    {
+        path: RouteNames.firstMileDashboard,
+        element: <FirstMileDashboard />
+    },
+    {
+        path: RouteNames.callCenterManager,
+        children: [
+            {
+                path: RouteNames.callCenterMyAgent,
+                element: <Confirmation />
+            },
+            {
+                path: RouteNames.callCenterAgentsRequests,
+                element: <FollowUp />
+            },
+        ],
     },
     {
         path: RouteNames.login,
