@@ -9,28 +9,14 @@ import RecoverPasswordEmailSent from "@/modules/onboarding/pages/RecoverPassword
 import Confirmation from "@/modules/call-center/pages/Confirmation.jsx";
 import FollowUp from "@/modules/call-center/pages/FollowUp.jsx";
 import StockManagement from "../../modules/stockManagement.jsx/components/StockManagement.jsx";
+import MyAgent from "../../modules/call-center-manager/pages/MyAgent.jsx";
+import AgentsRequests from "../../modules/call-center-manager/pages/AgentsRequests.jsx";
+import ListOfOrders from "../../modules/ordersManagement/pages/listOfOrders.jsx";
 
 const routes = createBrowserRouter([
     {
         path: RouteNames.dashboard,
         element: <Dashboard />
-    },
-    {
-        path: RouteNames.StockManagement,
-        element: <StockManagement />
-    },
-    {
-        path: RouteNames.callCenterManager,
-        children: [
-            {
-                path: RouteNames.callCenterMyAgent,
-                element: <Confirmation />
-            },
-            {
-                path: RouteNames.callCenterAgentsRequests,
-                element: <FollowUp />
-            },
-        ],
     },
     {
         path: RouteNames.login,
@@ -64,7 +50,54 @@ const routes = createBrowserRouter([
                 element: <FollowUp />
             },
         ],
-    }
+    },
+    {
+        path: RouteNames.callCenterManager,
+        children: [
+            {
+                path: RouteNames.callCenterMyAgent,
+                element: <MyAgent />
+            },
+            {
+                path: RouteNames.callCenterAgentsRequests,
+                element: <AgentsRequests />
+            },
+        ],
+    },
+    {
+        path: RouteNames.ordersManagement,
+        children: [
+            {
+                path: RouteNames.listOfOrders,
+                element: <ListOfOrders />
+            },
+            {
+                path: RouteNames.chatBotConfirmation,
+                element: <ListOfOrders />
+            },
+            {
+                path: RouteNames.ConfirmedOrders,
+                element: <ListOfOrders />
+            },
+            {
+                path: RouteNames.scheduleOrders,
+                element: <ListOfOrders />
+            },
+        ],
+    },
+    {
+        path: RouteNames.StockManagement,
+        children: [
+            {
+                path: RouteNames.products,
+                element: <StockManagement />
+            },
+            {
+                path: RouteNames.warehouses,
+                element: <FollowUp />
+            },
+        ],
+    },
 ]);
 
 export default function RoutersWrapper() {

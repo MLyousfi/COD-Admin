@@ -13,7 +13,7 @@ const Table = ({
   enablePagination = true,  // Boolean to enable or disable pagination
   loading = false,          // Boolean for loading state
   rowClassNames = {         // Custom row styles passed via props
-    even: 'bg-white dark:bg-black', 
+    even: 'bg-white dark:bg-black',
     odd: 'bg-gray-200 dark:bg-[#1a1a1a]'
   },
   emptyMessage = "No records available."  // Default message if no data is available
@@ -40,7 +40,7 @@ const Table = ({
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto  w-full">
       <table className="min-w-full table-auto">
         <thead>
           <tr className="border-b border-gray-300 dark:border-gray-600">
@@ -91,11 +91,10 @@ const Table = ({
           {[...Array(totalPages)].map((_, index) => (
             <button
               key={index}
-              className={`px-3 py-1 text-sm ${
-                currentPage === index + 1
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-200 dark:bg-gray-600 dark:text-white'
-              } rounded`}
+              className={`px-3 py-1 text-sm ${currentPage === index + 1
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-200 dark:bg-gray-600 dark:text-white'
+                } rounded`}
               onClick={() => handlePageChange(index + 1)}
             >
               {index + 1}

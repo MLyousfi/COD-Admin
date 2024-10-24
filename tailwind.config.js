@@ -28,6 +28,9 @@ export default {
         dark_selected: '#0258E8',
         dark_selected_hover: '#0258E850',
 
+        glb_blue: '#0258E8',
+        glb_red: '#ED0006'
+
 
       }
     },
