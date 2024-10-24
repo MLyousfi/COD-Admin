@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Home01Icon, PencilEdit01Icon, PlusSignIcon } from "hugeicons-react";
+import { Home01Icon, PencilEdit01Icon, PlusSignIcon , EyeIcon, Delete01Icon} from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import { AiOutlineEye, AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import Table from './Table'; 
 import { rows } from '../../../core/utils/data'; 
 
@@ -71,7 +70,7 @@ const StockManagement = () => {
                 className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
                 style={{ backgroundColor: '#9e9a9a ', padding: 0, minWidth: '32px', height: '32px' }}
               >
-                <AiOutlineEye size={14} />
+                <EyeIcon size={14} />
               </Button>
   
               {/* Edit Button */}
@@ -81,7 +80,7 @@ const StockManagement = () => {
                 className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
                 style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
               >
-                <AiOutlineEdit size={14} style={{ color: 'white' }} />
+                <PencilEdit01Icon size={14} style={{ color: 'white' }} />
               </Button>
   
               {/* Delete Button */}
@@ -92,7 +91,7 @@ const StockManagement = () => {
                 style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
                 onClick={() => handleDelete(item.key)} // Call handleDelete with the item's key
               >
-                <AiOutlineDelete size={14} style={{ color: 'white' }} />
+                <Delete01Icon size={14} style={{ color: 'white' }} />
               </Button>
             </div>
           );
