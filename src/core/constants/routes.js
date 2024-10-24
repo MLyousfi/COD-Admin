@@ -27,7 +27,7 @@ const RouteNames = {
     chatBotConfirmation: '/ordersManagement/chatbot-confirmation',
     ConfirmedOrders: '/ordersManagement/confirmed-orders',
     scheduleOrders: '/ordersManagement/schedule-orders',
-    collectsListOfShipments: '/Collects/listOfShipments',
+    collectShippemdTransit: '/Collects/shippement-transit',
     firstMileDashboard: '/First-Mile/dashboard',
     statisctics: '/statistics',
     statiscticsProducts: '/statistics/products',
@@ -171,7 +171,7 @@ const RoutesConfig = [
             },
             {
                 name: 'Shipments in Transit',
-                path: RouteNames.collectsListOfShipments,
+                path: RouteNames.collectShippemdTransit,
                 showInSidebar: true,
             },
         ],
