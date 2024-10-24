@@ -1,4 +1,6 @@
+
 import { Briefcase01Icon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliveryTruck01Icon, Home01Icon, Home09Icon, Square01Icon, Suit01Icon, Task01Icon } from "hugeicons-react";
+
 
 
 
@@ -177,7 +179,7 @@ const RoutesConfig = [
     {
         name: 'First Mile',
         showInSidebar: true,
-        icon: Home09Icon,
+        icon: DeliveryBox01Icon,
         children: [
             {
                 name: 'Dashboard',
