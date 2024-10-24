@@ -1,7 +1,7 @@
 import { Button } from "@nextui-org/button";
 
 import codPowerGroupLogo from "@shared/assets/images/cod-power-group-logo.svg";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
     Analytics01Icon,
     ArrowDown01Icon,
@@ -31,7 +31,6 @@ import {
 } from "hugeicons-react";
 import ThemeToggle from "@/modules/dashboard/components/ThemeToggle.jsx";
 import React, { useEffect, useRef, useState } from "react";
-import SidebarLinkGroup from "@shared/components/SidebarLinkGroup.jsx";
 import { RouteNames, RoutesConfig } from "@/core/constants/routes.js";
 
 export default function Sidebar({ showSidebar, setShowSidebar }) {
@@ -95,31 +94,79 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                 <>
                                     <button
                                         onClick={() => toggleRoute(route.name)}
-                                        className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname.split('/')[1] === route.path ? "bg-dark_selected text-white" : ""} `}
+                                        className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname.startsWith(`/${route.path}`) ? "bg-dark_selected text-white" : ""
+                                            }`}
                                     >
                                         <div className="flex items-center">
                                             {React.createElement(route.icon, { className: "mr-2 ml-1", size: 20 })}
                                             {route.name}
-
                                         </div>
-                                        {expandedRoutes[route.name] ? <ArrowUp01Icon className="mr-2 ml-1" size='20' /> : <ArrowDown01Icon className="mr-2 ml-1" size='20' />}
-
+                                        {expandedRoutes[route.name] ? (
+                                            <ArrowUp01Icon className="mr-2 ml-1" size="20" />
+                                        ) : (
+                                            <ArrowDown01Icon className="mr-2 ml-1" size="20" />
+                                        )}
                                     </button>
                                     {/* Render children if expanded */}
                                     {expandedRoutes[route.name] && (
                                         <ul className="pl-4">
                                             {route.children.map((child, childIndex) => (
-                                                <li key={childIndex} className={`flex  justify-between items-center ml-6 px-2 py-2 rounded-xl hover:text-dark_selected_hover  ${pathname === child.path ? "text-dark_selected " : "text-white"}`}>
-                                                    <Link to={child.path} className="flex w-full items-center">
-                                                        {child.name}
-                                                    </Link>
+                                                <li key={childIndex} className="ml-6">
+                                                    {/* Check if child has its own children (nested inside child) */}
+                                                    {child.children ? (
+                                                        <>
+                                                            <button
+                                                                onClick={() => toggleRoute(child.name)}
+                                                                className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname.startsWith(`/${child.path}`) ? "text-dark_selected" : "text-white"
+                                                                    }`}
+                                                            >
+                                                                <div className="flex items-center">
+
+                                                                    {child.name}
+                                                                </div>
+                                                                {expandedRoutes[child.name] ? (
+                                                                    <ArrowUp01Icon className="mr-2 ml-1" size="20" />
+                                                                ) : (
+                                                                    <ArrowDown01Icon className="mr-2 ml-1" size="20" />
+                                                                )}
+                                                            </button>
+                                                            {/* Render grandchild routes if expanded */}
+                                                            {expandedRoutes[child.name] && (
+                                                                <ul className="pl-4">
+                                                                    {child.children.map((grandChild, grandChildIndex) => (
+                                                                        <li
+                                                                            key={grandChildIndex}
+                                                                            className={`flex justify-between items-center ml-6 px-2 py-2 rounded-xl hover:text-dark_selected_hover ${pathname === grandChild.path ? "text-dark_selected" : "text-white"
+                                                                                }`}
+                                                                        >
+                                                                            <Link to={grandChild.path} className="flex w-full items-center">
+                                                                                {grandChild.name}
+                                                                            </Link>
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            )}
+                                                        </>
+                                                    ) : (
+                                                        <Link
+                                                            to={child.path}
+                                                            className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname === child.path ? "text-dark_selected" : "text-white"
+                                                                }`}
+                                                        >
+                                                            {child.name}
+                                                        </Link>
+                                                    )}
                                                 </li>
                                             ))}
                                         </ul>
                                     )}
                                 </>
                             ) : (
-                                <Link to={route.path} className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname.split('/')[1] === route.path ? "bg-dark_selected text-white" : ""}`}>
+                                <Link
+                                    to={route.path}
+                                    className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname.startsWith(`/${route.path}`) ? "bg-dark_selected text-white" : ""
+                                        }`}
+                                >
                                     {React.createElement(route.icon, { className: "mr-2 ml-1", size: 20 })}
                                     {route.name}
                                 </Link>
@@ -127,6 +174,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                         </li>
                     ))}
                 </ul>
+
 
                 <div className="mt-24 px-2">
                     <h3 className="text-gray-600 mb-2 mt-4">System</h3>
