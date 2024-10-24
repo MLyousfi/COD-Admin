@@ -16,6 +16,7 @@ import AgentsRequests from "../../modules/call-center-manager/pages/AgentsReques
 import ListOfOrders from "../../modules/ordersManagement/pages/listOfOrders.jsx";
 import Products from "../../modules/statistics/pages/Products.jsx";
 import Statistics from "../../modules/statistics/pages/Statistics.jsx";
+import SellersInvoices from "../../modules/invoices/components/SellersInvoices.jsx";
 
 
 const routes = createBrowserRouter([
@@ -72,6 +73,19 @@ const routes = createBrowserRouter([
     {
         path: RouteNames.recoverEmailSent,
         element: <RecoverPasswordEmailSent />
+    },
+    {
+        path: RouteNames.invoices,
+        children: [
+            {
+                path: RouteNames.invoicesSeller,
+                element: <SellersInvoices />
+            },
+            {
+                path: RouteNames.invoicesSourcing,
+                element: <SellersInvoices />
+            },
+        ],
     },
     {
         path: RouteNames.callCenter,

@@ -117,7 +117,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                                         <>
                                                             <button
                                                                 onClick={() => toggleRoute(child.name)}
-                                                                className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname.startsWith(`/${child.path}`) ? "text-dark_selected" : "text-white"
+                                                                className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname.startsWith(`/${child.path}`) ? "text-dark_selected" : ""
                                                                     }`}
                                                             >
                                                                 <div className="flex items-center">
@@ -131,13 +131,13 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                                                 )}
                                                             </button>
                                                             {/* Render grandchild routes if expanded */}
+
                                                             {expandedRoutes[child.name] && (
                                                                 <ul className="pl-4">
                                                                     {child.children.map((grandChild, grandChildIndex) => (
                                                                         <li
                                                                             key={grandChildIndex}
-                                                                            className={`flex justify-between items-center ml-6 px-2 py-2 rounded-xl hover:text-dark_selected_hover ${pathname === grandChild.path ? "text-dark_selected" : "text-white"
-                                                                                }`}
+                                                                            className={`flex justify-between items-center ml-6 px-2 py-2 rounded-xl hover:text-dark_selected_hover ${pathname === grandChild.path ? "text-dark_selected" : "text-gray-600 dark:text-gray-400"} hover:text-blue-600 dark:hover:text-blue-400`}
                                                                         >
                                                                             <Link to={grandChild.path} className="flex w-full items-center">
                                                                                 {grandChild.name}
@@ -150,8 +150,8 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                                     ) : (
                                                         <Link
                                                             to={child.path}
-                                                            className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname === child.path ? "text-dark_selected" : "text-white"
-                                                                }`}
+                                                            className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${pathname === child.path ? "text-dark_selected" : "text-gray-600 dark:text-gray-400"} 
+                                                            hover:text-blue-600 dark:hover:text-blue-400`}
                                                         >
                                                             {child.name}
                                                         </Link>

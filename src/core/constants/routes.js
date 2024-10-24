@@ -1,5 +1,5 @@
 
-import { Briefcase01Icon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliveryTruck01Icon, Home01Icon, Home09Icon, Square01Icon, Suit01Icon, Task01Icon } from "hugeicons-react";
+import { Briefcase01Icon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliveryTruck01Icon, Home01Icon, Home09Icon, InvoiceIcon, Square01Icon, Suit01Icon, Task01Icon } from "hugeicons-react";
 
 
 
@@ -37,6 +37,9 @@ const RouteNames = {
     statiscticsAgentsActivities: '/statistics/agents/activities',
     statiscticsAgentscallCenter: '/statistics/agents/call-center',
     statiscticsAgentsFollowup: '/statistics/agents/follow-up',
+    invoices: '/invoices',
+    invoicesSeller: '/invoices/seller-invoices',
+    invoicesSourcing: '/invoices/sourcing-invoices',
 
 
 
@@ -206,6 +209,24 @@ const RoutesConfig = [
                 path: RouteNames.firstMileDashboard,
                 showInSidebar: true,
             },
+        ],
+    },
+    {
+        name: 'Invoices',
+        showInSidebar: true,
+        icon: InvoiceIcon,
+        children: [
+            {
+                name: 'Seller Invoices',
+                path: RouteNames.invoicesSeller,
+                showInSidebar: true,
+            },
+            {
+                name: 'Sourcing Invoices',
+                path: RouteNames.invoicesSourcing,
+                showInSidebar: true,
+            },
+
         ],
     },
     {
