@@ -82,8 +82,12 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
             ref={sidebar}
             className={`bg-white dark:bg-black border-r border-gray-200 dark:border-gray-900 z-30 lg:w-80 min-w-64 fixed ${showSidebar ? 'lg:sticky' : 'hidden'} overflow-y-auto min-h-screen`}>
             <div className="flex justify-between my-4 px-3">
-                <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" />
-                {showSidebar && (
+            <img
+                    src={codPowerGroupLogo}
+                    alt="cod power group logo"
+                    className={`w-20 ${showSidebar ? 'dark:filter dark:invert' : ''}`}
+                />           
+                     {showSidebar && (
                     <Button ref={trigger} onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
                         <SidebarLeft01Icon />
                     </Button>
