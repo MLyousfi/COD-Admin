@@ -12,19 +12,37 @@ import {
     ShippingTruck01Icon
 } from "hugeicons-react";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
+import { motion } from "framer-motion";
+
 
 export default function Dashboard() {
     const chartData = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         values: [2, 3, 4, 3, 5, 4, 4, 3, 4, 2, 4, 5],
     };
+
+    const container = {
+        hidden: { opacity: 0, scale: 0 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+                delayChildren: 0.3,       // Delay before starting the stagger
+                staggerChildren: 0.2      // Delay between each child
+            }
+        }
+    };
+
+
+
     return (
         <>
-            <DashboardLayout title="Dashboard" icon={<Home01Icon className="text-info"/>}>
+            <DashboardLayout title="Dashboard" icon={<Home01Icon className="text-info" />}>
 
-                <div className="flex flex-col flex-wrap justify-start px-8 md:flex-row">
+                <motion.div initial="hidden"
+                    animate="visible" variants={container} className="flex flex-col flex-wrap justify-start px-8 md:flex-row">
                     <StatsCard
-                        icon={<CustomerSupportIcon/>}
+                        icon={<CustomerSupportIcon />}
                         percentageChange={10}
                         percentageLabel="increase"
                         netAmount={100}
@@ -35,7 +53,7 @@ export default function Dashboard() {
                         percentageTextColor="text-danger-800"
                     />
                     <StatsCard
-                        icon={<CustomerSupportIcon/>}
+                        icon={<CustomerSupportIcon />}
                         percentageChange={10}
                         percentageLabel="increase"
                         netAmount={100}
@@ -46,7 +64,7 @@ export default function Dashboard() {
                         percentageTextColor="text-green-800"
                     />
                     <StatsCard
-                        icon={<Airplane01Icon/>}
+                        icon={<Airplane01Icon />}
                         percentageChange={10}
                         percentageLabel="increase"
                         netAmount={100}
@@ -57,7 +75,7 @@ export default function Dashboard() {
                         percentageTextColor="text-yellow-800"
                     />
                     <StatsCard
-                        icon={<ShippingTruck01Icon/>}
+                        icon={<ShippingTruck01Icon />}
                         percentageChange={10}
                         percentageLabel="increase"
                         netAmount={100}
@@ -67,7 +85,7 @@ export default function Dashboard() {
                         percentageBgColor="bg-green-200"
                         percentageTextColor="text-green-800"
                     />
-                </div>
+                </motion.div>
                 <div className="flex flex-row flex-wrap items-start justify-start p-4 md:px-8">
                     <LineChartCard
                         title="Product Delivery"
@@ -83,7 +101,7 @@ export default function Dashboard() {
                         min={0}
                         max={100}
                         arcWidth={10}
-                        arcs={[{color: '#22c55e', limit: 50}]}  // Single arc
+                        arcs={[{ color: '#22c55e', limit: 50 }]}  // Single arc
                     />
 
                 </div>
@@ -92,49 +110,49 @@ export default function Dashboard() {
                     <h3 className="my-6 text-xl font-bold">Call Center</h3>
                     <div className="flex flex-row flex-wrap">
                         <CallsCard
-                            icon={<Airplane01Icon size={18}/>}
+                            icon={<Airplane01Icon size={18} />}
                             cardBg="bg-info"
                             percentage={10}
                             amount={100}
                             title="Total Calls"
                         />
                         <CallsCard
-                            icon={<BoxingBagIcon size={18}/>}
+                            icon={<BoxingBagIcon size={18} />}
                             cardBg="bg-danger"
                             percentage={10}
                             amount={100}
                             title="Total Calls"
                         />
                         <CallsCard
-                            icon={<Airplane01Icon size={18}/>}
+                            icon={<Airplane01Icon size={18} />}
                             cardBg="bg-info"
                             percentage={10}
                             amount={100}
                             title="Total Calls"
                         />
                         <CallsCard
-                            icon={<Airplane01Icon size={18}/>}
+                            icon={<Airplane01Icon size={18} />}
                             cardBg="bg-success"
                             percentage={10}
                             amount={100}
                             title="Total Calls"
                         />
                         <CallsCard
-                            icon={<Airplane01Icon size={18}/>}
+                            icon={<Airplane01Icon size={18} />}
                             cardBg="bg-info"
                             percentage={10}
                             amount={100}
                             title="Total Calls"
                         />
                         <CallsCard
-                            icon={<Airplane01Icon size={18}/>}
+                            icon={<Airplane01Icon size={18} />}
                             cardBg="bg-info"
                             percentage={10}
                             amount={100}
                             title="Total Calls"
                         />
                         <CallsCard
-                            icon={<Airplane01Icon size={18}/>}
+                            icon={<Airplane01Icon size={18} />}
                             cardBg="bg-danger"
                             percentage={10}
                             amount={100}
@@ -147,21 +165,21 @@ export default function Dashboard() {
                     <h3 className="my-6 text-xl font-bold">Shipping</h3>
                     <div className="flex flex-row flex-wrap justify-start">
                         <ShippingCard
-                            icon={<ShippingTruck01Icon/>}
+                            icon={<ShippingTruck01Icon />}
                             iconBg="bg-info"
                             percentage={10}
                             amount={100}
                             title="Delivered"
                         />
                         <ShippingCard
-                            icon={<ShippingTruck01Icon/>}
+                            icon={<ShippingTruck01Icon />}
                             iconBg="bg-success"
                             percentage={10}
                             amount={100}
                             title="In Transit"
                         />
                         <ShippingCard
-                            icon={<RepeatIcon/>}
+                            icon={<RepeatIcon />}
                             percentage={10}
                             amount={100}
                             iconBg="bg-danger"
