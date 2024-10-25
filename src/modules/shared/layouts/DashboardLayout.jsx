@@ -7,7 +7,7 @@ import { Input } from "@nextui-org/input";
 import { Code } from "@nextui-org/code";
 import FilterModal from "@/modules/dashboard/components/FilterModal.jsx";
 
-export default function DashboardLayout({ children, icon, title, additionalContent }) {
+export default function DashboardLayout({ children, icon, title, additionalContent, hasSearchInput = true }) {
 
     const [showFilterModal, setShowFilterModal] = useState(false);
     const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
@@ -35,14 +35,14 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                         </Button>
                     </div>
                     <div
-                        className="flex flex-col items-start justify-between w-full gap-4 px-4 my-6 md:flex-row md:px-8">
+                        className="flex flex-col items-center justify-between w-full gap-4 px-4 my-6 md:flex-row md:px-8">
                         <h2 className="flex flex-row gap-2 ml-4 text-xl font-bold items-center">
                             {icon}
                             {title}
                         </h2>
                         {/*  Additional content */}
                         {additionalContent != null && additionalContent}
-                        <div className="hidden md:flex">
+                        {hasSearchInput && <div className="hidden md:flex">
                             <Input className="ml-auto w-80" placeholder="Search" classNames={{
                                 inputWrapper: "bg-gray-100 dark:bg-gray-950 rounded-full",
                             }} endContent={<Code className="flex flex-row justify-center pl-0"> &nbsp; <CommandIcon
@@ -53,7 +53,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                                 onClick={() => setShowFilterModal(!showFilterModal)}>
                                 <FilterIcon size={18} />
                             </Button>
-                        </div>
+                        </div>}
 
                     </div>
                     {/*  Page content */}

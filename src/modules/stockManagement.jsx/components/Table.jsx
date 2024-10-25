@@ -4,6 +4,7 @@ import { ArrowLeft01Icon, ArrowRight01Icon } from 'hugeicons-react';
 const ICON_SIZE = 12;
 
 const Table = ({
+  coloredHeader = null,
   columns,                  // Array of column definitions { key: 'name', label: 'Name' }
   data,                     // Array of data rows [{ key: 1, name: 'John', age: 24 }, ...]
   renderCell,               // Function to render custom cell content
@@ -13,13 +14,16 @@ const Table = ({
   enablePagination = true,  // Boolean to enable or disable pagination
   loading = false,          // Boolean for loading state
   rowClassNames = {         // Custom row styles passed via props
-    even: 'bg-white dark:bg-black',
-    odd: 'bg-gray-200 dark:bg-[#1a1a1a]'
+    even: 'bg-white dark:bg-black h-12 rounded-3xl',
+    odd: 'bg-gray-200 dark:bg-[#1a1a1a50] h-12 rounded-3xl'
   },
   emptyMessage = "No records available."  // Default message if no data is available
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / rowsPerPage);
+
+
+
 
   const currentData = () => enablePagination
     ? data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
@@ -43,11 +47,14 @@ const Table = ({
     <div className="overflow-x-auto  w-full">
       <table className="min-w-full table-auto">
         <thead>
-          <tr className="border-b border-gray-300 dark:border-gray-600">
-            {columns.map((column) => (
+          <tr className="border-b border-gray-300 h-11 dark:border-gray-600">
+            {columns.map((column, index) => (
               <th
                 key={column.key}
-                className="text-center px-4 py-2 font-light text-gray-500 dark:text-gray-300 text-sm"
+
+                style={{ fontWeight: coloredHeader ? "800" : "100", backgroundColor: coloredHeader ? coloredHeader[index % 2] : "transparent" }}
+
+                className={"text-center px-4 py-2 text-gray-500 dark:text-gray-300 text-sm "}
               >
                 {column.label}
               </th>

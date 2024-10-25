@@ -23,6 +23,7 @@ export default {
         // background
         normal: '#F2F2F9',
         ghost: '#E9E9EE',
+        ghosted: '#FFFFFF60',
         selected: '#CDE7FF',
 
         dark_opacity: '#FFFFFF10',
