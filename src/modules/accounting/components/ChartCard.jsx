@@ -10,24 +10,44 @@ import {
 } from "hugeicons-react";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import { Button } from "@nextui-org/button";
-
+import { useRef, useEffect } from 'react';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => {
+    const chartRef = useRef(null);
+
+    useEffect(() => {
+        const chart = chartRef.current;
+        if (chart) {
+            const gradient = chart.ctx.createLinearGradient(0, 0, 0, chart.height);
+            gradient.addColorStop(0, 'rgba(0, 96, 255, 1)');
+            gradient.addColorStop(1, 'rgba(0, 96, 255, 0.1)');
+
+            chart.data.datasets[0].borderColor = gradient;
+            chart.data.datasets[0].pointBorderColor = gradient;
+        }
+    }, []);
+
     const chartData = {
         labels: data.labels,
         datasets: [
             {
                 data: data.values,
                 borderColor: '#0060FF',
-                borderWidth: 1.5,
+                borderWidth: 2,
                 pointBorderColor: '#0060FF',
                 pointBackgroundColor: '#fff',
                 pointRadius: 0,
                 pointHoverRadius: 3,
                 fill: true,
                 tension: 0.3,
+                backgroundColor: (context) => {
+                    const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 400);
+                    gradient.addColorStop(0, 'rgba(0, 96, 255, 0.2)');
+                    gradient.addColorStop(1, 'rgba(0, 96, 255, 0)');
+                    return gradient;
+                },
             },
         ],
     };
@@ -37,34 +57,55 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
         maintainAspectRatio: false,
         scales: {
             y: {
-                beginAtZero: true,
-                max: Math.max(...data.values) + 1,
                 ticks: {
-                    color: '#94a3b8',
-                    stepSize: 1,
+                    callback: function (value) {
+                        // Convert values to "k" for thousands and add dollar sign
+                        if (value >= 1000) {
+                            return `${value / 1000}k$`;
+                        } else {
+                            return `$${value}`;
+                        }
+
+                    },
+                    // Manually include the ticks [0, 50, 100, 500, 1000, 3000]
+                    stepSize: 500, // Controls the spacing between ticks
+                    color: '#94a3b8', // Customize tick color for the dark theme
                 },
                 grid: {
-                    color: '#efefef2b',
+                    color: '#ffffff22', // Light grid lines
                 },
+                beginAtZero: true,
+                max: 1500, // Set the maximum value to include 3k$
             },
             x: {
                 ticks: {
-                    color: '#94a3b8',
+                    color: '#94a3b8', // Customize x-axis tick color
                 },
                 grid: {
-                    color: '#efefef44',
+                    color: '#ffffff22', // Light grid lines for x-axis
                 },
             },
         },
         plugins: {
             legend: {
-                display: false,
+                display: false, // Hide the legend
+            },
+        },
+        elements: {
+            line: {
+                borderColor: '#0060FF', // Line color
+                borderWidth: 2,
+                tension: 0.3,
+                shadowColor: 'rgba(0, 96, 255, 0.6)', // Glow effect for the line
+                shadowBlur: 20,
             },
         },
     };
 
+
+
     return (
-        <div className="w-full lg:w-2/3">
+        <div className="w-full lg:w-10/12">
             <div className="p-6 rounded-xl shadow-sm border-gray-200 dark:border-gray-800 border mx-2">
                 {header && <div className="flex justify-between items-center">
                     <div>
@@ -112,7 +153,7 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
                 </div>}
 
                 <div className="relative min-h-64 my-4">
-                    <Line className="max-w-full" data={chartData} options={options} />
+                    <Line ref={chartRef} className="max-w-full" data={chartData} options={options} />
                 </div>
             </div>
         </div>

@@ -136,7 +136,13 @@ export default function Confirmation() {
 
     const [selectionBehavior, setSelectionBehavior] = useState("toggle");
 
-    const [currentPage, setCurrentPage] = useState(1);
+    // State to keep track of the selected tab
+    const [selectedTab, setSelectedTab] = useState('photos');
+
+    // Function to handle tab change
+    const handleTabChange = (tab) => {
+        setSelectedTab(tab);
+    };
     const [selectedRows, setSelectedRows] = useState([]);
     const rowsPerPage = 10;
 
@@ -229,7 +235,8 @@ export default function Confirmation() {
                 <div>
                     {/*Tabs*/}
                     <div className="flex flex-row justify-between items-center gap-4 px-12">
-                        <Tabs aria-label="Options"
+                        <Tabs
+                            aria-label="Options"
                             color="primary"
                             variant="underlined"
                             classNames={{
@@ -237,13 +244,15 @@ export default function Confirmation() {
                                 cursor: "w-full bg-info",
                                 tab: "max-w-fit px-0 h-12 text-red-500",
                                 tabContent: "group-data-[selected=true]:text-info text-gray-600"
-                            }}>
+                            }}
+                            onTabChange={handleTabChange} // Attach the tab change handler
+                        >
                             <Tab
                                 key="photos"
                                 title={
                                     <div className="flex items-center space-x-2">
                                         <strong>Active</strong>
-                                        <Chip color="danger" size="sm">12345</Chip>
+                                        <Chip color={selectedTab === 'photos' ? "danger" : "default"} size="sm">12345</Chip>
                                     </div>
                                 }
                             />
@@ -253,7 +262,7 @@ export default function Confirmation() {
                                 title={
                                     <div className="flex items-center space-x-2">
                                         <strong>Archived</strong>
-                                        <Chip color="default" size="sm" className="text-gray-400">12345</Chip>
+                                        <Chip color={selectedTab === 'music' ? "danger" : "default"} size="sm" className="text-gray-400">12345</Chip>
                                     </div>
                                 }
                             />

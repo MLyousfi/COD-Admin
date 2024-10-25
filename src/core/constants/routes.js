@@ -1,6 +1,6 @@
 
 import { path } from "framer-motion/client";
-import { Briefcase01Icon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliveryTruck01Icon, Home01Icon, Home09Icon, InvoiceIcon, Square01Icon, Suit01Icon, Task01Icon } from "hugeicons-react";
+import { Briefcase01Icon, Calculator01Icon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliverySent01Icon, DeliveryTruck01Icon, DollarSquareIcon, EarthIcon, FerryBoatIcon, Home01Icon, Home09Icon, InvoiceIcon, SphereIcon, Square01Icon, Suit01Icon, Task01Icon, UserIcon, UserMultiple02Icon, WhatsappIcon } from "hugeicons-react";
 
 
 
@@ -46,6 +46,29 @@ const RouteNames = {
     invoicesSourcing: '/invoices/sourcing-invoices',
     shippingCost: '/shipping-cost',
     shippingCompanies: '/shipping-companies',
+    affiliate: '/affiliate',
+    listOfAffiliate: '/affiliate/list-of-affiliate',
+    accounting: '/accounting',
+    accountingExpences: '/accounting/expenses',
+    accountingCallCenterReports: '/accounting/call-center-reports',
+    accountingShippingReports: '/accounting/shipping-reports',
+    users: '/users',
+    listOfUsers: '/users/list-of-users',
+    usersRoles: '/users/roles',
+    general: '/general',
+    generalBanks: '/general/banks',
+    generalPartners: '/general/partners',
+    generalTemplates: '/general/templates',
+    generalConfiguration: '/general/configuration',
+    whatsapp: '/whatsapp',
+    whatsappTemplates: '/whatsapp/list-of-templates',
+    whatsappAccounts: '/whatsapp/list-of-Accounts',
+    countries: '/countries',
+    currencies: '/currencies',
+    sellers: '/sellers',
+    sellersList: '/sellers/list-of-sellers',
+    salesChannels: '/sellers/sales-channels',
+    facebookBusiness: '/sellers/facebook-business',
 
 
 
@@ -218,6 +241,54 @@ const RoutesConfig = [
         ],
     },
     {
+        name: 'Accounting',
+        path: RouteNames.accounting,
+        showInSidebar: true,
+        icon: Calculator01Icon,
+        children: [
+            {
+                name: 'Expenses',
+                path: RouteNames.accountingExpences,
+                showInSidebar: true,
+            },
+            {
+                name: 'Call Center Reports',
+                path: RouteNames.accountingCallCenterReports,
+                showInSidebar: true,
+            },
+            {
+                name: 'Shipping Reports',
+                path: RouteNames.accountingShippingReports,
+                showInSidebar: true,
+            },
+
+        ],
+    },
+    {
+        name: 'Sellers',
+        path: RouteNames.sellers,
+        showInSidebar: true,
+        icon: UserMultiple02Icon,
+        children: [
+            {
+                name: 'List of Sellers',
+                path: RouteNames.sellersList,
+                showInSidebar: true,
+            },
+            {
+                name: 'Sales Channels',
+                path: RouteNames.salesChannels,
+                showInSidebar: true,
+            },
+            {
+                name: 'Facebook Business',
+                path: RouteNames.facebookBusiness,
+                showInSidebar: true,
+            },
+
+        ],
+    },
+    {
         name: 'Invoices',
         path: RouteNames.invoices,
         showInSidebar: true,
@@ -231,6 +302,59 @@ const RoutesConfig = [
             {
                 name: 'Sourcing Invoices',
                 path: RouteNames.invoicesSourcing,
+                showInSidebar: true,
+            },
+
+        ],
+    },
+    {
+        name: 'Shipping Cost',
+        path: RouteNames.shippingCost,
+        showInSidebar: true,
+        icon: DollarSquareIcon,
+        children: [
+            {
+                name: 'Shipping Cost',
+                path: RouteNames.shippingCost,
+                showInSidebar: true,
+            },
+            {
+                name: 'Shipping Companies',
+                path: RouteNames.shippingCompanies,
+                showInSidebar: true,
+            },
+
+        ],
+    },
+    {
+        name: 'Users',
+        path: RouteNames.users,
+        showInSidebar: true,
+        icon: UserIcon,
+        children: [
+            {
+                name: 'List of Users',
+                path: RouteNames.listOfUsers,
+                showInSidebar: true,
+            },
+            {
+                name: 'Roles',
+                path: RouteNames.usersRoles,
+                showInSidebar: true,
+            },
+
+        ],
+    },
+    {
+        name: 'Affiliate',
+        path: RouteNames.affiliate,
+        showInSidebar: true,
+        icon: FerryBoatIcon,
+        children: [
+
+            {
+                name: 'List of Affiliate',
+                path: RouteNames.listOfAffiliate,
                 showInSidebar: true,
             },
 
@@ -279,6 +403,73 @@ const RoutesConfig = [
                     },
 
                 ]
+            },
+
+        ],
+    },
+    {
+        name: 'Whatsapp',
+        path: RouteNames.whatsapp,
+        showInSidebar: true,
+        icon: WhatsappIcon,
+        children: [
+            {
+                name: 'List of Templates',
+                path: RouteNames.whatsappTemplates,
+                showInSidebar: true,
+            },
+            {
+                name: 'List of Account',
+                path: RouteNames.whatsappAccounts,
+                showInSidebar: true,
+            },
+
+        ],
+    },
+    {
+        name: 'Countries',
+        path: RouteNames.countries,
+        showInSidebar: true,
+        icon: EarthIcon,
+        children: [
+            {
+                name: 'Countries',
+                path: RouteNames.countries,
+                showInSidebar: true,
+            },
+            {
+                name: 'Currencies',
+                path: RouteNames.currencies,
+                showInSidebar: true,
+            },
+
+        ],
+    },
+    {
+        name: 'General',
+        path: RouteNames.general,
+        showInSidebar: true,
+        icon: SphereIcon,
+        children: [
+            {
+                name: 'Banks',
+                path: RouteNames.generalBanks,
+                showInSidebar: true,
+            },
+            {
+                name: 'Partners',
+                path: RouteNames.generalPartners,
+                showInSidebar: true,
+            },
+            {
+                name: 'Templates',
+                path: RouteNames.generalTemplates,
+                showInSidebar: true,
+            },
+            {
+                name: 'Configuration',
+                path: RouteNames.generalConfiguration,
+                showInSidebar: true,
             },
 
         ],

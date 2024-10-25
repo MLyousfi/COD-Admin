@@ -4,8 +4,8 @@ import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import Table from '../../stockManagement.jsx/components/Table'; // Adjust the path as necessary
-import { rows } from '../../../core/utils/data3'; // Your updated data rows
+import Table from '../../stockManagement.jsx/components/Table'; 
+import { rows } from '../../../core/utils/data3'; 
 
 const columns = [
   { key: "checkbox", label: "#" },  
@@ -22,7 +22,7 @@ const columns = [
 
 const SellersInvoices = () => {
   const [activeView, setActiveView] = useState('active'); 
-  const [products, setProducts] = useState(rows); // Your rows data
+  const [products, setProducts] = useState(rows); 
   const [selectedRows, setSelectedRows] = useState([]);
   const rowsPerPage = 10;
 
@@ -34,10 +34,10 @@ const SellersInvoices = () => {
       totalRemittance: "$1000",
       netRemittance: "$900",
       totalCharges: "$100",
-      statut: "Unpaid", // Default status
+      statut: "Unpaid", 
       date: "09/08/2024 - 19:01",
       verified: false,
-      status: "active", // New invoices will be active
+      status: "active", 
     };
     setProducts([...products, newProduct]);
   };
@@ -54,7 +54,6 @@ const SellersInvoices = () => {
     setProducts(products.filter(product => product.key !== key));
   };
 
-  // Filter products based on the current view (active or archived)
   const filteredProducts = activeView === 'active' 
     ? products.filter(product => product.status === "active")
     : products.filter(product => product.status === "archived");
@@ -72,9 +71,9 @@ const SellersInvoices = () => {
 
       case "statut":
         const statutColor = {
-          "Unpaid": "#9fa20b",  // Yellow
-          "Refund": "#b7100a",  // Red
-          "Paid": "#197007",    // Green
+          "Unpaid": "#9fa20b",
+          "Refund": "#b7100a",  
+          "Paid": "#197007",    
         };
       
         return (
@@ -173,7 +172,7 @@ const SellersInvoices = () => {
         {/* Use the Generalized Table Component */}
         <Table 
           columns={columns} 
-          data={filteredProducts}  // Use filtered products based on active view
+          data={filteredProducts}  
           renderCell={renderCell} 
           handleCheckboxChange={handleCheckboxChange}
           selectedRows={selectedRows} 

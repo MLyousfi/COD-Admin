@@ -17,6 +17,15 @@ import Products from "../../modules/statistics/pages/Products.jsx";
 import Statistics from "../../modules/statistics/pages/Statistics.jsx";
 import SellersInvoices from "../../modules/invoices/components/SellersInvoices.jsx";
 import ListOfOrders from "../../modules/ordersManagement/pages/ListOfOrders.jsx";
+import ShippingCost from "../../modules/shippingCost/pages/ShippingCost.jsx";
+import ListOfAffiliate from "../../modules/affiliate/pages/ListOfAffiliate.jsx";
+import Expences from "../../modules/accounting/pages/Expenses.jsx";
+import Expenses from "../../modules/accounting/pages/Expenses.jsx";
+import ListOfUsers from "../../modules/users/pages/ListOfUsers.jsx";
+import Banks from "../../modules/general/pages/Banks.jsx";
+import Countries from "../../modules/countries/pages/Countries.jsx";
+import Templates from "../../modules/whatsapp/pages/Templates.jsx";
+import ListOfSellers from "../../modules/sellers/pages/ListOfSellers.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -95,6 +104,66 @@ const routes = createBrowserRouter([
         ],
     },
     {
+        path: RouteNames.affiliate,
+        children: [
+            {
+                path: RouteNames.listOfAffiliate,
+                element: <ListOfAffiliate />
+            },
+
+        ],
+    },
+    {
+        path: RouteNames.shippingCost,
+        element: <ShippingCost />
+
+    },
+    {
+        path: RouteNames.shippingCompanies,
+        element: <ShippingCost />
+
+    },
+    {
+        path: RouteNames.countries,
+        element: <Countries />
+
+    },
+    {
+        path: RouteNames.currencies,
+        element: <Countries />
+
+    },
+    {
+        path: RouteNames.sellers,
+        children: [
+            {
+                path: RouteNames.sellersList,
+                element: <ListOfSellers />
+            },
+            {
+                path: RouteNames.salesChannels,
+                element: <ListOfSellers />
+            },
+            {
+                path: RouteNames.facebookBusiness,
+                element: <ListOfSellers />
+            },
+        ],
+    },
+    {
+        path: RouteNames.whatsapp,
+        children: [
+            {
+                path: RouteNames.whatsappTemplates,
+                element: <Templates />
+            },
+            {
+                path: RouteNames.whatsappAccounts,
+                element: <Templates />
+            },
+        ],
+    },
+    {
         path: RouteNames.callCenter,
         children: [
             {
@@ -126,6 +195,67 @@ const routes = createBrowserRouter([
                 path: RouteNames.scheduleOrders,
                 element: <ListOfOrders />
             },
+        ],
+    },
+    {
+        path: RouteNames.accounting,
+        children: [
+            {
+                path: RouteNames.accountingExpences,
+                element: <Expenses />
+            },
+            {
+                path: RouteNames.accountingCallCenterReports,
+                element: <Expenses />
+            },
+            {
+                path: RouteNames.accountingShippingReports,
+                element: <Expenses />
+            },
+
+        ],
+    },
+    {
+        path: RouteNames.users,
+        children: [
+            {
+                path: RouteNames.listOfUsers,
+                element: <ListOfUsers />
+            },
+            {
+                path: RouteNames.usersRoles,
+                element: <ListOfUsers />
+            },
+
+
+        ],
+    },
+    {
+        path: RouteNames.general,
+        children: [
+            {
+                path: RouteNames.generalBanks,
+                element: <Banks />
+            },
+
+            {
+                path: RouteNames.generalPartners,
+                element: <Banks />
+            },
+
+            {
+                path: RouteNames.generalTemplates,
+                element: <Banks />
+            },
+
+
+            {
+                path: RouteNames.generalConfiguration,
+                element: <Banks />
+            },
+
+
+
         ],
     },
     {

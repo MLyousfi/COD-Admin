@@ -1,4 +1,3 @@
 /node_modules
-/src/core/constants/routes.js
-/src/core/routes/index.jsx
+.gitignore
 package-lock.json
