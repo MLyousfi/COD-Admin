@@ -18,10 +18,8 @@ import Statistics from "../../modules/statistics/pages/Statistics.jsx";
 import SellersInvoices from "../../modules/invoices/components/SellersInvoices.jsx";
 import ListOfOrders from "../../modules/ordersManagement/pages/ListOfOrders.jsx";
 
-
 const routes = createBrowserRouter([
     {
-        //redirection code
         path: "/",
         element: <Navigate to={RouteNames.dashboard} replace />
     },
@@ -31,7 +29,16 @@ const routes = createBrowserRouter([
     },
     {
         path: RouteNames.StockManagement,
-        element: <StockManagement />
+        children: [
+            {
+                path: RouteNames.products,
+                element: <StockManagement />
+            },
+            {
+                path: RouteNames.warehouses,
+                element: <FollowUp />
+            },
+        ],
     },
     {
         path: RouteNames.collectsListOfShipments,
@@ -46,11 +53,11 @@ const routes = createBrowserRouter([
         children: [
             {
                 path: RouteNames.callCenterMyAgent,
-                element: <Confirmation />
+                element: <MyAgent />
             },
             {
                 path: RouteNames.callCenterAgentsRequests,
-                element: <FollowUp />
+                element: <AgentsRequests />
             },
         ],
     },
@@ -101,19 +108,6 @@ const routes = createBrowserRouter([
         ],
     },
     {
-        path: RouteNames.callCenterManager,
-        children: [
-            {
-                path: RouteNames.callCenterMyAgent,
-                element: <MyAgent />
-            },
-            {
-                path: RouteNames.callCenterAgentsRequests,
-                element: <AgentsRequests />
-            },
-        ],
-    },
-    {
         path: RouteNames.ordersManagement,
         children: [
             {
@@ -135,19 +129,6 @@ const routes = createBrowserRouter([
         ],
     },
     {
-        path: RouteNames.StockManagement,
-        children: [
-            {
-                path: RouteNames.products,
-                element: <StockManagement />
-            },
-            {
-                path: RouteNames.warehouses,
-                element: <FollowUp />
-            },
-        ],
-    },
-    {
         path: RouteNames.Statistics,
         children: [
             {
@@ -164,7 +145,6 @@ const routes = createBrowserRouter([
             },
             {
                 path: RouteNames.statiscticsAgents,
-
                 children: [
                     {
                         path: RouteNames.statiscticsAgentsActivities,
@@ -178,10 +158,8 @@ const routes = createBrowserRouter([
                         path: RouteNames.statiscticsAgentsFollowup,
                         element: <Products />
                     },
-
                 ],
             },
-
         ],
     },
 ]);

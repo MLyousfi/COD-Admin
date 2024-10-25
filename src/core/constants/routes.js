@@ -1,4 +1,5 @@
 
+import { path } from "framer-motion/client";
 import { Briefcase01Icon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliveryTruck01Icon, Home01Icon, Home09Icon, InvoiceIcon, Square01Icon, Suit01Icon, Task01Icon } from "hugeicons-react";
 
 
@@ -27,8 +28,10 @@ const RouteNames = {
     chatBotConfirmation: '/ordersManagement/chatbot-confirmation',
     ConfirmedOrders: '/ordersManagement/confirmed-orders',
     scheduleOrders: '/ordersManagement/schedule-orders',
-    collectShippemdTransit: '/Collects/shippement-transit',
-    firstMileDashboard: '/First-Mile/dashboard',
+    collectShippemdTransit: '/collects/shippement-transit',
+    collects: '/collects',
+    firstMile: '/first-mile',
+    firstMileDashboard: '/first-mile/dashboard',
     statisctics: '/statistics',
     statiscticsProducts: '/statistics/products',
     statiscticsFunds: '/statistics/funds',
@@ -40,6 +43,9 @@ const RouteNames = {
     invoices: '/invoices',
     invoicesSeller: '/invoices/seller-invoices',
     invoicesSourcing: '/invoices/sourcing-invoices',
+    invoicesSourcing: '/invoices/sourcing-invoices',
+    shippingCost: '/shipping-cost',
+    shippingCompanies: '/shipping-companies',
 
 
 
@@ -77,8 +83,6 @@ const RoutesConfig = [
         path: RouteNames.recoverEmailSent,
         showInSidebar: false,
     },
-
-
 
     {
         name: 'Call Center',
@@ -165,10 +169,11 @@ const RoutesConfig = [
     {
         name: 'Collects',
         showInSidebar: true,
+        path: RouteNames.collects,
         icon: DeliveryTruck01Icon,
         children: [
             {
-                name: 'List  of Shipments',
+                name: 'List of Shipments',
                 path: RouteNames.collectsListOfShipments,
                 showInSidebar: true,
             },
@@ -182,6 +187,7 @@ const RoutesConfig = [
     {
         name: 'First Mile',
         showInSidebar: true,
+        path: RouteNames.firstMile,
         icon: DeliveryBox01Icon,
         children: [
             {
@@ -213,6 +219,7 @@ const RoutesConfig = [
     },
     {
         name: 'Invoices',
+        path: RouteNames.invoices,
         showInSidebar: true,
         icon: InvoiceIcon,
         children: [
@@ -232,6 +239,7 @@ const RoutesConfig = [
     {
         name: 'Statistics',
         showInSidebar: true,
+        path: RouteNames.statisctics,
         icon: ChartHistogramIcon,
         children: [
             {
