@@ -17,6 +17,11 @@ import Products from "../../modules/statistics/pages/Products.jsx";
 import Statistics from "../../modules/statistics/pages/Statistics.jsx";
 import SellersInvoices from "../../modules/invoices/components/SellersInvoices.jsx";
 import ListOfOrders from "../../modules/ordersManagement/pages/ListOfOrders.jsx";
+import ShippingCost from "../../modules/shippingCost/pages/ShippingCost.jsx";
+import ListOfAffiliate from "../../modules/affiliate/pages/ListOfAffiliate.jsx";
+import Expences from "../../modules/accounting/pages/Expenses.jsx";
+import Expenses from "../../modules/accounting/pages/Expenses.jsx";
+import ListOfUsers from "../../modules/users/pages/ListOfUsers.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -95,6 +100,26 @@ const routes = createBrowserRouter([
         ],
     },
     {
+        path: RouteNames.affiliate,
+        children: [
+            {
+                path: RouteNames.listOfAffiliate,
+                element: <ListOfAffiliate />
+            },
+
+        ],
+    },
+    {
+        path: RouteNames.shippingCost,
+        element: <ShippingCost />
+
+    },
+    {
+        path: RouteNames.shippingCompanies,
+        element: <ShippingCost />
+
+    },
+    {
         path: RouteNames.callCenter,
         children: [
             {
@@ -126,6 +151,39 @@ const routes = createBrowserRouter([
                 path: RouteNames.scheduleOrders,
                 element: <ListOfOrders />
             },
+        ],
+    },
+    {
+        path: RouteNames.accounting,
+        children: [
+            {
+                path: RouteNames.accountingExpences,
+                element: <Expenses />
+            },
+            {
+                path: RouteNames.accountingCallCenterReports,
+                element: <Expenses />
+            },
+            {
+                path: RouteNames.accountingShippingReports,
+                element: <Expenses />
+            },
+
+        ],
+    },
+    {
+        path: RouteNames.users,
+        children: [
+            {
+                path: RouteNames.listOfUsers,
+                element: <ListOfUsers />
+            },
+            {
+                path: RouteNames.usersRoles,
+                element: <ListOfUsers />
+            },
+
+
         ],
     },
     {
