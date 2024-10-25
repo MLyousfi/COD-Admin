@@ -1,6 +1,6 @@
 
 import { path } from "framer-motion/client";
-import { Briefcase01Icon, Calculator01Icon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliverySent01Icon, DeliveryTruck01Icon, DollarSquareIcon, FerryBoatIcon, Home01Icon, Home09Icon, InvoiceIcon, SphereIcon, Square01Icon, Suit01Icon, Task01Icon, UserIcon } from "hugeicons-react";
+import { Briefcase01Icon, Calculator01Icon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliverySent01Icon, DeliveryTruck01Icon, DollarSquareIcon, EarthIcon, FerryBoatIcon, Home01Icon, Home09Icon, InvoiceIcon, SphereIcon, Square01Icon, Suit01Icon, Task01Icon, UserIcon, UserMultiple02Icon, WhatsappIcon } from "hugeicons-react";
 
 
 
@@ -60,6 +60,15 @@ const RouteNames = {
     generalPartners: '/general/partners',
     generalTemplates: '/general/templates',
     generalConfiguration: '/general/configuration',
+    whatsapp: '/whatsapp',
+    whatsappTemplates: '/whatsapp/list-of-templates',
+    whatsappAccounts: '/whatsapp/list-of-Accounts',
+    countries: '/countries',
+    currencies: '/currencies',
+    sellers: '/sellers',
+    sellersList: '/sellers/list-of-sellers',
+    salesChannels: '/sellers/sales-channels',
+    facebookBusiness: '/sellers/facebook-business',
 
 
 
@@ -256,6 +265,30 @@ const RoutesConfig = [
         ],
     },
     {
+        name: 'Sellers',
+        path: RouteNames.sellers,
+        showInSidebar: true,
+        icon: UserMultiple02Icon,
+        children: [
+            {
+                name: 'List of Sellers',
+                path: RouteNames.sellersList,
+                showInSidebar: true,
+            },
+            {
+                name: 'Sales Channels',
+                path: RouteNames.salesChannels,
+                showInSidebar: true,
+            },
+            {
+                name: 'Facebook Business',
+                path: RouteNames.facebookBusiness,
+                showInSidebar: true,
+            },
+
+        ],
+    },
+    {
         name: 'Invoices',
         path: RouteNames.invoices,
         showInSidebar: true,
@@ -370,6 +403,44 @@ const RoutesConfig = [
                     },
 
                 ]
+            },
+
+        ],
+    },
+    {
+        name: 'Whatsapp',
+        path: RouteNames.whatsapp,
+        showInSidebar: true,
+        icon: WhatsappIcon,
+        children: [
+            {
+                name: 'List of Templates',
+                path: RouteNames.whatsappTemplates,
+                showInSidebar: true,
+            },
+            {
+                name: 'List of Account',
+                path: RouteNames.whatsappAccounts,
+                showInSidebar: true,
+            },
+
+        ],
+    },
+    {
+        name: 'Countries',
+        path: RouteNames.countries,
+        showInSidebar: true,
+        icon: EarthIcon,
+        children: [
+            {
+                name: 'Countries',
+                path: RouteNames.countries,
+                showInSidebar: true,
+            },
+            {
+                name: 'Currencies',
+                path: RouteNames.currencies,
+                showInSidebar: true,
             },
 
         ],

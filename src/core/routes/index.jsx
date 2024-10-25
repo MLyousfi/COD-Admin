@@ -22,6 +22,10 @@ import ListOfAffiliate from "../../modules/affiliate/pages/ListOfAffiliate.jsx";
 import Expences from "../../modules/accounting/pages/Expenses.jsx";
 import Expenses from "../../modules/accounting/pages/Expenses.jsx";
 import ListOfUsers from "../../modules/users/pages/ListOfUsers.jsx";
+import Banks from "../../modules/general/pages/Banks.jsx";
+import Countries from "../../modules/countries/pages/Countries.jsx";
+import Templates from "../../modules/whatsapp/pages/Templates.jsx";
+import ListOfSellers from "../../modules/sellers/pages/ListOfSellers.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -120,6 +124,46 @@ const routes = createBrowserRouter([
 
     },
     {
+        path: RouteNames.countries,
+        element: <Countries />
+
+    },
+    {
+        path: RouteNames.currencies,
+        element: <Countries />
+
+    },
+    {
+        path: RouteNames.sellers,
+        children: [
+            {
+                path: RouteNames.sellersList,
+                element: <ListOfSellers />
+            },
+            {
+                path: RouteNames.salesChannels,
+                element: <ListOfSellers />
+            },
+            {
+                path: RouteNames.facebookBusiness,
+                element: <ListOfSellers />
+            },
+        ],
+    },
+    {
+        path: RouteNames.whatsapp,
+        children: [
+            {
+                path: RouteNames.whatsappTemplates,
+                element: <Templates />
+            },
+            {
+                path: RouteNames.whatsappAccounts,
+                element: <Templates />
+            },
+        ],
+    },
+    {
         path: RouteNames.callCenter,
         children: [
             {
@@ -182,6 +226,34 @@ const routes = createBrowserRouter([
                 path: RouteNames.usersRoles,
                 element: <ListOfUsers />
             },
+
+
+        ],
+    },
+    {
+        path: RouteNames.general,
+        children: [
+            {
+                path: RouteNames.generalBanks,
+                element: <Banks />
+            },
+
+            {
+                path: RouteNames.generalPartners,
+                element: <Banks />
+            },
+
+            {
+                path: RouteNames.generalTemplates,
+                element: <Banks />
+            },
+
+
+            {
+                path: RouteNames.generalConfiguration,
+                element: <Banks />
+            },
+
 
 
         ],
