@@ -3,7 +3,7 @@ import { DeliveryTruck01Icon, PencilEdit01Icon, PlusSignIcon, Delete01Icon, Arro
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
-import { rows } from '../../../core/utils/data6'; // Updated path to data file
+import { rows } from '../../../core/utils/data6'; 
 import { Recycle03Icon } from 'hugeicons-react';
 
 const columns = [

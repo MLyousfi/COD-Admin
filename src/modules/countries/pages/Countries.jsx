@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {  PencilEdit01Icon, PlusSignIcon, Delete01Icon, WhatsappIcon, Logout02Icon, EarthIcon } from "hugeicons-react";
+import {  PencilEdit01Icon, PlusSignIcon, Delete01Icon, Logout02Icon, EarthIcon } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
@@ -37,7 +37,6 @@ const countryCodeMap = {
     "Turkey": "TR",
     "Netherlands": "NL",
     "Switzerland": "CH",
-    // Add other countries as needed
   };
   
 const Countries = () => {

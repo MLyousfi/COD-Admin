@@ -6,7 +6,7 @@ import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data4'; 
 
 const columns = [
-  { key: "checkbox", label: "#" }, // Column for checkbox
+  { key: "checkbox", label: "#" }, 
   { key: "title", label: "Title" }, 
   { key: "alias", label: "Alias" },
   { key: "type", label: "Type" },
@@ -26,7 +26,7 @@ const Templates = () => {
       title: "New Template",
       alias: "new-template",
       type: "Type 1",
-      statut: "Enabled", // Default status
+      statut: "Enabled", 
       account: "Account 1",
     };
     setProducts([...products, newTemplate]);
