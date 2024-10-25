@@ -1,3 +1,5 @@
+import { useCallback, useState } from "react";
+import { Link } from "react-router-dom";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import {
     ArrowDown01Icon,
@@ -7,13 +9,9 @@ import {
     CustomerService01Icon,
     PencilEdit01Icon
 } from "hugeicons-react";
-import {Tab, Tabs} from "@nextui-org/tabs";
-import {Chip} from "@nextui-org/chip";
-import {Button} from "@nextui-org/button";
-import {Pagination} from "@nextui-org/pagination";
-import {useCallback, useMemo, useState} from "react";
-import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@nextui-org/table";
-import {Link} from "react-router-dom";
+import { Button } from "@nextui-org/button";
+import StatusTabs from '../../shared/components/StatusTabs';
+import Table from "../../stockManagement.jsx/components/Table";
 
 const rows = [
     {
@@ -27,115 +25,157 @@ const rows = [
         country: "Saudi Arabia",
         price: "12.564 SAR",
         agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
+        status: "active",
     },
     {
         key: "2",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
+        orderNum: "DSAKDJFUIREOWJDNCAS",
+        subNum: "AKSKDHJS",
+        store: "Store 2",
+        product: "Product Y",
+        productId: "987654321",
+        name: "Jane Smith",
+        country: "United Arab Emirates",
+        price: "15.324 AED",
+        agent: "Bob Johnson",
+        status: "archived",
     },
     {
         key: "3",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
+        orderNum: "ASDJQOIWRYJKSADF",
+        subNum: "LSDKJAF",
+        store: "Store 3",
+        product: "Product Z",
+        productId: "234567891",
+        name: "Mohammed Ali",
+        country: "Qatar",
+        price: "9.876 QAR",
+        agent: "Emily Chen",
+        status: "active",
     },
     {
         key: "4",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
+        orderNum: "QWERJHKLASDFNMVCX",
+        subNum: "ASDFJH",
+        store: "Store 4",
+        product: "Product A",
+        productId: "345678912",
+        name: "Sara Ahmed",
+        country: "Kuwait",
+        price: "10.876 KWD",
+        agent: "John Lee",
+        status: "archived",
     },
     {
         key: "5",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
+        orderNum: "KJHASDHJKLASDF",
+        subNum: "LMNOPQR",
+        store: "Store 5",
+        product: "Product B",
+        productId: "456789123",
+        name: "Noura Mohammed",
+        country: "Oman",
+        price: "13.786 OMR",
+        agent: "Mike Ross",
+        status: "active",
     },
     {
         key: "6",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
+        orderNum: "QWERTYUIOPLKJHGF",
+        subNum: "ZXCVBNM",
+        store: "Store 6",
+        product: "Product C",
+        productId: "567891234",
+        name: "Ahmed Zaki",
+        country: "Bahrain",
+        price: "14.872 BHD",
         agent: "Alice Smith",
-        status: "Confirmed at 09/09/2024",
+        status: "archived",
+    },
+    {
+        key: "7",
+        orderNum: "ZXCVBNMASDFGHJKL",
+        subNum: "QWERTYUI",
+        store: "Store 7",
+        product: "Product D",
+        productId: "678912345",
+        name: "Ali Hassan",
+        country: "Saudi Arabia",
+        price: "18.654 SAR",
+        agent: "Bob Johnson",
+        status: "active",
+    },
+    {
+        key: "8",
+        orderNum: "UIOPASDFGHJKLZXCV",
+        subNum: "QAZWSXED",
+        store: "Store 8",
+        product: "Product E",
+        productId: "789123456",
+        name: "Fatima Al Otaibi",
+        country: "UAE",
+        price: "16.435 AED",
+        agent: "Sara Brown",
+        status: "archived",
+    },
+    {
+        key: "9",
+        orderNum: "QAZWSXEDCRFVTGBY",
+        subNum: "PLMNOKJ",
+        store: "Store 9",
+        product: "Product F",
+        productId: "890123567",
+        name: "Rami Youssef",
+        country: "Qatar",
+        price: "11.987 QAR",
+        agent: "Mohammed Ali",
+        status: "active",
+    },
+    {
+        key: "10",
+        orderNum: "RFVBGYHNUJMIKOL",
+        subNum: "ZXCVBNMAS",
+        store: "Store 10",
+        product: "Product G",
+        productId: "901234678",
+        name: "Zainab Hussain",
+        country: "Kuwait",
+        price: "17.456 KWD",
+        agent: "Alice Smith",
+        status: "archived",
     },
 ];
 
+
 const columns = [
-    {
-        key: "orderNum",
-        label: "Order Number",
-    },
-    {
-        key: "store",
-        label: "Store",
-    },
-    {
-        key: "product",
-        label: "Product",
-    },
-    {
-        key: "name",
-        label: "Name",
-    },
-    {
-        key: "country",
-        label: "Country",
-    },
-    {
-        key: "price",
-        label: "Price",
-    },
-    {
-        key: "agent",
-        label: "Agent",
-    },
-    {
-        key: "status",
-        label: "Status",
-    },
+    { key: "checkbox", label: "#" },
+    { key: "orderNum", label: "Order Number" },
+    { key: "store", label: "Store" },
+    { key: "product", label: "Product" },
+    { key: "name", label: "Name" },
+    { key: "country", label: "Country" },
+    { key: "price", label: "Price" },
+    { key: "agent", label: "Agent" },
+    { key: "status", label: "Status" },
 ];
 
 export default function FollowUp() {
-
-    const [selectionBehavior, setSelectionBehavior] = useState("toggle");
-
+    const [selectedTab, setSelectedTab] = useState('active');
+    const [selectedRows, setSelectedRows] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 10;
+
+    const handleCheckboxChange = (key) => {
+        if (selectedRows.includes(key)) {
+            setSelectedRows(selectedRows.filter((selectedKey) => selectedKey !== key));
+        } else {
+            setSelectedRows([...selectedRows, key]);
+        }
+    };
+
+    const filteredRows = selectedTab === 'active'
+        ? rows.filter(row => row.status === "active")
+        : rows.filter(row => row.status === "archived");
 
     const renderCell = useCallback((item, columnKey) => {
         const cellValue = item[columnKey];
@@ -148,10 +188,6 @@ export default function FollowUp() {
                         <Link to="#" className="text-blue-500">({item.subNum})</Link>
                     </div>
                 );
-            case "store":
-                return (
-                    <span>{item.store}</span>
-                );
             case "product":
                 return (
                     <div>
@@ -159,161 +195,55 @@ export default function FollowUp() {
                         <Link to="#" className="text-blue-500">(SKU: {item.productId})</Link>
                     </div>
                 );
-            case "name":
-                return (
-                    <span>{item.name}</span>
-                );
-            case "country":
-                return (
-                    <span>{item.country}</span>
-                );
-            case "price":
-                return (
-                    <span>{item.price}</span>
-                );
-            case "agent":
-                return (
-                    <span>{item.agent}</span>
-                );
-            case "status":
-                return (
-                    <span>{item.status}</span>
-                );
-            case "actions":
-                return (
-                    <span></span>
-                );
             default:
-                return cellValue;
+                return <span>{cellValue}</span>;
         }
     }, []);
 
-    const classNames = useMemo(
-        () => ({
-            wrapper: ["min-w-full", "bg-black"],
-            th: ["bg-transparent", "text-default-500", "border-b", "border-divider", "text-center"],
-            td: [
-                "text-center",
-                // changing the rows border radius
-                // first
-                "group-data-[first=true]:first:before:rounded-none",
-                "group-data-[first=true]:last:before:rounded-none",
-                // middle
-                "group-data-[middle=true]:before:rounded-none",
-                // last
-                "group-data-[last=true]:first:before:rounded-none",
-                "group-data-[last=true]:last:before:rounded-none",
-            ],
-        }),
-        [],
-    );
     return (
-        <>
-            <DashboardLayout title="Call Center - Follow Up" icon={<CustomerService01Icon className="text-info"/>}
-                             additionalContent={
-                                 <div className="dark:bg-info/10 w-fit rounded-full px-4 py-1.5 text-center">
-                                     <span className="text-lg"><strong
-                                         className="text-info">All</strong> Call</span>
-                                 </div>}>
-                <div>
-                    {/*Tabs*/}
-                    <div className="flex flex-row justify-between items-center gap-4 px-12">
-                        <Tabs aria-label="Options"
-                              color="primary"
-                              variant="underlined"
-                              classNames={{
-                                  tabList: "gap-6 w-full relative rounded-none p-0 border-b bg-transparent border-b-transparent",
-                                  cursor: "w-full bg-info",
-                                  tab: "max-w-fit px-0 h-12 text-red-500",
-                                  tabContent: "group-data-[selected=true]:text-info text-gray-600"
-                              }}>
-                            <Tab
-                                key="photos"
-                                title={
-                                    <div className="flex items-center space-x-2">
-                                        <strong>Active</strong>
-                                        <Chip color="danger" size="sm">12345</Chip>
-                                    </div>
-                                }
-                            />
+        <DashboardLayout
+            title="Call Center - Follow Up"
+            icon={<CustomerService01Icon className="text-info" />}
+            additionalContent={
+                <div className="dark:bg-info/10 w-fit rounded-full px-4 py-1.5 text-center">
+                    <span className="text-lg"><strong className="text-info">All</strong> Call</span>
+                </div>
+            }
+        >
+            <div className="p-4">
+                <div className="flex justify-between items-center mb-4">
+                    <StatusTabs
+                        activeCount={rows.filter(row => row.status === "active").length}
+                        archivedCount={rows.filter(row => row.status === "archived").length}
+                        selectedTab={selectedTab}
+                        onTabChange={setSelectedTab}
+                    />
 
-                            <Tab
-                                key="music"
-                                title={
-                                    <div className="flex items-center space-x-2">
-                                        <strong>Archived</strong>
-                                        <Chip color="default" size="sm" className="text-gray-400">12345</Chip>
-                                    </div>
-                                }
-                            />
-                        </Tabs>
-
-                        {/*Tab content*/}
-
-                        <div className="flex flex-row gap-2">
-                            <Button color="default" className="rounded-full bg-info">
-                                <Calling02Icon size={18}/> Start Call
-                            </Button>
-                            <Button variant="bordered" className="rounded-full">
-                                List of Agents <ArrowDown01Icon size={16}/>
-                            </Button>
-                            <Button color="default" className="rounded-full bg-danger">
-                                <PencilEdit01Icon size={18}/> Actions
-                            </Button>
-                        </div>
+                    <div className="flex space-x-4 items-center">
+                        <Button color="default" className="rounded-full bg-info text-white">
+                            <Calling02Icon size={18} /> Start Call
+                        </Button>
+                        <Button variant="bordered" className="rounded-full">
+                            List of Agents <ArrowDown01Icon size={16} />
+                        </Button>
+                        <Button color="default" className="rounded-full bg-danger text-white">
+                            <PencilEdit01Icon size={18} /> Actions
+                        </Button>
                     </div>
                 </div>
 
-                <div className="min-w-full py-4 px-8 rounded">
-                    <Table
-                        isStriped
-                        aria-label="Rows actions table example with dynamic content"
-                        selectionMode="multiple"
-                        classNames={classNames}
-                        selectionBehavior={selectionBehavior}
-                        onRowAction={(key) => alert(`Opening item ${key}...`)}
-                    >
-                        <TableHeader columns={columns}>
-                            {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-                        </TableHeader>
-                        <TableBody items={rows}>
-                            {(item) => (
-                                <TableRow key={item.key}>
-                                    {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-                <div className="flex flex-row gap-2 items-center my-8 mx-auto w-fit">
-                    <Button
-                        size="sm"
-                        variant="flat"
-                        color="default"
-                        className="rounded dark:bg-950/20"
-                        onPress={() => setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev))}>
-                        <ArrowLeft02Icon size={18}/> Previous
-                    </Button>
-                    <Pagination
-                        total={10}
-                        color="default"
-                        page={currentPage}
-                        className="z-0"
-                        classNames={{
-                            item: "rounded dark:bg-default/40",
-                            cursor: "rounded"
-                        }}
-                        onChange={setCurrentPage}/>
-                    <Button
-                        size="sm"
-                        variant="flat"
-                        color="default"
-                        className="rounded"
-                        onPress={() => setCurrentPage((prev) => (prev < 10 ? prev + 1 : prev))}>
-                        Next <ArrowRight02Icon size={18}/>
-                    </Button>
-                </div>
-            </DashboardLayout>
-        </>
-    )
+                <Table
+                    columns={columns}
+                    data={filteredRows}
+                    renderCell={renderCell}
+                    handleCheckboxChange={handleCheckboxChange}
+                    selectedRows={selectedRows}
+                    rowsPerPage={rowsPerPage}
+                    className="dark:bg-gray-800 dark:text-white"
+                />
+
+          
+            </div>
+        </DashboardLayout>
+    );
 }

@@ -1,10 +1,10 @@
+// Banks.jsx
 import React, { useState } from 'react';
-import { Home01Icon, PencilEdit01Icon, PlusSignIcon, Delete01Icon, Setting06Icon, Settings02Icon } from "hugeicons-react";
+import { PencilEdit01Icon, PlusSignIcon, Delete01Icon, Settings02Icon } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
-import { Chip } from "@nextui-org/chip";
-import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
+import StatusTabs from '../../shared/components/StatusTabs';  
 import { rows } from '../../../core/utils/data7';
 
 const columns = [
@@ -14,12 +14,7 @@ const columns = [
 ];
 
 const Banks = () => {
-  const [selectedTab, setSelectedTab] = useState('photos');
-
-  // Function to handle tab change
-  const handleTabChange = (tab) => {
-    setSelectedTab(tab);
-  };
+  const [selectedTab, setSelectedTab] = useState('active');
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
   const rowsPerPage = 10;
@@ -45,83 +40,20 @@ const Banks = () => {
     setProducts(products.filter(product => product.key !== key));
   };
 
-
-  const renderCell = (item, columnKey) => {
-    switch (columnKey) {
-      case "checkbox":
-        return (
-          <input
-            type="checkbox"
-            checked={selectedRows.includes(item.key)}
-            onChange={() => handleCheckboxChange(item.key)}
-          />
-        );
-      case "options":
-        return (
-          <div className="flex space-x-2 justify-center">
-            {/* Edit Button */}
-            <Button
-              variant="flat"
-              size="sm"
-              className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
-              style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
-            >
-              <PencilEdit01Icon size={14} style={{ color: 'white' }} />
-            </Button>
-
-            {/* Delete Button */}
-            <Button
-              variant="flat"
-              size="sm"
-              className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
-              style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
-              onClick={() => handleDelete(item.key)}
-            >
-              <Delete01Icon size={14} style={{ color: 'white' }} />
-            </Button>
-          </div>
-        );
-      default:
-        return <span className="text-sm dark:text-white">{item[columnKey]}</span>;
-    }
-  };
+  const filteredProducts = selectedTab === 'active'
+    ? products.filter(product => product.status === "active")
+    : products.filter(product => product.status === "archived");
 
   return (
     <DashboardLayout title="General - Bank" icon={<Settings02Icon className="text-info" />}>
       <div className="p-4">
         <div className="flex justify-between mb-4">
-          <Tabs
-            aria-label="Options"
-            color="primary"
-            variant="underlined"
-            classNames={{
-              tabList: "gap-6 w-full relative rounded-none p-0 border-b bg-transparent border-b-transparent",
-              cursor: "w-full bg-info",
-              tab: "max-w-fit px-0 h-12 text-red-500",
-              tabContent: "group-data-[selected=true]:text-info text-gray-600"
-            }}
-            onTabChange={handleTabChange} // Attach the tab change handler
-          >
-            <Tab
-              key="photos"
-              title={
-                <div className="flex items-center space-x-2">
-                  <strong>Active</strong>
-                  <Chip color={selectedTab === 'photos' ? "danger" : "default"} size="sm">12345</Chip>
-                </div>
-              }
-            />
-
-            <Tab
-              key="music"
-              title={
-                <div className="flex items-center space-x-2">
-                  <strong>Archived</strong>
-                  <Chip color={selectedTab === 'music' ? "danger" : "default"} size="sm" className="text-gray-400">12345</Chip>
-                </div>
-              }
-            />
-          </Tabs>
+          <StatusTabs
+            activeCount={products.filter(product => product.status === "active").length}
+            archivedCount={products.filter(product => product.status === "archived").length}
+            selectedTab={selectedTab}
+            onTabChange={setSelectedTab}
+          />
 
           <div className="space-x-4">
             <Button
@@ -144,8 +76,43 @@ const Banks = () => {
 
         <Table
           columns={columns}
-          data={rows}
-          renderCell={renderCell}
+          data={filteredProducts}
+          renderCell={(item, columnKey) => {
+            switch (columnKey) {
+              case "checkbox":
+                return (
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(item.key)}
+                    onChange={() => handleCheckboxChange(item.key)}
+                  />
+                );
+              case "options":
+                return (
+                  <div className="flex space-x-2 justify-center">
+                    <Button
+                      variant="flat"
+                      size="sm"
+                      className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
+                      style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
+                    >
+                      <PencilEdit01Icon size={14} style={{ color: 'white' }} />
+                    </Button>
+                    <Button
+                      variant="flat"
+                      size="sm"
+                      className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
+                      style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
+                      onClick={() => handleDelete(item.key)}
+                    >
+                      <Delete01Icon size={14} style={{ color: 'white' }} />
+                    </Button>
+                  </div>
+                );
+              default:
+                return <span className="text-sm dark:text-white">{item[columnKey]}</span>;
+            }
+          }}
           handleCheckboxChange={handleCheckboxChange}
           selectedRows={selectedRows}
           rowsPerPage={rowsPerPage}
