@@ -47,10 +47,10 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                             <Input className="ml-auto w-80" placeholder="Search" classNames={{
                                 inputWrapper: "bg-gray-100 dark:bg-gray-950 rounded-full",
                             }} endContent={<Code className="flex flex-row justify-center pl-0"> &nbsp; <CommandIcon
-                                className="mr-1" size={16} /> + K
+                                className="mr-1" size={16} /> + R
                             </Code>} startContent={<Search01Icon size={24} />} />
 
-                            <Button isIconOnly className="mx-2 text-white rounded-full bg-info"
+                            <Button isIconOnly className="mx-2 dark:text-white text-black rounded-full bg-gray-100 dark:bg-gray-950"
                                 onClick={() => setShowFilterModal(!showFilterModal)}>
                                 <FilterIcon size={18} />
                             </Button>

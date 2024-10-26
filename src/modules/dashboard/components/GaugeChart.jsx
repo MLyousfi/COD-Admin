@@ -1,7 +1,7 @@
 import GaugeComponent from 'react-gauge-component';
-import {ArrowDown01Icon, Calendar01Icon} from "hugeicons-react";
-import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/dropdown";
-import {Button} from "@nextui-org/button";
+import { ArrowDown01Icon, Calendar01Icon } from "hugeicons-react";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
+import { Button } from "@nextui-org/button";
 
 const GaugeCard = () => {
     return (
@@ -16,7 +16,7 @@ const GaugeCard = () => {
                     <Dropdown>
                         <DropdownTrigger>
                             <Button variant="bordered" className="rounded-full">
-                                <Calendar01Icon size={18}/> This Year <ArrowDown01Icon size={16}/>
+                                <Calendar01Icon size={18} /> This Year <ArrowDown01Icon size={16} />
                             </Button>
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Static Actions">
@@ -35,24 +35,24 @@ const GaugeCard = () => {
                             colorArray: ['#34A853', '#ED0006', '#0258E8', '#6461FC'],
                             padding: 0.03,
                             subArcs: [
-                                {length: 48},
-                                {length: 20},
-                                {length: 14},
-                                {length: 18},
+                                { length: 48 },
+                                { length: 20 },
+                                { length: 14 },
+                                { length: 18 },
                             ]
                         }}
-                        pointer={{hide: true, type: "blob", animationDelay: 0}}
+                        pointer={{ hide: true, type: "blob", animationDelay: 0 }}
                         value={66}
                         labels={{
-                            valueLabel: {style: {fontSize: "48px", fill: "#aaa", textShadow: "none"}},
-                            tickLabels: {hideMinMax: true}
+                            valueLabel: { style: { fontSize: "48px", fill: "#aaa", textShadow: "none" } },
+                            tickLabels: { hideMinMax: true }
                         }}
                     />
                 </div>
 
                 {/* Percentage and Info */}
                 <div className="text-center">
-                    <p className="font-medium text-sm">
+                    <p className="font-medium text-sm text-[#2f2f2f]">
                         The average of calls between 19%
                     </p>
                     <p className="text-gray-400 text-xs">

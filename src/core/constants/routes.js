@@ -132,7 +132,7 @@ const RoutesConfig = [
         icon: Briefcase01Icon,
         children: [
             {
-                name: 'My Agent',
+                name: 'My Agents',
                 path: RouteNames.callCenterMyAgent,
                 showInSidebar: true,
             },
