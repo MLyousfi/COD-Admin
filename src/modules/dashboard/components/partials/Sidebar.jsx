@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@nextui-org/button";
 import codPowerGroupLogo from "@shared/assets/images/cod-power-group-logo.svg";
+import codPowerGroupLogoDark from "@shared/assets/images/cod-logo-dark.svg";
 import { SidebarLeft01Icon, MoonCloudIcon, Settings02Icon, Share08Icon, HelpCircleIcon } from "hugeicons-react";
 import ThemeToggle from "@/modules/dashboard/components/ThemeToggle.jsx";
 import { RouteNames, RoutesConfig } from "@/core/constants/routes.js";
+import { useThemeProvider } from "../../../../core/providers/ThemeContext";
 
 export default function Sidebar({ showSidebar, setShowSidebar }) {
     const location = useLocation();
@@ -12,6 +14,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
     const trigger = useRef(null);
     const sidebar = useRef(null);
     const [expandedRoutes, setExpandedRoutes] = useState({});
+    const { currentTheme } = useThemeProvider();
 
     const toggleRoute = (routeName) => {
         setExpandedRoutes((prev) => ({
@@ -81,13 +84,10 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
         <div
             ref={sidebar}
             className={`bg-white dark:bg-black border-r border-gray-200 dark:border-gray-900 z-30 lg:w-80 min-w-64 fixed ${showSidebar ? 'lg:sticky' : 'hidden'} overflow-y-auto min-h-screen`}>
-            <div className="flex justify-between my-4 px-3">
-            <img
-                    src={codPowerGroupLogo}
-                    alt="cod power group logo"
-                    className={`w-20 ${showSidebar ? 'dark:filter dark:invert' : ''}`}
-                />           
-                     {showSidebar && (
+            <div className="flex justify-between items-center my-6 px-6">
+                {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
+                    <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}
+                {showSidebar && (
                     <Button ref={trigger} onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
                         <SidebarLeft01Icon />
                     </Button>

@@ -40,19 +40,22 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
                 beginAtZero: true,
                 max: Math.max(...data.values) + 1,
                 ticks: {
-                    color: '#94a3b8',
+                    color: '#FFFFFF30',
                     stepSize: 1,
                 },
                 grid: {
-                    color: '#efefef2b',
+                    color: 'transparent',
                 },
             },
             x: {
                 ticks: {
-                    color: '#94a3b8',
+                    color: '#FFFFFF30',
                 },
                 grid: {
-                    color: '#efefef44',
+                    color: '#FFFFFF10', // Color of the dashed lines
+                    borderColor: 'rgba(0, 0, 0, 0)', // Optional: Set to transparent if you want only the lines
+                    lineWidth: 1, // Width of the lines
+                    dash: [5, 5], // This creates the dashed effect (5px line, 5px space)
                 },
             },
         },
@@ -71,7 +74,7 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
                         <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">{title}</h3>
                         <div className="flex items-center mt-1">
                             <span
-                                className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${percentChange > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                                className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${percentChange > 0 ? 'bg-[#21B53930] text-[#21B539]' : 'bg-red-100 text-red-600'}`}>
                                 {percentChange} % {percentChange > 0 ?
                                     <ArrowUpRight01Icon size={16} className="inline-block" />
                                     : <ArrowDownRight01Icon size={16} className="inline-block" />}
