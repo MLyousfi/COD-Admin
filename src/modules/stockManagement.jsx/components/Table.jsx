@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft01Icon, ArrowRight01Icon } from 'hugeicons-react';
-
+import { motion } from 'framer-motion';
 const ICON_SIZE = 12;
 
 const Table = ({
@@ -44,7 +44,7 @@ const Table = ({
   }
 
   return (
-    <div className="overflow-x-auto  w-full">
+    <div className="overflow-x-auto mt-8 w-full">
       <table className="min-w-full table-auto">
         <thead>
           <tr className="border-b border-gray-300 h-11 dark:border-gray-600">

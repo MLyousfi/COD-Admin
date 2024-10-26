@@ -19,39 +19,44 @@ const StatusTabs = ({ activeCount, archivedCount, selectedTab, onTabChange }) =>
       onSelectionChange={onTabChange}
     >
       <Tab
+        className='px-2'
         key="active"
         title={
           <div className="flex items-center space-x-2">
-            <strong>Active</strong>
+            <strong className={`text-black dark:text-white ${selectedTab === 'active' ? 'text-opacity-100' : 'text-opacity-50'}`}>
+              Active
+            </strong>
+
             <Chip
-              color={selectedTab === 'active' ? "danger" : "default"}
               size="sm"
-              style={{
-                backgroundColor: selectedTab === 'active' ? '#ED0006' : '#C0C0C0',
-                color: 'white',
-              }}
+              className={`${selectedTab === 'active' ? 'bg-red-600 text-white' : 'bg-black dark:bg-white bg-opacity-25 dark:bg-opacity-25 dark:text-white text-black text-opacity-50 dark:text-opacity-50'
+                }`}
             >
               {activeCount}
             </Chip>
+
           </div>
         }
       />
 
       <Tab
+        className='px-2'
         key="archived"
         title={
           <div className="flex items-center space-x-2">
-            <strong>Archived</strong>
+
+            <strong className={`text-black dark:text-white ${selectedTab === 'archived' ? 'text-opacity-100' : 'text-opacity-50'}`}>
+              Archived
+            </strong>
+
             <Chip
-              color={selectedTab === 'archived' ? "danger" : "default"}
               size="sm"
-              style={{
-                backgroundColor: selectedTab === 'archived' ? '#ED0006' : '#C0C0C0',
-                color: 'white',
-              }}
+              className={`${selectedTab === 'archived' ? 'bg-red-600 text-white' : 'bg-black dark:bg-white bg-opacity-25 dark:bg-opacity-25 dark:text-white text-black text-opacity-50 dark:text-opacity-50'
+                }`}
             >
-              {archivedCount}
+              {activeCount}
             </Chip>
+
           </div>
         }
       />

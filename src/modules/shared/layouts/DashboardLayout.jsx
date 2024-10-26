@@ -1,6 +1,7 @@
 import Sidebar from "@/modules/dashboard/components/partials/Sidebar.jsx";
 import Header from "@/modules/dashboard/components/partials/Navbar.jsx";
 import { Button } from "@nextui-org/button";
+import { motion } from "framer-motion";
 import { ArrowRight01Icon, CommandIcon, FilterIcon, Search01Icon } from "hugeicons-react";
 import { useEffect, useState } from "react";
 import { Input } from "@nextui-org/input";

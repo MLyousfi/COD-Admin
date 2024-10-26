@@ -24,6 +24,8 @@ import {
     TaskDone01Icon,
     TimeSetting03Icon
 } from "hugeicons-react";
+import { motion } from 'framer-motion';
+
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatsCard from "../components/StatsCard";
 import React from "react";
@@ -156,21 +158,35 @@ export default function Products() {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         values: [2, 3, 4, 3, 5, 4, 4, 3, 4, 2, 4, 5],
     };
+    const container = {
+        hidden: { opacity: 0, scale: 0 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+                delayChildren: 0.3,       // Delay before starting the stagger
+                staggerChildren: 0.2      // Delay between each child
+            }
+        }
+    };
+
     return (
         <>
             <DashboardLayout title="Statistics" icon={<ChartHistogramIcon className="text-info" />}>
 
-                <div className="flex flex-col flex-wrap justify-start px-8 md:flex-row">
+                <motion.div initial="hidden"
+                    animate="visible" variants={container} className="flex flex-col flex-wrap justify-start px-8 md:flex-row">
                     {statistics.map((stat, index) => (
                         <StatsCard useHover={true} icon={React.createElement(stat.icon)} bgColor={stat.bgColor} title={stat.title} key={index} percentage={stat.percentage} total={stat.total} />
                     ))}
 
-                </div>
+                </motion.div>
 
 
                 <div className="px-4 my-12 md:px-8">
                     <h3 className="my-6 text-xl font-bold">Call Center</h3>
-                    <div className="flex flex-row flex-wrap">
+                    <motion.div initial="hidden"
+                        animate="visible" variants={container} className="flex flex-row flex-wrap">
                         <CallsCard
                             icon={<Airplane01Icon size={18} />}
                             cardBg="bg-info"
@@ -220,7 +236,7 @@ export default function Products() {
                             amount={100}
                             title="Total Calls"
                         />
-                    </div>
+                    </motion.div>
                 </div>
 
                 <div className="px-8 ">

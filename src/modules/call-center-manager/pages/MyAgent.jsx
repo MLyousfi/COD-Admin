@@ -17,6 +17,7 @@ import { useCallback, useMemo, useState } from "react";
 // import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
 import { Link } from "react-router-dom";
 import Table from "../../stockManagement.jsx/components/Table";
+import StatusTabs from "../../shared/components/StatusTabs";
 
 const rows = [
     { key: 1, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
@@ -70,7 +71,7 @@ export default function MyAgent() {
             setSelectedRows([...selectedRows, key]);
         }
     };
-    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedTab, setSelectedTab] = useState('active');
 
     const renderCell = useCallback((item, columnKey) => {
         const cellValue = item[columnKey];
@@ -145,58 +146,35 @@ export default function MyAgent() {
         <>
             <DashboardLayout title="Call Center Manager - My Agent" icon={<CustomerService01Icon className="text-info" />}
             >
-                <div>
-                    {/*Tabs*/}
-                    <div className="flex flex-row justify-between items-center gap-4 px-12">
-                        <Tabs aria-label="Options"
-                            color="primary"
-                            variant="underlined"
-                            classNames={{
-                                tabList: "gap-6 w-full relative rounded-none p-0 border-b bg-transparent border-b-transparent",
-                                cursor: "w-full bg-info",
-                                tab: "max-w-fit px-0 h-12 text-red-500",
-                                tabContent: "group-data-[selected=true]:text-info text-gray-600"
-                            }}>
-                            <Tab
-                                key="photos"
-                                title={
-                                    <div className="flex items-center space-x-2">
-                                        <strong>Active</strong>
-                                        <Chip color="danger" size="sm">10928</Chip>
-                                    </div>
-                                }
-                            />
-
-                            <Tab
-                                key="music"
-                                title={
-                                    <div className="flex items-center space-x-2">
-                                        <strong>Archived</strong>
-                                        <Chip color="default" size="sm" className="text-gray-400">10</Chip>
-                                    </div>
-                                }
-                            />
-                        </Tabs>
+                <div className="p-4">
+                    <div className="flex flex-row justify-between items-center gap-4 ">
+                        <StatusTabs
+                            activeCount={rows.filter(row => row.status === "active").length}
+                            archivedCount={rows.filter(row => row.status === "archived").length}
+                            selectedTab={selectedTab}
+                            onTabChange={setSelectedTab}
+                        />
 
                         {/*Tab content*/}
 
                         <div className="flex flex-row gap-2">
 
-                            <Button color="default" className="rounded-full bg-danger">
+                            <Button color="default" className="rounded-full text-white bg-danger">
                                 <PencilEdit01Icon size={18} /> Actions
                             </Button>
                         </div>
                     </div>
+                    <Table
+                        columns={columns}
+                        data={rows}  // Pass filtered products based on the view
+                        renderCell={renderCell}
+                        handleCheckboxChange={handleCheckboxChange}
+                        selectedRows={selectedRows} // Pass selected rows state
+                        rowsPerPage={rowsPerPage}  // Pass rows per page
+                        className="dark:bg-gray-800 dark:text-white" // Dark mode support
+                    />
                 </div>
-                <Table
-                    columns={columns}
-                    data={rows}  // Pass filtered products based on the view
-                    renderCell={renderCell}
-                    handleCheckboxChange={handleCheckboxChange}
-                    selectedRows={selectedRows} // Pass selected rows state
-                    rowsPerPage={rowsPerPage}  // Pass rows per page
-                    className="dark:bg-gray-800 dark:text-white" // Dark mode support
-                />
+
 
             </DashboardLayout>
         </>

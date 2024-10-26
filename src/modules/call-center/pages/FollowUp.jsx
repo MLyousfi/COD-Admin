@@ -12,7 +12,7 @@ import {
 import { Button } from "@nextui-org/button";
 import StatusTabs from '../../shared/components/StatusTabs';
 import Table from "../../stockManagement.jsx/components/Table";
-
+import { motion } from 'framer-motion'
 const rows = [
     {
         key: "1",
@@ -161,6 +161,7 @@ const columns = [
 
 export default function FollowUp() {
     const [selectedTab, setSelectedTab] = useState('active');
+    const [callTab, setCallTab] = useState('All');
     const [selectedRows, setSelectedRows] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
@@ -205,8 +206,12 @@ export default function FollowUp() {
             title="Call Center - Follow Up"
             icon={<CustomerService01Icon className="text-info" />}
             additionalContent={
-                <div className="dark:bg-info/10 w-fit rounded-full px-4 py-1.5 text-center">
-                    <span className="text-lg"><strong className="text-info">All</strong> Call</span>
+                <div className="flex justify-evenly gap-2 items-center px-4 rounded-full bg-[#0258E810]">
+                    {['All', 'Call'].map((t, idx) => (
+                        <motion.div whileTap={{
+                            scale: 0.8,
+                        }} key={idx} className={`flex justify-center items-center p-2 cursor-pointer ${callTab === t ? 'font-bold text-[#0258E8]' : 'font-normal text-black dark:text-white'}`} onClick={() => setCallTab(t)}>{t}</motion.div>
+                    ))}
                 </div>
             }
         >
@@ -242,7 +247,7 @@ export default function FollowUp() {
                     className="dark:bg-gray-800 dark:text-white"
                 />
 
-          
+
             </div>
         </DashboardLayout>
     );

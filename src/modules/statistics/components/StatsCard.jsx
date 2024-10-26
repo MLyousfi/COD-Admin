@@ -1,5 +1,6 @@
 import { Chip } from "@nextui-org/chip";
 import { ArrowDownRight01Icon, ArrowUpRight01Icon, DeliveryBox01Icon } from "hugeicons-react";
+import { motion } from "framer-motion";
 
 const StatsCard = ({
     icon,
@@ -9,8 +10,15 @@ const StatsCard = ({
     title,
     percentage
 }) => {
+    const item = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1
+        }
+    };
     return (
-        <div className={`w-full  md:w-1/2 lg:w-1/3 xl:w-1/4 `}>
+        <motion.div variants={item} className={`w-full  md:w-1/2 lg:w-1/3 xl:w-1/4 `}>
             <div className="p-6 hover:bg-dark_selected_hover rounded-lg m-2 shadow-sm border border-gray-200 dark:border-gray-800">
                 {/* Icon and percentage change */}
                 <div className="flex justify-start gap-2 items-center mb-4">
@@ -30,7 +38,7 @@ const StatsCard = ({
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
