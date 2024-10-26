@@ -108,7 +108,8 @@ export default function Dashboard() {
 
                 <div className="px-4 my-12 md:px-8">
                     <h3 className="my-6 text-xl font-bold">Call Center</h3>
-                    <div className="flex flex-row flex-wrap">
+                    <motion.div initial="hidden"
+                        animate="visible" variants={container} className="flex flex-row flex-wrap">
                         <CallsCard
                             icon={<Airplane01Icon size={18} />}
                             cardBg="bg-info"
@@ -158,7 +159,7 @@ export default function Dashboard() {
                             amount={100}
                             title="Total Calls"
                         />
-                    </div>
+                    </motion.div>
                 </div>
 
                 <div className="px-8 ">

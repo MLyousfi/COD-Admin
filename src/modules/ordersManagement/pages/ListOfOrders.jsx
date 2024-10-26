@@ -26,8 +26,9 @@ import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Table from "../../stockManagement.jsx/components/Table";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
+import StatusTabs from "../../shared/components/StatusTabs";
 
-const orders = [
+const rows = [
     {
         key: 1,
         orderNum: "CSA817302782789123456",
@@ -277,7 +278,7 @@ export default function ListOfOrders() {
             setSelectedRows([...selectedRows, key]);
         }
     };
-    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedTab, setSelectedTab] = useState('active');
 
     const renderCell = useCallback((item, columnKey) => {
         const cellValue = item[columnKey];
@@ -360,40 +361,16 @@ export default function ListOfOrders() {
         <>
             <DashboardLayout title="Orders Management - List Of Orders" icon={<DeliveryBox01Icon className="text-info" />}
             >
-                <div>
+                <div className="p-12">
                     {/*Tabs*/}
-                    <div className="flex flex-row justify-between items-center gap-4 px-12">
-                        <Tabs aria-label="Options"
-                            color="primary"
-                            variant="underlined"
-                            classNames={{
-                                tabList: "gap-6 w-full relative rounded-none p-0 border-b bg-transparent border-b-transparent",
-                                cursor: "w-full bg-info",
-                                tab: "max-w-fit px-0 h-12 text-red-500",
-                                tabContent: "group-data-[selected=true]:text-info text-gray-600"
-                            }}>
-                            <Tab
-                                key="photos"
-                                title={
-                                    <div className="flex items-center space-x-2">
-                                        <strong>Active</strong>
-                                        <Chip color="danger" size="sm">10928</Chip>
-                                    </div>
-                                }
-                            />
+                    <div className="flex flex-row justify-between items-center gap-4 ">
+                        <StatusTabs
+                            activeCount={rows.filter(row => row.status === "active").length}
+                            archivedCount={rows.filter(row => row.status === "archived").length}
+                            selectedTab={selectedTab}
+                            onTabChange={setSelectedTab}
+                        />
 
-                            <Tab
-                                key="music"
-                                title={
-                                    <div className="flex items-center space-x-2">
-                                        <strong>Archived</strong>
-                                        <Chip color="default" size="sm" className="text-gray-400">10</Chip>
-                                    </div>
-                                }
-                            />
-                        </Tabs>
-
-                        {/*Tab content*/}
 
                         <div className="flex flex-row gap-2">
                             <Dropdown>
@@ -456,16 +433,17 @@ export default function ListOfOrders() {
 
                         </div>
                     </div>
+                    <Table
+                        columns={columns}
+                        data={rows}  // Pass filtered products based on the view
+                        renderCell={renderCell}
+                        handleCheckboxChange={handleCheckboxChange}
+                        selectedRows={selectedRows} // Pass selected rows state
+                        rowsPerPage={rowsPerPage}  // Pass rows per page
+                        className="dark:bg-gray-800 dark:text-white" // Dark mode support
+                    />
                 </div>
-                <Table
-                    columns={columns}
-                    data={orders}  // Pass filtered products based on the view
-                    renderCell={renderCell}
-                    handleCheckboxChange={handleCheckboxChange}
-                    selectedRows={selectedRows} // Pass selected rows state
-                    rowsPerPage={rowsPerPage}  // Pass rows per page
-                    className="dark:bg-gray-800 dark:text-white" // Dark mode support
-                />
+
 
             </DashboardLayout>
         </>

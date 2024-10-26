@@ -17,7 +17,7 @@ export default {
         // accent colors
         info: '#0258E8',
         success: '#026712',
-        danger: '#D93F4A',
+        danger: '#ED0006',
         warning: '#F59523',
 
         // background

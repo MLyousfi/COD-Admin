@@ -1,15 +1,16 @@
 import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import { 
-    ArrowDown01Icon, 
-    Calling02Icon, 
-    CustomerService01Icon, 
-    PencilEdit01Icon 
+import {
+    ArrowDown01Icon,
+    Calling02Icon,
+    CustomerService01Icon,
+    PencilEdit01Icon
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import StatusTabs from '../../shared/components/StatusTabs';
 import Table from "../../stockManagement.jsx/components/Table";
+import { motion } from 'framer-motion'
 
 const rows = [
     {
@@ -108,7 +109,7 @@ export default function Confirmation() {
     const [selectedTab, setSelectedTab] = useState('active');
     const [selectedRows, setSelectedRows] = useState([]);
     const rowsPerPage = 10;
-
+    const [callTab, setCallTab] = useState('All');
     const handleCheckboxChange = (key) => {
         if (selectedRows.includes(key)) {
             setSelectedRows(selectedRows.filter((selectedKey) => selectedKey !== key));
@@ -117,7 +118,7 @@ export default function Confirmation() {
         }
     };
 
-    const filteredRows = selectedTab === 'active' 
+    const filteredRows = selectedTab === 'active'
         ? rows.filter(row => row.status === "active")
         : rows.filter(row => row.status === "archived");
 
@@ -145,12 +146,16 @@ export default function Confirmation() {
     }, []);
 
     return (
-        <DashboardLayout 
-            title="Call Center - Confirmation" 
+        <DashboardLayout
+            title="Call Center - Confirmation"
             icon={<CustomerService01Icon className="text-info" />}
             additionalContent={
-                <div className="dark:bg-info/10 w-fit rounded-full px-4 py-1.5 text-center">
-                    <span className="text-lg"><strong className="text-info">Call</strong> Whatsapp</span>
+                <div className="flex justify-evenly gap-2 items-center px-4 rounded-full bg-[#0258E810]">
+                    {['All', 'Whatsapp'].map((t, idx) => (
+                        <motion.div whileTap={{
+                            scale: 0.8,
+                        }} key={idx} className={`flex justify-center items-center p-2 cursor-pointer ${callTab === t ? 'font-bold text-[#0258E8]' : 'font-normal text-black dark:text-white'}`} onClick={() => setCallTab(t)}>{t}</motion.div>
+                    ))}
                 </div>
             }
         >
