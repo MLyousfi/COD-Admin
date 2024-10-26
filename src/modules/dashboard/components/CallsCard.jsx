@@ -9,6 +9,7 @@ const CallsCard = ({
     percentage,
     amount,
     title,
+    bgColor
 }) => {
     const item = {
         hidden: { y: 20, opacity: 0 },
@@ -17,16 +18,18 @@ const CallsCard = ({
             opacity: 1
         }
     };
+
+    console.log('bgColor:', bgColor);
+
     return (
         <motion.div variants={item} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 xl:w-1/6">
             <div className="border border-gray-200 dark:border-gray-900 hover:bg-gray-200 dark:hover:bg-gray-900 px-4 py-3 rounded-lg shadow-sm mx-2 my-1.5">
                 {/* Icon and percentage change */}
                 <div className="flex justify-start items-center mb-4">
-                    <div className={`w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-950`}>
+                    <div className={`w-10 h-10 flex items-center justify-center bg-opacity-30 rounded-full ${bgColor}`}>
                         <span className="text-gray-800 dark:text-gray-100">{icon}</span>
                     </div>
                     <div className="flex flex-col justify-start items-start mx-2">
-                        <span className="text-xs text-gray-500">Session 01</span>
                         <p className="text-sm font-medium">{title}</p>
                     </div>
                     <div className="ml-auto md:hidden">

@@ -1,20 +1,254 @@
-import CallsCard from "@/modules/dashboard/components/CallsCard.jsx";
+
 import GaugeChart from "@/modules/dashboard/components/GaugeChart.jsx";
 import LineChartCard from "@/modules/dashboard/components/LineChartCard.jsx";
 import ShippingCard from "@/modules/dashboard/components/ShippingCard.jsx";
 import StatsCard from "@/modules/dashboard/components/StatsCard.jsx";
 import {
     Airplane01Icon,
+    ArrowTurnBackwardIcon,
     BoxingBagIcon,
+    CallDone02Icon,
+    CallEnd01Icon,
+    CancelCircleIcon,
+    Configuration01Icon,
     CustomerSupportIcon,
+    DeliveryBox01Icon,
+    DeliveryReturn01Icon,
+    DeliveryTruck02Icon,
+    HeadsetIcon,
     Home01Icon,
+    PackageDeliveredIcon,
     RepeatIcon,
-    ShippingTruck01Icon
+    ShippingTruck01Icon,
+    ShoppingBasket03Icon,
+    ShoppingBasketCheckIn02Icon,
+    ShoppingBasketDone03Icon,
+    ShoppingCart01Icon,
+    TaskDone01Icon,
+    TimeSetting03Icon,
+    TruckIcon
 } from "hugeicons-react";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import { motion } from "framer-motion";
+import CallsCard from "../components/CallsCard";
+import React from "react";
 
 
+const dataCards = [
+    {
+        title: "Total Net",
+        amount: 130293,
+        icon: TruckIcon, // replace with the appropriate icon component or class
+        backgroundColor: "#007AFF",
+        textColor: "#FFFFFF",
+        change: {
+            value: 7.9,
+            direction: "up",
+            textColor: "#007AFF",
+            bgcolor: "#007AFF30",
+        },
+        subInfo: 23982
+    },
+    {
+        title: "Total Confirmed",
+        amount: 130293,
+        icon: HeadsetIcon, // replace with the appropriate icon component or class
+        backgroundColor: "#00C853",
+        textColor: "#FFFFFF",
+        change: {
+            value: 7.9,
+            direction: "down",
+            textColor: "#FF6D00",
+            bgcolor: "#FF6D0020",
+        },
+        subInfo: 23982
+    },
+    {
+        title: "Total Delivered",
+        amount: 130293,
+        icon: Airplane01Icon, // replace with the appropriate icon component or class
+        backgroundColor: "#FFD60030",
+        textColor: "#FFD600",
+        change: {
+            value: 7.9,
+            direction: "up",
+            textColor: "#00C853",
+            bgcolor: "#00C85330",
+        },
+        subInfo: 23982
+    },
+    {
+        title: "Total Remitted",
+        amount: 130293,
+        icon: TruckIcon, // replace with the appropriate icon component or class
+        backgroundColor: "#00C853",
+        textColor: "#FFFFFF",
+        change: {
+            value: 7.9,
+            direction: "up",
+            textColor: "#00C853",
+            bgcolor: "#00C85330",
+        },
+        subInfo: 23982
+    }
+];
+const callCenterItems = [
+    {
+        key: 1,
+        title: "Totals Leads",
+        percentage: 100,
+        total: 1927,
+        icon: ShoppingBasket03Icon,
+        bgColor: "bg-blue-500",
+    },
+    {
+        key: 2,
+        title: "Real Leads",
+        percentage: 95,
+        total: 1820,
+        icon: ShoppingBasketDone03Icon,
+        bgColor: "bg-green-500",
+    },
+    {
+        key: 3,
+        title: "New Leads",
+        percentage: 40,
+        total: 770,
+        icon: ShoppingCart01Icon,
+        bgColor: "bg-yellow-500",
+    },
+    {
+        key: 4,
+        title: "Test",
+        percentage: 5,
+        total: 95,
+        icon: Configuration01Icon,
+        bgColor: "bg-red-500",
+    },
+    {
+        key: 5,
+        title: "Upsell",
+        percentage: 20,
+        total: 385,
+        icon: ShoppingBasketCheckIn02Icon,
+        bgColor: "bg-purple-500",
+    },
+    {
+        key: 6,
+        title: "No Answer",
+        percentage: 10,
+        total: 193,
+        icon: CallEnd01Icon,
+        bgColor: "bg-gray-500",
+    },
+    {
+        key: 7,
+        title: "Cancels",
+        percentage: 8,
+        total: 154,
+        icon: CancelCircleIcon,
+        bgColor: "bg-pink-500",
+    },
+    {
+        key: 8,
+        title: "Scheduled",
+        percentage: 30,
+        total: 578,
+        icon: TimeSetting03Icon,
+        bgColor: "bg-teal-500",
+    },
+    {
+        key: 9,
+        title: "Wrong Phones",
+        percentage: 3,
+        total: 58,
+        icon: CallEnd01Icon,
+        bgColor: "bg-indigo-500",
+    },
+    {
+        key: 10,
+        title: "Double Order",
+        percentage: 1,
+        total: 19,
+        icon: ShoppingBasket03Icon,
+        bgColor: "bg-orange-500",
+    },
+    {
+        key: 11,
+        title: "Returns",
+        percentage: 7,
+        total: 135,
+        icon: DeliveryReturn01Icon,
+        bgColor: "bg-rose-500",
+    },
+    {
+        key: 12,
+        title: "In Transit",
+        percentage: 25,
+        total: 481,
+        icon: DeliveryTruck02Icon,
+        bgColor: "bg-cyan-500",
+    },
+    {
+        key: 13,
+        title: "Confirmed",
+        percentage: 85,
+        total: 1638,
+        icon: CallDone02Icon,
+        bgColor: "bg-lime-500",
+    },
+    {
+        key: 14,
+        title: "Delivered",
+        percentage: 90,
+        total: 1734,
+        icon: TaskDone01Icon,
+        bgColor: "bg-emerald-500",
+    },
+    {
+        key: 15,
+        title: "Shipped",
+        percentage: 65,
+        total: 1252,
+        icon: PackageDeliveredIcon,
+        bgColor: "bg-fuchsia-500",
+    },
+];
+
+const shipping = [
+    {
+        title: "Shipped",
+        amount: 13293,
+        icon: TruckIcon, // replace with the appropriate icon component or class
+        backgroundColor: "#00C85390",
+        textColor: "#FFFFFF",
+        percentage: 32,
+    },
+    {
+        title: "In Transit",
+        amount: 13293,
+        icon: Airplane01Icon, // replace with the appropriate icon component or class
+        backgroundColor: "#FFD60030",
+        textColor: "#FFD600",
+        percentage: 32,
+    },
+    {
+        title: "Delivered",
+        amount: 13293,
+        icon: DeliveryBox01Icon, // replace with the appropriate icon component or class
+        backgroundColor: "#007AFF30",
+        textColor: "#007AFF",
+        percentage: 32,
+    },
+    {
+        title: "Return",
+        amount: 13293,
+        icon: ArrowTurnBackwardIcon, // replace with the appropriate icon component or class
+        backgroundColor: "#ff040430",
+        textColor: "#ff04049c",
+        percentage: 32,
+    },
+];
 export default function Dashboard() {
     const chartData = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -41,50 +275,13 @@ export default function Dashboard() {
 
                 <motion.div initial="hidden"
                     animate="visible" variants={container} className="flex flex-col flex-wrap justify-start px-8 md:flex-row">
-                    <StatsCard
-                        icon={<CustomerSupportIcon />}
-                        percentageChange={10}
-                        percentageLabel="increase"
-                        netAmount={100}
-                        title="Total Confirmed"
-                        subInfo="23,324"
-                        bgColor="bg-danger"
-                        percentageBgColor="bg-danger-200"
-                        percentageTextColor="text-danger-800"
-                    />
-                    <StatsCard
-                        icon={<CustomerSupportIcon />}
-                        percentageChange={10}
-                        percentageLabel="increase"
-                        netAmount={100}
-                        title="Total Confirmed"
-                        subInfo="23,324"
-                        bgColor="bg-success"
-                        percentageBgColor="bg-green-200"
-                        percentageTextColor="text-green-800"
-                    />
-                    <StatsCard
-                        icon={<Airplane01Icon />}
-                        percentageChange={10}
-                        percentageLabel="increase"
-                        netAmount={100}
-                        title="Total Delivered"
-                        subInfo="23,324"
-                        bgColor="bg-yellow-400"
-                        percentageBgColor="bg-yellow-200"
-                        percentageTextColor="text-yellow-800"
-                    />
-                    <StatsCard
-                        icon={<ShippingTruck01Icon />}
-                        percentageChange={10}
-                        percentageLabel="increase"
-                        netAmount={100}
-                        title="Total Remitted"
-                        subInfo="23,324"
-                        bgColor="bg-success"
-                        percentageBgColor="bg-green-200"
-                        percentageTextColor="text-green-800"
-                    />
+                    {dataCards.map((item, index) => (
+                        <StatsCard
+                            key={index}
+                            item={item}
+                        />
+                    ))}
+
                 </motion.div>
                 <div className="flex flex-row flex-wrap items-start justify-start p-4 md:px-8">
                     <LineChartCard
@@ -110,82 +307,38 @@ export default function Dashboard() {
                     <h3 className="my-6 text-xl font-bold">Call Center</h3>
                     <motion.div initial="hidden"
                         animate="visible" variants={container} className="flex flex-row flex-wrap">
-                        <CallsCard
-                            icon={<Airplane01Icon size={18} />}
-                            cardBg="bg-info"
-                            percentage={10}
-                            amount={100}
-                            title="Total Calls"
-                        />
-                        <CallsCard
-                            icon={<BoxingBagIcon size={18} />}
-                            cardBg="bg-danger"
-                            percentage={10}
-                            amount={100}
-                            title="Total Calls"
-                        />
-                        <CallsCard
-                            icon={<Airplane01Icon size={18} />}
-                            cardBg="bg-info"
-                            percentage={10}
-                            amount={100}
-                            title="Total Calls"
-                        />
-                        <CallsCard
-                            icon={<Airplane01Icon size={18} />}
-                            cardBg="bg-success"
-                            percentage={10}
-                            amount={100}
-                            title="Total Calls"
-                        />
-                        <CallsCard
-                            icon={<Airplane01Icon size={18} />}
-                            cardBg="bg-info"
-                            percentage={10}
-                            amount={100}
-                            title="Total Calls"
-                        />
-                        <CallsCard
-                            icon={<Airplane01Icon size={18} />}
-                            cardBg="bg-info"
-                            percentage={10}
-                            amount={100}
-                            title="Total Calls"
-                        />
-                        <CallsCard
-                            icon={<Airplane01Icon size={18} />}
-                            cardBg="bg-danger"
-                            percentage={10}
-                            amount={100}
-                            title="Total Calls"
-                        />
+                        {callCenterItems.map((i, index) => (
+
+                            <CallsCard
+                                key={index}
+                                icon={React.createElement(i.icon, { size: 22 })}
+                                cardBg="bg-info"
+                                percentage={i.percentage}
+                                amount={i.total}
+                                title={i.title}
+                                bgColor={i.bgColor}
+                            />
+                        ))}
+
                     </motion.div>
                 </div>
 
                 <div className="px-8 ">
                     <h3 className="my-6 text-xl font-bold">Shipping</h3>
                     <div className="flex flex-row flex-wrap justify-start">
-                        <ShippingCard
-                            icon={<ShippingTruck01Icon />}
-                            iconBg="bg-info"
-                            percentage={10}
-                            amount={100}
-                            title="Delivered"
-                        />
-                        <ShippingCard
-                            icon={<ShippingTruck01Icon />}
-                            iconBg="bg-success"
-                            percentage={10}
-                            amount={100}
-                            title="In Transit"
-                        />
-                        <ShippingCard
-                            icon={<RepeatIcon />}
-                            percentage={10}
-                            amount={100}
-                            iconBg="bg-danger"
-                            title="Remitted"
-                        />
+                        {shipping.map((i, index) => (
+                            <ShippingCard
+                                key={index}
+                                icon={React.createElement(i.icon, { size: 22 })}
+
+                                percentage={i.percentage}
+                                amount={i.amount}
+                                title={i.title}
+                                bgColor={i.backgroundColor}
+                                textColor={i.textColor}
+                            />
+                        ))
+                        }
                     </div>
                 </div>
             </DashboardLayout>
