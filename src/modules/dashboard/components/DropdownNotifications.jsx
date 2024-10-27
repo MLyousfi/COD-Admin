@@ -37,7 +37,7 @@ function DropdownNotifications({ align }) {
             <Button
                 ref={trigger}
                 isIconOnly
-                className={`overflow-visible bg-gray-100 dark:bg-gray-950 rounded-full flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800 ${dropdownOpen && 'bg-gray-200 dark:bg-gray-800'}`}
+                className={`overflow-visible bg-gray-100 dark:bg-neutral-800 rounded-full flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800 ${dropdownOpen && 'bg-gray-200 dark:bg-gray-800'}`}
                 aria-haspopup="true"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 aria-expanded={dropdownOpen}>
@@ -48,7 +48,7 @@ function DropdownNotifications({ align }) {
             </Button>
 
             <Transition
-                className={`origin-top-right z-10 fixed lg:absolute min-h-screen lg:min-h-fit top-0 lg:top-full -mr-48 sm:mr-0 w-full lg:w-fit lg:min-w-80 bg-white dark:bg-black border border-gray-200 dark:border-gray-700/60 py-1.5 lg:rounded-lg shadow-lg overflow-y-scroll lg:mt-1 ${align === 'right' ? 'right-0' : 'left-0'}`}
+                className={`origin-top-right z-10 fixed lg:absolute min-h-screen lg:min-h-fit top-0 lg:top-full -mr-48 sm:mr-0 w-full lg:w-fit lg:min-w-80 bg-white dark:bg-base_dark border border-gray-200 dark:border-gray-700/60 py-1.5 lg:rounded-lg shadow-lg overflow-y-scroll lg:mt-1 ${align === 'right' ? 'right-0' : 'left-0'}`}
                 show={dropdownOpen}
                 enter="transition ease-out duration-200 transform"
                 enterStart="opacity-0 -translate-y-2"
@@ -79,7 +79,7 @@ function DropdownNotifications({ align }) {
                                 <div
                                     className='flex flex-col sm:flex-row items-start sm:items-center justify-start gap-2 sm:gap-1 w-full overflow-x-hidden'>
                                     <div className='p-2 mr-0 sm:mr-4 bg-yellow-100 rounded max-h-fit'>
-                                        <Database02Icon size={20} className='text-orange-400'/>
+                                        <Database02Icon size={20} className='text-orange-400' />
                                     </div>
                                     <div>
                                         <h4 className='text-base sm:text-lg font-semibold'>Stock Alert.</h4>
@@ -102,7 +102,7 @@ function DropdownNotifications({ align }) {
                                 <div
                                     className='flex flex-col sm:flex-row items-start sm:items-center justify-start gap-2 sm:gap-1 w-full overflow-x-hidden'>
                                     <div className='p-2 mr-0 sm:mr-4 bg-yellow-100 rounded max-h-fit'>
-                                        <Database02Icon size={20} className='text-orange-400'/>
+                                        <Database02Icon size={20} className='text-orange-400' />
                                     </div>
                                     <div>
                                         <h4 className='text-base sm:text-lg font-semibold'>Stock Alert.</h4>

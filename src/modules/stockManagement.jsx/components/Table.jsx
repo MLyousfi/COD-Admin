@@ -5,17 +5,17 @@ const ICON_SIZE = 12;
 
 const Table = ({
   coloredHeader = null,
-  columns,
-  data,
-  renderCell,
-  handleCheckboxChange,
-  selectedRows,
+  columns,                  // Array of column definitions { key: 'name', label: 'Name' }
+  data,                     // Array of data rows [{ key: 1, name: 'John', age: 24 }, ...]
+  renderCell,               // Function to render custom cell content
+  handleCheckboxChange,     // Function to handle checkbox toggle
+  selectedRows,   
   setSelectedRows,
-  rowsPerPage = 10,
-  enablePagination = true,
-  loading = false,
-  rowClassNames = {
-    even: 'bg-white dark:bg-black h-12 rounded-3xl',
+  rowsPerPage = 10,         // Number of rows to display per page
+  enablePagination = true,  // Boolean to enable or disable pagination
+  loading = false,          // Boolean for loading state
+  rowClassNames = {         // Custom row styles passed via props
+    even: 'bg-white dark:bg-transparent h-12 rounded-3xl',
     odd: 'bg-gray-100 dark:bg-[#1a1a1a50] h-12 rounded-3xl'
   },
   emptyMessage = "No records available."

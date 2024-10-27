@@ -10,6 +10,7 @@ export default function ThemeProvider({ children }) {
     const persistedTheme = localStorage.getItem('theme');
     const [theme, setTheme] = useState(persistedTheme || 'light');
 
+
     const changeCurrentTheme = (newTheme) => {
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);

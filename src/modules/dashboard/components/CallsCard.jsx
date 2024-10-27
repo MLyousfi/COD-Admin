@@ -23,7 +23,8 @@ const CallsCard = ({
 
     return (
         <motion.div variants={item} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 xl:w-1/6">
-            <div className="border border-gray-200 dark:border-gray-900 hover:bg-gray-200 dark:hover:bg-gray-900 px-4 py-3 rounded-lg shadow-sm mx-2 my-1.5">
+            <div className="border border-gray-200 
+            dark:border-[#ffffff10] hover:bg-gray-200 dark:hover:bg-gray-900 px-4 py-3 rounded-lg shadow-sm mx-2 my-1.5">
                 {/* Icon and percentage change */}
                 <div className="flex justify-start items-center mb-4">
                     <div className={`w-10 h-10 flex items-center justify-center bg-opacity-30 rounded-full ${bgColor}`}>

@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'dark-gradient': 'linear-gradient(to bottom right, #141618, #121314)',
+      },
       colors: {
 
         // brand colors
@@ -26,6 +29,7 @@ export default {
         ghosted: '#FFFFFF60',
         selected: '#CDE7FF',
 
+
         dark_opacity: '#FFFFFF10',
         light_opacity: '#00000010',
 
@@ -33,8 +37,11 @@ export default {
         dark_selected_hover: '#0258E850',
 
         glb_blue: '#0258E8',
-        glb_red: '#ED0006'
+        glb_red: '#ED0006',
 
+        base_dark: '#141618',
+        base_card: '#2d2d2d',
+        base_light: '#ffffff'
 
       }
     },
