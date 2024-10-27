@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Code } from "@nextui-org/code";
 import FilterModal from "@/modules/dashboard/components/FilterModal.jsx";
+import ReSideBar from "../../dashboard/components/partials/ReSideBar";
+import ResideBar from "../../dashboard/components/partials/ReSideBar";
 
 export default function DashboardLayout({ children, icon, title, additionalContent, hasSearchInput = true }) {
 
@@ -23,9 +25,18 @@ export default function DashboardLayout({ children, icon, title, additionalConte
     }
     return (
         <>
-            <div className="flex overflow-hidden">
+            {/* i want to add a hover on 10px in the right of this parent div to show the side bar  */}
+            <div className="flex overflow-hidden bg-base_light dark:bg-dark-gradient ">
+                {/* sidebar for mobiles screens */}
+                <ResideBar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
+                {/* sidebar for bigger screens */}
                 <Sidebar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
-                <div className="relative w-full">
+                <div
+                    onMouseOver={() => HandleSideBarChange(true)} // Show sidebar on hover
+                    className="absolute top-0 left-0 h-full w-4  hover:cursor-pointer bg-transparent z-40"
+                    style={{ width: "10px" }} // 10px width hover area
+                />
+                <div className="relative flex-1">
                     {/*  Site header */}
                     <Header showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
                     <div className="p-4 mx-auto text-center lg:hidden">
@@ -45,20 +56,20 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                         {additionalContent != null && additionalContent}
                         {hasSearchInput && <div className="hidden md:flex">
                             <Input className="ml-auto w-80" placeholder="Search" classNames={{
-                                inputWrapper: "bg-gray-100 dark:bg-gray-950 rounded-full",
+                                inputWrapper: "bg-gray-100 dark:bg-neutral-800 rounded-full",
                             }} endContent={<Code className="flex flex-row justify-center pl-0"> &nbsp; <CommandIcon
                                 className="mr-1" size={16} /> + R
                             </Code>} startContent={<Search01Icon size={24} />} />
 
-                            <Button isIconOnly className="mx-2 dark:text-white text-black rounded-full bg-gray-100 dark:bg-gray-950"
+                            <Button isIconOnly className="mx-2 dark:text-white text-black rounded-full bg-gray-100 dark:bg-neutral-800"
                                 onClick={() => setShowFilterModal(!showFilterModal)}>
                                 <FilterIcon size={18} />
                             </Button>
                         </div>}
 
                     </div>
-                    {/*  Page content */}
                     {children}
+
 
                     <footer className="mx-auto my-12 text-center">
                         <span className="text-sm text-gray-600">

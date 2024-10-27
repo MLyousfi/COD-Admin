@@ -38,7 +38,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
 
     return (
         <>
-            <Navbar disableAnimation isBordered className="z-20 w-full px-2 py-4" maxWidth="full">
+            <Navbar disableAnimation isBordered className="z-20 w-full px-2 py-4 bg-transparent" maxWidth="full">
                 {!showSidebar && (
                     <Button onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
                         <SidebarRight01Icon />
@@ -47,6 +47,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                 <NavbarItem className="mr-auto lg:hidden">
                     {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> : <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}
                 </NavbarItem>
+                {/* profile , notification, search icons big size screen*/}
                 <NavbarContent className="justify-between hidden gap-4 px-2 md:flex md:flex-row max-w-fit">
                     <NavbarItem className="ml-2 mr-4">
                         <Dropdown placement="bottom-start">
@@ -101,7 +102,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                                     <Moon02Icon />
                                 </Button> :
                                 <Button isIconOnly color="secondary" to="#" variant="flat"
-                                    className="font-bold text-gray-700 rounded-full bg-gray-950"
+                                    className="font-bold text-gray-700 rounded-full bg-base_card"
                                     onClick={() => changeCurrentTheme('light')}>
                                     <Sun02Icon className="text-gray-500" />
                                 </Button>
@@ -121,7 +122,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                     <NavbarItem>
                         <Button
                             isIconOnly
-                            className={`overflow-visible bg-gray-100 dark:bg-gray-950 flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800 rounded-full ml-3 ${searchModalOpen && 'bg-gray-200 dark:bg-gray-800'}`}
+                            className={`overflow-visible bg-gray-100 dark:bg-neutral-800 flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800 rounded-full ml-3 ${searchModalOpen && 'bg-gray-200 dark:bg-gray-800'}`}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setSearchModalOpen(true);
@@ -144,6 +145,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                     </NavbarItem>
                 </NavbarContent>
 
+                {/* red wide button and date time big size */}
                 <NavbarContent className="justify-between hidden gap-4 px-2 md:flex md:flex-row">
 
                     <NavbarItem className="hidden ml-auto lg:block">
@@ -159,10 +161,11 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                             size={16} /> {moment().format('HH:mm  Z')}</span>
                     </NavbarItem>
                 </NavbarContent>
-                <NavbarMenu
-                    className={`${isMenuOpen ? 'block' : 'hidden'} fixed inset-0 p-0 h-screen bg-gray-500/10`}>
 
-                    <div className="flex flex-col justify-center w-10/12 h-screen ml-auto bg-white dark:bg-black">
+                <NavbarMenu onClick={() => setIsMenuOpen(false)}
+                    className={`${isMenuOpen ? 'block' : 'hidden'} fixed inset-0 p-0 h-screen  bg-gray-500/10`}>
+
+                    <div onClick={(e) => e.stopPropagation()} className="flex flex-col justify-center w-10/12 h-screen ml-auto bg-white dark:bg-black">
                         <NavbarMenuItem className="ml-auto mr-4 w-fit">
                             <Button isIconOnly className="my-4 bg-gray-100 rounded-full dark:bg-gray-800"
                                 onClick={() => setIsMenuOpen(false)}>
@@ -208,7 +211,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                             </Dropdown>
                             <div className="flex flex-row w-full my-4">
                                 <Input className="w-full ml-auto" placeholder="Search" classNames={{
-                                    inputWrapper: "bg-gray-100 dark:bg-gray-950 rounded-full",
+                                    inputWrapper: "bg-gray-100 dark:bg-neutral-800 rounded-full",
                                 }} startContent={<Search01Icon size={18} className="text-gray-500" />} />
 
                                 <Button isIconOnly className="mx-2 text-white rounded-full bg-info"
