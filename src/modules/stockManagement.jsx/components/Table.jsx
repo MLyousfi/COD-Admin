@@ -14,8 +14,8 @@ const Table = ({
   enablePagination = true,  // Boolean to enable or disable pagination
   loading = false,          // Boolean for loading state
   rowClassNames = {         // Custom row styles passed via props
-    even: 'bg-white dark:bg-black h-12 rounded-3xl',
-    odd: 'bg-gray-200 dark:bg-[#1a1a1a50] h-12 rounded-3xl'
+    even: 'bg-white dark:bg-transparent h-12 rounded-3xl',
+    odd: 'bg-gray-200 dark:bg-[#ffffff05] h-12 rounded-3xl'
   },
   emptyMessage = "No records available."  // Default message if no data is available
 }) => {

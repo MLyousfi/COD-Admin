@@ -7,6 +7,7 @@ import { SidebarLeft01Icon, MoonCloudIcon, Settings02Icon, Share08Icon, HelpCirc
 import ThemeToggle from "@/modules/dashboard/components/ThemeToggle.jsx";
 import { RouteNames, RoutesConfig } from "@/core/constants/routes.js";
 import { useThemeProvider } from "../../../../core/providers/ThemeContext";
+import { motion } from "framer-motion";
 
 export default function Sidebar({ showSidebar, setShowSidebar }) {
     const location = useLocation();
@@ -21,6 +22,20 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
             ...prev,
             [routeName]: !prev[routeName],
         }));
+    };
+    const openRoute = (routeName) => {
+        setExpandedRoutes((prev) => {
+            // Check if the route is already toggled
+            if (prev[routeName]) {
+                return prev; // If already toggled, return the previous state unchanged
+            }
+
+            // Otherwise, toggle the route
+            return {
+                ...prev,
+                [routeName]: true, // Set the route to expanded
+            };
+        });
     };
 
     // Keep parent, child, and grandchild routes expanded when any nested route is active
@@ -80,10 +95,31 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
         }
     }, [showSidebar]);
 
+    const container = {
+        hidden: { opacity: 0, scale: 0 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+                delayChildren: 0.1,       // Delay before starting the stagger
+                staggerChildren: 0.05      // Delay between each child
+            }
+        }
+    };
+
+    const item_motion = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1
+        }
+    };
     return (
-        <div
+        <motion.div layout transition={{ duration: 0.2 }}
             ref={sidebar}
-            className={`bg-white dark:bg-black border-r border-gray-200 dark:border-gray-900 z-30 lg:w-80 min-w-64 fixed ${showSidebar ? 'lg:sticky' : 'hidden'} overflow-y-auto min-h-screen`}>
+            // ${showSidebar ? 'hidden lg:block lg:sticky' : 'hidden'}
+            className={` ${showSidebar ? 'hidden lg:block lg:w-80 min-w-64' : 'w-0'} sticky overflow-x-hidden bg-base_light dark:bg-transparent border-r border-gray-200 
+            dark:border-[#ffffff10] z-30 overflow-y-auto max-h-screen`}>
             <div className="flex justify-between items-center my-6 px-6">
                 {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
                     <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}
@@ -96,7 +132,8 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
 
             <div className="px-4 my-12">
                 <h3 className="my-2 text-gray-600">Menu</h3>
-                <ul className="flex flex-col gap-2 dark:text-gray-400 text-gray-600">
+                {showSidebar && <motion.ul initial="hidden"
+                    animate="visible" variants={container} className={`flex flex-col gap-2 dark:text-gray-400 text-gray-600`}>
                     {RoutesConfig.filter(route => route.showInSidebar && route.path).map((route, index) => {
                         const isActiveParent = route.children && route.children.some((child) => {
                             // Check if any child or grandchild route is active
@@ -109,13 +146,15 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                         });
 
                         return (
-                            <li key={index}>
+                            <motion.li variants={item_motion} key={index}>
                                 {route.children ? (
-                                    <>
+                                    <div onMouseEnter={() => openRoute(route.name)}
+                                        onMouseLeave={() => toggleRoute(route.name)}>
+
                                         <button
                                             onClick={() => toggleRoute(route.name)}
                                             className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white 
-                                            ${isActiveParent || pathname.includes("/" + route.path) ? "bg-blue-500 text-white" : ""}`}
+                                            ${isActiveParent || pathname.includes("/" + route.path) ? "bg-glb_blue text-white" : ""}`}
                                         >
                                             <div className="flex items-center">
                                                 {React.createElement(route.icon, { className: "mr-2 ml-1", size: 20 })}
@@ -133,7 +172,8 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                                     return (
                                                         <li key={childIndex} className="ml-6">
                                                             {child.children ? (
-                                                                <>
+                                                                <div onMouseEnter={() => openRoute(child.name)}
+                                                                    onMouseLeave={() => toggleRoute(child.name)}>
                                                                     <button
                                                                         onClick={() => toggleRoute(child.name)}
                                                                         className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${isActiveChild || isActiveGrandchild ? "text-dark_selected" : ""
@@ -157,7 +197,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                                                             ))}
                                                                         </ul>
                                                                     )}
-                                                                </>
+                                                                </div>
                                                             ) : (
                                                                 <Link
                                                                     to={child.path}
@@ -172,7 +212,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                                 })}
                                             </ul>
                                         )}
-                                    </>
+                                    </div>
                                 ) : (
                                     <Link
                                         to={route.path}
@@ -183,10 +223,10 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                         {route.name}
                                     </Link>
                                 )}
-                            </li>
+                            </motion.li>
                         );
                     })}
-                </ul>
+                </motion.ul>}
 
                 <div className="mt-24 px-2">
                     <h3 className="text-gray-600 mb-2 mt-4">System</h3>
@@ -227,6 +267,6 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                     </ul>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
