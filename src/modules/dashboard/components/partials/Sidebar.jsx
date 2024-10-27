@@ -148,8 +148,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                         return (
                             <motion.li variants={item_motion} key={index}>
                                 {route.children ? (
-                                    <div onMouseEnter={() => openRoute(route.name)}
-                                    >
+                                    <div onMouseEnter={() => openRoute(route.name)}>
 
                                         <button
                                             onClick={() => toggleRoute(route.name)}
