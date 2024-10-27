@@ -149,7 +149,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                             <motion.li variants={item_motion} key={index}>
                                 {route.children ? (
                                     <div onMouseEnter={() => openRoute(route.name)}
-                                        onMouseLeave={() => toggleRoute(route.name)}>
+                                    >
 
                                         <button
                                             onClick={() => toggleRoute(route.name)}
@@ -172,8 +172,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                                     return (
                                                         <li key={childIndex} className="ml-6">
                                                             {child.children ? (
-                                                                <div onMouseEnter={() => openRoute(child.name)}
-                                                                    onMouseLeave={() => toggleRoute(child.name)}>
+                                                                <div onMouseEnter={() => openRoute(child.name)}>
                                                                     <button
                                                                         onClick={() => toggleRoute(child.name)}
                                                                         className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white ${isActiveChild || isActiveGrandchild ? "text-dark_selected" : ""
