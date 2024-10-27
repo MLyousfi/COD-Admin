@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Home01Icon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon } from "hugeicons-react";
+import { GarageIcon, PlusSignIcon, PencilEdit01Icon, EyeIcon, Delete01Icon } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
-import { Chip } from "@nextui-org/chip";
-import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
+import StatusTabs from '../../shared/components/StatusTabs';
 import Table from './Table'; 
 import { rows } from '../../../core/utils/data'; 
 
@@ -94,55 +93,15 @@ const StockManagement = () => {
   };
 
   return (
-    <DashboardLayout title="Stock Management - List of Products" icon={<Home01Icon className="text-info" />}>
+    <DashboardLayout title="Stock Management - List of Products" icon={<GarageIcon className="text-info" />}>
       <div className="p-4">
         <div className="flex justify-between mb-4">
-          <Tabs 
-            aria-label="Product Tabs" 
-            color="primary" 
-            variant="underlined" 
-            selectedKey={activeView} 
-            onSelectionChange={(key) => setActiveView(key)}
-          >
-            <Tab
-              key="active"
-              title={
-                <div className="flex items-center">
-                  <strong className="text-black dark:text-white">Active</strong>
-                  <Chip 
-                    color="danger" 
-                    size="sm" 
-                    className="ml-2"
-                    style={{
-                      backgroundColor: activeView === 'active' ? '#ED0006' : '#C0C0C0',
-                      color: 'white',
-                    }}
-                  >
-                    {products.filter(p => p.status === "active").length}
-                  </Chip>
-                </div>
-              }
-            />
-            <Tab
-              key="archived"
-              title={
-                <div className="flex items-center">
-                  <strong className="text-black dark:text-white">Archived</strong>
-                  <Chip 
-                    color="default" 
-                    size="sm" 
-                    className="ml-2"
-                    style={{
-                      backgroundColor: activeView === 'archived' ? '#ED0006' : '#C0C0C0',
-                      color: 'white',
-                    }}
-                  >
-                    {products.filter(p => p.status === "archived").length}
-                  </Chip>
-                </div>
-              }
-            />
-          </Tabs>
+          <StatusTabs 
+            activeCount={products.filter(product => product.status === "active").length}
+            archivedCount={products.filter(product => product.status === "archived").length}
+            selectedTab={activeView}
+            onTabChange={setActiveView}
+          />
 
           <div className="space-x-4">
             <Button 

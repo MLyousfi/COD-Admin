@@ -103,7 +103,7 @@ const ShippingCost = () => {
     };
 
     return (
-        <DashboardLayout title="Shipping Cost" additionalContent={
+        <DashboardLayout title="Shipping Costs" additionalContent={
             <Button
                 color="default"
                 onClick={addNewProduct}
@@ -118,7 +118,7 @@ const ShippingCost = () => {
 
                 {/* Use the Generalized Table Component */}
                 <Table
-                    coloredHeader={['#0258E860', '#0258E870']}
+                    coloredHeader={['#0258E840', '#0258E830']}
                     columns={columns}
                     data={rows}  // Use filtered products based on active view
                     renderCell={renderCell}

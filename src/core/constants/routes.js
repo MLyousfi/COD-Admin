@@ -1,6 +1,6 @@
 
 import { path } from "framer-motion/client";
-import { Briefcase01Icon, Calculator01Icon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliverySent01Icon, DeliveryTruck01Icon, DollarSquareIcon, EarthIcon, FerryBoatIcon, Home01Icon, Home09Icon, InvoiceIcon, SphereIcon, Square01Icon, Suit01Icon, Task01Icon, UserIcon, UserMultiple02Icon, WhatsappIcon } from "hugeicons-react";
+import { Briefcase01Icon, Calculator01Icon,GarageIcon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliverySent01Icon, DeliveryTruck01Icon, DollarSquareIcon, EarthIcon, FerryBoatIcon, Home01Icon, Home09Icon, InvoiceIcon, SphereIcon, Square01Icon, Suit01Icon, Task01Icon, UserIcon, UserMultiple02Icon, WhatsappIcon } from "hugeicons-react";
 
 
 
@@ -175,7 +175,7 @@ const RoutesConfig = [
         name: 'Stock Management',
         path: RouteNames.StockManagement,
         showInSidebar: true,
-        icon: Task01Icon,
+        icon: GarageIcon,
         children: [
             {
                 name: 'Products',
@@ -308,13 +308,13 @@ const RoutesConfig = [
         ],
     },
     {
-        name: 'Shipping Cost',
+        name: 'Shipping Costs',
         path: RouteNames.shippingCost,
         showInSidebar: true,
         icon: DollarSquareIcon,
         children: [
             {
-                name: 'Shipping Cost',
+                name: 'Shipping Costs',
                 path: RouteNames.shippingCost,
                 showInSidebar: true,
             },
