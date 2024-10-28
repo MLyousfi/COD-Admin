@@ -13,7 +13,7 @@ const ShippingCard = ({
         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 ">
             <div
                 className="flex flex-row justify-between border border-gray-200 
-            dark:border-[#ffffff10] hover:bg-gray-200 dark:hover:bg-gray-900 px-4 py-3 rounded-lg shadow-sm m-2">
+            dark:border-[#ffffff10] hover:bg-gray-200 transition-colors duration-300 ease-in-out dark:hover:bg-gray-900 px-4 py-3 rounded-lg shadow-sm m-2">
                 {/* Icon and percentage change */}
                 <div className="flex flex-col items-start justify-between">
                     <div style={{
