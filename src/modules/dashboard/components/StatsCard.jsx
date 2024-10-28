@@ -16,7 +16,7 @@ const StatsCard = ({
     };
     return (
         <motion.div variants={item_motion} className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
-            <div className="p-6 rounded-lg m-2 shadow-sm border border-gray-200 
+            <div className="p-6 rounded-lg m-2 shadow-sm border border-gray-200  hover:bg-gray-200 transition-colors duration-300 ease-in-out dark:hover:bg-gray-900
             dark:border-[#ffffff10]">
                 {/* Icon and percentage change */}
                 <div className="flex justify-between items-center mb-4">
