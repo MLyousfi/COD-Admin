@@ -1,13 +1,12 @@
 import Sidebar from "@/modules/dashboard/components/partials/Sidebar.jsx";
 import Header from "@/modules/dashboard/components/partials/Navbar.jsx";
 import { Button } from "@nextui-org/button";
-import { motion } from "framer-motion";
-import { ArrowLeft01Icon, ArrowRight01Icon, CommandIcon, FilterIcon, Search01Icon } from "hugeicons-react";
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowDown01Icon, ArrowLeft01Icon, ArrowRight01Icon, CommandIcon, FilterIcon, Search01Icon } from "hugeicons-react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Code } from "@nextui-org/code";
 import FilterModal from "@/modules/dashboard/components/FilterModal.jsx";
-import ReSideBar from "../../dashboard/components/partials/ReSideBar";
 import ResideBar from "../../dashboard/components/partials/ReSideBar";
 import { Link } from "react-router-dom";
 
@@ -17,7 +16,37 @@ export default function DashboardLayout({ children, icon, title, additionalConte
     const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
     const [sidebarExpanded, setSidebarExpanded] = useState(storedSidebarExpanded === null ? false : storedSidebarExpanded === "true");
     const [showSidebar, setShowSidebar] = useState(sidebarExpanded);
+    const [SmallNotOpen, setSmallNotOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setSmallNotOpen(false);
+            }
+        }
 
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+    const dropdownVariants = {
+        hidden: { opacity: 0, height: 0 },
+        visible: {
+            opacity: 1,
+            height: "auto",
+            transition: {
+                duration: 0.1,
+                when: "beforeChildren",
+                staggerChildren: 0.1,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, x: -10 },
+        visible: { opacity: 1, x: 0 },
+    };
     const HandleSideBarChange = (v) => {
 
         localStorage.setItem("sidebar-expanded", v);
@@ -28,20 +57,37 @@ export default function DashboardLayout({ children, icon, title, additionalConte
         <>
             {/* i want to add a hover on 10px in the right of this parent div to show the side bar  */}
             <div className="flex overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
-                {/* sidebar for mobiles screens */}
-                <ResideBar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
-                {/* sidebar for bigger screens */}
-                <Sidebar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
 
-                <div className={`relative flex flex-col lg:ml-auto min-h-screen ${showSidebar ? 'w-full lg:w-[calc(100%-20rem)]' : 'w-[calc(100%-3.5rem)]'}`}>
+
+                <div className={`relative  flex flex-col w-full lg:ml-auto min-h-screen ${showSidebar ? ' lg:w-[calc(100%-20rem)]' : 'lg:w-[calc(100%-3.5rem)]'}`}>
                     {/*  Site header */}
                     <Header showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
-                    <div className="p-4 mx-auto text-center lg:hidden">
-                        <Button color="danger" to="#" variant="flat"
-                            className="w-full px-4 font-bold text-danger lg:w-fit">
-                            Important Notifications in the ERP
-                            <ArrowRight01Icon />
-                        </Button>
+                    <div className="relative h-12 w-full p-4 mx-auto text-center lg:hidden">
+                        <div ref={dropdownRef} onClick={() => setSmallNotOpen(true)} className="z-30 cursor-pointer absolute top-3 w-fit left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
+                            <div className=" flex justify-center items-center gap-2 ">
+                                <h4 className="text-sm">Important Notifications in the ERP</h4>
+                                {SmallNotOpen ? <ArrowDown01Icon /> : <ArrowRight01Icon />}
+                            </div>
+
+                            <AnimatePresence>
+                                {SmallNotOpen && (
+                                    <motion.div initial="hidden"
+                                        animate="visible"
+                                        exit="hidden"
+                                        index={22}
+                                        variants={dropdownVariants} className="w-full flex flex-col gap-2 mt-2">
+                                        {[{ data: 154, label: 'No Answers Late' }, { data: 21415, label: 'Schedule Late - Follow Up' }
+                                            , { data: 21415, label: 'Schedule Late - Follow Up' }, { data: 21415, label: 'Schedule Late - Follow Up' }
+                                        ].map((i, ix) => (
+                                            <motion.div variants={itemVariants}
+                                                custom={ix} key={ix} className=" flex justify-start items-center gap-2 ">
+                                                <h4 className="text-sm"><b>{i.data}</b></h4>
+                                                <h4 className="text-sm">{i.label}</h4>
+
+                                            </motion.div>))}</motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
                     </div>
                     <div
                         className="flex flex-col items-center justify-between w-full gap-4 px-4 my-6 md:flex-row md:px-8">
@@ -52,7 +98,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                                 className={` overflow-visible rounded-lg p-1  flex items-center justify-center `}
                             >
 
-                                <ArrowLeft01Icon className="text-white" />
+                                <ArrowLeft01Icon />
                                 <div
                                     className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full"></div>
                             </Link>}
@@ -86,6 +132,10 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                         </span>
                     </footer>
                 </div>
+                {/* sidebar for mobiles screens */}
+                <ResideBar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
+                {/* sidebar for bigger screens */}
+                <Sidebar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
             </div>
 
             <FilterModal modalOpen={showFilterModal} setModalOpen={setShowFilterModal} id={2} />

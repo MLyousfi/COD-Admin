@@ -99,9 +99,9 @@ export default function Notification() {
             >
                 <div className="p-12 flex flex-col justify-center items-center gap-2">
                     {notifications.slice(0, visibleNotifications).map((item, index) => (
-                        <div key={index} className="group  flex cursor-pointer hover:bg-[#0258E810] justify-start bg-[#ffffff05] items-center rounded-xl gap-2 w-full py-3 px-4">
+                        <div key={index} className="group  flex cursor-pointer hover:bg-[#0258E810] justify-start bg-[#00000008] dark:bg-[#ffffff05] items-center rounded-xl gap-2 w-full py-3 px-4">
                             <div className="flex justify-start items-center gap-3 w-3/4 flex-1 ">
-                                <div className="flex justify-center items-center p-2 h-full bg-[#FCF4E9] rounded-xl text-[#FF9314]">
+                                <div className="flex justify-center items-center p-2 h-full bg-[#ffffff] text-[#ED0006] dark:bg-[#FCF4E9] rounded-xl dark:text-[#FF9314]">
                                     {React.createElement(item.icon, { size: 30 })}
                                 </div>
                                 <div className="flex flex-col gap-1">
