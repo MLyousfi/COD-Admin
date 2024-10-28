@@ -58,14 +58,17 @@ const StockManagement = () => {
       case "options":
         return (
           <div className="flex space-x-2 justify-center">
-            <Button
-              variant="flat"
-              size="sm"
-              className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
-              style={{ backgroundColor: '#9e9a9a', padding: 0, minWidth: '32px', height: '32px' }}
-            >
-              <EyeIcon size={14} />
-            </Button>
+           <Button
+  variant="flat"
+  size="sm"
+  className="w-8 h-8 rounded-full p-0 flex items-center justify-center
+             bg-[#00000020] dark:bg-[#FFFFFF20]"
+  style={{ padding: 0, minWidth: '32px', height: '32px' }}
+>
+  <EyeIcon size={14}
+   />
+</Button>
+
 
             <Button
               variant="flat"

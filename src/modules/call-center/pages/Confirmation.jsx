@@ -211,8 +211,9 @@ export default function Confirmation() {
                                 <div className="flex justify-center items-center">
                                     {col.label}
                                     <ArrowUpDownIcon
+                                        size={15}
                                         onClick={toggleSortOrder}
-                                        className="ml-1 cursor-pointer text-gray-600 hover:text-blue-500"
+                                        className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
                                     />
                                 </div>
                             )
