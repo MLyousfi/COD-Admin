@@ -69,6 +69,7 @@ const RouteNames = {
     sellersList: '/sellers/list-of-sellers',
     salesChannels: '/sellers/sales-channels',
     facebookBusiness: '/sellers/facebook-business',
+    notification: '/notifications',
 
 
 
@@ -84,6 +85,11 @@ const RoutesConfig = [
     {
         name: 'Login',
         path: RouteNames.login,
+        showInSidebar: false,
+    },
+    {
+        name: 'Notifications',
+        path: RouteNames.notification,
         showInSidebar: false,
     },
     {

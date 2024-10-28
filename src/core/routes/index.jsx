@@ -26,6 +26,7 @@ import Banks from "../../modules/general/pages/Banks.jsx";
 import Countries from "../../modules/countries/pages/Countries.jsx";
 import Templates from "../../modules/whatsapp/pages/Templates.jsx";
 import ListOfSellers from "../../modules/sellers/pages/ListOfSellers.jsx";
+import Notification from "../../modules/notification/Notification.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -52,6 +53,10 @@ const routes = createBrowserRouter([
     {
         path: RouteNames.collectsListOfShipments,
         element: <ListOfShipments />
+    },
+    {
+        path: RouteNames.notification,
+        element: <Notification />
     },
     {
         path: RouteNames.firstMileDashboard,

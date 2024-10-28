@@ -2,15 +2,16 @@ import Sidebar from "@/modules/dashboard/components/partials/Sidebar.jsx";
 import Header from "@/modules/dashboard/components/partials/Navbar.jsx";
 import { Button } from "@nextui-org/button";
 import { motion } from "framer-motion";
-import { ArrowRight01Icon, CommandIcon, FilterIcon, Search01Icon } from "hugeicons-react";
+import { ArrowLeft01Icon, ArrowRight01Icon, CommandIcon, FilterIcon, Search01Icon } from "hugeicons-react";
 import { useEffect, useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Code } from "@nextui-org/code";
 import FilterModal from "@/modules/dashboard/components/FilterModal.jsx";
 import ReSideBar from "../../dashboard/components/partials/ReSideBar";
 import ResideBar from "../../dashboard/components/partials/ReSideBar";
+import { Link } from "react-router-dom";
 
-export default function DashboardLayout({ children, icon, title, additionalContent, hasSearchInput = true }) {
+export default function DashboardLayout({ children, icon, title, additionalContent, hasSearchInput = true, hasReturnLink = null }) {
 
     const [showFilterModal, setShowFilterModal] = useState(false);
     const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
@@ -26,17 +27,13 @@ export default function DashboardLayout({ children, icon, title, additionalConte
     return (
         <>
             {/* i want to add a hover on 10px in the right of this parent div to show the side bar  */}
-            <div className="flex overflow-hidden bg-base_light dark:bg-dark-gradient ">
+            <div className="flex overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
                 {/* sidebar for mobiles screens */}
                 <ResideBar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
                 {/* sidebar for bigger screens */}
                 <Sidebar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
-                <div
-                    onMouseOver={() => HandleSideBarChange(true)} // Show sidebar on hover
-                    className="absolute top-0 left-0 h-full w-4  hover:cursor-pointer bg-transparent z-40"
-                    style={{ width: "10px" }} // 10px width hover area
-                />
-                <div className="relative flex-1">
+
+                <div className={`relative flex flex-col lg:ml-auto min-h-screen ${showSidebar ? 'w-full lg:w-[calc(100%-20rem)]' : 'w-[calc(100%-3.5rem)]'}`}>
                     {/*  Site header */}
                     <Header showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
                     <div className="p-4 mx-auto text-center lg:hidden">
@@ -48,7 +45,17 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                     </div>
                     <div
                         className="flex flex-col items-center justify-between w-full gap-4 px-4 my-6 md:flex-row md:px-8">
-                        <h2 className="flex flex-row gap-2 ml-4 text-xl font-bold items-center">
+                        <h2 className="flex flex-row justify-start gap-2 ml-4 text-xl font-bold items-center">
+                            {hasReturnLink && <Link to={hasReturnLink}
+
+                                isIconOnly
+                                className={` overflow-visible rounded-lg p-1  flex items-center justify-center `}
+                            >
+
+                                <ArrowLeft01Icon className="text-white" />
+                                <div
+                                    className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full"></div>
+                            </Link>}
                             {icon}
                             {title}
                         </h2>
@@ -68,10 +75,12 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                         </div>}
 
                     </div>
-                    {children}
+                    <div className="flex-grow">
+                        {children}
+                    </div>
 
 
-                    <footer className="mx-auto my-12 text-center">
+                    <footer className=" mx-auto my-12 text-center">
                         <span className="text-sm text-gray-600">
                             Copyright © {new Date().getFullYear()}. COD Power Group, All rights reserved.
                         </span>

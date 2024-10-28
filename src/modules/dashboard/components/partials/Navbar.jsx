@@ -9,6 +9,7 @@ import { User } from "@nextui-org/user";
 import codPowerGroupLogo from "@shared/assets/images/cod-power-group-logo.svg";
 import codPowerGroupLogoDark from "@shared/assets/images/cod-logo-dark.svg";
 import {
+    ArrowDown01Icon,
     ArrowRight01Icon,
     Cancel01Icon,
     Clock01Icon,
@@ -17,6 +18,7 @@ import {
     Logout05Icon,
     Menu11Icon,
     Moon02Icon,
+    Notification01Icon,
     Search01Icon,
     Settings02Icon,
     Share08Icon,
@@ -24,18 +26,58 @@ import {
     Sun02Icon
 } from "hugeicons-react";
 import moment from "moment";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import FilterModal from "@/modules/dashboard/components/FilterModal.jsx";
-
+import { motion, AnimatePresence } from 'framer-motion'
+import { RoutesConfig } from "../../../../core/constants/routes";
 
 export default function NavbarComponent({ showSidebar, setShowSidebar }) {
     const { currentTheme, changeCurrentTheme } = useThemeProvider();
     const [searchModalOpen, setSearchModalOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [SmallNotOpen, setSmallNotOpen] = useState(false);
+    const [SearchInputOpen, setSearchInputOpen] = useState(false);
+    const location = useLocation();
+    const { pathname } = location;
+    const [ReturnTo, setReturnTo] = useState(pathname)
 
     const [showFilterModal, setShowFilterModal] = useState(false);
+    const dropdownRef = useRef(null);
 
+
+
+    // Close dropdown if clicked outside
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setSmallNotOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const dropdownVariants = {
+        hidden: { opacity: 0, height: 0 },
+        visible: {
+            opacity: 1,
+            height: "auto",
+            transition: {
+                duration: 0.1,
+                when: "beforeChildren",
+                staggerChildren: 0.1,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, x: -10 },
+        visible: { opacity: 1, x: 0 },
+    };
     return (
         <>
             <Navbar disableAnimation isBordered className="z-20 w-full px-2 py-4 bg-transparent" maxWidth="full">
@@ -92,7 +134,17 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
 
                     <NavbarContent className="justify-self-start md:mr-auto max-w-fit">
                         <NavbarItem>
-                            <DropdownNotifications />
+                            <Link to={RoutesConfig.find(r => r.name === "Notifications").path}
+                                state={{ from: pathname }}// Add the redirection link here
+
+                                isIconOnly
+                                className={`${pathname.includes(RoutesConfig.find(r => r.name === "Notifications").path) ? "bg-glb_blue text-white" : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"} overflow-visible p-2 rounded-full flex items-center justify-center relative`}
+                            >
+
+                                <Notification01Icon className="text-white" />
+                                <div
+                                    className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full"></div>
+                            </Link>
                         </NavbarItem>
                         <NavbarItem className="md:hidden">
                             {currentTheme === 'light' ?
@@ -108,51 +160,74 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                                 </Button>
                             }
                         </NavbarItem>
-                        <NavbarItem>
+                        <NavbarItem className="md:hidden">
                             <Button
                                 isIconOnly
                                 variant="light"
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                                className="md:hidden">
+                            >
                                 <Menu11Icon />
                             </Button>
                         </NavbarItem>
+                        <NavbarItem>
+                            <AnimatePresence>
+                                <div onClick={() => setSearchInputOpen(true)} className={`cursor-pointer  overflow-visible p-2 bg-gray-100 dark:bg-neutral-800 rounded-full flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800
+                                    ${SearchInputOpen && 'bg-gray-200 dark:bg-gray-800'}`}>
+                                    {SearchInputOpen ? (<motion.input
+                                        key="searchInput"
+                                        initial={{ width: 0, opacity: 0 }}
+                                        animate={{ width: "200px", opacity: 1 }}
+                                        exit={{ width: 0, opacity: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="px-2 outline-none bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-white rounded-full focus:outline-none"
+                                        type="text"
+                                        placeholder="Search..."
+                                        onBlur={() => setSearchInputOpen(false)}
+                                        autoFocus
+                                    />) : (<Search01Icon />)}
+
+
+                                </div>
+
+
+                            </AnimatePresence>
+
+                        </NavbarItem>
                     </NavbarContent>
-                    <NavbarItem>
-                        <Button
-                            isIconOnly
-                            className={`overflow-visible bg-gray-100 dark:bg-neutral-800 flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800 rounded-full ml-3 ${searchModalOpen && 'bg-gray-200 dark:bg-gray-800'}`}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setSearchModalOpen(true);
-                            }}
-                            aria-controls="search-modal"
-                        >
-                            <span className="sr-only">Search</span>
-                            <svg
-                                className="fill-current text-gray-500/80 dark:text-gray-400/80"
-                                width={16}
-                                height={16}
-                                viewBox="0 0 16 16"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7ZM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5Z" />
-                                <path
-                                    d="m13.314 11.9 2.393 2.393a.999.999 0 1 1-1.414 1.414L11.9 13.314a8.019 8.019 0 0 0 1.414-1.414Z" />
-                            </svg>
-                        </Button>
-                    </NavbarItem>
+
+
                 </NavbarContent>
 
                 {/* red wide button and date time big size */}
                 <NavbarContent className="justify-between hidden gap-4 px-2 md:flex md:flex-row">
 
-                    <NavbarItem className="hidden ml-auto lg:block">
-                        <Button color="danger" to="#" variant="flat" className="font-bold text-danger">
-                            Important Notifications in the ERP
-                            <ArrowRight01Icon />
-                        </Button>
+                    <NavbarItem className="hidden ml-auto lg:block relative bg-slate-600 p-5">
+                        <div ref={dropdownRef} onClick={() => setSmallNotOpen(true)} className="cursor-pointer absolute top-0 left-1/2 transform -translate-x-1/2 rounded-xl p-2  text-white bg-[#2F1214]">
+                            <div className=" flex justify-center items-center gap-2 ">
+                                <h4 className="text-sm">Important Notifications in the ERP</h4>
+                                {SmallNotOpen ? <ArrowDown01Icon /> : <ArrowRight01Icon />}
+                            </div>
+
+                            <AnimatePresence>
+                                {SmallNotOpen && (
+                                    <motion.div initial="hidden"
+                                        animate="visible"
+                                        exit="hidden"
+                                        index={22}
+                                        variants={dropdownVariants} className="w-full flex flex-col gap-2 mt-2">
+                                        {[{ data: 154, label: 'No Answers Late' }, { data: 21415, label: 'Schedule Late - Follow Up' }
+                                            , { data: 21415, label: 'Schedule Late - Follow Up' }, { data: 21415, label: 'Schedule Late - Follow Up' }
+                                        ].map((i, ix) => (
+                                            <motion.div variants={itemVariants}
+                                                custom={ix} key={ix} className=" flex justify-start items-center gap-2 ">
+                                                <h4 className="text-sm"><b>{i.data}</b></h4>
+                                                <h4 className="text-sm">{i.label}</h4>
+
+                                            </motion.div>))}</motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
                     </NavbarItem>
 
                     <NavbarItem className="ml-auto">
@@ -162,6 +237,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                     </NavbarItem>
                 </NavbarContent>
 
+                {/* small size */}
                 <NavbarMenu onClick={() => setIsMenuOpen(false)}
                     className={`${isMenuOpen ? 'block' : 'hidden'} fixed inset-0 p-0 h-screen  bg-gray-500/10`}>
 
