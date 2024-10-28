@@ -41,8 +41,8 @@ function DropdownNotifications({ align }) {
                 aria-haspopup="true"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 aria-expanded={dropdownOpen}>
-                <span className="sr-only">Notifications</span>
-                <Notification01Icon className="text-gray-500" />
+                {/* <span className="sr-only">Notifications</span> */}
+                <Notification01Icon className="text-white" />
                 <div
                     className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full"></div>
             </Button>
