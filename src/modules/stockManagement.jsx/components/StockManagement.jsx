@@ -7,7 +7,11 @@ import {
   EyeIcon,
   Delete01Icon,
   EarthIcon, 
-  DropboxIcon
+  DropboxIcon,
+  PackageIcon,      // New Icon
+  Layers01Icon,     // New Icon
+  SaleTag02Icon,    // New Icon
+  Dollar02Icon      // New Icon
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
@@ -15,6 +19,7 @@ import StatusTabs from '../../shared/components/StatusTabs';
 import Table from './Table'; 
 import { rows } from '../../../core/utils/data'; 
 import CustomModal from './modal'; 
+import InformationsForm from './InformationsForm'; // Import the InformationsForm component
 
 const selectedButtonColor = '#0258E8';
 const headerBackgroundColorDark = 'rgba(255, 255, 255, 0.02)';
@@ -38,6 +43,8 @@ const StockManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalView, setModalView] = useState('warehouses');
+  const [modalType, setModalType] = useState(null); // 'view' or 'new'
+  const [activeNewProductSection, setActiveNewProductSection] = useState('informations'); // 'informations', 'stocks', 'salesPrice', 'upsell'
   const [isDarkMode, setIsDarkMode] = useState(false);
   const rowsPerPage = 10; 
 
@@ -87,12 +94,20 @@ const StockManagement = () => {
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
     setModalView('warehouses'); 
+    setModalType('view');
+    setIsModalOpen(true);
+  };
+
+  const handleOpenNewProductModal = () => {
+    setModalType('new');
+    setActiveNewProductSection('informations'); // Default to 'informations' when opening new product modal
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedProduct(null);
+    setModalType(null);
   };
 
   const filteredProducts = activeView === 'active' 
@@ -167,6 +182,10 @@ const StockManagement = () => {
 
   const modalTableColumns = modalView === 'warehouses' ? 
     [
+      // Define warehouse columns if needed
+      { key: "warehouse", label: "Warehouse" },
+      { key: "location", label: "Location" },
+      { key: "capacity", label: "Capacity" },
     ] : 
     [
       { key: "productName", label: "Product Name" },
@@ -200,7 +219,7 @@ const StockManagement = () => {
           <div className="space-x-4">
             <Button 
               color="default" 
-              onClick={addNewProduct} 
+              onClick={handleOpenNewProductModal} // Updated to open modal
               className="rounded-full" 
               style={{ backgroundColor: '#0258E8', color: 'white' }}  
             >
@@ -230,135 +249,220 @@ const StockManagement = () => {
         <CustomModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          title={selectedProduct ? `${selectedProduct.product} - N°${selectedProduct.key}` : "Product Details"}
+          title={
+            modalType === 'new'
+              ? "Product Name - N°19827" // Replace 'N' with actual number if available
+              : selectedProduct
+              ? `${selectedProduct.product} - N°${selectedProduct.key}`
+              : "Product Details"
+          }
           isDarkMode={isDarkMode}
         >
-          {/* Modal Content: Warehouses and Countries Toggle Buttons */}
-          <div className="flex space-x-4 mb-10">
-            {/* Warehouses Button */}
-            <Button
-              color="default"
-              className="flex items-center space-x-2 rounded-full border transition-colors duration-300"
-              onClick={() => setModalView('warehouses')}
-              style={{
-                backgroundColor: modalView === 'warehouses' ? selectedButtonColor : 'transparent',
-                color: modalView === 'warehouses' ? 'white' : isDarkMode ? '#A0AEC0' : 'black',
-                borderColor: modalView === 'warehouses' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
-              }}
-            >
-              <GarageIcon size={20} />
-              <span>Warehouses</span>
-            </Button>
+          {modalType === 'view' ? (
+            /* Existing Modal Content for Viewing Product */
+            <>
+              {/* Warehouses and Countries Toggle Buttons */}
+              <div className="flex space-x-4 mb-10">
+                {/* Warehouses Button */}
+                <Button
+                  color="default"
+                  className="flex items-center space-x-2 rounded-full border transition-colors duration-300"
+                  onClick={() => setModalView('warehouses')}
+                  style={{
+                    backgroundColor: modalView === 'warehouses' ? selectedButtonColor : 'transparent',
+                    color: modalView === 'warehouses' ? 'white' : isDarkMode ? '#A0AEC0' : 'black',
+                    borderColor: modalView === 'warehouses' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
+                  }}
+                >
+                  <GarageIcon size={20} />
+                  <span>Warehouses</span>
+                </Button>
 
-            {/* Countries Button */}
-            <Button
-              color="default"
-              className="flex items-center space-x-2 rounded-full border transition-colors duration-300"
-              onClick={() => setModalView('countries')}
-              style={{
-                backgroundColor: modalView === 'countries' ? selectedButtonColor : 'transparent',
-                color: modalView === 'countries' ? 'white' : isDarkMode ? '#A0AEC0' : 'black',
-                borderColor: modalView === 'countries' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
-              }}
-            >
-              <EarthIcon size={20} />
-              <span>Countries</span>
-            </Button>
-          </div>
+                {/* Countries Button */}
+                <Button
+                  color="default"
+                  className="flex items-center space-x-2 rounded-full border transition-colors duration-300"
+                  onClick={() => setModalView('countries')}
+                  style={{
+                    backgroundColor: modalView === 'countries' ? selectedButtonColor : 'transparent',
+                    color: modalView === 'countries' ? 'white' : isDarkMode ? '#A0AEC0' : 'black',
+                    borderColor: modalView === 'countries' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
+                  }}
+                >
+                  <EarthIcon size={20} />
+                  <span>Countries</span>
+                </Button>
+              </div>
 
-          {/* Modal Table Container with Scrollability */}
-          <div className="flex-1 overflow-auto">
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-transparent border-separate border-spacing-0">
-                <thead>
-                  <tr>
-                    {/* Empty header for Checkbox column */}
-                    <th
-                      className="py-2 px-4 text-left text-sm font-semibold"
-                      style={{ width: '192px' }}
-                    ></th>
-                    {modalTableColumns.map((col, index) => (
-                      <th
-                        key={col.key}
-                        className={`py-2 px-4 text-left text-sm font-semibold ${
-                          modalView === 'countries' && index === 0 ? 'rounded-tl-lg' : ''
-                        } ${
-                          modalView === 'countries' && index === modalTableColumns.length - 1
-                            ? 'rounded-tr-lg'
-                            : ''
-                        }`}
-                        style={{ 
-                          backgroundColor: isDarkMode ? headerBackgroundColorDark : headerBackgroundColorLight, 
-                          color: isDarkMode ? '#FFFFFF' : '#000000' 
-                        }}
-                      >
-                        {col.label}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {modalTableDataFinal.length > 0 ? (
-                    modalTableDataFinal.map((row) => (
-                      <tr key={row.key} className={`${row.status === 'deleted' ? 'bg-gray-700' : ''}`}>
-                        {modalView === 'warehouses' ? (
-                          <>
-                            <td className={`py-2 px-4 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                              {row.warehouse} - {row.location} (Capacity: {row.capacity})
+              {/* Modal Table Container with Scrollability */}
+              <div className="flex-1 overflow-auto">
+                <div className="overflow-x-auto">
+                  <table className="min-w-full bg-transparent border-separate border-spacing-0">
+                    <thead>
+                      <tr>
+                        {/* Empty header for Checkbox column */}
+                        <th
+                          className="py-2 px-4 text-left text-sm font-semibold"
+                          style={{ width: '192px' }}
+                        ></th>
+                        {modalTableColumns.map((col, index) => (
+                          <th
+                            key={col.key}
+                            className={`py-2 px-4 text-left text-sm font-semibold ${
+                              modalView === 'countries' && index === 0 ? 'rounded-tl-lg' : ''
+                            } ${
+                              modalView === 'countries' && index === modalTableColumns.length - 1
+                                ? 'rounded-tr-lg'
+                                : ''
+                            }`}
+                            style={{ 
+                              backgroundColor: isDarkMode ? headerBackgroundColorDark : headerBackgroundColorLight, 
+                              color: isDarkMode ? '#FFFFFF' : '#000000' 
+                            }}
+                          >
+                            {col.label}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {modalTableDataFinal.length > 0 ? (
+                        modalTableDataFinal.map((row) => (
+                          <tr key={row.key} className={`${row.status === 'deleted' ? 'bg-gray-700' : ''}`}>
+                            {modalView === 'warehouses' ? (
+                              <>
+                                <td className={`py-2 px-4 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                                  {row.warehouse} - {row.location} (Capacity: {row.capacity})
+                                </td>
+                              </>
+                            ) : (
+                              <>
+                                {/* Product Name with Rounded Bottom-Left Corner */}
+                                <td
+                                  className={`py-2 px-4 text-sm whitespace-nowrap font-bold ${
+                                    modalView === 'countries' ? 'rounded-bl-lg' : ''
+                                  }`}
+                                  style={{
+                                    backgroundColor: row.status !== 'deleted' 
+                                      ? (isDarkMode ? headerBackgroundColorDark : headerBackgroundColorLight)
+                                      : undefined,
+                                    color: isDarkMode ? '#FFFFFF' : '#000000',
+                                  }}
+                                >
+                                  {row.productName}
+                                </td>
+                                {/* Country Columns */}
+                                {modalTableColumns.slice(1).map((col) => (
+                                  <td
+                                    key={col.key}
+                                    className="py-2 px-4 text-sm text-center whitespace-nowrap"
+                                    style={{ color: isDarkMode ? '#FFFFFF' : '#000000' }}
+                                  >
+                                    {row[col.key]}
+                                  </td>
+                                ))}
+                              </>
+                            )}
+                          </tr>
+                        ))
+                      ) : (
+                        modalView === 'warehouses' ? (
+                          <tr>
+                            <td colSpan={modalTableColumns.length} className="py-4 text-center text-gray-400">
+                              <div className="flex flex-col items-center justify-center">
+                                <DropboxIcon size={200} className="mb-4 text-[#34343450]" />
+                                <p className="text-lg text-gray-600">There is no stock of this product at the moment</p>
+                              </div>
                             </td>
-                          </>
+                          </tr>
                         ) : (
-                          <>
-                            {/* Product Name with Rounded Bottom-Left Corner */}
-                            <td
-                              className={`py-2 px-4 text-sm whitespace-nowrap font-bold ${
-                                modalView === 'countries' ? 'rounded-bl-lg' : ''
-                              }`}
-                              style={{
-                                backgroundColor: row.status !== 'deleted' 
-                                  ? (isDarkMode ? headerBackgroundColorDark : headerBackgroundColorLight)
-                                  : undefined,
-                                color: isDarkMode ? '#FFFFFF' : '#000000',
-                              }}
-                            >
-                              {row.productName}
+                          <tr>
+                            <td colSpan={modalTableColumns.length + 1} className="py-4 text-center text-gray-400">
+                              No data available.
                             </td>
-                            {/* Country Columns */}
-                            {modalTableColumns.slice(1).map((col) => (
-                              <td
-                                key={col.key}
-                                className="py-2 px-4 text-sm text-center whitespace-nowrap"
-                                style={{ color: isDarkMode ? '#FFFFFF' : '#000000' }}
-                              >
-                                {row[col.key]}
-                              </td>
-                            ))}
-                          </>
-                        )}
-                      </tr>
-                    ))
-                  ) : (
-                    modalView === 'warehouses' ? (
-                      <tr>
-                        <td colSpan={modalTableColumns.length} className="py-4 text-center text-gray-400">
-                          <div className="flex flex-col items-center justify-center">
-                            <DropboxIcon size={200} className="mb-4 text-[#34343450]" />
-                            <p className="text-lg text-gray-600">There is no stock of this product at the moment</p>
-                          </div>
-                        </td>
-                      </tr>
-                    ) : (
-                      <tr>
-                        <td colSpan={modalTableColumns.length + 1} className="py-4 text-center text-gray-400">
-                          No data available.
-                        </td>
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </>
+          ) : modalType === 'new' ? (
+            /* New Product Modal Content */
+            <>
+              {/* Buttons for New Product Sections */}
+              <div className="flex space-x-4 mb-10">
+                {/* Informations Button */}
+                <Button
+                  color="default"
+                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
+                    activeNewProductSection === 'informations' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
+                  }`}
+                  onClick={() => setActiveNewProductSection('informations')}
+                  style={{
+                    borderColor: activeNewProductSection === 'informations' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
+                  }}
+                >
+                  <PackageIcon size={20} />
+                  <span>Informations</span>
+                </Button>
+
+                {/* Stocks Button */}
+                <Button
+                  color="default"
+                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
+                    activeNewProductSection === 'stocks' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
+                  }`}
+                  onClick={() => setActiveNewProductSection('stocks')}
+                  style={{
+                    borderColor: activeNewProductSection === 'stocks' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
+                  }}
+                >
+                  <Layers01Icon size={20} />
+                  <span>Stocks</span>
+                </Button>
+
+                {/* Sales Price Button */}
+                <Button
+                  color="default"
+                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
+                    activeNewProductSection === 'salesPrice' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
+                  }`}
+                  onClick={() => setActiveNewProductSection('salesPrice')}
+                  style={{
+                    borderColor: activeNewProductSection === 'salesPrice' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
+                  }}
+                >
+                  <SaleTag02Icon size={20} />
+                  <span>Sales Price</span>
+                </Button>
+
+                {/* Upsell Button */}
+                <Button
+                  color="default"
+                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
+                    activeNewProductSection === 'upsell' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
+                  }`}
+                  onClick={() => setActiveNewProductSection('upsell')}
+                  style={{
+                    borderColor: activeNewProductSection === 'upsell' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
+                  }}
+                >
+                  <Dollar02Icon size={20} />
+                  <span>Upsell</span>
+                </Button>
+              </div>
+
+              {/* Modal Content Based on Active New Product Section */}
+              <div className="flex-1 overflow-auto">
+                {activeNewProductSection === 'informations' && (
+                  <InformationsForm isDarkMode={isDarkMode} />
+                )}
+                {/* Similarly, you can create and render other sections like Stocks, Sales Price, Upsell */}
+              </div>
+            </>
+          ) : null}
         </CustomModal>
       </div>
     </DashboardLayout>
