@@ -102,7 +102,6 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                                     classNames={{
                                         label: [" !text-[#00000050] dark:!text-[#FFFFFF30]"],
 
-                                        // input tag inside innerWrapper
                                     }}
                                     label="Phone number" />
                             </div>

@@ -4,9 +4,10 @@ import { InvoiceIcon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon } fr
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
-import StatusTabs from '../../shared/components/StatusTabs'; 
+import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data3';
-import { useTheme } from 'next-themes';
+import { useThemeProvider } from '../../../core/providers/ThemeContext';
+
 
 const columns = [
   { key: "checkbox", label: "#" },
@@ -26,6 +27,8 @@ const SellersInvoices = () => {
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
   const rowsPerPage = 10;
+
+  const { currentTheme } = useThemeProvider();
 
   const addNewProduct = () => {
     const newProduct = {
@@ -71,18 +74,20 @@ const SellersInvoices = () => {
         );
 
       case "statut":
-        const { theme } = useTheme();
-const statutColor = {
-    Unpaid: theme === "dark" ? "#FFD60020" : "#FFD60030",
-    Refund: theme === "dark" ? "#FF000020" : "#FF000020",
-    Paid: theme === "dark" ? "#12F04320" : "#12F04330",
-  };
+
+        const statutColor = {
+          Unpaid: currentTheme === "dark" ? "#FFD60020" : "#FFD60030",
+          Refund: currentTheme === "dark" ? "#FF000020" : "#FF000020",
+          Paid: currentTheme === "dark" ? "#12F04320" : "#12F04330",
+        };
 
         return (
           <div
             className="flex items-center justify-center px-2 py-1 rounded-full text-black dark:text-white"
-            style={{ backgroundColor: statutColor[item.statut], 
-               minWidth: '80px', }}
+            style={{
+              backgroundColor: statutColor[item.statut],
+              minWidth: '80px',
+            }}
           >
             {item.statut}
           </div>
