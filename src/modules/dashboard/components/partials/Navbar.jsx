@@ -1,6 +1,6 @@
 import { useThemeProvider } from "@/core/providers/ThemeContext.jsx";
 import DropdownNotifications from "@/modules/dashboard/components/DropdownNotifications.jsx";
-import SearchModal from "@/modules/dashboard/components/SearchModal.jsx";
+
 import { Button } from "@nextui-org/button";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import { Input } from "@nextui-org/input";
@@ -34,7 +34,7 @@ import { RoutesConfig } from "../../../../core/constants/routes";
 
 export default function NavbarComponent({ showSidebar, setShowSidebar }) {
     const { currentTheme, changeCurrentTheme } = useThemeProvider();
-    const [searchModalOpen, setSearchModalOpen] = useState(false);
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [SmallNotOpen, setSmallNotOpen] = useState(false);
     const [SearchInputOpen, setSearchInputOpen] = useState(false);
@@ -342,8 +342,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                 </NavbarMenu>
             </Navbar>
 
-            <SearchModal id="search-modal" searchId="search" modalOpen={searchModalOpen}
-                setModalOpen={setSearchModalOpen} />
+
 
             <FilterModal modalOpen={showFilterModal} setModalOpen={setShowFilterModal} id={2} />
         </>

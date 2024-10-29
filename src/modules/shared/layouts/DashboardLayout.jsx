@@ -9,6 +9,7 @@ import { Code } from "@nextui-org/code";
 import FilterModal from "@/modules/dashboard/components/FilterModal.jsx";
 import ResideBar from "../../dashboard/components/partials/ReSideBar";
 import { Link } from "react-router-dom";
+import SearchModal from "@/modules/dashboard/components/SearchModal.jsx";
 
 export default function DashboardLayout({ children, icon, title, additionalContent, hasSearchInput = true, hasReturnLink = null }) {
 
@@ -18,6 +19,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
     const [showSidebar, setShowSidebar] = useState(sidebarExpanded);
     const [SmallNotOpen, setSmallNotOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const [searchModalOpen, setSearchModalOpen] = useState(false);
     useEffect(() => {
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -111,7 +113,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                             <Input className="ml-auto w-80" placeholder="Search" classNames={{
                                 inputWrapper: "bg-gray-100 dark:bg-neutral-800 rounded-full",
                             }} endContent={<Code className="flex flex-row justify-center pl-0"> &nbsp; <CommandIcon
-                                className="mr-1" size={16} /> + R
+                                className="mr-1" size={16} /> + k
                             </Code>} startContent={<Search01Icon size={24} />} />
 
                             <Button isIconOnly className="mx-2 dark:text-white text-black rounded-full bg-gray-100 dark:bg-neutral-800"
@@ -137,7 +139,8 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                 {/* sidebar for bigger screens */}
                 <Sidebar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
             </div>
-
+            <SearchModal id="search-modal" searchId="search" modalOpen={searchModalOpen}
+                setModalOpen={setSearchModalOpen} />
             <FilterModal modalOpen={showFilterModal} setModalOpen={setShowFilterModal} id={2} />
         </>
     )

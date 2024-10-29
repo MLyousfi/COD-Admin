@@ -6,12 +6,15 @@ import {
     Calling02Icon,
     CustomerService01Icon,
     PencilEdit01Icon,
-    ArrowUpDownIcon
+    ArrowUpDownIcon,
+    UserIcon
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import StatusTabs from '../../shared/components/StatusTabs';
 import Table from "../../stockManagement.jsx/components/Table";
 import { motion } from 'framer-motion';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
+
 
 const rows = [
     {
@@ -168,10 +171,10 @@ export default function Confirmation() {
             additionalContent={
                 <div className="flex justify-evenly gap-2 items-center px-4 rounded-full bg-[#0258E810]">
                     {['All', 'Whatsapp'].map((t, idx) => (
-                        <motion.div 
+                        <motion.div
                             whileTap={{ scale: 0.8 }}
-                            key={idx} 
-                            className={`flex justify-center items-center p-2 cursor-pointer ${callTab === t ? 'font-bold text-[#0258E8]' : 'font-normal text-black dark:text-white'}`} 
+                            key={idx}
+                            className={`flex justify-center items-center p-2 cursor-pointer ${callTab === t ? 'font-bold text-[#0258E8]' : 'font-normal text-black dark:text-white'}`}
                             onClick={() => setCallTab(t)}
                         >
                             {t}
@@ -193,9 +196,59 @@ export default function Confirmation() {
                         <Button color="default" className="rounded-full bg-info text-white">
                             <Calling02Icon size={18} /> Start Call
                         </Button>
-                        <Button variant="bordered" className="rounded-full">
-                            List of Agents <ArrowDown01Icon size={16} />
-                        </Button>
+
+                        <Dropdown>
+                            <DropdownTrigger>
+                                <Button variant="bordered" className="rounded-full">
+                                    List of Agents <ArrowDown01Icon size={16} />
+                                </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="Static Actions">
+                                <DropdownItem key="new">
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex gap-2">
+                                            <UserIcon size={15} /> Agent 01
+                                        </div>
+
+                                    </div>
+                                </DropdownItem>
+                                <DropdownItem key="new">
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex gap-2">
+                                            <UserIcon size={15} /> Agent 02
+                                        </div>
+                                    </div>
+                                </DropdownItem>
+                                <DropdownItem key="new">
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex gap-2">
+                                            <UserIcon size={15} /> Agent 03
+                                        </div>
+                                    </div>
+                                </DropdownItem>
+                                <DropdownItem key="new">
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex gap-2">
+                                            <UserIcon size={15} /> Agent 04
+                                        </div>
+                                    </div>
+                                </DropdownItem>
+                                <DropdownItem key="new">
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex gap-2">
+                                            <UserIcon size={15} /> Agent 05
+                                        </div>
+                                    </div>
+                                </DropdownItem>
+                                <DropdownItem key="new">
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex gap-2">
+                                            <UserIcon size={15} /> Agent 06
+                                        </div>
+                                    </div>
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
                         <Button color="default" className="rounded-full bg-danger text-white">
                             <PencilEdit01Icon size={18} /> Actions
                         </Button>
@@ -203,22 +256,22 @@ export default function Confirmation() {
                 </div>
 
                 <Table
-                    columns={columns.map(col => 
-                        col.key === "price" 
-                        ? {
-                            ...col,
-                            label: (
-                                <div className="flex justify-center items-center">
-                                    {col.label}
-                                    <ArrowUpDownIcon
-                                        size={15}
-                                        onClick={toggleSortOrder}
-                                        className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
-                                    />
-                                </div>
-                            )
-                        } 
-                        : col
+                    columns={columns.map(col =>
+                        col.key === "price"
+                            ? {
+                                ...col,
+                                label: (
+                                    <div className="flex justify-center items-center">
+                                        {col.label}
+                                        <ArrowUpDownIcon
+                                            size={15}
+                                            onClick={toggleSortOrder}
+                                            className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
+                                        />
+                                    </div>
+                                )
+                            }
+                            : col
                     )}
                     data={sortedRows}
                     renderCell={renderCell}

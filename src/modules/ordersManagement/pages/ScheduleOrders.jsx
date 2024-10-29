@@ -304,9 +304,8 @@ const columns = [
 ];
 
 
-export default function ListOfOrders() {
+export default function ScheduleOrders() {
 
-    const [selectionBehavior, setSelectionBehavior] = useState("toggle");
 
     const [selectedRows, setSelectedRows] = useState([]);
     const rowsPerPage = 10;
@@ -392,13 +391,14 @@ export default function ListOfOrders() {
 
     return (
         <>
-            <DashboardLayout title="Orders Management - List Of Orders" icon={<DeliveryBox01Icon className="text-info" />}
+            <DashboardLayout title="Orders Management - Schedule Orders" icon={<DeliveryBox01Icon className="text-info" />}
             >
                 <div className="">
                     {/*Tabs*/}
                     <div className="flex flex-row justify-between items-center gap-4 p-12 ">
                         <StatusTabs
-                            activeCount={rows.filter(row => row.status === "active").length}
+                            tabs={["Orders"]}
+                            activeCount={4}
                             archivedCount={rows.filter(row => row.status === "archived").length}
                             selectedTab={selectedTab}
                             onTabChange={setSelectedTab}
@@ -406,58 +406,7 @@ export default function ListOfOrders() {
 
 
                         <div className="flex flex-row gap-2">
-                            <Dropdown>
-                                <DropdownTrigger>
-                                    <Button variant="bordered" className="rounded-full">
-                                        List of Agents <ArrowDown01Icon size={16} />
-                                    </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu aria-label="Static Actions">
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <UserIcon size={15} /> Agent 01
-                                            </div>
 
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <UserIcon size={15} /> Agent 02
-                                            </div>
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <UserIcon size={15} /> Agent 03
-                                            </div>
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <UserIcon size={15} /> Agent 04
-                                            </div>
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <UserIcon size={15} /> Agent 05
-                                            </div>
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <UserIcon size={15} /> Agent 06
-                                            </div>
-                                        </div>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
                             <Dropdown className="!backdrop-blur-md !bg-gray-400/30">
                                 <DropdownTrigger>
                                     <Button color="default" className="rounded-full text-white bg-glb_red">
