@@ -27,6 +27,9 @@ import Countries from "../../modules/countries/pages/Countries.jsx";
 import Templates from "../../modules/whatsapp/pages/Templates.jsx";
 import ListOfSellers from "../../modules/sellers/pages/ListOfSellers.jsx";
 import Notification from "../../modules/notification/Notification.jsx";
+import ChatBotConfirmation from "../../modules/ordersManagement/pages/ChatBotConfirmation.jsx";
+import ConfirmedOrders from "../../modules/ordersManagement/pages/ConfirmedOrders.jsx";
+import ScheduleOrders from "../../modules/ordersManagement/pages/ScheduleOrders.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -190,15 +193,15 @@ const routes = createBrowserRouter([
             },
             {
                 path: RouteNames.chatBotConfirmation,
-                element: <ListOfOrders />
+                element: <ChatBotConfirmation />
             },
             {
                 path: RouteNames.ConfirmedOrders,
-                element: <ListOfOrders />
+                element: <ConfirmedOrders />
             },
             {
                 path: RouteNames.scheduleOrders,
-                element: <ListOfOrders />
+                element: <ScheduleOrders />
             },
         ],
     },

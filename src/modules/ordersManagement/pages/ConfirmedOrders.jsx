@@ -304,7 +304,7 @@ const columns = [
 ];
 
 
-export default function ListOfOrders() {
+export default function ConfirmedOrders() {
 
     const [selectionBehavior, setSelectionBehavior] = useState("toggle");
 
@@ -392,17 +392,12 @@ export default function ListOfOrders() {
 
     return (
         <>
-            <DashboardLayout title="Orders Management - List Of Orders" icon={<DeliveryBox01Icon className="text-info" />}
+            <DashboardLayout title="Orders Management - Confirmed Orders" icon={<DeliveryBox01Icon className="text-info" />}
             >
                 <div className="">
                     {/*Tabs*/}
-                    <div className="flex flex-row justify-between items-center gap-4 p-12 ">
-                        <StatusTabs
-                            activeCount={rows.filter(row => row.status === "active").length}
-                            archivedCount={rows.filter(row => row.status === "archived").length}
-                            selectedTab={selectedTab}
-                            onTabChange={setSelectedTab}
-                        />
+                    <div className="flex flex-row justify-end items-center gap-4 p-12 ">
+
 
 
                         <div className="flex flex-row gap-2">

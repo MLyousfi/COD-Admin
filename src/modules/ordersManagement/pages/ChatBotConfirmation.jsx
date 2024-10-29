@@ -4,6 +4,7 @@ import {
     ArrowLeft02Icon,
     ArrowRight01Icon,
     ArrowRight02Icon,
+    Calculator01Icon,
     Calling02Icon,
     CallOutgoing01Icon,
     CustomerService01Icon,
@@ -28,7 +29,6 @@ import { Link } from "react-router-dom";
 import Table from "../../stockManagement.jsx/components/Table";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import StatusTabs from "../../shared/components/StatusTabs";
-
 const rows = [
     {
         key: 1,
@@ -304,7 +304,7 @@ const columns = [
 ];
 
 
-export default function ListOfOrders() {
+export default function ChatBotConfirmation() {
 
     const [selectionBehavior, setSelectionBehavior] = useState("toggle");
 
@@ -388,11 +388,9 @@ export default function ListOfOrders() {
                 return cellValue;
         }
     }, []);
-
-
     return (
         <>
-            <DashboardLayout title="Orders Management - List Of Orders" icon={<DeliveryBox01Icon className="text-info" />}
+            <DashboardLayout title="Orders Management - Chat Bot Confirmation" icon={<DeliveryBox01Icon className="text-info" />}
             >
                 <div className="">
                     {/*Tabs*/}
@@ -465,7 +463,7 @@ export default function ListOfOrders() {
                                     </Button>
                                 </DropdownTrigger>
                                 <DropdownMenu aria-label="Static Actions" classNames={{ list: "!bg-transparent" }} >
-                                    <DropdownItem key="new">
+                                    <DropdownItem key="1">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <PrinterIcon size={15} /> Print
@@ -473,7 +471,7 @@ export default function ListOfOrders() {
                                             <ArrowRight01Icon size={18} />
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem key="new">
+                                    <DropdownItem key="2">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <Download01Icon size={15} /> Export
@@ -481,7 +479,7 @@ export default function ListOfOrders() {
                                             <ArrowRight01Icon size={18} />
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem key="new">
+                                    <DropdownItem key="3">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <CustomerSupportIcon size={15} /> Call center
@@ -489,7 +487,7 @@ export default function ListOfOrders() {
                                             <ArrowRight01Icon size={18} />
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem key="new">
+                                    <DropdownItem key="4">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <CallOutgoing01Icon size={15} /> Follow up
@@ -497,7 +495,7 @@ export default function ListOfOrders() {
                                             <ArrowRight01Icon size={18} />
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem key="new">
+                                    <DropdownItem key="5">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <DropboxIcon size={15} /> Shipping
@@ -505,7 +503,7 @@ export default function ListOfOrders() {
                                             <ArrowRight01Icon size={18} />
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem key="new">
+                                    <DropdownItem key="6">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <Settings02Icon size={15} /> General

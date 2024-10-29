@@ -1,6 +1,6 @@
 
 import { path } from "framer-motion/client";
-import { Briefcase01Icon, Calculator01Icon,GarageIcon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliverySent01Icon, DeliveryTruck01Icon, DollarSquareIcon, EarthIcon, FerryBoatIcon, Home01Icon, Home09Icon, InvoiceIcon, SphereIcon, Square01Icon, Suit01Icon, Task01Icon, UserIcon, UserMultiple02Icon, WhatsappIcon } from "hugeicons-react";
+import { Briefcase01Icon, Calculator01Icon, GarageIcon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliverySent01Icon, DeliveryTruck01Icon, DollarSquareIcon, EarthIcon, FerryBoatIcon, Home01Icon, Home09Icon, InvoiceIcon, SphereIcon, Square01Icon, Suit01Icon, Task01Icon, UserIcon, UserMultiple02Icon, WhatsappIcon } from "hugeicons-react";
 
 
 
@@ -139,7 +139,7 @@ const RoutesConfig = [
         name: 'Call Center Manager',
         path: RouteNames.callCenterManager,
         showInSidebar: true,
-        icon: Briefcase01Icon,
+        icon: Calculator01Icon,
         children: [
             {
                 name: 'My Agents',
