@@ -1,13 +1,13 @@
 import Transition from "@/core/utils/Transition.jsx";
-import {useRef, useState} from "react";
-import {Button} from "@nextui-org/button";
-import {Cancel01Icon, Search01Icon} from "hugeicons-react";
+import { useRef, useState } from "react";
+import { Button } from "@nextui-org/button";
+import { Cancel01Icon, Search01Icon } from "hugeicons-react";
 import CountrySelector from "@shared/components/CountrySelector.jsx";
-import {SignupSteps} from "@/core/constants/signup.js";
-import {COUNTRIES} from "@/core/constants/countries.js";
-import {Select, SelectItem} from "@nextui-org/select";
+import { SignupSteps } from "@/core/constants/signup.js";
+import { COUNTRIES } from "@/core/constants/countries.js";
+import { Select, SelectItem } from "@nextui-org/select";
 
-export default function FilterModal({id, modalOpen, setModalOpen}) {
+export default function FilterModal({ id, modalOpen, setModalOpen }) {
 
     const modalContent = useRef(null);
 
@@ -20,7 +20,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
         <>
             {/* Modal backdrop */}
             <Transition
-                className="fixed inset-0 bg-gray-900 bg-opacity-30 z-50 transition-opacity"
+                className="fixed inset-0 bg-[#00000090] bg-opacity-30 z-50 transition-opacity"
                 show={modalOpen}
                 enter="transition ease-out duration-200"
                 enterStart="opacity-0"
@@ -45,12 +45,12 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                 leaveEnd="opacity-0 translate-y-4">
                 <div
                     ref={modalContent}
-                    className="bg-white dark:bg-gray-950 border border-transparent dark:border-gray-900/60 max-w-2xl w-full max-h-full rounded-lg shadow-lg px-6 py-4 overflow-y-auto">
-                    <div className="flex flex-row justify-between items-center w-full border-b border-b-gray-200 dark:border-b-gray-900 mb-6 pb-4">
+                    className="bg-white dark:bg-base_dark border border-transparent dark:border-[#ffffff10] max-w-2xl w-full max-h-full rounded-lg shadow-lg px-6 py-4 overflow-y-auto">
+                    <div className="flex flex-row justify-between items-center w-full border-b border-b-gray-200 dark:border-b-[#ffffff10] mb-6 pb-4">
                         <h3 className="text-lg font-bold">Dashboard Filter</h3>
-                        <Button isIconOnly className="rounded-full bg-gray-200 dark:bg-gray-900"
-                                onClick={() => setModalOpen(false)}>
-                            <Cancel01Icon/>
+                        <Button isIconOnly className="rounded-full bg-gray-200 dark:bg-base_card"
+                            onClick={() => setModalOpen(false)}>
+                            <Cancel01Icon />
                         </Button>
                     </div>
                     <div>
@@ -63,7 +63,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         open={isFromCountryOpen}
                                         onToggle={() => setIsFromCountryOpen(!isFromCountryOpen)}
                                         id="fromCountry" onChange={(country) => setFromCountry(country)}
-                                        selectedValue={COUNTRIES.find(option => option.value === fromCountry)}/>
+                                        selectedValue={COUNTRIES.find(option => option.value === fromCountry)} />
                                 </label>
                             </div>
                             <div className="w-full lg:w-1/2">
@@ -73,7 +73,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         open={isToCountryOpen}
                                         onToggle={() => setIsToCountryOpen(!isToCountryOpen)}
                                         id="toCountry" onChange={(country) => setToCountry(country)}
-                                        selectedValue={COUNTRIES.find(option => option.value === toCountry)}/>
+                                        selectedValue={COUNTRIES.find(option => option.value === toCountry)} />
                                 </label>
                             </div>
                         </div>
@@ -87,7 +87,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         placeholder="Select an agent"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 dark:bg-gray-950 border border-gray-100 dark:border-gray-900',
+                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10] ',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -103,7 +103,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         placeholder="Select a follow up agent"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 dark:bg-gray-950 border border-gray-100 dark:border-gray-900',
+                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -121,7 +121,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         placeholder="Select a seller"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 dark:bg-gray-950 border border-gray-100 dark:border-gray-900',
+                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -137,7 +137,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         placeholder="Select a product"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 dark:bg-gray-950 border border-gray-100 dark:border-gray-900',
+                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -155,7 +155,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         placeholder="Select an affiliate"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 dark:bg-gray-950 border border-gray-100 dark:border-gray-900',
+                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -171,7 +171,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         placeholder="Select a store"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 dark:bg-gray-950 border border-gray-100 dark:border-gray-900',
+                                            trigger: 'bg-gray-200  focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
                                         }}
                                         color="default">
                                         <SelectItem>
@@ -191,7 +191,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         placeholder="Confirmed by"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 dark:bg-gray-950 border border-gray-100 dark:border-gray-900',
+                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -207,7 +207,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         placeholder="Confirmed via"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 dark:bg-gray-950 border border-gray-100 dark:border-gray-900',
+                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Whatsapp
@@ -226,7 +226,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         placeholder="Select a channel"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 dark:bg-gray-950 border border-gray-100 dark:border-gray-900',
+                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Chanel
@@ -245,7 +245,7 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                                         placeholder="Select a company"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 dark:bg-gray-950 border border-gray-100 dark:border-gray-900',
+                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Chanel
@@ -255,13 +255,14 @@ export default function FilterModal({id, modalOpen, setModalOpen}) {
                             </div>
                         </div>
 
-                        <div className="mt-6 pt-4 border-t border-t-gray-200 dark:border-t-gray-900 flex flex-row justify-center items-center gap-4">
-                            <Button className="rounded-full bg-blue-600 text-white px-4 py-2">
-                                <Search01Icon/> Apply & Search
+                        <div className="mt-6 pt-4 border-t border-t-gray-200 dark:border-t-[#ffffff10] flex flex-row justify-center items-center gap-4">
+                            <Button className="rounded-full bg-blue-600 text-white px-4 py-2"
+                                onClick={() => setModalOpen(false)}>
+                                <Search01Icon /> Apply & Search
                             </Button>
-                            <Button className="rounded-full bg-gray-900 text-white px-4 py-2"
-                                    onClick={() => setModalOpen(false)}>
-                                <Cancel01Icon size={16}/> Cancel
+                            <Button className="rounded-full bg-gray-200 dark:bg-base_card px-4 py-2"
+                                onClick={() => setModalOpen(false)}>
+                                <Cancel01Icon size={16} /> Cancel
                             </Button>
                         </div>
                     </div>

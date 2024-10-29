@@ -224,45 +224,74 @@ const rows = [
 
 
 const columns = [
-    { key: "checkbox", label: "#" },
+    { key: "checkbox", label: "#", w: "w-[3%]" },
     {
         key: "orderNum",
         label: "Order Number",
+        w: "w-[12%]"
     },
     {
         key: "trackN",
         label: "Track №",
+        w: "w-[8%]"
     },
     {
         key: "store",
         label: "Store",
+        w: "w-[10%]"
     },
     {
         key: "product",
         label: "Product",
+        w: "w-[15%]"
     },
     {
         key: "name",
         label: "Name",
+        w: "w-[10%]"
     },
     {
         key: "country",
         label: "Country",
+        w: "w-[8%]"
     },
     {
         key: "price",
         label: "Price",
+        w: "w-[8%]"
+    },
+    {
+        key: "shipPrice",
+        label: "Shipping Price",
+        w: "w-[8%]"
     },
     {
         key: "invoiceNum",
         label: "Invoice №",
+        w: "w-[8%]"
+    },
+    {
+        key: "status",
+        label: "Status",
+        w: "w-[7%]"
     },
     {
         key: "created",
         label: "Created",
+        w: "w-[8%]"
     },
-
+    {
+        key: "followUp",
+        label: "Follow Up",
+        w: "w-[7%]"
+    },
+    {
+        key: "followUpCreated",
+        label: "Follow Up Created",
+        w: "w-[8%]"
+    },
 ];
+
 
 export default function ListOfOrders() {
 
@@ -361,9 +390,9 @@ export default function ListOfOrders() {
         <>
             <DashboardLayout title="Orders Management - List Of Orders" icon={<DeliveryBox01Icon className="text-info" />}
             >
-                <div className="p-12">
+                <div className="">
                     {/*Tabs*/}
-                    <div className="flex flex-row justify-between items-center gap-4 ">
+                    <div className="flex flex-row justify-between items-center gap-4 p-12 ">
                         <StatusTabs
                             activeCount={rows.filter(row => row.status === "active").length}
                             archivedCount={rows.filter(row => row.status === "archived").length}
@@ -375,7 +404,7 @@ export default function ListOfOrders() {
                         <div className="flex flex-row gap-2">
                             <Dropdown>
                                 <DropdownTrigger>
-                                    <Button color="default" className="rounded-full bg-glb_red">
+                                    <Button color="default" className="rounded-full text-white bg-glb_red">
                                         <PencilEdit01Icon size={18} /> Actions
                                     </Button>
                                 </DropdownTrigger>

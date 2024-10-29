@@ -8,7 +8,9 @@ export default function App() {
     return (
         <AuthProviderWrapper>
             <ThemeProvider>
-                <RoutersWrapper />
+                <NextUIProvider>
+                    <RoutersWrapper />
+                </NextUIProvider>
             </ThemeProvider>
         </AuthProviderWrapper>
     )

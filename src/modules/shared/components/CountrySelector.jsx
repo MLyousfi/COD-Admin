@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
-import {AnimatePresence, motion} from "framer-motion";
-import {useEffect, useRef, useState} from "react";
-import {COUNTRIES} from "@/core/constants/countries.js";
-import {ArrowDown01Icon} from "hugeicons-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { COUNTRIES } from "@/core/constants/countries.js";
+import { ArrowDown01Icon } from "hugeicons-react";
 
 export default function CountrySelector({
-                                            id,
-                                            open,
-                                            disabled = false,
-                                            onToggle,
-                                            onChange,
-                                            selectedValue,
-                                        }) {
+    id,
+    open,
+    disabled = false,
+    onToggle,
+    onChange,
+    selectedValue,
+}) {
     const ref = useRef(null);
 
     useEffect(() => {
@@ -36,57 +36,55 @@ export default function CountrySelector({
                 <button
                     type="button"
                     className={`
-                    ${
-                        disabled ? "bg-neutral-100" : "bg-white dark:bg-gray-950"
-                    } relative w-full border border-gray-300 dark:border-gray-800 rounded-md shadow-sm pl-3 pr-10 py-2.5 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
+                    ${disabled ? "bg-neutral-100" : "bg-white dark:bg-base_dark"
+                        } relative w-full border border-gray-300 dark:border-[#ffffff10] rounded-md shadow-sm pl-3 pr-10 py-2.5 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
                     aria-haspopup="listbox"
                     aria-expanded="true"
                     aria-labelledby="listbox-label"
                     onClick={onToggle}
                     disabled={disabled}
                 >
-          <span className="truncate flex items-center">
-            <img
-                alt={`${selectedValue.value}`}
-                src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${selectedValue.value}.svg`}
-                className={"inline mr-2 h-4 rounded-sm"}
-            />
-              {selectedValue.title}
-          </span>
+                    <span className="truncate flex items-center">
+                        <img
+                            alt={`${selectedValue.value}`}
+                            src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${selectedValue.value}.svg`}
+                            className={"inline mr-2 h-4 rounded-sm"}
+                        />
+                        {selectedValue.title}
+                    </span>
                     <span
-                        className={`absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none ${
-                            disabled ? "hidden" : ""
-                        }`}
+                        className={`absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none ${disabled ? "hidden" : ""
+                            }`}
                     >
-           <ArrowDown01Icon/>
-          </span>
+                        <ArrowDown01Icon />
+                    </span>
                 </button>
 
                 <AnimatePresence>
                     {open && (
                         <motion.ul
-                            initial={{opacity: 0}}
-                            animate={{opacity: 1}}
-                            exit={{opacity: 0}}
-                            transition={{duration: 0.1}}
-                            className="absolute z-10 mt-1 w-full bg-white dark:bg-gray-950 shadow-lg max-h-80 rounded-md text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.1 }}
+                            className="absolute z-10 mt-1 w-full bg-white dark:bg-base_card shadow-lg max-h-80 rounded-md text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
                             tabIndex={-1}
                             role="listbox"
                             aria-labelledby="listbox-label"
                             aria-activedescendant="listbox-option-3"
                         >
-                            <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 ">
+                            <div className="sticky top-0 z-10 bg-white dark:bg-base_card ">
                                 <li className=" text-gray-900 dark:text-gray-200 cursor-default select-none relative">
                                     <input
                                         type="search"
                                         name="search"
                                         autoComplete={"off"}
-                                        className="focus:ring-blue-500 py-2 px-3 focus:border-gray-500 block w-full sm:text-sm border-gray-300 dark:border-gray-800 rounded-md"
+                                        className="focus:ring-blue-500 py-2 px-3 focus:border-gray-500 block w-full sm:text-sm border-gray-300 dark:border-[#ffffff10] rounded-md"
                                         placeholder={"Search a country"}
                                         onChange={(e) => setQuery(e.target.value)}
                                     />
                                 </li>
-                                <hr/>
+                                <hr />
                             </div>
 
                             <div
@@ -123,25 +121,25 @@ export default function CountrySelector({
                                                 />
 
                                                 <span className="font-normal truncate">
-                          {value.title}
-                        </span>
+                                                    {value.title}
+                                                </span>
                                                 {value.value === selectedValue.value ? (
                                                     <span
                                                         className="text-blue-600 absolute inset-y-0 right-0 flex items-center pr-8">
-                            <svg
-                                className="h-5 w-5"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                aria-hidden="true"
-                            >
-                              <path
-                                  fillRule="evenodd"
-                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                  clipRule="evenodd"
-                              />
-                            </svg>
-                          </span>) : null}
+                                                        <svg
+                                                            className="h-5 w-5"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                            aria-hidden="true"
+                                                        >
+                                                            <path
+                                                                fillRule="evenodd"
+                                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                                clipRule="evenodd"
+                                                            />
+                                                        </svg>
+                                                    </span>) : null}
                                             </li>
                                         );
                                     })
