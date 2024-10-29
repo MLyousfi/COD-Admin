@@ -65,8 +65,10 @@ const Table = ({
     return <div>{emptyMessage}</div>;
   }
 
-  return (
-    <div className="overflow-x-auto w-full">
+return (
+  <div className="overflow-x-auto w-full">
+    {/* Wrapper div for table and pagination to control the fixed height */}
+    <div className="table-container min-h-[calc(3rem_*_12)] flex flex-col justify-between">
       <table className="min-w-full table-auto">
         <thead>
           <tr className="border-b border-gray-300 h-11 dark:border-gray-600">
@@ -82,41 +84,44 @@ const Table = ({
           </tr>
         </thead>
         <tbody>
-          {currentData().map((item, index) => (
-            <tr
-              key={item.key}
-              className={`${index % 2 === 0 ? rowClassNames.even : rowClassNames.odd} ${selectedRows.includes(item.key) ? 'bg-[#0587FF15] dark:bg-[#0587FF15]' : ''}`}
-              onClick={(event) => handleRowClick(item.key, index, event)}
-            >
-              {columns.map((column) => (
-                <td key={column.key} className="px-1 py-2 text-center dark:text-gray-300 text-sm">
-                  {column.key === "checkbox" ? (
-                    <input
-                      type="checkbox"
-                      checked={selectedRows.includes(item.key)}
-                      onChange={() => handleCheckboxChange(item.key)}
-                      onClick={(event) => event.stopPropagation()} // Prevent row click when clicking checkbox
-                      className="appearance-none w-4 h-4 relative rounded-sm focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500"
-                      style={{
-                        boxShadow: '0 0 0 0px currentColor', 
-                        borderRadius: '4px',
-                        border: '0.5px solid', 
-                        borderColor: 'gray', 
-                        color: 'white', 
-                      }}
-                    />
-                  ) : (
-                    renderCell(item, column.key)
-                  )}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
+  {currentData().map((item, index) => (
+    <tr
+      key={item.key}
+      className={`${index % 2 === 0 ? rowClassNames.even : rowClassNames.odd} ${
+        selectedRows.includes(item.key) ? 'bg-[#0587FF15] dark:bg-[#0587FF15]' : ''
+      }`} 
+      onClick={(event) => handleRowClick(item.key, index, event)}
+    >
+      {columns.map((column) => (
+        <td key={column.key} className="px-1 py-2 text-center dark:text-gray-300 text-sm">
+          {column.key === "checkbox" ? (
+            <input
+              type="checkbox"
+              checked={selectedRows.includes(item.key)}
+              onChange={() => handleCheckboxChange(item.key)}
+              onClick={(event) => event.stopPropagation()} 
+              className="appearance-none w-4 h-4 relative rounded-sm focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500"
+              style={{
+                boxShadow: '0 0 0 0px currentColor', 
+                borderRadius: '4px',
+                border: '0.5px solid', 
+                borderColor: 'gray', 
+                color: 'white', 
+              }}
+            />
+          ) : (
+            renderCell(item, column.key)
+          )}
+        </td>
+      ))}
+    </tr>
+  ))}
+</tbody>
+
       </table>
 
       {enablePagination && (
-        <div className="flex justify-center items-center my-4 space-x-2">
+        <div className="pagination-container flex justify-center items-center my-4 space-x-2">
           <button
             className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm"
             onClick={() => handlePageChange(currentPage - 1)}
@@ -147,34 +152,38 @@ const Table = ({
           </button>
         </div>
       )}
-
-      <style jsx>{`
-        input[type="checkbox"]::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left:50%;
-          transform: translate(-50%, -50%);
-          width: 10px;
-          height: 9px;
-          background-color: blue;
-          border-radius: 2px;
-          transition: background-color 0.2s;
-          display: none;
-        }
-
-        input[type="checkbox"]:checked::before {
-          display: block;
-        }
-
-        @media (prefers-color-scheme: dark) {
-          input[type="checkbox"] {
-            border-color: white;
-          }
-        }
-      `}</style>
     </div>
-  );
-};
 
+    <style jsx>{`
+      .table-container {
+        min-height: calc(3rem * 12); /* Adjusts to fit approximately 12 rows */
+      }
+
+      input[type="checkbox"]::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 9px;
+        background-color: #005FFF;
+        border-radius: 2px;
+        transition: background-color 0.2s;
+        display: none;
+      }
+
+      input[type="checkbox"]:checked::before {
+        display: block;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        input[type="checkbox"] {
+          border-color: white;
+        }
+      }
+    `}</style>
+  </div>
+);
+};
 export default Table;

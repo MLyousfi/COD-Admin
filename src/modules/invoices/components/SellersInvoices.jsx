@@ -6,6 +6,7 @@ import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs'; 
 import { rows } from '../../../core/utils/data3';
+import { useTheme } from 'next-themes';
 
 const columns = [
   { key: "checkbox", label: "#" },
@@ -70,16 +71,18 @@ const SellersInvoices = () => {
         );
 
       case "statut":
-        const statutColor = {
-          "Unpaid": "#9fa20b",
-          "Refund": "#b7100a",
-          "Paid": "#197007",
-        };
+        const { theme } = useTheme();
+const statutColor = {
+    Unpaid: theme === "dark" ? "#FFD60020" : "#FFD60030",
+    Refund: theme === "dark" ? "#FF000020" : "#FF000020",
+    Paid: theme === "dark" ? "#12F04320" : "#12F04330",
+  };
 
         return (
           <div
-            className="flex items-center justify-center px-2 py-1 rounded-full"
-            style={{ backgroundColor: statutColor[item.statut], color: 'white', minWidth: '80px' }}
+            className="flex items-center justify-center px-2 py-1 rounded-full text-black dark:text-white"
+            style={{ backgroundColor: statutColor[item.statut], 
+               minWidth: '80px', }}
           >
             {item.statut}
           </div>
