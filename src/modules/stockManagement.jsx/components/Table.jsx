@@ -102,7 +102,7 @@ const Table = ({
               {currentData().map((item, index) => {
                 const isSelected = selectedRows.includes(item.key);
                 const rowClass = isSelected
-                  ? 'bg-[#0587FF25] dark:bg-[#ffffff50]'
+                  ? 'bg-[#0587FF25] dark:bg-[#0587FF20]'
                   : index % 2 === 0
                     ? rowClassNames.even
                     : rowClassNames.odd;
@@ -125,7 +125,7 @@ const Table = ({
                               {/* animate this div and it's child ontap when the parent div above clicked using framer motion */}
                               <div
                                 className='w-5 h-5 mx-auto rounded-md border border-[#00000050] dark:border-[#ffffff50] flex justify-center items-center'>
-                                {selectedRows.includes(item.key) && <motion.div initial={{ scale: 0 }} transition={{ type: "spring", stiffness: 100 }} animate={{ scale: 1 }} className='w-3.5 h-3.5 rounded-sm bg-glb_blue'></motion.div>}
+                                {selectedRows.includes(item.key) && <motion.div initial={{ scale: 0 }} transition={{ type: "spring", stiffness: 100 }} animate={{ scale: 1 }} className='w-3 h-3 rounded-sm bg-glb_blue'></motion.div>}
                               </div> </motion.div>
 
 
