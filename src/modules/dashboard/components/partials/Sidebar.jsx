@@ -147,6 +147,28 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
         }
     }, [showSidebar, pathname]);
 
+    const pathMapWithNotif = {};
+
+    RoutesConfig.forEach(route => {
+
+        if (route.path) {
+            pathMapWithNotif[route.path] = { notifNum: 0 };
+        }
+        if (route.children) {
+            route.children.forEach(child => {
+                const childPath = child.path;
+                pathMapWithNotif[childPath] = { notifNum: childPath === "/call-center-manager/agents-requests" ? 10 : 0 };
+
+                if (child.children) {
+                    child.children.forEach(grandChild => {
+                        pathMapWithNotif[grandChild.path] = { notifNum: 0 };
+                    });
+                }
+            });
+        }
+    });
+
+
     return (
         <motion.div layout transition={{ duration: 0.2 }}
 
@@ -156,14 +178,14 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
             // ${showSidebar ? 'hidden lg:block lg:sticky' : 'hidden'}
             className={` ${showSidebar ? 'hidden lg:block lg:w-80 lg:min-w-64' : 'hidden lg:block lg:w-14'} fixed left-0 top-0 bottom-0 overflow-x-hidden bg-base_light dark:bg-transparent border-r border-gray-200 
             dark:border-[#ffffff10] z-30 overflow-y-auto max-h-screen`}>
-            <div className="flex justify-between items-center my-6 px-6 h-10">
-                {currentTheme === 'light' ? showSidebar && <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
-                    showSidebar && <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}
-                {/* {showSidebar && (
+            <div className={`flex justify-between items-center ${showSidebar ? 'my-6 px-6' : 'my-6 px-2'} h-10`}>
+                {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
+                    <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}
+                {showSidebar && (
                     <Button ref={trigger} onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
                         <SidebarLeft01Icon />
                     </Button>
-                )} */}
+                )}
             </div>
 
             <div className={`${showSidebar ? 'px-4 my-12' : 'p-0 my-12'} `}>
@@ -188,10 +210,10 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
 
                                         <button
                                             onClick={() => toggleRoute(route.name)}
-                                            className={`flex  ${showSidebar ? "w-full" : "w-5/6  mx-auto"}  justify-between  items-center py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white 
+                                            className={`flex  ${showSidebar ? "w-full justify-between" : "w-[50px] mx-auto justify-start"}    items-center py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white 
                                             ${isActiveParent || pathname.includes("/" + route.path) ? "bg-glb_blue text-white" : ""}`}
                                         >
-                                            <div className={`flex w-full items-center ${showSidebar ? "px-2" : "justify-center"}`} >
+                                            <div className={`flex w-full items-center ${showSidebar ? " px-2" : " justify-center"}`} >
                                                 {
                                                     showSidebar ? (<>{React.createElement(route.icon, { className: 'mr-2 ml-1', size: 20 })}
                                                         <motion.h4 initial={{ x: 100 }} animate={{ x: 0 }}>{route.name}</motion.h4></>) : React.createElement(route.icon, { size: 20 })
@@ -241,6 +263,15 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                                                     className={`flex w-full items-center px-2 py-2 rounded-xl ${pathname === child.path ? "text-dark_selected" : "text-gray-600 dark:text-white "} hover:text-blue-600 dark:hover:text-blue-400 
                                                                 `}
                                                                 >
+                                                                    <motion.div
+                                                                        initial={{ scale: 0.8, opacity: 0, y: 10 }}
+                                                                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                                                                        transition={{
+                                                                            type: "spring",
+                                                                            stiffness: 300,
+                                                                            damping: 15,
+                                                                            bounce: 0.5,
+                                                                        }} className={`flex justify-center text-[11px] items-center p-1 rounded-full ${pathMapWithNotif && pathMapWithNotif[child.path].notifNum !== 0 ? "bg-glb_red" : ""}  w-6 h-6 mr-3 text-white`} >{pathMapWithNotif && pathMapWithNotif[child.path].notifNum !== 0 ? pathMapWithNotif[child.path].notifNum : ''}</motion.div>
                                                                     {child.name}
                                                                 </Link>
                                                             )}
@@ -253,7 +284,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                 ) : (
                                     <Link
                                         to={route.path}
-                                        className={`flex  items-center ${showSidebar ? "px-2 w-full" : "justify-center w-5/6 mx-auto"} py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white  ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
+                                        className={`flex  items-center ${showSidebar ? "px-2 w-full justify-start" : "w-[50px] mx-auto justify-center"} py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white  ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
                                     >
                                         {
                                             showSidebar ? (<>{React.createElement(route.icon, { className: 'mr-2 ml-1', size: 20 })}

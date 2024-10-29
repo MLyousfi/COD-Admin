@@ -81,13 +81,13 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
     return (
         <>
             <Navbar disableAnimation isBordered className="z-20 w-full px-2 py-4 bg-transparent" maxWidth="full">
-                {/* {!showSidebar && (
+                {!showSidebar && (
                     <Button onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
                         <SidebarRight01Icon />
                     </Button>
-                )} */}
-                {currentTheme === 'light' ? !showSidebar && <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
-                    !showSidebar && <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}
+                )}
+                {/* {currentTheme === 'light' ? !showSidebar && <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
+                    !showSidebar && <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />} */}
                 <NavbarItem className="mr-auto lg:hidden">
                     {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> : <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}
                 </NavbarItem>
@@ -174,7 +174,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                         </NavbarItem>
                         <NavbarItem>
                             <AnimatePresence>
-                                <div onClick={() => setSearchInputOpen(true)} className={`cursor-pointer  overflow-visible p-2 bg-gray-100 dark:bg-neutral-800 rounded-full flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800
+                                <div onClick={() => setSearchInputOpen(true)} className={`cursor-pointer  overflow-visible p-2 bg-gray-100 dark:bg-neutral-800 rounded-full flex items-center justify-center 
                                     ${SearchInputOpen && 'bg-gray-200 dark:bg-gray-800'}`}>
                                     {SearchInputOpen ? (<motion.input
                                         key="searchInput"
@@ -205,10 +205,10 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                 <NavbarContent className="justify-between hidden gap-4 px-2 md:flex md:flex-row">
 
                     <NavbarItem className="hidden ml-auto lg:block relative bg-slate-600 p-5">
-                        <div ref={dropdownRef} onClick={() => setSmallNotOpen(true)} className="cursor-pointer absolute top-0 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
+                        <div ref={dropdownRef} onClick={() => setSmallNotOpen(!SmallNotOpen)} className="cursor-pointer absolute top-0 left-1/2 transform -translate-x-1/2 rounded-xl p-2 text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
                             <div className=" flex justify-center items-center gap-2 ">
-                                <h4 className="text-sm">Important Notifications in the ERP</h4>
-                                {SmallNotOpen ? <ArrowDown01Icon /> : <ArrowRight01Icon />}
+                                <h4 className="text-sm font-semibold ">Important Notifications in the ERP</h4>
+                                {SmallNotOpen ? <ArrowDown01Icon className="font-thin" /> : <ArrowRight01Icon className="font-thin" />}
                             </div>
 
                             <AnimatePresence>
@@ -224,7 +224,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                                             <motion.div variants={itemVariants}
                                                 custom={ix} key={ix} className=" flex justify-start items-center gap-2 ">
                                                 <h4 className="text-sm"><b>{i.data}</b></h4>
-                                                <h4 className="text-sm">{i.label}</h4>
+                                                <h4 className="text-sm font-thin">{i.label}</h4>
 
                                             </motion.div>))}</motion.div>
                                 )}

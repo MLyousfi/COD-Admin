@@ -15,7 +15,7 @@ export default {
       colors: {
 
         // brand colors
-        primary: '#232755',
+        primary: '#0258E8',
 
         // accent colors
         info: '#0258E8',
