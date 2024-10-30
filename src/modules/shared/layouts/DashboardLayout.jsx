@@ -18,12 +18,14 @@ import moment from "moment";
 export default function DashboardLayout({ children, icon, title, additionalContent, hasSearchInput = true, hasReturnLink = null }) {
 
     const [showFilterModal, setShowFilterModal] = useState(false);
-    const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
-    const [sidebarExpanded, setSidebarExpanded] = useState(storedSidebarExpanded === null ? false : storedSidebarExpanded === "true");
-    const [showSidebar, setShowSidebar] = useState(sidebarExpanded);
+
     const [SmallNotOpen, setSmallNotOpen] = useState(false);
     const dropdownRef = useRef(null);
     const [searchModalOpen, setSearchModalOpen] = useState(false);
+    const storedSidebarEpingled = localStorage.getItem("sidebar-epingled");
+    const [sidebarEpingled, setSidebarEpingled] = useState(storedSidebarEpingled === null ? false : storedSidebarEpingled === "true");
+    const [showSidebar, setShowSidebar] = useState(sidebarEpingled);
+
     useEffect(() => {
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -36,6 +38,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
     const dropdownVariants = {
         hidden: { opacity: 0, height: 0 },
         visible: {
@@ -55,19 +58,23 @@ export default function DashboardLayout({ children, icon, title, additionalConte
     };
     const HandleSideBarChange = (v) => {
 
-        localStorage.setItem("sidebar-expanded", v);
-        setSidebarExpanded(v)
         setShowSidebar(v); // Ensure to update showSidebar here
+    }
+
+    const HandlePinglingSideBar = (v) => {
+
+        localStorage.setItem("sidebar-epingled", v);
+        setSidebarEpingled(v)
     }
     return (
         <>
             {/* i want to add a hover on 10px in the right of this parent div to show the side bar  */}
-            <div className="flex w-screen overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
+            <div className="relative flex w-screen overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
 
 
-                <div className={`relative flex flex-col w-full lg:ml-auto min-h-screen ${showSidebar ? ' lg:w-[calc(100%-20rem)]' : 'lg:w-[calc(100%-3.5rem)]'}`}>
+                <div className={`relative flex flex-col w-full lg:ml-auto min-h-screen ${sidebarEpingled ? ' lg:w-[calc(100%-20rem)] ' : showSidebar ? ' lg:w-[calc(100%-20rem)]' : 'lg:w-[calc(100%-3.5rem)]'}`}>
                     {/*  Site header */}
-                    <Header showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
+                    <Header epingled={sidebarEpingled} setEpingled={HandlePinglingSideBar} showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
                     {!hasReturnLink && <div className="flex p-3 md:p-4 md:hidden mx-auto gap-6 mt-4 justify-between items-center">
 
                         <Dropdown placement="bottom-start">
@@ -118,7 +125,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                         </Button>
 
                     </div>}
-                    <div className="relative  h-12 w-full p-3 md:p-4 mx-auto text-center lg:hidden">
+                    <div className="relative  h-12 w-full p-3 md:p-4 mx-auto text-center hidden lg:hidden">
                         <div ref={dropdownRef} onClick={() => setSmallNotOpen(!SmallNotOpen)} className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
                             <div className=" flex justify-center items-center gap-2 ">
                                 <h4 className="text-sm font-semibold ">Important Notifications in the ERP</h4>
@@ -192,7 +199,8 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                 {/* sidebar for mobiles screens */}
                 <ResideBar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
                 {/* sidebar for bigger screens */}
-                <Sidebar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
+                <Sidebar showSidebar={sidebarEpingled ? true : showSidebar} setShowSidebar={HandleSideBarChange} />
+
             </div >
             <SearchModal id="search-modal" searchId="search" modalOpen={searchModalOpen}
                 setModalOpen={setSearchModalOpen} />

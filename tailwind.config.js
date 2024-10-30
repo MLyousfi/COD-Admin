@@ -34,7 +34,7 @@ export default {
         light_opacity: '#00000010',
 
         dark_selected: '#0258E8',
-        dark_selected_hover: '#0258E850',
+        dark_selected_hover: '#0258E815',
 
         glb_blue: '#0258E8',
         glb_red: '#ED0006',

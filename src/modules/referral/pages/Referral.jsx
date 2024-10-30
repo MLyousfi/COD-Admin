@@ -28,7 +28,9 @@ export default function Referral() {
             value: "18"
         }
     ];
-    const redirectLink = location.state.from;
+
+    const redirectLink = location.state ? location.state.from : '/dashboard';
+
     return (
         <DashboardLayout title="Referrals" hasSearchInput={false} hasReturnLink={redirectLink}>
             <div className="px-2 md:px-12 py-8">

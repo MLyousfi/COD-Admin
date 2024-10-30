@@ -90,7 +90,7 @@ export default function Notification() {
     };
 
     // Retrieve the redirection link from the state
-    const redirectLink = location.state.from;
+    const redirectLink = location.state ? location.state.from : '/dashboard';
 
 
     return (

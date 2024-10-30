@@ -194,8 +194,8 @@ export default function Confirmation() {
                     />
 
                     <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
-                        <Button color="default" className="rounded-full bg-info text-white text-[10px]">
-                            <Calling02Icon size={10} /> Start Call
+                        <Button color="default" className="rounded-full bg-info text-white">
+                            <Calling02Icon size={18} /> Start Call
                         </Button>
 
                         <Dropdown>

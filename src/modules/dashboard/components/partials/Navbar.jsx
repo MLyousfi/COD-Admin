@@ -13,6 +13,7 @@ import {
     ArrowRight01Icon,
     Cancel01Icon,
     Clock01Icon,
+    CommandIcon,
     FilterIcon,
     HelpCircleIcon,
     Logout05Icon,
@@ -28,12 +29,13 @@ import {
 } from "hugeicons-react";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import FilterModal from "@/modules/dashboard/components/FilterModal.jsx";
 import { motion, AnimatePresence } from 'framer-motion'
 import { RoutesConfig } from "../../../../core/constants/routes";
+import { Code } from "@nextui-org/code";
 
-export default function NavbarComponent({ showSidebar, setShowSidebar }) {
+export default function NavbarComponent({ epingled, setEpingled, showSidebar, setShowSidebar }) {
     const { currentTheme, changeCurrentTheme } = useThemeProvider();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,10 +43,10 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
     const [SearchInputOpen, setSearchInputOpen] = useState(false);
     const location = useLocation();
     const { pathname } = location;
-    const [ReturnTo, setReturnTo] = useState(pathname)
-
+    const navigate = useNavigate();
     const [showFilterModal, setShowFilterModal] = useState(false);
     const dropdownRef = useRef(null);
+
 
 
 
@@ -79,14 +81,20 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
         hidden: { opacity: 0, x: -10 },
         visible: { opacity: 1, x: 0 },
     };
+
+
+
     return (
         <>
             <Navbar disableAnimation isBordered className="z-20 w-full px-2 py-4 bg-transparent" maxWidth="full">
-                {(
-                    <Button onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
-                        <SidebarRight01Icon />
-                    </Button>
-                )}
+
+                <Button onClick={() => setEpingled(!epingled)} isIconOnly variant="light" className="hidden md:flex">
+                    <SidebarRight01Icon />
+                </Button>
+                <Button onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light" className="md:hidden">
+                    <SidebarRight01Icon />
+                </Button>
+
                 {/* {currentTheme === 'light' ? !showSidebar && <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
                     !showSidebar && <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />} */}
                 <NavbarItem className="mr-auto lg:hidden">
@@ -137,17 +145,24 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
 
                     <NavbarContent className="justify-self-start md:mr-auto max-w-fit">
                         <NavbarItem>
-                            <Link to={RoutesConfig.find(r => r.name === "Notifications").path}
-                                state={{ from: pathname }}// Add the redirection link here
+                            <div onClick={(e) => {
+                                e.preventDefault();
+                                if (pathname.includes(RoutesConfig.find(r => r.name === "Notifications").path)) {
+                                    navigate(-1);
+                                } else {
+                                    navigate(RoutesConfig.find(r => r.name === "Notifications").path, { state: { from: pathname } })
+                                }
+
+                            }}
 
                                 isIconOnly
-                                className={`${pathname.includes(RoutesConfig.find(r => r.name === "Notifications").path) ? "bg-glb_blue text-white" : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"} overflow-visible p-2 rounded-full flex items-center justify-center relative`}
+                                className={`${pathname.includes(RoutesConfig.find(r => r.name === "Notifications").path) ? " bg-glb_blue text-white" : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"} cursor-pointer overflow-visible p-2 rounded-full flex items-center justify-center relative`}
                             >
 
                                 <Notification01Icon />
                                 <div
                                     className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full"></div>
-                            </Link>
+                            </div>
                         </NavbarItem>
                         <NavbarItem className="md:hidden" >
                             <Button isIconOnly color="default" variant="flat"
@@ -171,26 +186,38 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                                 <Menu11Icon />
                             </Button>
                         </NavbarItem>
-                        <NavbarItem className="hidden md:block">
+                        <NavbarItem className="hidden lg:block">
                             <AnimatePresence>
                                 <div onClick={() => setSearchInputOpen(true)} className={`cursor-pointer  overflow-visible p-2 bg-gray-100 dark:bg-neutral-800 rounded-full flex items-center justify-center 
                                     ${SearchInputOpen && 'bg-gray-200 dark:bg-gray-800'}`}>
-                                    {SearchInputOpen ? (<motion.input
-                                        key="searchInput"
-                                        initial={{ width: 0, opacity: 0 }}
-                                        animate={{ width: "200px", opacity: 1 }}
-                                        exit={{ width: 0, opacity: 0 }}
-                                        transition={{ duration: 0.3 }}
-                                        className="px-2 outline-none bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-white rounded-full focus:outline-none"
-                                        type="text"
-                                        placeholder="Search..."
-                                        onBlur={() => setSearchInputOpen(false)}
-                                        autoFocus
-                                    />) : (<Search01Icon />)}
+                                    {SearchInputOpen ? (
+                                        <motion.div key="searchInput"
+                                            initial={{ width: 0, opacity: 0 }}
+                                            animate={{ width: "300px", opacity: 1 }}
+                                            exit={{ width: 0, opacity: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                            className="outline-none w-full bg-transparent text-gray-700 dark:text-white rounded-full focus:outline-none ">
+
+                                            {SearchInputOpen && <motion.div className="w-full flex justify-center items-center gap-2 " initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                                transition={{ duration: 0.3, delay: 0.2 }} ><Search01Icon size={24} />
+                                                <input
+
+                                                    className="flex-grow focus:outline-none outline-none bg-transparent placeholder:text-[#00000060] placeholder:dark:text-[#ffffff50]"
+                                                    type="text"
+                                                    placeholder="Search..."
+                                                    onBlur={() => setSearchInputOpen(false)}
+                                                    autoFocus
+                                                />
+                                                <Code className="flex flex-row  bg-transparent justify-center pl-0"> &nbsp; <CommandIcon
+                                                    className="mr-1" size={16} /> + k
+                                                </Code></motion.div>}
+                                        </motion.div>
+                                    ) : (<Search01Icon />)}
 
 
                                 </div>
-
 
                             </AnimatePresence>
 
@@ -244,15 +271,37 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
 
                     {isMenuOpen &&
 
-                        <motion.div layout initial={{ width: 0 }} animate={{ width: '80%' }} onClick={(e) => e.stopPropagation()} className={` ml-auto overflow-y-auto h-full flex flex-col justify-center bg-base_light dark:bg-base_dark`}>
+                        <motion.div layout initial={{ width: 0 }} animate={{ width: '80%' }} onClick={(e) => e.stopPropagation()} className={`max-w-80 ml-auto overflow-y-auto h-full flex flex-col justify-center bg-base_light dark:bg-base_dark`}>
                             {/* <NavbarMenuItem className="ml-auto mr-4 w-fit">
                                 <Button isIconOnly className="my-4 bg-gray-100 rounded-full dark:bg-gray-800"
                                     onClick={() => setIsMenuOpen(false)}>
                                     <Cancel01Icon className="mx-auto" />
                                 </Button>
                             </NavbarMenuItem> */}
+                            <div className="flex my-3 flex-col gap-1 w-full justify-center items-center">
+                                <h4 className="text-lg font-bold">{moment().format('dddd, MM MMM YYYY')}</h4>
+                                <span className="flex flex-row items-center gap-1 text-gray-600"> <Clock01Icon
+                                    size={16} /> {moment().format('HH:mm  Z')}</span>
+                            </div>
                             <NavbarMenuItem className="px-4 my-8">
-                                <Dropdown placement="bottom-start">
+                                <div className="flex justify-center gap-2  w-full  items-center">
+                                    <User
+                                        as="button"
+                                        avatarProps={{
+                                            isBordered: true,
+                                            src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                                        }}
+                                        classNames={{ name: "font-bold", }}
+                                        className="transition-transform"
+                                    // description="Super Admin"
+                                    // name="Tony Reichert"
+                                    />
+                                    <div className="flex flex-col">
+                                        <h4 className="font-thin">{'Hello, 👋 Good Morning'}</h4>
+                                        <h1 className="font-semibold">Tony Reichert</h1>
+                                    </div>
+                                </div>
+                                {/* <Dropdown placement="bottom-start">
                                     <DropdownTrigger>
                                         <div className="flex justify-center gap-2 items-center">
                                             <User
@@ -294,7 +343,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                                             Log Out
                                         </DropdownItem>
                                     </DropdownMenu>
-                                </Dropdown>
+                                </Dropdown> */}
                                 <div className="flex flex-row w-full my-4">
                                     <Input className="w-full ml-auto" placeholder="Search" classNames={{
                                         inputWrapper: "bg-gray-100 dark:bg-neutral-800 rounded-full",
@@ -355,7 +404,7 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                             </NavbarMenuItem>
                         </motion.div>}
                 </NavbarMenu>
-            </Navbar>
+            </Navbar >
 
 
 

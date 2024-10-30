@@ -83,7 +83,7 @@ const Table = ({
       {/* Wrapper div for table and pagination to control the fixed height */}
       <div className="min-h-[calc(3rem_*_12)] flex flex-col justify-between">
         {/* Add overflow-x-auto to enable horizontal scrolling */}
-        <div ref={tableRef} className="overflow-x-auto">
+        <div ref={tableRef} className="overflow-x-auto flex-grow">
           <table className="box-border border-collapse overflow-auto min-w-full">
             <thead>
               <tr className="border-b border-gray-300 h-11 dark:border-gray-600">

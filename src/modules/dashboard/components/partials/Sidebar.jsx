@@ -123,7 +123,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
 
     const scrollToItem = (route) => {
         const element = document.getElementById(route);
-        element?.scrollIntoView({ behavior: "smooth", block: "start" });
+        element?.scrollIntoView({ behavior: 'instant', block: "center" });
     };
     // Helper to expand only the current active route
     const expandCurrentRouteOnly = () => {
@@ -185,7 +185,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
             className={` ${showSidebar ? 'hidden lg:block lg:w-80 lg:min-w-64' : 'hidden lg:block lg:w-14'} fixed left-0 top-0 bottom-0 overflow-x-hidden bg-base_light dark:bg-transparent border-r border-gray-200 
             dark:border-[#ffffff10] z-30 overflow-y-auto max-h-screen`}>
             <div className={`flex justify-between items-center ${showSidebar ? 'my-6 px-6' : 'my-6 px-2'} h-10`}>
-                <Link to='#'> {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
+                <Link to='/dashboard'> {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
                     <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}</Link>
                 {/* {showSidebar && (
                     <Button ref={trigger} onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
@@ -217,7 +217,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                         <button
                                             id={route.path}
                                             onClick={() => toggleRoute(route.name)}
-                                            className={`flex  ${showSidebar ? "w-full justify-between" : "w-[50px] mx-auto justify-start"}    items-center py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white 
+                                            className={`flex  ${showSidebar ? "w-full justify-between" : "w-[50px] mx-auto justify-start"}    items-center py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white
                                             ${isActiveParent || pathname.includes("/" + route.path) ? "bg-glb_blue text-white" : ""}`}
                                         >
                                             <div className={`flex w-full items-center ${showSidebar ? " px-2" : " justify-center"}`} >
@@ -292,7 +292,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                     <Link
                                         id={route.path}
                                         to={route.path}
-                                        className={`flex  items-center ${showSidebar ? "px-2 w-full justify-start" : "w-[50px] mx-auto justify-center"} py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white  ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
+                                        className={`flex  items-center ${showSidebar ? "px-2 w-full justify-start" : "w-[50px] mx-auto justify-center"} py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white  ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
                                     >
                                         {showSidebar ? (<>{React.createElement(route.icon, { className: 'mr-2 ml-1', size: 20 })}
                                             <motion.h4 initial={{ x: 100 }} animate={{ x: 0 }}>{route.name}</motion.h4>
@@ -320,7 +320,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                             </Link>}
                         </li>
                         <li className={`${showSidebar ? 'px-2' : ''} py-2`}>
-                            <Link state={{ from: pathname }} to="/settings" className="flex w-full ">
+                            <Link state={{ from: pathname }} to="/settings" className="flex w-full hover:text-black hover:dark:text-white">
                                 <span className={`flex w-full gap-1 ${showSidebar ? '' : 'items-center justify-center'} `}>
                                     <Settings02Icon className={showSidebar ? "mr-2 ml-1" : ''} size="20" />
                                     {showSidebar && "Settings"}
@@ -328,7 +328,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                             </Link>
                         </li>
                         <li className={`${showSidebar ? 'px-2' : ''} py-2`}>
-                            <Link state={{ from: pathname }} to="/referrals" className="flex w-full">
+                            <Link state={{ from: pathname }} to="/referrals" className="flex w-full hover:text-black hover:dark:text-white">
                                 <span className={`flex w-full gap-1 ${showSidebar ? '' : 'items-center justify-center'} `}>
                                     <Share08Icon className={showSidebar ? "mr-2 ml-1" : ''} size="20" />
                                     {showSidebar && 'Referrals'}
@@ -336,7 +336,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                             </Link>
                         </li>
                         <li className={`${showSidebar ? 'px-2' : ''} py-2`}>
-                            <Link state={{ from: pathname }} to="/help" className="flex w-full">
+                            <Link state={{ from: pathname }} to="/help" className="flex w-full hover:text-black hover:dark:text-white">
                                 <span className={`flex w-full gap-1 ${showSidebar ? '' : 'items-center justify-center'} `}>
                                     <HelpCircleIcon className={showSidebar ? "mr-2 ml-1" : ''} size="20" />
                                     {showSidebar && 'Help & FAQ'}
