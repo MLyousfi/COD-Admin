@@ -11,7 +11,6 @@ import codPowerGroupLogoDark from "@shared/assets/images/cod-logo-dark.svg";
 import {
     ArrowDown01Icon,
     ArrowRight01Icon,
-    Cancel01Icon,
     Clock01Icon,
     FilterIcon,
     HelpCircleIcon,
@@ -150,11 +149,23 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                             </Link>
                         </NavbarItem>
                         <NavbarItem className="md:hidden" >
-                            <Button isIconOnly color="default" variant="flat"
-                                className={`${currentTheme === 'light' ? "bg-glb_blue text-white" : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"} font-bold  rounded-full`}
-                                onClick={() => changeCurrentTheme(currentTheme === 'light' ? 'dark' : 'light')}>
-                                <Sun02Icon />
-                            </Button>
+                        <Button
+      isIconOnly
+      color="default"
+      variant="flat"
+      className={`
+        ${
+          currentTheme === 'light'
+            ? "bg-glb_blue text-white"
+            : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"
+        }
+        font-bold rounded-full
+      `}
+      onClick={() => changeCurrentTheme(currentTheme === 'light' ? 'dark' : 'light')}
+      aria-label="Toggle Theme"
+    >
+      {currentTheme === 'light' ? <Sun02Icon /> : <Moon02Icon />}
+    </Button>
 
 
                         </NavbarItem>
@@ -231,11 +242,12 @@ export default function NavbarComponent({ showSidebar, setShowSidebar }) {
                         </div>
                     </NavbarItem>
 
-                    <NavbarItem className="ml-auto">
-                        <h4 className="text-lg font-bold">{moment().format('dddd, MM MMM YYYY')}</h4>
-                        <span className="flex flex-row items-center gap-1 text-gray-600"> <Clock01Icon
+                   <NavbarItem className="ml-auto">
+    <h4 className="text-lg font-bold">{moment().format('dddd, DD MMM YYYY')}</h4>
+    <span className="flex flex-row items-center gap-1 text-gray-600"> <Clock01Icon
                             size={16} /> {moment().format('HH:mm  Z')}</span>
-                    </NavbarItem>
+</NavbarItem>
+
                 </NavbarContent>
 
                 {/*right side bar small size */}
