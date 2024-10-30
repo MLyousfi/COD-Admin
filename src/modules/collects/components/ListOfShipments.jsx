@@ -3,8 +3,9 @@ import { DeliveryTruck01Icon, PencilEdit01Icon, PlusSignIcon, Delete01Icon, EyeI
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
-import StatusTabs from '../../shared/components/StatusTabs'; 
+import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data2';
+
 
 const columns = [
   { key: "number", label: "N°" },
@@ -55,70 +56,69 @@ const ListOfShipments = () => {
     ? products.filter(product => product.status === "active")
     : products.filter(product => product.status === "archived");
 
-    const renderCell = (item, columnKey) => {
-      switch (columnKey) {
-        case "statut":
-          return (
-            <div className="flex items-center">
-              <span className="bg-[#5902E843] text-black dark:text-white px-2 py-1 rounded-full flex items-center">
-                <Recycle03Icon size={16} className="mr-1" />
-                <span className="whitespace-nowrap">{item.statut.trim()}</span>
-              </span>
-            </div>
-          );
-    
-        case "send":
-          return (
-            <div className="flex items-center">
-              <span className={item.send === "Shipped" ? "bg-[#00E0FF30] text-black dark:text-white px-2 py-1 rounded-full flex items-center" : "bg-[#00FF2930] text-black dark:text-white px-2 py-1 rounded-full flex items-center"}>
-                <CheckmarkCircle01Icon size={16} className="mr-1" />
-                {item.send}
-              </span>
-            </div>
-          );
-    
-        case "options":
-          return (
-            <div className="flex space-x-2 justify-center">
-                  <Button
-  variant="flat"
-  size="sm"
-  className="w-8 h-8 rounded-full p-0 flex items-center justify-center
-             bg-[#00000020] dark:bg-[#FFFFFF20]"
-  style={{ padding: 0, minWidth: '32px', height: '32px' }}
->
-  <EyeIcon size={14}
-   />
-</Button>
-    
-              <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}>
-                <PencilEdit01Icon size={14} style={{ color: 'white' }} />
-              </Button>
-    
-              <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }} onClick={() => handleDelete(item.key)}>
-                <Delete01Icon size={14} style={{ color: 'white' }} />
-              </Button>
-            </div>
-          );
-    
-        default:
-          return <span className="text-sm dark:text-white">{item[columnKey]}</span>;
-      }
-    };
-    
+  const renderCell = (item, columnKey) => {
+    switch (columnKey) {
+      case "statut":
+        return (
+          <div className="flex items-center">
+            <span className="bg-[#5902E843] text-black dark:text-white px-2 py-1 rounded-full flex items-center">
+              <Recycle03Icon size={16} className="mr-1" />
+              <span className="whitespace-nowrap">{item.statut.trim()}</span>
+            </span>
+          </div>
+        );
+
+      case "send":
+        return (
+          <div className="flex items-center">
+            <span className={item.send === "Shipped" ? "bg-[#00E0FF30] text-black dark:text-white px-2 py-1 rounded-full flex items-center" : "bg-[#00FF2930] text-black dark:text-white px-2 py-1 rounded-full flex items-center"}>
+              <CheckmarkCircle01Icon size={16} className="mr-1" />
+              {item.send}
+            </span>
+          </div>
+        );
+
+      case "options":
+        return (
+          <div className="flex space-x-2 justify-center">
+            <Button
+              variant="flat"
+              size="sm"
+              className="w-8 h-8 rounded-full p-0 flex items-center justify-center bg-[#00000020] dark:bg-[#ffffff20]"
+              style={{ padding: 0, minWidth: '32px', height: '32px' }}
+            >
+              <EyeIcon size={14}
+              />
+            </Button>
+
+            <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}>
+              <PencilEdit01Icon size={14} style={{ color: 'white' }} />
+            </Button>
+
+            <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }} onClick={() => handleDelete(item.key)}>
+              <Delete01Icon size={14} style={{ color: 'white' }} />
+            </Button>
+          </div>
+        );
+
+      default:
+        return <span className="text-sm dark:text-white">{item[columnKey]}</span>;
+    }
+  };
+
 
   return (
     <DashboardLayout title="Collects - List of Shipments" icon={<DeliveryTruck01Icon className="text-info" />}>
-      <div className="p-4">
-        <div className="flex justify-between mb-4">
-          <StatusTabs
+      <div className="p-2 md:p-4">{/**here ---|> responsv */}
+        <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
+          {/* <StatusTabs
             activeCount={products.filter(product => product.status === "active").length}
             archivedCount={products.filter(product => product.status === "archived").length}
             selectedTab={selectedTab}
             onTabChange={setSelectedTab}
-          />
+          /> */}
 
-          <div className="flex space-x-4 items-center">
+          <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
             <Button
               color="default"
               onClick={addNewProduct}

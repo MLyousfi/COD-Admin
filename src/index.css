@@ -5,6 +5,10 @@
 *{
     box-sizing: border-box;
 }
+
+header {
+	padding: 0 !important;
+}
 ::-webkit-scrollbar-track-piece{
 	background-color:#fff;
 	-webkit-border-radius:0;

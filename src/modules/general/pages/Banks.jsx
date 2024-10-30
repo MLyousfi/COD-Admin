@@ -4,7 +4,7 @@ import { PencilEdit01Icon, PlusSignIcon, Delete01Icon, Settings02Icon } from "hu
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
-import StatusTabs from '../../shared/components/StatusTabs';  
+import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data7';
 
 const columns = [
@@ -46,8 +46,8 @@ const Banks = () => {
 
   return (
     <DashboardLayout title="General - Bank" icon={<Settings02Icon className="text-info" />}>
-      <div className="p-4">
-        <div className="flex justify-between mb-4">
+      <div className="p-2 md:p-4">{/**here ---|> responsv */}
+        <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
           <StatusTabs
             activeCount={products.filter(product => product.status === "active").length}
             archivedCount={products.filter(product => product.status === "archived").length}
@@ -55,7 +55,7 @@ const Banks = () => {
             onTabChange={setSelectedTab}
           />
 
-          <div className="space-x-4">
+          <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
             <Button
               color="default"
               onClick={addNewProduct}

@@ -38,7 +38,7 @@ export default function Login() {
         }
     }
     return (
-        <BlankLayout>
+        <BlankLayout showNavbar>
             <div className="px-8 mx-auto text-center w-[25rem]">
                 <h2 className="my-3 text-2xl font-bold text-primary">Welcome Back !</h2>
                 <p className="text-gray-400">Please enter your credentials to sign in !</p>
@@ -60,7 +60,7 @@ export default function Login() {
                     {validation?.password && (
                         <span className="text-red-400 my-2 text-sm block text-start">{validation?.password}</span>)}
 
-                    <Button className="w-full my-4 font-bold text-white rounded bg-primary">Login</Button>
+                    <Button className="w-full my-4 font-bold text-white rounded bg-primary"><Link to={RouteNames.dashboard} className="text-sm">Login</Link></Button>
                     <br />
                     <div className="flex flex-row justify-between my-1">
                         <Link to={RouteNames.forgotPassword} className="text-sm">Forgot your password?</Link>

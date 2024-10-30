@@ -146,8 +146,8 @@ export default function MyAgent() {
         <>
             <DashboardLayout title="Call Center Manager - My Agent" icon={<CustomerService01Icon className="text-info" />}
             >
-                <div className="p-4">
-                    <div className="flex flex-row justify-between items-center gap-4 ">
+                <div className="p-2 md:p-4">{/**here ---|> responsv */}
+                    <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
                         <StatusTabs
                             activeCount={rows.filter(row => row.status === "active").length}
                             archivedCount={rows.filter(row => row.status === "archived").length}
@@ -157,7 +157,7 @@ export default function MyAgent() {
 
                         {/*Tab content*/}
 
-                        <div className="flex flex-row gap-2">
+                        <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
 
                             <Button color="default" className="rounded-full text-white bg-danger">
                                 <PencilEdit01Icon size={18} /> Actions

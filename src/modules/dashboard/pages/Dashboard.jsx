@@ -274,7 +274,7 @@ export default function Dashboard() {
             <DashboardLayout title="Dashboard" icon={<Home01Icon className="text-info" />}>
 
                 <motion.div initial="hidden"
-                    animate="visible" variants={container} className="flex flex-col flex-wrap justify-start px-8 md:flex-row">
+                    animate="visible" variants={container} className="flex flex-col flex-wrap justify-start px-2 md:px-8 md:flex-row">
                     {dataCards.map((item, index) => (
                         <StatsCard
                             key={index}
@@ -283,7 +283,7 @@ export default function Dashboard() {
                     ))}
 
                 </motion.div>
-                <div className="flex flex-row flex-wrap items-start justify-start p-4 md:px-8">
+                <div className="flex flex-row flex-wrap items-start justify-start p-2 md:px-8">
                     <LineChartCard
                         title="Product Delivery"
                         data={chartData}
@@ -303,7 +303,7 @@ export default function Dashboard() {
 
                 </div>
 
-                <div className="px-4 my-12 md:px-8">
+                <div className="px-2 my-12 md:px-8">
                     <h3 className="my-6 text-xl font-bold">Call Center</h3>
                     <motion.div initial="hidden"
                         animate="visible" variants={container} className="flex flex-row flex-wrap">
@@ -323,7 +323,7 @@ export default function Dashboard() {
                     </motion.div>
                 </div>
 
-                <div className="px-8 ">
+                <div className="px-2 md:px-8 ">
                     <h3 className="my-6 text-xl font-bold">Shipping</h3>
                     <div className="flex flex-row flex-wrap justify-start">
                         {shipping.map((i, index) => (

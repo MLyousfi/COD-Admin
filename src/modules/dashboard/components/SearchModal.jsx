@@ -1,5 +1,5 @@
 import Transition from "@/core/utils/Transition.jsx";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@nextui-org/button";
 import { Cancel01Icon, PencilEdit01Icon, Search01Icon, Search02Icon } from "hugeicons-react";
 import CountrySelector from "@shared/components/CountrySelector.jsx";
@@ -25,15 +25,6 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
         return () => document.removeEventListener('click', clickHandler);
     });
 
-    // close if the esc key is pressed
-    useEffect(() => {
-        const keyHandler = ({ keyCode }) => {
-            if (!modalOpen || keyCode !== 27) return;
-            setModalOpen(false);
-        };
-        document.addEventListener('keydown', keyHandler);
-        return () => document.removeEventListener('keydown', keyHandler);
-    });
 
 
     // show if the ctrl+k key is pressed
@@ -54,7 +45,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
     ]
     const [selectedItems, setSelectedItems] = useState([])
 
-    const toggleSelectItem = (key) => {
+    const toggleSelectItem = useCallback((key) => {
         setSelectedItems((prevSelectedItems) => {
             // Check if the key is already in the selected items
             if (prevSelectedItems.includes(key)) {
@@ -65,7 +56,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                 return [...prevSelectedItems, key];
             }
         });
-    };
+    }, []);
     const options = [
         {
             key: 1,
@@ -86,7 +77,8 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
     ]
 
     const [selectedOptions, setSelectedOptions] = useState([1, 3])
-    const toggleSelectOption = (key) => {
+
+    const toggleSelectOption = useCallback((key) => {
         setSelectedOptions((prevSelectedOptions) => {
             // Check if the key is already in the selected items
             if (prevSelectedOptions.includes(key)) {
@@ -97,7 +89,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                 return [...prevSelectedOptions, key];
             }
         });
-    };
+    }, []);
 
     const selectAllItems = () => {
         setSelectedItems(selectItems.map(item => item.key));
@@ -405,3 +397,4 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
 }
 
 export default ModalSearch;
+
