@@ -20,7 +20,6 @@ const RouteNames = {
     callCenterAgentsRequests: '/call-center-manager/agents-requests',
     StockManagement: '/StockManagement',
     collectsListOfShipments: '/Collects/listOfShipments',
-    firstMileDashboard: '/First-Mile/dashboard',
     products: '/StockManagement/products',
     warehouses: '/StockManagement/warehouses',
     ordersManagement: '/ordersManagement',

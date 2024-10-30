@@ -1,26 +1,26 @@
 // StockManagement.jsx
 import React, { useState, useEffect } from 'react';
 import {
-  GarageIcon,
+DeliveryBox01Icon,
   PlusSignIcon,
+  GarageIcon,
   PencilEdit01Icon,
   EyeIcon,
   Delete01Icon,
   EarthIcon, 
   DropboxIcon,
-  PackageIcon,      // New Icon
-  Layers01Icon,     // New Icon
-  SaleTag02Icon,    // New Icon
-  Dollar02Icon      // New Icon
+  PackageIcon,      
+  Layers01Icon,     
+  SaleTag02Icon,   
+  Dollar02Icon      
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatusTabs from '../../shared/components/StatusTabs';
-import Table from './Table'; 
+import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data'; 
-import CustomModal from './modal'; 
-import InformationsForm from './InformationsForm'; // Import the InformationsForm component
-
+import InformationsForm from '../../stockManagement.jsx/components/InformationsForm';
+import CustomModal from '../../stockManagement.jsx/components/modal';
 const selectedButtonColor = '#0258E8';
 const headerBackgroundColorDark = 'rgba(255, 255, 255, 0.02)';
 const headerBackgroundColorLight = 'rgba(0, 0, 0, 0.05)';
@@ -36,7 +36,7 @@ const columns = [
   { key: "options", label: "Options" },
 ];
 
-const StockManagement = () => {
+const Stock = () => {
   const [activeView, setActiveView] = useState('active'); 
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -202,7 +202,7 @@ const StockManagement = () => {
   const modalTableDataFinal = modalView === 'warehouses' ? warehousesData : countriesData;
 
   return (
-    <DashboardLayout title="Stock Management - List of Products" icon={<GarageIcon className="text-info" />}>
+    <DashboardLayout title="First Mile - Stock" icon={<DeliveryBox01Icon className="text-info" />}>
       <div className="p-4">
         <div className="flex justify-between mb-4">
           <StatusTabs 
@@ -465,4 +465,4 @@ const StockManagement = () => {
   );
 };
 
-export default StockManagement;
+export default Stock;
