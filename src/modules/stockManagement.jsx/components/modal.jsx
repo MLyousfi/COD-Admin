@@ -16,7 +16,7 @@ const getCustomStyles = (isDarkMode) => ({
     borderRadius: '15px',
     width: '800px',
     maxHeight: '80vh',
-    overflow: 'hidden',
+    overflowY: 'auto', // Changed from 'hidden' to 'auto'
     backgroundColor: isDarkMode ? '#0C0B0C' : '#FFFFFF',
     color: isDarkMode ? '#FFFFFF' : '#000000',
     border: isDarkMode ? '1px solid #FFFFFF10' : '1px solid #00000010',
@@ -40,7 +40,7 @@ const CustomModal = ({
       onRequestClose={onClose}
       style={getCustomStyles(isDarkMode)}
       contentLabel={title}
-      ariaHideApp={false} 
+      ariaHideApp={false}
     >
       <div className="flex flex-col h-full">
         {/* Modal Header */}
@@ -58,10 +58,16 @@ const CustomModal = ({
         </div>
 
         {/* Separator Line */}
-        <hr className={isDarkMode ? 'w-full mb-8 border-gray-800' : 'w-full mb-8 border-gray-200'} />
+        <hr
+          className={
+            isDarkMode
+              ? 'w-full mb-8 border-gray-800'
+              : 'w-full mb-8 border-gray-200'
+          }
+        />
 
         {/* Modal Content */}
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1">
           {children}
         </div>
       </div>
