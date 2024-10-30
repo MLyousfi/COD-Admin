@@ -86,7 +86,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
 
     const scrollToItem = (route) => {
         const element = document.getElementById(route);
-        element?.scrollIntoView({ behavior: "smooth", block: "start" });
+        element?.scrollIntoView({ behavior: 'instant', block: "center" });
     };
     const expandCurrentRouteOnly = () => {
         let newExpandedRoutes = {};
@@ -123,10 +123,10 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
             className={`${showSidebar ? 'block' : 'hidden'} lg:hidden backdrop-blur-xl backdrop-saturate-150 z-30 fixed inset-0 p-0 h-screen  bg-gray-500/10`}>
             {showSidebar &&
 
-                <motion.div layout initial={{ width: 0 }} animate={{ width: '80%' }} onClick={(e) => e.stopPropagation()} className="flex flex-col overflow-y-auto h-full mr-auto bg-base_light dark:bg-base_dark">
+                <motion.div layout initial={{ width: 0 }} animate={{ width: '80%' }} exit={{ width: 0 }} onClick={(e) => e.stopPropagation()} className="flex max-w-80 flex-col overflow-y-auto h-full mr-auto bg-base_light dark:bg-base_dark">
                     <div className="flex justify-between items-center my-6 px-6">
-                        {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
-                            <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}
+                        <Link to='/dashboard' onClick={() => setShowSidebar(false)} >{currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
+                            <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}</Link>
                         {showSidebar && (
                             <Button ref={trigger} onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
                                 <SidebarLeft01Icon />

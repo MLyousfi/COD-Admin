@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 export default function Help() {
     const location = useLocation();
 
-    const redirectLink = location.state.from;
+    const redirectLink = location.state ? location.state.from : '/dashboard';
     return (
         <DashboardLayout title="Help" hasSearchInput={false} hasReturnLink={redirectLink}>
             <div className="min-h-screen p-8">

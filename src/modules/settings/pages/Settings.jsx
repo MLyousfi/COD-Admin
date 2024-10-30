@@ -36,7 +36,7 @@ export default function Settings() {
     // Function to load more notifications
 
     // Retrieve the redirection link from the state
-    const redirectLink = location.state.from;
+    const redirectLink = location.state ? location.state.from : '/dashboard';
     return (
         <DashboardLayout title="Settings" hasSearchInput={false} hasReturnLink={redirectLink}>
 
