@@ -260,8 +260,8 @@ const ListOfUsers = () => {
                         <Button
                             variant="flat"
                             size="sm"
-                            className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
-                            style={{ backgroundColor: '#9e9a9a ', padding: 0, minWidth: '32px', height: '32px' }}
+                            className="w-8 h-8 bg-[#00000020] dark:bg-[#ffffff20] rounded-full p-0 flex items-center justify-center"
+                            style={{ padding: 0, minWidth: '32px', height: '32px' }}
                         >
                             <EyeIcon size={14} />
                         </Button>
@@ -294,9 +294,9 @@ const ListOfUsers = () => {
     };
     return (
         <DashboardLayout title="Users - List of Users" icon={<UserIcon className="text-info" />}>
-            <div className="p-4">
+            <div className="p-2 md:p-4">{/**here ---|> responsv */}
                 {/* Tabs for Active and Archived */}
-                <div className="flex justify-between mb-4">
+                <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
                     <div className="flex justify-center items-center gap-2">
                         {companies && companies.length > 0 && companies.map((item, index) =>
                         (<div key={index} onClick={() => setSelectedCompany(companies[index])} className={`py-2 cursor-pointer text-sm px-6 rounded-full text-white ${selectedCompany === item ? 'bg-[#0258E8]' : 'bg-[#0256e83d]'} `}>
@@ -306,7 +306,7 @@ const ListOfUsers = () => {
                     </div>
 
                     {/* New Product and Actions Buttons */}
-                    <div className="space-x-4">
+                    <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
                         <Button
                             color="default"
                             className="rounded-full"

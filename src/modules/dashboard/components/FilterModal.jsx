@@ -87,7 +87,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                         placeholder="Select an agent"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10] ',
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] ',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -103,7 +103,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                         placeholder="Select a follow up agent"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -121,7 +121,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                         placeholder="Select a seller"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -137,7 +137,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                         placeholder="Select a product"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -155,7 +155,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                         placeholder="Select an affiliate"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -171,7 +171,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                         placeholder="Select a store"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200  focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10]',
                                         }}
                                         color="default">
                                         <SelectItem>
@@ -191,7 +191,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                         placeholder="Confirmed by"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -207,7 +207,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                         placeholder="Confirmed via"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Whatsapp
@@ -226,7 +226,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                         placeholder="Select a channel"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Chanel
@@ -245,7 +245,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                         placeholder="Select a company"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10]',
                                         }}>
                                         <SelectItem>
                                             Chanel

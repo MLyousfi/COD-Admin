@@ -4,6 +4,8 @@ import { Chip } from "@nextui-org/chip";
 import { Tabs, Tab } from "@nextui-org/tabs";
 
 const StatusTabs = ({ tabs = ['Active', 'Archived'], activeCount, archivedCount, selectedTab, onTabChange }) => {
+
+
   return (
     <Tabs
       aria-label="Status Options"
@@ -18,7 +20,7 @@ const StatusTabs = ({ tabs = ['Active', 'Archived'], activeCount, archivedCount,
       selectedKey={selectedTab}
       onSelectionChange={onTabChange}
     >
-      {tabs.map((i, idx) => (
+      {tabs.map((i) => (
         <Tab
           className='px-2'
           key={i}

@@ -14,6 +14,7 @@ import StatusTabs from '../../shared/components/StatusTabs';
 import Table from "../../stockManagement.jsx/components/Table";
 import { motion } from 'framer-motion';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
+import { agentNames } from "../../../core/utils/shared.data";
 
 
 const rows = [
@@ -183,8 +184,8 @@ export default function Confirmation() {
                 </div>
             }
         >
-            <div className="p-4">
-                <div className="flex justify-between items-center mb-4">
+            <div className="p-2 md:p-4">{/**here ---|> responsv */}
+                <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
                     <StatusTabs
                         activeCount={rows.filter(row => row.status === "active").length}
                         archivedCount={rows.filter(row => row.status === "archived").length}
@@ -192,9 +193,9 @@ export default function Confirmation() {
                         onTabChange={setSelectedTab}
                     />
 
-                    <div className="flex space-x-4 items-center">
-                        <Button color="default" className="rounded-full bg-info text-white">
-                            <Calling02Icon size={18} /> Start Call
+                    <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
+                        <Button color="default" className="rounded-full bg-info text-white text-[10px]">
+                            <Calling02Icon size={10} /> Start Call
                         </Button>
 
                         <Dropdown>
@@ -204,55 +205,23 @@ export default function Confirmation() {
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Static Actions">
-                                <DropdownItem key="new">
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex gap-2">
-                                            <UserIcon size={15} /> Agent 01
-                                        </div>
+                                {agentNames.map((i) => (
+                                    <DropdownItem key={i}>
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex gap-2">
+                                                <UserIcon size={15} /> {i}
+                                            </div>
 
-                                    </div>
-                                </DropdownItem>
-                                <DropdownItem key="new">
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex gap-2">
-                                            <UserIcon size={15} /> Agent 02
                                         </div>
-                                    </div>
-                                </DropdownItem>
-                                <DropdownItem key="new">
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex gap-2">
-                                            <UserIcon size={15} /> Agent 03
-                                        </div>
-                                    </div>
-                                </DropdownItem>
-                                <DropdownItem key="new">
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex gap-2">
-                                            <UserIcon size={15} /> Agent 04
-                                        </div>
-                                    </div>
-                                </DropdownItem>
-                                <DropdownItem key="new">
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex gap-2">
-                                            <UserIcon size={15} /> Agent 05
-                                        </div>
-                                    </div>
-                                </DropdownItem>
-                                <DropdownItem key="new">
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex gap-2">
-                                            <UserIcon size={15} /> Agent 06
-                                        </div>
-                                    </div>
-                                </DropdownItem>
+                                    </DropdownItem>
+                                ))}
                             </DropdownMenu>
                         </Dropdown>
                         <Button color="default" className="rounded-full bg-danger text-white">
                             <PencilEdit01Icon size={18} /> Actions
                         </Button>
                     </div>
+
                 </div>
 
                 <Table

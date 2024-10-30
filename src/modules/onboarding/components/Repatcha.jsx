@@ -11,9 +11,10 @@ export default function Recaptcha({ setToken }) {
     const handleExpire = () => {
         setToken(null);
     }
+
     return (
         <ReCaptchaV2
-            sitekey={import.meta.env.VITE_RECAPTCH_SITE_KEY}
+            sitekey={'6Ld4m1wqAAAAAMKIWlQAZBbBXiHC0TQlJ2tpo8VA'}
             onChange={handleToken}
             onExpire={handleExpire}
         />

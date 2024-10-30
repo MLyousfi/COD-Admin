@@ -124,8 +124,8 @@ const SellersInvoices = () => {
 
   return (
     <DashboardLayout title="Invoices - Seller Invoices" icon={<InvoiceIcon className="text-info" />}>
-      <div className="p-4">
-        <div className="flex justify-between mb-4">
+      <div className="p-2 md:p-4">{/**here ---|> responsv */}
+        <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
           <StatusTabs
             activeCount={products.filter(product => product.status === "active").length}
             archivedCount={products.filter(product => product.status === "archived").length}
@@ -133,7 +133,7 @@ const SellersInvoices = () => {
             onTabChange={setSelectedTab}
           />
 
-          <div className="space-x-4">
+          <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
             <Button
               color="default"
               onClick={addNewProduct}

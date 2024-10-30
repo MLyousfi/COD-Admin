@@ -6,27 +6,30 @@ import {
   PencilEdit01Icon,
   EyeIcon,
   Delete01Icon,
+
   EarthIcon, 
   DropboxIcon,
   PackageIcon,      // New Icon
   Layers01Icon,     // New Icon
   SaleTag02Icon,    // New Icon
-  Dollar02Icon      // New Icon
+  Dollar02Icon   
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatusTabs from '../../shared/components/StatusTabs';
+
 import Table from './Table'; 
 import { rows } from '../../../core/utils/data'; 
 import CustomModal from './modal'; 
 import InformationsForm from './InformationsForm'; // Import the InformationsForm component
+
 
 const selectedButtonColor = '#0258E8';
 const headerBackgroundColorDark = 'rgba(255, 255, 255, 0.02)';
 const headerBackgroundColorLight = 'rgba(0, 0, 0, 0.05)';
 
 const columns = [
-  { key: "checkbox", label: "#" }, 
+  { key: "checkbox", label: "#" },
   { key: "store", label: "Store" },
   { key: "product", label: "Product" },
   { key: "arabicName", label: "Arabic Name" },
@@ -37,7 +40,7 @@ const columns = [
 ];
 
 const StockManagement = () => {
-  const [activeView, setActiveView] = useState('active'); 
+  const [activeView, setActiveView] = useState('active');
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +49,7 @@ const StockManagement = () => {
   const [modalType, setModalType] = useState(null); // 'view' or 'new'
   const [activeNewProductSection, setActiveNewProductSection] = useState('informations'); // 'informations', 'stocks', 'salesPrice', 'upsell'
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const rowsPerPage = 10; 
+  const rowsPerPage = 10;
 
   // Detect dark mode
   useEffect(() => {
@@ -72,7 +75,7 @@ const StockManagement = () => {
       sku: "SKU-NEW",
       type: "New Type",
       category: "New Category",
-      status: "active", 
+      status: "active",
     };
     setProducts([...products, newProduct]);
   };
@@ -86,13 +89,14 @@ const StockManagement = () => {
   };
 
   const handleDelete = (key) => {
-    setProducts(products.map(product => 
+    setProducts(products.map(product =>
       product.key === key ? { ...product, status: 'deleted' } : product
     ));
   };
 
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
+
     setModalView('warehouses'); 
     setModalType('view');
     setIsModalOpen(true);
@@ -101,6 +105,7 @@ const StockManagement = () => {
   const handleOpenNewProductModal = () => {
     setModalType('new');
     setActiveNewProductSection('informations'); // Default to 'informations' when opening new product modal
+
     setIsModalOpen(true);
   };
 
@@ -110,7 +115,7 @@ const StockManagement = () => {
     setModalType(null);
   };
 
-  const filteredProducts = activeView === 'active' 
+  const filteredProducts = activeView === 'active'
     ? products.filter(product => product.status === "active")
     : products.filter(product => product.status === "archived");
 
@@ -157,32 +162,32 @@ const StockManagement = () => {
 
   // Sample data for the modal tables
   const warehousesData = [];
-  
+
   const countriesData = selectedProduct
     ? [
-        {
-          key: 1,
-          productName: selectedProduct.product,
-          status: selectedProduct.status,
-          France: 0,
-          Spain: 0,
-          Belgique: 0,
-          Kuwait: 0,
-          China: 0,
-          UAE: 0,
-          KSA: 0,
-          Germany: 0,   
-          Italy: 0,     
-          Canada: 0,    
-          Brazil: 0,    
-          Australia: 0, 
-        },
-      ]
+      {
+        key: 1,
+        productName: selectedProduct.product,
+        status: selectedProduct.status,
+        France: 0,
+        Spain: 0,
+        Belgique: 0,
+        Kuwait: 0,
+        China: 0,
+        UAE: 0,
+        KSA: 0,
+        Germany: 0,
+        Italy: 0,
+        Canada: 0,
+        Brazil: 0,
+        Australia: 0,
+      },
+    ]
     : [];
 
-  const modalTableColumns = modalView === 'warehouses' ? 
+  const modalTableColumns = modalView === 'warehouses' ?
     [
-    ] : 
+    ] :
     [
       { key: "productName", label: "Product Name" },
       { key: "France", label: "France" },
@@ -203,42 +208,44 @@ const StockManagement = () => {
 
   return (
     <DashboardLayout title="Stock Management - List of Products" icon={<GarageIcon className="text-info" />}>
-      <div className="p-4">
-        <div className="flex justify-between mb-4">
-          <StatusTabs 
+      <div className="p-2 md:p-4">{/**here ---|> responsv */}
+        <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
+          <StatusTabs
             activeCount={products.filter(product => product.status === "active").length}
             archivedCount={products.filter(product => product.status === "archived").length}
             selectedTab={activeView}
             onTabChange={setActiveView}
           />
 
-          <div className="space-x-4">
+
+          <div className="flex gap-2 flex-wrap items-center">
             <Button 
               color="default" 
               onClick={handleOpenNewProductModal} // Updated to open modal
               className="rounded-full" 
               style={{ backgroundColor: '#0258E8', color: 'white' }}  
+
             >
-              <PlusSignIcon size={18} /> New Product 
+              <PlusSignIcon size={18} /> New Product
             </Button>
-            <Button 
-              color="default" 
-              className="rounded-full" 
-              style={{ backgroundColor: '#ED0006', color: 'white' }} 
+            <Button
+              color="default"
+              className="rounded-full"
+              style={{ backgroundColor: '#ED0006', color: 'white' }}
             >
-              <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions 
+              <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions
             </Button>
           </div>
         </div>
 
-        <Table 
-          columns={columns} 
-          data={filteredProducts} 
-          renderCell={renderCell} 
+        <Table
+          columns={columns}
+          data={filteredProducts}
+          renderCell={renderCell}
           handleCheckboxChange={handleCheckboxChange}
-          selectedRows={selectedRows} 
-          rowsPerPage={rowsPerPage}  
-          className="dark:bg-gray-800 dark:text-white" 
+          selectedRows={selectedRows}
+          rowsPerPage={rowsPerPage}
+          className="dark:bg-gray-800 dark:text-white"
         />
 
         {/* Custom Modal Component */}
@@ -369,12 +376,15 @@ const StockManagement = () => {
                                 <DropboxIcon size={200} className="mb-4 text-[#34343450]" />
                                 <p className="text-lg text-gray-600">There is no stock of this product at the moment</p>
                               </div>
+
                             </td>
                           </tr>
                         ) : (
+
                           <tr>
                             <td colSpan={modalTableColumns.length + 1} className="py-4 text-center text-gray-400">
                               No data available.
+
                             </td>
                           </tr>
                         )

@@ -392,9 +392,9 @@ export default function AgentsRequests() {
         <>
             <DashboardLayout title="Call Center Manager - Agents Requests" icon={<Calculator01Icon className="text-info" />}
             >
-                <div className="">
+                <div className="p-2 md:p-4">{/**here ---|> responsv */}
                     {/*Tabs*/}
-                    <div className="flex flex-row justify-between items-center gap-4 p-12 ">
+                    <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
                         <StatusTabs
                             activeCount={rows.filter(row => row.status === "active").length}
                             archivedCount={rows.filter(row => row.status === "archived").length}
@@ -403,7 +403,7 @@ export default function AgentsRequests() {
                         />
 
 
-                        <div className="flex flex-row gap-2">
+                        <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
 
                             <Dropdown className="!backdrop-blur-md !bg-gray-400/30">
                                 <DropdownTrigger>

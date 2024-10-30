@@ -2,7 +2,7 @@ import Sidebar from "@/modules/dashboard/components/partials/Sidebar.jsx";
 import Header from "@/modules/dashboard/components/partials/Navbar.jsx";
 import { Button } from "@nextui-org/button";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowDown01Icon, ArrowLeft01Icon, ArrowRight01Icon, CommandIcon, FilterIcon, Search01Icon } from "hugeicons-react";
+import { ArrowDown01Icon, ArrowLeft01Icon, ArrowRight01Icon, Clock01Icon, CommandIcon, FilterIcon, Search01Icon } from "hugeicons-react";
 import { useEffect, useRef, useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Code } from "@nextui-org/code";
@@ -10,6 +10,10 @@ import FilterModal from "@/modules/dashboard/components/FilterModal.jsx";
 import ResideBar from "../../dashboard/components/partials/ReSideBar";
 import { Link } from "react-router-dom";
 import SearchModal from "@/modules/dashboard/components/SearchModal.jsx";
+import { NavbarContent, NavbarItem } from "@nextui-org/navbar";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
+import { User } from "@nextui-org/user";
+import moment from "moment";
 
 export default function DashboardLayout({ children, icon, title, additionalContent, hasSearchInput = true, hasReturnLink = null }) {
 
@@ -58,14 +62,64 @@ export default function DashboardLayout({ children, icon, title, additionalConte
     return (
         <>
             {/* i want to add a hover on 10px in the right of this parent div to show the side bar  */}
-            <div className="flex overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
+            <div className="flex w-screen overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
 
 
-                <div className={`relative  flex flex-col w-full lg:ml-auto min-h-screen ${showSidebar ? ' lg:w-[calc(100%-20rem)]' : 'lg:w-[calc(100%-3.5rem)]'}`}>
+                <div className={`relative flex flex-col w-full lg:ml-auto min-h-screen ${showSidebar ? ' lg:w-[calc(100%-20rem)]' : 'lg:w-[calc(100%-3.5rem)]'}`}>
                     {/*  Site header */}
                     <Header showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
-                    <div className="relative h-12 w-full p-4 mx-auto text-center lg:hidden">
-                        <div ref={dropdownRef} onClick={() => setSmallNotOpen(!SmallNotOpen)} className="z-30 cursor-pointer absolute top-3 w-fit left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
+                    {!hasReturnLink && <div className="flex p-3 md:p-4 md:hidden mx-auto gap-6 mt-4 justify-between items-center">
+
+                        <Dropdown placement="bottom-start">
+                            <DropdownTrigger>
+                                <User
+                                    as="button"
+                                    avatarProps={{
+                                        isBordered: true,
+                                        src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                                    }}
+                                    classNames={{
+                                        name: "font-bold",
+                                    }}
+                                    className="transition-transform"
+
+                                />
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="User Actions" variant="flat">
+                                <DropdownItem key="profile" className="gap-2 h-14">
+                                    <p className="font-bold">Signed in as</p>
+                                    <p className="font-bold">@tonyreichert</p>
+                                </DropdownItem>
+                                <DropdownItem key="settings">
+                                    My Settings
+                                </DropdownItem>
+                                <DropdownItem key="team_settings">Team Settings</DropdownItem>
+                                <DropdownItem key="analytics">
+                                    Analytics
+                                </DropdownItem>
+                                <DropdownItem key="system">System</DropdownItem>
+                                <DropdownItem key="configurations">Configurations</DropdownItem>
+                                <DropdownItem key="help_and_feedback">
+                                    Help & Feedback
+                                </DropdownItem>
+                                <DropdownItem key="logout" color="danger">
+                                    Log Out
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                        <div className="flex flex-col gap-2 justify-center items-center">
+                            <h4 className="text-lg font-bold">{moment().format('dddd, MM MMM YYYY')}</h4>
+                            <span className="flex flex-row items-center gap-1 text-gray-600"> <Clock01Icon
+                                size={16} /> {moment().format('HH:mm  Z')}</span>
+                        </div>
+                        <Button isIconOnly className="rounded-full bg-gray-200 dark:bg-base_card"
+                            onClick={() => setSearchModalOpen(true)}>
+                            <Search01Icon />
+                        </Button>
+
+                    </div>}
+                    <div className="relative  h-12 w-full p-3 md:p-4 mx-auto text-center lg:hidden">
+                        <div ref={dropdownRef} onClick={() => setSmallNotOpen(!SmallNotOpen)} className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
                             <div className=" flex justify-center items-center gap-2 ">
                                 <h4 className="text-sm font-semibold ">Important Notifications in the ERP</h4>
                                 {SmallNotOpen ? <ArrowDown01Icon className="font-thin" /> : <ArrowRight01Icon className="font-thin" />}
@@ -92,8 +146,8 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                         </div>
                     </div>
                     <div
-                        className="flex flex-col items-center justify-between w-full gap-4 px-4 my-6 md:flex-row md:px-8">
-                        <h2 className="flex flex-row justify-start gap-2 ml-4 text-xl font-bold items-center">
+                        className="flex flex-col items-start justify-start md:items-center md:justify-between w-full gap-4 px-3 md:px-4 my-6 md:flex-row ">
+                        <h2 className="flex flex-row justify-start gap-2  md:ml-4 text-lg sm:text-xl font-bold items-center">
                             {hasReturnLink && <Link to={hasReturnLink}
 
                                 isIconOnly
@@ -101,8 +155,9 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                             >
 
                                 <ArrowLeft01Icon />
-                                <div
-                                    className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full"></div>
+                                <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full">
+
+                                </div>
                             </Link>}
                             {icon}
                             {title}
@@ -138,7 +193,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                 <ResideBar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
                 {/* sidebar for bigger screens */}
                 <Sidebar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
-            </div>
+            </div >
             <SearchModal id="search-modal" searchId="search" modalOpen={searchModalOpen}
                 setModalOpen={setSearchModalOpen} />
             <FilterModal modalOpen={showFilterModal} setModalOpen={setShowFilterModal} id={2} />
