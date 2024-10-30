@@ -1,12 +1,14 @@
 import Transition from "@/core/utils/Transition.jsx";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@nextui-org/button";
-import { Cancel01Icon, Search01Icon, Search02Icon } from "hugeicons-react";
+import { Cancel01Icon, PencilEdit01Icon, Search01Icon, Search02Icon } from "hugeicons-react";
 import CountrySelector from "@shared/components/CountrySelector.jsx";
 import { SignupSteps } from "@/core/constants/signup.js";
 import { COUNTRIES } from "@/core/constants/countries.js";
 import { Select, SelectItem } from "@nextui-org/select";
 import { Input } from "@nextui-org/input";
+import { motion } from "framer-motion";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 
 function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
 
@@ -46,9 +48,74 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
         return () => document.removeEventListener('keydown', keyHandler);
     });
 
-    // useEffect(() => {
-    //     modalOpen && searchInput.current.focus();
-    // }, [modalOpen]);
+    const selectItems = [{ key: 1, label: 'Shipping Status' }, { key: 2, label: 'Store' },
+    { key: 3, label: 'Sales channels' }, { key: 4, label: 'Exclude Sellers' }, { key: 5, label: 'Affiliates' },
+    { key: 6, label: 'Shipping company' }, { key: 7, label: 'Remitted' }
+    ]
+    const [selectedItems, setSelectedItems] = useState([])
+
+    const toggleSelectItem = (key) => {
+        setSelectedItems((prevSelectedItems) => {
+            // Check if the key is already in the selected items
+            if (prevSelectedItems.includes(key)) {
+                // If it exists, remove it
+                return prevSelectedItems.filter(itemKey => itemKey !== key);
+            } else {
+                // If it doesn't exist, add it
+                return [...prevSelectedItems, key];
+            }
+        });
+    };
+    const options = [
+        {
+            key: 1,
+            label: 'Highest Priority (Confirmation)'
+        },
+        {
+            key: 2,
+            label: 'Highest Priority (Follow up)'
+        },
+        {
+            key: 3,
+            label: 'Orders locked'
+        },
+        {
+            key: 4,
+            label: 'Confirmed without city'
+        },
+    ]
+
+    const [selectedOptions, setSelectedOptions] = useState([1, 3])
+    const toggleSelectOption = (key) => {
+        setSelectedOptions((prevSelectedOptions) => {
+            // Check if the key is already in the selected items
+            if (prevSelectedOptions.includes(key)) {
+                // If it exists, remove it
+                return prevSelectedOptions.filter(itemKey => itemKey !== key);
+            } else {
+                // If it doesn't exist, add it
+                return [...prevSelectedOptions, key];
+            }
+        });
+    };
+
+    const selectAllItems = () => {
+        setSelectedItems(selectItems.map(item => item.key));
+    };
+
+
+    // Function to unselect all items
+    const unselectAllItems = () => {
+        setSelectedItems([]);
+    };
+
+    const onrderNumRef = useRef()
+    useEffect(() => {
+        if (modalOpen && onrderNumRef.current) {
+            onrderNumRef.current.focus();
+        }
+    }, [modalOpen])
+
 
     return (
         <>
@@ -87,9 +154,73 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                         </Button>
                     </div>
                     <div>
-                        <div className="flex flex-col gap-2 lg:flex-row">
+                        <div className="flex justify-end">
+                            <Dropdown closeOnSelect={false} className="!backdrop-blur-md dark:!bg-black/30 !bg-gray-400/30">
+                                <DropdownTrigger>
+
+                                    <motion.div
+                                        initial={{ scale: 1 }}
+                                        whileTap={{ scale: 0.9 }} className="flex justify-start px-3 border-gray-400 dark:border-[#ffffff30] outline-none items-center gap-2 rounded-full border" >
+                                        <motion.div
+                                            initial={{ scale: 1 }}
+                                            whileTap={{ scale: 0.9 }}
+                                            transition={{ duration: 0.1 }} className='py-2' >
+                                            {/* animate this div and it's child ontap when the parent div above clicked using framer motion */}
+                                            <div
+                                                onClick={(e) => { e.stopPropagation(); selectedItems.length > 0 ? unselectAllItems() : selectAllItems() }}
+                                                className='cursor-pointer w-5 h-5 mx-auto rounded-md border border-[#00000050] dark:border-[#ffffff50] flex justify-center items-center'>
+                                                {selectedItems.length === selectItems.length && <motion.div initial={{ scale: 0 }} transition={{ type: "spring", stiffness: 100 }} animate={{ scale: 1 }} className='w-3.5 h-3.5 rounded-sm bg-glb_blue'></motion.div>}
+                                            </div> </motion.div>
+                                        <h4 className="cursor-default">Select All</h4>
+                                    </motion.div>
+                                </DropdownTrigger>
+                                <DropdownMenu aria-label="Static Actions" classNames={{ list: "!bg-transparent" }} >
+                                    <DropdownItem key="new " className="">
+                                        <motion.div
+                                            initial={{ scale: 1 }}
+                                            whileTap={{ scale: 0.9 }} className=" flex justify-start w-full items-center gap-2 " onClick={() => selectedItems.length > 0 ? unselectAllItems() : selectAllItems()}>
+                                            <motion.div
+                                                initial={{ scale: 1 }}
+                                                whileTap={{ scale: 0.9 }}
+                                                transition={{ duration: 0.1 }} className='py-2' >
+                                                {/* animate this div and it's child ontap when the parent div above clicked using framer motion */}
+                                                <div
+                                                    className='w-5 h-5 mx-auto rounded-md border border-[#00000050] dark:border-[#ffffff50] flex justify-center items-center'>
+                                                    {selectedItems.length === selectItems.length && <motion.div initial={{ scale: 0 }} transition={{ type: "spring", stiffness: 100 }} animate={{ scale: 1 }} className='w-3.5 h-3.5 rounded-sm bg-glb_blue'></motion.div>}
+                                                </div> </motion.div>
+                                            <h4>Select All</h4>
+                                        </motion.div>
+                                        <div className=" h-[1px] w-full bg-white rounded-full mt-2"  ></div>
+                                    </DropdownItem>
+                                    {selectItems.map((i, idx) => (
+                                        <DropdownItem key={idx} onClick={(e) => {
+                                            toggleSelectItem(i.key)
+                                        }}>
+                                            <motion.div
+                                                initial={{ scale: 1 }}
+                                                whileTap={{ scale: 0.9 }} className="flex justify-start w-full items-center gap-2 " >
+                                                <motion.div
+                                                    initial={{ scale: 1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                    transition={{ duration: 0.1 }} className='py-2' >
+                                                    {/* animate this div and it's child ontap when the parent div above clicked using framer motion */}
+                                                    <div
+                                                        className='w-5 h-5 mx-auto rounded-md border border-[#00000050] dark:border-[#ffffff50] flex justify-center items-center'>
+                                                        {selectedItems.includes(i.key) && <motion.div initial={{ scale: 0 }} transition={{ type: "spring", stiffness: 100 }} animate={{ scale: 1 }} className='w-3.5 h-3.5 rounded-sm bg-glb_blue'></motion.div>}
+                                                    </div> </motion.div>
+                                                <h4>{i.label}</h4>
+                                            </motion.div>
+                                        </DropdownItem>
+                                    ))
+
+                                    }
+
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                        <div className="flex flex-col gap-8 lg:flex-row">
                             <div className="w-full lg:w-1/2">
-                                <Input type="text" variant="underlined" color="primary"
+                                <Input type="text" variant="underlined" color="primary" value={"0001"} ref={onrderNumRef} onFocus={() => console.log('focus')}
                                     classNames={{
                                         label: ["!text-[#00000050] dark:!text-[#FFFFFF30]"],
 
@@ -106,188 +237,160 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                                     label="Phone number" />
                             </div>
                         </div>
-                        <h4 className="text-lg font-medium mt-6 mb-2">Lists</h4>
-                        <div className="flex flex-col lg:flex-row my-2">
+                        <div className="flex flex-col gap-8 lg:flex-row">
+                            <div className="w-full lg:w-1/2">
+                                <Input type="text" variant="underlined" color="primary"
+                                    classNames={{
+                                        label: ["!text-[#00000050] dark:!text-[#FFFFFF30]"],
+
+                                        // input tag inside innerWrapper
+                                    }}
+                                    label="Full name" />
+                            </div>
+                            <div className="w-full lg:w-1/2">
+
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col gap-8 lg:flex-row mt-6">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#agents" className="block mr-2">
-                                    <span className="text-sm text-gray-400">List of agents</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Orders status</span>
                                     <Select
+                                        selectedKeys={"1"}
                                         id="agents"
                                         placeholder="Select an agent"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10] ',
+                                            value: " dark:!text-[#ffffff85] !text-[#00000085]",
+                                            trigger: 'bg-transparent  mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
                                         }}>
-                                        <SelectItem>
-                                            Agent
+                                        <SelectItem key={"1"}>
+                                            All
                                         </SelectItem>
                                     </Select>
                                 </label>
                             </div>
-                            <div className="w-full lg:w-1/2">
-                                <label htmlFor="#follow-up-agents" className="block mt-4 lg:mt-0 lg:ml-2">
-                                    <span className="text-sm text-gray-400">List of follow up agents</span>
-                                    <Select
-                                        id="follow-up-agents"
-                                        placeholder="Select a follow up agent"
-                                        labelPlacement="outside"
-                                        classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
-                                        }}>
-                                        <SelectItem>
-                                            Agent
-                                        </SelectItem>
-                                    </Select>
-                                </label>
-                            </div>
-                        </div>
-                        <div className="flex flex-col lg:flex-row my-4">
-                            <div className="w-full lg:w-1/2">
-                                <label htmlFor="#seller" className="block mr-2">
-                                    <span className="text-sm text-gray-400">List of sellers *</span>
-                                    <Select
-                                        id="agents"
-                                        placeholder="Select a seller"
-                                        labelPlacement="outside"
-                                        classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
-                                        }}>
-                                        <SelectItem>
-                                            Agent
-                                        </SelectItem>
-                                    </Select>
-                                </label>
-                            </div>
-                            <div className="w-full lg:w-1/2">
-                                <label htmlFor="#product" className="block mt-4 lg:mt-0 lg:ml-2">
-                                    <span className="text-sm text-gray-400">List of products *</span>
-                                    <Select
-                                        id="product"
-                                        placeholder="Select a product"
-                                        labelPlacement="outside"
-                                        classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
-                                        }}>
-                                        <SelectItem>
-                                            Agent
-                                        </SelectItem>
-                                    </Select>
-                                </label>
-                            </div>
-                        </div>
-                        <div className="flex flex-col lg:flex-row my-4">
-                            <div className="w-full lg:w-1/2">
-                                <label htmlFor="#affiliate" className="block mr-2">
-                                    <span className="text-sm text-gray-400">List of affiliates *</span>
-                                    <Select
-                                        id="affiliate"
-                                        placeholder="Select an affiliate"
-                                        labelPlacement="outside"
-                                        classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
-                                        }}>
-                                        <SelectItem>
-                                            Agent
-                                        </SelectItem>
-                                    </Select>
-                                </label>
-                            </div>
-                            <div className="w-full lg:w-1/2">
-                                <label htmlFor="#store" className="block mt-4 lg:mt-0 lg:ml-2">
-                                    <span className="text-sm text-gray-400">List of stores *</span>
-                                    <Select
-                                        id="store"
-                                        placeholder="Select a store"
-                                        labelPlacement="outside"
-                                        classNames={{
-                                            trigger: 'bg-gray-200  focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
-                                        }}
-                                        color="default">
-                                        <SelectItem>
-                                            Agent
-                                        </SelectItem>
-                                    </Select>
-                                </label>
-                            </div>
-                        </div>
-                        <h4 className="text-lg font-medium mt-6 mb-2">Confirmation</h4>
-                        <div className="flex flex-col lg:flex-row my-2">
-                            <div className="w-full lg:w-1/2">
-                                <label htmlFor="#agents" className="block mr-2">
-                                    <span className="text-sm text-gray-400">Confirmed by</span>
-                                    <Select
-                                        id="agents"
-                                        placeholder="Confirmed by"
-                                        labelPlacement="outside"
-                                        classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
-                                        }}>
-                                        <SelectItem>
-                                            Agent
-                                        </SelectItem>
-                                    </Select>
-                                </label>
-                            </div>
-                            <div className="w-full lg:w-1/2">
-                                <label htmlFor="#follow-up-agents" className="block mt-4 lg:mt-0 lg:ml-2">
-                                    <span className="text-sm text-gray-400">Confirmed via</span>
-                                    <Select
-                                        id="follow-up-agents"
-                                        placeholder="Confirmed via"
-                                        labelPlacement="outside"
-                                        classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
-                                        }}>
-                                        <SelectItem>
-                                            Whatsapp
-                                        </SelectItem>
-                                    </Select>
-                                </label>
-                            </div>
-                        </div>
-                        <h4 className="text-lg font-medium mt-6 mb-2">Channels</h4>
-                        <div className="flex flex-col lg:flex-row my-2">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#agents" className="block mr-2">
-                                    <span className="text-sm text-gray-400">Sales Channel *</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Date</span>
                                     <Select
+                                        selectedKeys={"1"}
                                         id="agents"
-                                        placeholder="Select a channel"
+                                        placeholder="Select an agent"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            value: " dark:!text-[#ffffff85] !text-[#00000085]",
+                                            trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
                                         }}>
-                                        <SelectItem>
-                                            Chanel
+                                        <SelectItem key={"1"}>
+                                            Date
                                         </SelectItem>
                                     </Select>
                                 </label>
                             </div>
                         </div>
-                        <h4 className="text-lg font-medium mt-6 mb-2">Companies</h4>
-                        <div className="flex flex-col lg:flex-row my-2">
+                        <div className="flex flex-col gap-8 lg:flex-row mt-6">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#agents" className="block mr-2">
-                                    <span className="text-sm text-gray-400">Shopping Company *</span>
-                                    <Select
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Seller</span>
+                                    <Select selectedKeys={"1"}
                                         id="agents"
-                                        placeholder="Select a company"
+                                        placeholder="Select an agent"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-gray-200 focus:border-dark_selected dark:bg-base_dark border border-gray-100 dark:border-[#ffffff10]',
+                                            value: " dark:!text-[#ffffff85] !text-[#00000085]",
+                                            trigger: 'bg-transparent  mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
                                         }}>
-                                        <SelectItem>
-                                            Chanel
+                                        <SelectItem key={"1"}>
+                                            List of Sellers
                                         </SelectItem>
                                     </Select>
                                 </label>
                             </div>
+                            <div className="w-full lg:w-1/2">
+                                <label htmlFor="#agents" className="block mr-2">
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Product</span>
+                                    <Select
+                                        selectedKeys={"1"}
+                                        id="agents"
+                                        placeholder="Select an agent"
+                                        labelPlacement="outside"
+                                        classNames={{
+                                            value: " dark:!text-[#ffffff85] !text-[#00000085]",
+                                            trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
+                                        }}>
+                                        <SelectItem key={"1"}>
+                                            List of Products
+                                        </SelectItem>
+                                    </Select>
+                                </label>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-8 lg:flex-row mt-6">
+                            <div className="w-full lg:w-1/2">
+                                <label htmlFor="#agents" className="block mr-2">
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">From</span>
+                                    <Select
+                                        selectedKeys={"1"}
+                                        id="agents"
+                                        placeholder="Select an agent"
+                                        labelPlacement="outside"
+                                        classNames={{
+                                            value: " dark:!text-[#ffffff85] !text-[#00000085]",
+                                            trigger: 'bg-transparent  mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
+                                        }}>
+                                        <SelectItem key="1">
+                                            All Countries
+                                        </SelectItem>
+                                    </Select>
+                                </label>
+                            </div>
+                            <div className="w-full lg:w-1/2">
+                                <label htmlFor="#agents" className="block mr-2">
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">To</span>
+                                    <Select
+                                        selectedKeys={"1"}
+                                        id="agents"
+                                        placeholder="Select an agent"
+                                        labelPlacement="outside"
+                                        classNames={{
+                                            value: " dark:!text-[#ffffff85] !text-[#00000085]",
+                                            trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
+                                        }}>
+                                        <SelectItem key={"1"}>
+                                            All Countries
+                                        </SelectItem>
+                                    </Select>
+                                </label>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-8 mt-6" >
+                            <div className="flex flex-col gap-1">
+                                {options.map((i, idx) => (
+                                    <div key={idx} onClick={() => toggleSelectOption(i.key)} className="py-1 cursor-pointer flex justify-start items-center gap-2 w-full">
+                                        <motion.div
+                                            initial={{ scale: 1 }}
+                                            whileTap={{ scale: 0.9 }}
+                                            transition={{ duration: 0.1 }}  >
+                                            <div
+
+                                                className='cursor-pointer w-5 h-5 mx-auto rounded-md border border-[#00000050] dark:border-[#ffffff50] flex justify-center items-center'>
+                                                {selectedOptions.includes(i.key) && <motion.div initial={{ scale: 0 }} transition={{ type: "spring", stiffness: 100 }} animate={{ scale: 1 }} className='w-3.5 h-3.5 rounded-sm bg-glb_blue'></motion.div>}
+                                            </div> </motion.div>
+                                        <h4 className={` ${selectedOptions.includes(i.key) ? "text-[#000000] dark:text-[#ffffff]" : "text-[#00000030] dark:text-[#ffffff30]"}`}>{i.label}</h4>
+                                    </div>
+                                ))}
+                            </div>
+
+
+
                         </div>
 
                         <div className="mt-6 pt-4 border-t border-t-gray-200 dark:border-t-[#ffffff10] flex flex-row justify-center items-center gap-4">
                             <Button className="rounded-full bg-blue-600 text-white px-4 py-2"
                                 onClick={() => setModalOpen(false)}>
-                                <Search01Icon /> Apply & Search
+                                <Search01Icon /> Validate
                             </Button>
                             <Button className="rounded-full bg-gray-200 dark:bg-base_card px-4 py-2"
                                 onClick={() => setModalOpen(false)}>
