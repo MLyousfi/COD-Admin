@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { 
   DeliveryBox01Icon, 
   PencilEdit01Icon, 
@@ -8,13 +8,13 @@ import {
   CheckmarkCircle01Icon, 
   Recycle03Icon, 
   ArrowDown01Icon,
-  InformationCircleIcon // Import InformationCircleIcon
+  InformationCircleIcon 
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs'; 
-import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the import path as necessary
+import CustomModal from '../../stockManagement.jsx/components/modal'; 
 
 const rows = [
     {
@@ -129,17 +129,33 @@ const Collects = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCollect, setSelectedCollect] = useState(null);
   const rowsPerPage = 10;
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const addNewProduct = () => {
     // ... your existing addNewProduct function
   };
+
+  useEffect(() => {
+    const checkDarkMode = () => {
+      const darkMode = document.documentElement.classList.contains('dark');
+      setIsDarkMode(darkMode);
+    };
+
+    checkDarkMode();
+
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
+
 
   const handleCheckboxChange = (key) => {
     // ... your existing handleCheckboxChange function
   };
 
   const handleDelete = (key) => {
-    // ... your existing handleDelete function
+    setProducts(products.filter(product => product.key !== key));
   };
 
   const openModal = (collect) => {
@@ -289,7 +305,8 @@ const Collects = () => {
             isOpen={isModalOpen}
             onClose={closeModal}
             title={`Collect - N° ${selectedCollect.number}`}
-            isDarkMode={true}
+            isDarkMode={isDarkMode}
+
           >
 {/* Informations Button */}
 <div className="mb-8 flex items-center justify-center">
@@ -322,7 +339,7 @@ const Collects = () => {
                     <tr 
                       key={info.title}
                       className={`${
-                        index % 2 === 0 ? 'bg-gray-200 dark:bg-[#FFFFFF05]' : 'bg-gray-300 dark:bg-[#FFFFFF02]'
+                        index % 2 === 0 ? 'bg-[#00000007] dark:bg-[#FFFFFF05]' : 'bg-[#00000015] dark:bg-[#FFFFFF02]'
                       } rounded-md`}
                       style={{ overflow: 'hidden' }}
                     >

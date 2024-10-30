@@ -1,8 +1,4 @@
 import React, { useState } from "react";
-import CallsCard from "@/modules/dashboard/components/CallsCard.jsx";
-import GaugeChart from "@/modules/dashboard/components/GaugeChart.jsx";
-import LineChartCard from "@/modules/dashboard/components/LineChartCard.jsx";
-import ShippingCard from "@/modules/dashboard/components/ShippingCard.jsx";
 import {
     Airplane01Icon,
     BoxingBagIcon,
@@ -31,25 +27,63 @@ import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatsCard from "../components/StatsCard";
 import { Button } from "@nextui-org/button";
 
-// Define columns and data for the table
 const tableColumns = [
-    { key: "list", label: "List 01" },
-    { key: "code", label: "01" },
-    { key: "percentage", label: "100%" },
+    { key: "list", label: "List of Agents" },
+    { key: "callCenterT", label: "Call Center T", subColumns: ["code", "percentage"] },
+    { key: "fatimaKhadou", label: "Fatima KHADOU", subColumns: ["code", "percentage"] },
 ];
 
 const tableData = [
-    { key: 1, list: "List 01", code: "01", percentage: "100%" },
-    { key: 2, list: "List 01", code: "01", percentage: "100%" },
-    { key: 3, list: "List 01", code: "01", percentage: "100%" },
-    { key: 4, list: "List 01", code: "01", percentage: "100%" },
-    { key: 5, list: "List 01", code: "01", percentage: "100%" },
-    { key: 6, list: "List 01", code: "01", percentage: "100%" },
-    { key: 7, list: "List 01", code: "01", percentage: "100%" },
-    { key: 8, list: "List 01", code: "01", percentage: "100%" },
-    { key: 9, list: "List 01", code: "01", percentage: "100%" },
-    { key: 10, list: "List 01", code: "01", percentage: "100%" },
+    {
+        key: 1,
+        list: "Total Leads 01",
+        callCenterT: { code: "01", percentage: "26%" },
+        fatimaKhadou: { code: "01", percentage: "100%" },
+    },
+    {
+        key: 2,
+        list: "Total Leads 02",
+        callCenterT: { code: "01", percentage: "24.7%" },
+        fatimaKhadou: { code: "01", percentage: "100%" },
+    },
+    {
+        key: 3,
+        list: "Total Leads 03",
+        callCenterT: { code: "01", percentage: "11%" },
+        fatimaKhadou: { code: "01", percentage: "11%" },
+    },
+    {
+        key: 4,
+        list: "Total Leads 04",
+        callCenterT: { code: "01", percentage: "0%" },
+        fatimaKhadou: { code: "01", percentage: "0%" },
+    },
+    {
+        key: 5,
+        list: "Total Leads 06",
+        callCenterT: { code: "01", percentage: "26%" },
+        fatimaKhadou: { code: "01", percentage: "100%" },
+    },
+    {
+        key: 6,
+        list: "Total Leads 07",
+        callCenterT: { code: "01", percentage: "24.7%" },
+        fatimaKhadou: { code: "01", percentage: "100%" },
+    },
+    {
+        key: 7,
+        list: "Total Leads 08",
+        callCenterT: { code: "01", percentage: "11%" },
+        fatimaKhadou: { code: "01", percentage: "11%" },
+    },
+    {
+        key: 8,
+        list: "Total Leads 09",
+        callCenterT: { code: "01", percentage: "0%" },
+        fatimaKhadou: { code: "01", percentage: "0%" },
+    },
 ];
+
 
 // Sample statistics data
 const statistics = [
@@ -193,28 +227,61 @@ const InlineTable = ({ columns, data, rowsPerPage = 10 }) => {
     return (
         <div className="overflow-x-auto w-full">
             <table className="min-w-full table-auto">
-                <tbody>
-                    {/* Top Row */}
-                    <tr className="h-12 rounded-3xl">
-                        <td className="px-1 py-2 text-center text-sm font-semibold dark:text-gray-300" colSpan={1}></td>
-                        <td className="px-1 py-2 text-center text-sm font-semibold dark:text-gray-300 bg-[#00000015] dark:bg-[#FFFFFF05]" colSpan={2}>
-                            Jamila A
-                        </td>
+                <thead>
+                    {/* First Header Row */}
+                    <tr className="h-12 text-white">
+                        <th className="bg-transparent px-2 py-2 text-center text-sm font-semibold"></th>
+                        <th
+                            colSpan={2}
+                            className="dark:bg-[#FFFFFF02] bg-[#00000008] px-2 py-2 text-center text-black dark:text-white text-sm font-semibold"
+                        >
+                            Call Center T
+                        </th>
+                        <th
+                            colSpan={2}
+                            className="dark:bg-[#FFFFFF06] bg-[#00000012] px-2 py-2  text-black dark:text-white text-center text-sm font-semibold"
+                        >
+                            Fatima KHADOU
+                        </th>
                     </tr>
 
+                    {/* Second Header Row */}
+                    <tr className="h-10 text-white">
+                        <th className="px-2 py-2 text-center text-black dark:text-white text-sm font-semibold dark:bg-[#FFFFFF02] bg-[#00000008]">List of Agents</th>
+                        <th className="px-2 py-2 text-center text-sm  text-black dark:text-white font-semibold dark:bg-[#FFFFFF02] bg-[#00000008]">01</th>
+                        <th className="px-2 py-2 text-center text-sm text-black dark:text-white font-semibold dark:bg-[#FFFFFF02] bg-[#00000008]">100%</th>
+                        <th className="px-2 py-2 text-center text-sm text-black dark:text-white font-semibold dark:bg-[#FFFFFF06] bg-[#00000012]">01</th>
+                        <th className="px-2 py-2 text-center text-sm text-black dark:text-white font-semibold dark:bg-[#FFFFFF06] bg-[#00000012]">100%</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {/* Data Rows */}
                     {currentData.map((item, index) => (
                         <tr
                             key={item.key}
-                            className={`${
-                                index % 2 === 0 ? "bg-white dark:bg-[#FFFFFF10]" : "bg-gray-200 dark:bg-[#FFFFFF08]"
-                            } h-12 rounded-3xl`}
+                            className="h-12" // Removed conditional background
                         >
-                            {columns.map((column) => (
-                                <td key={column.key} className="px-1 py-2 text-center dark:text-gray-300 text-sm font-semibold">
-                                    {item[column.key]}
-                                </td>
-                            ))}
+                            {/* First Column with Alternating Backgrounds */}
+                            <td
+                                className={`px-2 py-2 text-center dark:text-gray-300 text-sm font-semibold ${
+                                    index % 2 === 0 ? 'dark:bg-[#FFFFFF06] bg-[#00000012]' : 'dark:bg-[#FFFFFF02] bg-[#00000008]'
+                                }`}
+                            >
+                                {item.list}
+                            </td>
+                            {/* Other Columns with Uniform Background */}
+                            <td className="px-2 py-2 text-center dark:text-gray-300 text-sm font-semibold dark:bg-[#FFFFFF02] bg-[#00000008]">
+                                {item.callCenterT.code}
+                            </td>
+                            <td className="px-2 py-2 text-center dark:text-gray-300 text-sm font-semibold dark:bg-[#FFFFFF02] bg-[#00000008]">
+                                {item.callCenterT.percentage}
+                            </td>
+                            <td className="px-2 py-2 text-center dark:text-gray-300 text-sm font-semibold dark:bg-[#FFFFFF06] bg-[#00000012]">
+                                {item.fatimaKhadou.code}
+                            </td>
+                            <td className="px-2 py-2 text-center dark:text-gray-300 text-sm font-semibold dark:bg-[#FFFFFF06] bg-[#00000012]">
+                                {item.fatimaKhadou.percentage}
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -255,7 +322,8 @@ const InlineTable = ({ columns, data, rowsPerPage = 10 }) => {
     );
 };
 
-export default function Products() {
+
+export default function FollowUpStatistics() {
     const container = {
         hidden: { opacity: 0, scale: 0 },
         visible: {
@@ -272,17 +340,8 @@ export default function Products() {
         <DashboardLayout title="Statistics - Follow Up" icon={<ChartHistogramIcon className="text-info" />}>
             {/* Header Section with Title and Buttons */}
             <div className="flex justify-between items-center px-8 mb-6">
-                <div className="text-xl font-semibold text-black dark:text-white">Statistics - Follow Up</div>
+                <div className="text-xl font-semibold text-black dark:text-white">Statistics</div>
                 <div className="flex space-x-2">
-                    <Button className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center" auto>
-                        <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-                        <span>Today</span>
-                    </Button>
-                    <Button className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center" auto>
-                        <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-                        <span>List of Agents</span>
-                        <ArrowDown01Icon className="ml-1 text-black dark:text-white" size={18} />
-                    </Button>
                     <Button className="bg-[#0258E8] border border-blue-800 text-white rounded-full px-4 py-2 flex items-center" auto>
                         <FilterIcon className="text-white" size={18} />
                         <span>Apply Filter</span>

@@ -220,7 +220,7 @@ export default function Expenses() {
 
                 <div className="flex px-4 my-12 md:px-8 justify-end">
                     <div className="flex flex-row gap-2">
-                        <Button color="default" className="rounded-full bg-info">
+                        <Button color="default" className="rounded-full bg-info text-white">
                             <PlusSignIcon size={18} /> New Expense
                         </Button>
                         <Button variant="bordered" className="rounded-full">

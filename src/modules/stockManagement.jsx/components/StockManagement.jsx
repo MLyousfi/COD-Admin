@@ -8,10 +8,10 @@ import {
   Delete01Icon,
   EarthIcon, 
   DropboxIcon,
-  PackageIcon,      // New Icon
-  Layers01Icon,     // New Icon
-  SaleTag02Icon,    // New Icon
-  Dollar02Icon      // New Icon
+  PackageIcon,      
+  Layers01Icon,     
+  SaleTag02Icon,   
+  Dollar02Icon     
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";

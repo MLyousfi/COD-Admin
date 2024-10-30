@@ -40,7 +40,7 @@ const CallsCard = ({
           </Button>
         </div>
 
-        <div className="relative w-full h-3 rounded-full mt-4 mb-6" style={{ backgroundColor: '#2B292C' }}>
+        <div className="relative w-full h-3 rounded-full mt-4 mb-6 dark:bg-[#2B292C] bg-[#E7E7E7]">
           <div
             className="absolute h-3 rounded-full"
             style={{ width: progressWidth, backgroundColor: progressColor }}

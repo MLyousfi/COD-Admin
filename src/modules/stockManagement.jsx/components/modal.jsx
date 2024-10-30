@@ -3,7 +3,6 @@ import React from 'react';
 import Modal from 'react-modal';
 import { MultiplicationSignIcon } from "hugeicons-react";
 
-// Define custom styles for React Modal based on the current theme
 const getCustomStyles = (isDarkMode) => ({
   content: {
     top: '50%',
@@ -14,9 +13,10 @@ const getCustomStyles = (isDarkMode) => ({
     transform: 'translate(-50%, -50%)',
     padding: '20px',
     borderRadius: '15px',
-    width: '800px',
+    width: '90%',               // Set responsive width
+    maxWidth: '800px',           // Limit width on larger screens
     maxHeight: '80vh',
-    overflowY: 'auto', // Changed from 'hidden' to 'auto'
+    overflowY: 'auto',           // Enable scroll if needed
     backgroundColor: isDarkMode ? '#0C0B0C' : '#FFFFFF',
     color: isDarkMode ? '#FFFFFF' : '#000000',
     border: isDarkMode ? '1px solid #FFFFFF10' : '1px solid #00000010',
@@ -45,7 +45,7 @@ const CustomModal = ({
       <div className="flex flex-col h-full">
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-5">
-          <h2 className="text-2xl font-semibold">{title}</h2>
+          <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>  {/* Responsive title size */}
           <button
             onClick={onClose}
             className={`hover:text-gray-400 focus:outline-none ${
@@ -53,7 +53,7 @@ const CustomModal = ({
             }`}
             aria-label="Close Modal"
           >
-            <MultiplicationSignIcon size={25} />
+            <MultiplicationSignIcon size={20} />
           </button>
         </div>
 
