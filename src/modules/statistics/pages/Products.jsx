@@ -206,9 +206,8 @@ const InlineTable = ({ columns, data, rowsPerPage = 10 }) => {
                     {currentData.map((item, index) => (
                         <tr
                             key={item.key}
-                            className={`${
-                                index % 2 === 0 ? "bg-white dark:bg-[#FFFFFF10]" : "bg-gray-200 dark:bg-[#FFFFFF08]"
-                            } h-12 rounded-3xl`}
+                            className={`${index % 2 === 0 ? "bg-white dark:bg-[#FFFFFF10]" : "bg-gray-200 dark:bg-[#FFFFFF08]"
+                                } h-12 rounded-3xl`}
                         >
                             {columns.map((column) => (
                                 <td key={column.key} className="px-1 py-2 text-center dark:text-gray-300 text-sm font-semibold">
@@ -236,7 +235,7 @@ const InlineTable = ({ columns, data, rowsPerPage = 10 }) => {
                         className={`px-3 py-1 text-sm ${currentPage === index + 1
                             ? "bg-blue-500 text-white"
                             : "bg-gray-200 dark:bg-gray-600 dark:text-white"
-                        } rounded`}
+                            } rounded`}
                         onClick={() => handlePageChange(index + 1)}
                     >
                         {index + 1}
@@ -271,9 +270,9 @@ export default function Products() {
     return (
         <DashboardLayout title="Statistics - Follow Up" icon={<ChartHistogramIcon className="text-info" />}>
             {/* Header Section with Title and Buttons */}
-            <div className="flex justify-between items-center px-8 mb-6">
+            <div className="flex justify-between items-center px-2 flex-wrap gap-2 md:px-8 mb-6">
                 <div className="text-xl font-semibold text-black dark:text-white">Statistics - Follow Up</div>
-                <div className="flex space-x-2">
+                <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
                     <Button className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center" auto>
                         <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
                         <span>Today</span>
@@ -291,7 +290,7 @@ export default function Products() {
             </div>
 
             {/* Statistics Cards */}
-            <motion.div initial="hidden" animate="visible" variants={container} className="flex flex-col flex-wrap justify-start px-8 md:flex-row">
+            <motion.div initial="hidden" animate="visible" variants={container} className="flex flex-col flex-wrap justify-start px-2 md:px-8 md:flex-row">
                 {statistics.map((stat, index) => (
                     <StatsCard
                         useHover={true}
@@ -306,7 +305,7 @@ export default function Products() {
             </motion.div>
 
             {/* Title and Inline Table Section */}
-            <div className="mt-8 px-8">
+            <div className="mt-8 px-2 md:px-8">
                 <h2 className="text-xl font-semibold mb-4 text-black dark:text-white">List of Agents</h2>
                 <InlineTable columns={tableColumns} data={tableData} rowsPerPage={10} />
             </div>

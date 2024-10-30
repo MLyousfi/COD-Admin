@@ -25,7 +25,7 @@ const CallsCard = ({
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
             <div
-              className="flex items-center justify-center w-12 h-12 rounded-xl" 
+              className="flex items-center justify-center w-12 h-12 rounded-xl"
               style={{ backgroundColor: cardBg }}
             >
               <span style={{ color: iconColor }}>{icon}</span>
@@ -49,7 +49,7 @@ const CallsCard = ({
 
         <div className="flex justify-start items-center space-x-2">
           <p className="text-black text-2xl font-bold dark:text-white">{amount}</p>
-          <p className="text-black text-lg dark:text-gray-300">/ 100%</p> 
+          <p className="text-black text-lg dark:text-gray-300">/ 100%</p>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@ const FirstMileDashboard = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const datePickerRef = useRef(null); 
+  const datePickerRef = useRef(null);
 
   useOnClickOutside(datePickerRef, () => setShowDatePicker(false));
 
@@ -78,13 +78,13 @@ const FirstMileDashboard = () => {
   const cardData = [
     {
       icon: <ShoppingCart01Icon />,
-      iconColor: "#FFFFFF",        
-      cardBg: "#2B292C",         
-      progressColor: "#0452D4",  
+      iconColor: "#FFFFFF",
+      cardBg: "#2B292C",
+      progressColor: "#0452D4",
       percentage: 100,
       amount: "1,298",
       title: "Total Leads",
-      progressWidth: "60%", 
+      progressWidth: "60%",
     },
     {
       icon: <DeliveryTruck01Icon />,
@@ -133,12 +133,12 @@ const FirstMileDashboard = () => {
       title="First Mile - Dashboard"
       icon={<DeliveryBox01Icon className="text-info" />}
     >
-      <div className="flex justify-between items-center px-6 mb-4"> 
-  
+      <div className="flex justify-between flex-wrap items-center px-2 gap-2 md:px-6 mb-4">
+
         <div className="text-xl font-semibold text-black dark:text-white">
           Orders
         </div>
-  
+
         <div className="flex items-center space-x-2">
           <Button
             auto
@@ -199,7 +199,7 @@ const FirstMileDashboard = () => {
             percentage={card.percentage}
             amount={card.amount}
             title={card.title}
-            progressWidth={card.progressWidth} 
+            progressWidth={card.progressWidth}
           />
         ))}
       </div>

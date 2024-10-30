@@ -15,7 +15,8 @@ import {
     Logout03Icon,
     PencilEdit01Icon,
     PrinterIcon,
-    Settings02Icon
+    Settings02Icon,
+    UserIcon
 } from "hugeicons-react";
 import { Tab, Tabs } from "@nextui-org/tabs";
 import { Chip } from "@nextui-org/chip";
@@ -27,6 +28,7 @@ import { Link } from "react-router-dom";
 import Table from "../../stockManagement.jsx/components/Table";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import StatusTabs from "../../shared/components/StatusTabs";
+import { agentNames } from "../../../core/utils/shared.data";
 
 const rows = [
     {
@@ -42,7 +44,8 @@ const rows = [
         country: "Saudi Arabia",
         price: "300.50 SAR",
         invoiceNum: "INV_02894512",
-        paymentStatus: "Ng",
+        shippingPrice: "0 USD",
+        paymentStatus: "No",
         orderStatus: "Confirmed at 03/10/2024 - 14:00",
         created: "03/10/2024 - 14:00",
         followUp: "03/10/2024 - 14:00",
@@ -61,7 +64,8 @@ const rows = [
         country: "Saudi Arabia",
         price: "150.75 SAR",
         invoiceNum: "INV_02974613",
-        paymentStatus: "Ng",
+        shippingPrice: "0 USD",
+        paymentStatus: "No",
         orderStatus: "Confirmed at 03/11/2024 - 10:05",
         created: "03/11/2024 - 10:05",
         followUp: "03/11/2024 - 10:05",
@@ -80,7 +84,8 @@ const rows = [
         country: "Saudi Arabia",
         price: "245.60 SAR",
         invoiceNum: "INV_03948567",
-        paymentStatus: "Ng",
+        shippingPrice: "0 USD",
+        paymentStatus: "No",
         orderStatus: "Confirmed at 03/12/2024 - 11:30",
         created: "03/12/2024 - 11:30",
         followUp: "03/12/2024 - 11:30",
@@ -99,7 +104,8 @@ const rows = [
         country: "Saudi Arabia",
         price: "500.99 SAR",
         invoiceNum: "INV_04958413",
-        paymentStatus: "Ng",
+        shippingPrice: "0 USD",
+        paymentStatus: "No",
         orderStatus: "Confirmed at 03/13/2024 - 13:45",
         created: "03/13/2024 - 13:45",
         followUp: "03/13/2024 - 13:45",
@@ -118,7 +124,8 @@ const rows = [
         country: "Saudi Arabia",
         price: "99.90 SAR",
         invoiceNum: "INV_05927365",
-        paymentStatus: "Ng",
+        shippingPrice: "0 USD",
+        paymentStatus: "No",
         orderStatus: "Confirmed at 03/14/2024 - 09:15",
         created: "03/14/2024 - 09:15",
         followUp: "03/14/2024 - 09:15",
@@ -137,7 +144,8 @@ const rows = [
         country: "Saudi Arabia",
         price: "350.00 SAR",
         invoiceNum: "INV_06325341",
-        paymentStatus: "Ng",
+        shippingPrice: "0 USD",
+        paymentStatus: "No",
         orderStatus: "Confirmed at 03/15/2024 - 17:20",
         created: "03/15/2024 - 17:20",
         followUp: "03/15/2024 - 17:20",
@@ -156,7 +164,8 @@ const rows = [
         country: "Saudi Arabia",
         price: "400.45 SAR",
         invoiceNum: "INV_07283197",
-        paymentStatus: "Ng",
+        shippingPrice: "0 USD",
+        paymentStatus: "No",
         orderStatus: "Confirmed at 03/16/2024 - 18:35",
         created: "03/16/2024 - 18:35",
         followUp: "03/16/2024 - 18:35",
@@ -175,7 +184,8 @@ const rows = [
         country: "Saudi Arabia",
         price: "275.80 SAR",
         invoiceNum: "INV_08371645",
-        paymentStatus: "Ng",
+        shippingPrice: "0 USD",
+        paymentStatus: "No",
         orderStatus: "Confirmed at 03/17/2024 - 10:50",
         created: "03/17/2024 - 10:50",
         followUp: "03/17/2024 - 10:50",
@@ -194,7 +204,8 @@ const rows = [
         country: "Saudi Arabia",
         price: "450.25 SAR",
         invoiceNum: "INV_09235124",
-        paymentStatus: "Ng",
+        shippingPrice: "0 USD",
+        paymentStatus: "No",
         orderStatus: "Confirmed at 03/18/2024 - 12:10",
         created: "03/18/2024 - 12:10",
         followUp: "03/18/2024 - 12:10",
@@ -213,7 +224,8 @@ const rows = [
         country: "Saudi Arabia",
         price: "599.99 SAR",
         invoiceNum: "INV_10193456",
-        paymentStatus: "Ng",
+        shippingPrice: "0 USD",
+        paymentStatus: "No",
         orderStatus: "Confirmed at 03/19/2024 - 16:25",
         created: "03/19/2024 - 16:25",
         followUp: "03/19/2024 - 16:25",
@@ -261,7 +273,7 @@ const columns = [
         w: "w-[8%]"
     },
     {
-        key: "shipPrice",
+        key: "shippingPrice",
         label: "Shipping Price",
         w: "w-[8%]"
     },
@@ -271,14 +283,14 @@ const columns = [
         w: "w-[8%]"
     },
     {
-        key: "status",
+        key: "paymentStatus",
         label: "Status",
         w: "w-[7%]"
     },
     {
-        key: "created",
+        key: "orderStatus",
         label: "Created",
-        w: "w-[8%]"
+        w: "w-[10%]"
     },
     {
         key: "followUp",
@@ -286,11 +298,12 @@ const columns = [
         w: "w-[7%]"
     },
     {
-        key: "followUpCreated",
+        key: "followUpUpdated",
         label: "Follow Up Created",
         w: "w-[8%]"
     },
 ];
+
 
 
 export default function ListOfOrders() {
@@ -317,7 +330,7 @@ export default function ListOfOrders() {
                 return (
                     <div>
                         <p>{item.orderNum}</p>
-                        <Link to="#" className="text-blue-500">({item.subNum})</Link>
+                        <span className="text-blue-500">({item.subNum})</span>
                     </div>
                 );
             case "trackN":
@@ -332,7 +345,7 @@ export default function ListOfOrders() {
                 return (
                     <div>
                         <p>{item.product}</p>
-                        <Link to="#" className="text-blue-500">(SKU: {item.productId})</Link>
+                        <span className="text-blue-500">(SKU: {item.productId})</span>
                     </div>
                 );
             case "name":
@@ -351,12 +364,23 @@ export default function ListOfOrders() {
                 return (
                     <div>
                         <p>{item.invoiceNum}</p>
-                        <Link to="#" className="text-blue-500">(Status: {item.paymentStatus})</Link>
+                        <span className="text-blue-500">(Status: {item.paymentStatus})</span>
                     </div>
                 );
-            case "Created":
+            case "orderStatus":
                 return (
-                    <span>{item.created}</span>
+                    <div className="flex justify-center items-center flex-col">
+                        <span className="font-normal">Confirmed at</span>
+                        <span className="font-thin">{item.created}</span>
+                    </div>
+
+                );
+            case "paymentStatus":
+                return (
+                    <div className={`${item.paymentStatus === "No" ? "bg-[#ED000620] text-[#ED0006]" : ""} py-1.5 px-6 rounded-full w-fit mx-auto flex justify-center items-center`}>
+                        {item.paymentStatus}
+                    </div>
+
                 );
             case "actions":
                 return (
@@ -367,32 +391,14 @@ export default function ListOfOrders() {
         }
     }, []);
 
-    const classNames = useMemo(
-        () => ({
-            wrapper: ["min-w-full", "bg-black"],
-            th: ["bg-transparent", "text-default-500", "border-b", "border-divider", "text-center"],
-            td: [
-                "text-center",
-                // changing the rows border radius
-                // first
-                "group-data-[first=true]:first:before:rounded-none",
-                "group-data-[first=true]:last:before:rounded-none",
-                // middle
-                "group-data-[middle=true]:before:rounded-none",
-                // last
-                "group-data-[last=true]:first:before:rounded-none",
-                "group-data-[last=true]:last:before:rounded-none",
-            ],
-        }),
-        [],
-    );
+
     return (
         <>
             <DashboardLayout title="Orders Management - List Of Orders" icon={<DeliveryBox01Icon className="text-info" />}
             >
-                <div className="">
+                <div className="p-2 md:p-4">{/**here ---|> responsv */}
                     {/*Tabs*/}
-                    <div className="flex flex-row justify-between items-center gap-4 p-12 ">
+                    <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
                         <StatusTabs
                             activeCount={rows.filter(row => row.status === "active").length}
                             archivedCount={rows.filter(row => row.status === "archived").length}
@@ -401,14 +407,34 @@ export default function ListOfOrders() {
                         />
 
 
-                        <div className="flex flex-row gap-2">
+                        <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
                             <Dropdown>
+                                <DropdownTrigger>
+                                    <Button variant="bordered" className="rounded-full">
+                                        List of Agents <ArrowDown01Icon size={16} />
+                                    </Button>
+                                </DropdownTrigger>
+
+                                <DropdownMenu aria-label="Static Actions">
+                                    {agentNames.map((i) => (
+                                        <DropdownItem key={i}>
+                                            <div className="flex justify-between items-center">
+                                                <div className="flex gap-2">
+                                                    <UserIcon size={15} /> {i}
+                                                </div>
+
+                                            </div>
+                                        </DropdownItem>
+                                    ))}
+                                </DropdownMenu>
+                            </Dropdown>
+                            <Dropdown className="!backdrop-blur-md !bg-gray-400/30">
                                 <DropdownTrigger>
                                     <Button color="default" className="rounded-full text-white bg-glb_red">
                                         <PencilEdit01Icon size={18} /> Actions
                                     </Button>
                                 </DropdownTrigger>
-                                <DropdownMenu aria-label="Static Actions">
+                                <DropdownMenu aria-label="Static Actions" classNames={{ list: "!bg-transparent" }} >
                                     <DropdownItem key="new">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">

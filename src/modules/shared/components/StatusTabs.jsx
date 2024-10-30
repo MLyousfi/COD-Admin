@@ -3,7 +3,9 @@ import React from 'react';
 import { Chip } from "@nextui-org/chip";
 import { Tabs, Tab } from "@nextui-org/tabs";
 
-const StatusTabs = ({ activeCount, archivedCount, selectedTab, onTabChange }) => {
+const StatusTabs = ({ tabs = ['Active', 'Archived'], activeCount, archivedCount, selectedTab, onTabChange }) => {
+
+
   return (
     <Tabs
       aria-label="Status Options"
@@ -18,48 +20,31 @@ const StatusTabs = ({ activeCount, archivedCount, selectedTab, onTabChange }) =>
       selectedKey={selectedTab}
       onSelectionChange={onTabChange}
     >
-      <Tab
-        className='px-2'
-        key="active"
-        title={
-          <div className="flex items-center space-x-2">
-            <strong className={`text-black dark:text-white ${selectedTab === 'active' ? 'text-opacity-100' : 'text-opacity-50'}`}>
-              Active
-            </strong>
+      {tabs.map((i) => (
+        <Tab
+          className='px-2'
+          key={i}
+          title={
+            <div className="flex items-center space-x-2">
+              <strong className={`text-black dark:text-white ${selectedTab === i ? 'text-opacity-100' : 'text-opacity-50'}`}>
+                {i}
+              </strong>
 
-            <Chip
-              size="sm"
-              className={`${selectedTab === 'active' ? 'bg-red-600 text-white' : 'bg-black dark:bg-white bg-opacity-25 dark:bg-opacity-25 dark:text-white text-black text-opacity-50 dark:text-opacity-50'
-                }`}
-            >
-              {activeCount}
-            </Chip>
+              <Chip
+                size="sm"
+                className={`${selectedTab === i ? 'bg-red-600 text-white' : 'bg-black dark:bg-white bg-opacity-25 dark:bg-opacity-25 dark:text-white text-black text-opacity-50 dark:text-opacity-50'
+                  }`}
+              >
+                {activeCount}
+              </Chip>
 
-          </div>
-        }
-      />
+            </div>
+          }
+        />
 
-      <Tab
-        className='px-2'
-        key="archived"
-        title={
-          <div className="flex items-center space-x-2">
 
-            <strong className={`text-black dark:text-white ${selectedTab === 'archived' ? 'text-opacity-100' : 'text-opacity-50'}`}>
-              Archived
-            </strong>
-
-            <Chip
-              size="sm"
-              className={`${selectedTab === 'archived' ? 'bg-red-600 text-white' : 'bg-black dark:bg-white bg-opacity-25 dark:bg-opacity-25 dark:text-white text-black text-opacity-50 dark:text-opacity-50'
-                }`}
-            >
-              {activeCount}
-            </Chip>
-
-          </div>
-        }
-      />
+      ))
+      }
     </Tabs>
   );
 };

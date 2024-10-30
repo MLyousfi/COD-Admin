@@ -6,12 +6,16 @@ import {
     Calling02Icon,
     CustomerService01Icon,
     PencilEdit01Icon,
-    ArrowUpDownIcon
+    ArrowUpDownIcon,
+    UserIcon
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import StatusTabs from '../../shared/components/StatusTabs';
 import Table from "../../stockManagement.jsx/components/Table";
 import { motion } from 'framer-motion';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
+import { agentNames } from "../../../core/utils/shared.data";
+
 
 const rows = [
     {
@@ -168,10 +172,10 @@ export default function Confirmation() {
             additionalContent={
                 <div className="flex justify-evenly gap-2 items-center px-4 rounded-full bg-[#0258E810]">
                     {['All', 'Whatsapp'].map((t, idx) => (
-                        <motion.div 
+                        <motion.div
                             whileTap={{ scale: 0.8 }}
-                            key={idx} 
-                            className={`flex justify-center items-center p-2 cursor-pointer ${callTab === t ? 'font-bold text-[#0258E8]' : 'font-normal text-black dark:text-white'}`} 
+                            key={idx}
+                            className={`flex justify-center items-center p-2 cursor-pointer ${callTab === t ? 'font-bold text-[#0258E8]' : 'font-normal text-black dark:text-white'}`}
                             onClick={() => setCallTab(t)}
                         >
                             {t}
@@ -180,8 +184,8 @@ export default function Confirmation() {
                 </div>
             }
         >
-            <div className="p-4">
-                <div className="flex justify-between items-center mb-4">
+            <div className="p-2 md:p-4">{/**here ---|> responsv */}
+                <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
                     <StatusTabs
                         activeCount={rows.filter(row => row.status === "active").length}
                         archivedCount={rows.filter(row => row.status === "archived").length}
@@ -189,36 +193,54 @@ export default function Confirmation() {
                         onTabChange={setSelectedTab}
                     />
 
-                    <div className="flex space-x-4 items-center">
-                        <Button color="default" className="rounded-full bg-info text-white">
-                            <Calling02Icon size={18} /> Start Call
+                    <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
+                        <Button color="default" className="rounded-full bg-info text-white text-[10px]">
+                            <Calling02Icon size={10} /> Start Call
                         </Button>
-                        <Button variant="bordered" className="rounded-full">
-                            List of Agents <ArrowDown01Icon size={16} />
-                        </Button>
+
+                        <Dropdown>
+                            <DropdownTrigger>
+                                <Button variant="bordered" className="rounded-full">
+                                    List of Agents <ArrowDown01Icon size={16} />
+                                </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="Static Actions">
+                                {agentNames.map((i) => (
+                                    <DropdownItem key={i}>
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex gap-2">
+                                                <UserIcon size={15} /> {i}
+                                            </div>
+
+                                        </div>
+                                    </DropdownItem>
+                                ))}
+                            </DropdownMenu>
+                        </Dropdown>
                         <Button color="default" className="rounded-full bg-danger text-white">
                             <PencilEdit01Icon size={18} /> Actions
                         </Button>
                     </div>
+
                 </div>
 
                 <Table
-                    columns={columns.map(col => 
-                        col.key === "price" 
-                        ? {
-                            ...col,
-                            label: (
-                                <div className="flex justify-center items-center">
-                                    {col.label}
-                                    <ArrowUpDownIcon
-                                        size={15}
-                                        onClick={toggleSortOrder}
-                                        className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
-                                    />
-                                </div>
-                            )
-                        } 
-                        : col
+                    columns={columns.map(col =>
+                        col.key === "price"
+                            ? {
+                                ...col,
+                                label: (
+                                    <div className="flex justify-center items-center">
+                                        {col.label}
+                                        <ArrowUpDownIcon
+                                            size={15}
+                                            onClick={toggleSortOrder}
+                                            className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
+                                        />
+                                    </div>
+                                )
+                            }
+                            : col
                     )}
                     data={sortedRows}
                     renderCell={renderCell}

@@ -23,7 +23,7 @@ const Table = ({
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / rowsPerPage);
 
-  const currentData = () => enablePagination
+  const currentData = () => data.length > 0 && enablePagination
     ? data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
     : data;
 
@@ -91,7 +91,7 @@ const Table = ({
                   <th
                     key={column.key}
                     style={{ fontWeight: coloredHeader ? "800" : "100", backgroundColor: coloredHeader ? coloredHeader[index % 2] : "transparent" }}
-                    className={`${column.w ? column.w : ""}  whitespace-nowrap  text-center px-8 mx-6 py-2 text-gray-900 dark:text-gray-300 text-sm`}
+                    className={`${column.w ? column.w : ""}  whitespace-nowrap  text-center px-10 mx-6 py-2 text-gray-900 dark:text-gray-300 text-sm`}
                   >
                     {column.label}
                   </th>
@@ -116,7 +116,7 @@ const Table = ({
                       const borderRadiusClass = indx === 0 ? 'rounded-l-lg' : indx === columns.length - 1 ? 'rounded-r-lg' : '';
 
                       return (
-                        <td key={indx} className={`${rowClass} ${borderRadiusClass} px-1 py-2 text-center dark:text-gray-300 text-sm whitespace-nowrap`}>
+                        <td key={indx} className={`${rowClass} ${borderRadiusClass} px-1 py-2  text-center dark:text-gray-300 text-sm whitespace-nowrap`}>
                           {column.key === "checkbox" ? (
                             <motion.div
                               initial={{ scale: 1 }}

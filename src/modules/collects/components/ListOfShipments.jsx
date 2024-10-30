@@ -3,8 +3,9 @@ import { DeliveryTruck01Icon, PencilEdit01Icon, PlusSignIcon, Delete01Icon, EyeI
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
-import StatusTabs from '../../shared/components/StatusTabs'; 
+import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data2';
+
 
 const columns = [
   { key: "number", label: "N°" },
@@ -109,18 +110,26 @@ const ListOfShipments = () => {
     };
     
 
+
   return (
     <DashboardLayout title="Collects - List of Shipments" icon={<DeliveryTruck01Icon className="text-info" />}>
-      <div className="p-4">
-        <div className="flex justify-between mb-4">
+      <div className="p-2 md:p-4">{/**here ---|> responsv */}
+        <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
         <StatusTabs 
             activeCount={products.filter(product => product.status === "active").length}
             archivedCount={products.filter(product => product.status === "archived").length}
             selectedTab={activeView}
             onTabChange={setActiveView}
           />
+     
+          {/* <StatusTabs
+            activeCount={products.filter(product => product.status === "active").length}
+            archivedCount={products.filter(product => product.status === "archived").length}
+            selectedTab={selectedTab}
+            onTabChange={setSelectedTab}
+          /> */}
 
-          <div className="flex space-x-4 items-center">
+          <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
             <Button
               color="default"
               onClick={addNewProduct}

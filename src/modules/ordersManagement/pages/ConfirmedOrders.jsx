@@ -4,7 +4,6 @@ import {
     ArrowLeft02Icon,
     ArrowRight01Icon,
     ArrowRight02Icon,
-    Calculator01Icon,
     Calling02Icon,
     CallOutgoing01Icon,
     CustomerService01Icon,
@@ -30,6 +29,7 @@ import Table from "../../stockManagement.jsx/components/Table";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import StatusTabs from "../../shared/components/StatusTabs";
 import { agentNames } from "../../../core/utils/shared.data";
+
 const rows = [
     {
         key: 1,
@@ -305,7 +305,7 @@ const columns = [
 ];
 
 
-export default function FollowUp() {
+export default function ConfirmedOrders() {
 
     const [selectionBehavior, setSelectionBehavior] = useState("toggle");
 
@@ -389,25 +389,19 @@ export default function FollowUp() {
                 return cellValue;
         }
     }, []);
+
+
     return (
         <>
-            <DashboardLayout title="Call Center - Follow Up" icon={<CustomerService01Icon className="text-info" />}
+            <DashboardLayout title="Orders Management - Confirmed Orders" icon={<DeliveryBox01Icon className="text-info" />}
             >
-                <div className="p-2 md:p-4">
+                <div className="p-2 md:p-4">{/**here ---|> responsv */}
                     {/*Tabs*/}
-                    <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
-                        <StatusTabs
-                            activeCount={rows.filter(row => row.status === "active").length}
-                            archivedCount={rows.filter(row => row.status === "archived").length}
-                            selectedTab={selectedTab}
-                            onTabChange={setSelectedTab}
-                        />
+                    <div className="flex gap-4 md:justify-end md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
 
 
-                        <div className="flex gap-2 flex-wrap items-center">
-                            <Button color="default" className="rounded-full bg-info text-white">
-                                <Calling02Icon size={18} /> Start Follow Up
-                            </Button>
+
+                        <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
                             <Dropdown>
                                 <DropdownTrigger>
                                     <Button variant="bordered" className="rounded-full">
@@ -434,7 +428,7 @@ export default function FollowUp() {
                                     </Button>
                                 </DropdownTrigger>
                                 <DropdownMenu aria-label="Static Actions" classNames={{ list: "!bg-transparent" }} >
-                                    <DropdownItem key="1">
+                                    <DropdownItem key="new">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <PrinterIcon size={15} /> Print
@@ -442,7 +436,7 @@ export default function FollowUp() {
                                             <ArrowRight01Icon size={18} />
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem key="2">
+                                    <DropdownItem key="new">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <Download01Icon size={15} /> Export
@@ -450,7 +444,7 @@ export default function FollowUp() {
                                             <ArrowRight01Icon size={18} />
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem key="3">
+                                    <DropdownItem key="new">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <CustomerSupportIcon size={15} /> Call center
@@ -458,7 +452,7 @@ export default function FollowUp() {
                                             <ArrowRight01Icon size={18} />
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem key="4">
+                                    <DropdownItem key="new">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <CallOutgoing01Icon size={15} /> Follow up
@@ -466,7 +460,7 @@ export default function FollowUp() {
                                             <ArrowRight01Icon size={18} />
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem key="5">
+                                    <DropdownItem key="new">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <DropboxIcon size={15} /> Shipping
@@ -474,7 +468,7 @@ export default function FollowUp() {
                                             <ArrowRight01Icon size={18} />
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem key="6">
+                                    <DropdownItem key="new">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <Settings02Icon size={15} /> General

@@ -120,12 +120,18 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
 
     }, [showSidebar]);
 
+
+    const scrollToItem = (route) => {
+        const element = document.getElementById(route);
+        element?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
     // Helper to expand only the current active route
     const expandCurrentRouteOnly = () => {
         let newExpandedRoutes = {};
 
         RoutesConfig.forEach((route) => {
             if (route.children && route.children.some(child => pathname.includes(child.path))) {
+                scrollToItem(route.path);
                 newExpandedRoutes[route.name] = true;
                 route.children.forEach((child) => {
                     if (pathname.includes(child.path)) {
@@ -179,13 +185,13 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
             className={` ${showSidebar ? 'hidden lg:block lg:w-80 lg:min-w-64' : 'hidden lg:block lg:w-14'} fixed left-0 top-0 bottom-0 overflow-x-hidden bg-base_light dark:bg-transparent border-r border-gray-200 
             dark:border-[#ffffff10] z-30 overflow-y-auto max-h-screen`}>
             <div className={`flex justify-between items-center ${showSidebar ? 'my-6 px-6' : 'my-6 px-2'} h-10`}>
-                {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
-                    <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}
-                {showSidebar && (
+                <Link to='#'> {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
+                    <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}</Link>
+                {/* {showSidebar && (
                     <Button ref={trigger} onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
                         <SidebarLeft01Icon />
                     </Button>
-                )}
+                )} */}
             </div>
 
             <div className={`${showSidebar ? 'px-4 my-12' : 'p-0 my-12'} `}>
@@ -209,6 +215,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                     <div id={route.name}>
 
                                         <button
+                                            id={route.path}
                                             onClick={() => toggleRoute(route.name)}
                                             className={`flex  ${showSidebar ? "w-full justify-between" : "w-[50px] mx-auto justify-start"}    items-center py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white 
                                             ${isActiveParent || pathname.includes("/" + route.path) ? "bg-glb_blue text-white" : ""}`}
@@ -235,8 +242,8 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                                                 <>
                                                                     <button
                                                                         onClick={() => toggleRoute(child.name)}
-                                                                        className={`flex w-full justify-between items-center px-2 py-2 rounded-xl  ${isActiveChild || isActiveGrandchild ? "text-dark_selected" : "text-gray-600 dark:text-white"
-                                                                            }  hover:text-blue-600 dark:hover:text-blue-400`}
+                                                                        className={`flex w-full justify-between items-center px-2 py-2 rounded-xl  ${isActiveChild || isActiveGrandchild ? "text-dark_selected" : "text-gray-600 dark:text-white"}  
+                                                                        hover:text-blue-600 dark:hover:text-blue-400`}
                                                                     >
                                                                         <div className="flex items-center">
                                                                             {child.name}
@@ -283,13 +290,13 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                     </div>
                                 ) : (
                                     <Link
+                                        id={route.path}
                                         to={route.path}
                                         className={`flex  items-center ${showSidebar ? "px-2 w-full justify-start" : "w-[50px] mx-auto justify-center"} py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white  ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
                                     >
-                                        {
-                                            showSidebar ? (<>{React.createElement(route.icon, { className: 'mr-2 ml-1', size: 20 })}
-                                                <motion.h4 initial={{ x: 100 }} animate={{ x: 0 }}>{route.name}</motion.h4>
-                                            </>) : React.createElement(route.icon, { size: 20 })
+                                        {showSidebar ? (<>{React.createElement(route.icon, { className: 'mr-2 ml-1', size: 20 })}
+                                            <motion.h4 initial={{ x: 100 }} animate={{ x: 0 }}>{route.name}</motion.h4>
+                                        </>) : React.createElement(route.icon, { size: 20 })
                                         }
 
                                     </Link>
@@ -313,7 +320,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                             </Link>}
                         </li>
                         <li className={`${showSidebar ? 'px-2' : ''} py-2`}>
-                            <Link to="#" className="flex w-full ">
+                            <Link state={{ from: pathname }} to="/settings" className="flex w-full ">
                                 <span className={`flex w-full gap-1 ${showSidebar ? '' : 'items-center justify-center'} `}>
                                     <Settings02Icon className={showSidebar ? "mr-2 ml-1" : ''} size="20" />
                                     {showSidebar && "Settings"}
@@ -321,7 +328,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                             </Link>
                         </li>
                         <li className={`${showSidebar ? 'px-2' : ''} py-2`}>
-                            <Link to="#" className="flex w-full">
+                            <Link state={{ from: pathname }} to="/referrals" className="flex w-full">
                                 <span className={`flex w-full gap-1 ${showSidebar ? '' : 'items-center justify-center'} `}>
                                     <Share08Icon className={showSidebar ? "mr-2 ml-1" : ''} size="20" />
                                     {showSidebar && 'Referrals'}
@@ -329,7 +336,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                             </Link>
                         </li>
                         <li className={`${showSidebar ? 'px-2' : ''} py-2`}>
-                            <Link to="#" className="flex w-full">
+                            <Link state={{ from: pathname }} to="/help" className="flex w-full">
                                 <span className={`flex w-full gap-1 ${showSidebar ? '' : 'items-center justify-center'} `}>
                                     <HelpCircleIcon className={showSidebar ? "mr-2 ml-1" : ''} size="20" />
                                     {showSidebar && 'Help & FAQ'}

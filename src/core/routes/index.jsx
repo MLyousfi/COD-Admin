@@ -31,6 +31,12 @@ import Orders from "../../modules/first-mile/components/Orders.jsx";
 import Collects from "../../modules/first-mile/components/Collects.jsx";
 import Stock from "../../modules/first-mile/components/Stock.jsx";
 import FollowUpStatistics from "../../modules/statistics/pages/FollowUp.jsx";
+import ChatBotConfirmation from "../../modules/ordersManagement/pages/ChatBotConfirmation.jsx";
+import ConfirmedOrders from "../../modules/ordersManagement/pages/ConfirmedOrders.jsx";
+import ScheduleOrders from "../../modules/ordersManagement/pages/ScheduleOrders.jsx";
+import Settings from "../../modules/settings/pages/Settings.jsx";
+import Help from "../../modules/help/pages/Help.jsx";
+import Referral from "../../modules/referral/pages/Referral.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -158,6 +164,21 @@ const routes = createBrowserRouter([
 
     },
     {
+        path: RouteNames.settings,
+        element: <Settings />
+
+    },
+    {
+        path: RouteNames.help,
+        element: <Help />
+
+    },
+    {
+        path: RouteNames.referrals,
+        element: <Referral />
+
+    },
+    {
         path: RouteNames.shippingCompanies,
         element: <ShippingCost />
 
@@ -224,15 +245,15 @@ const routes = createBrowserRouter([
             },
             {
                 path: RouteNames.chatBotConfirmation,
-                element: <ListOfOrders />
+                element: <ChatBotConfirmation />
             },
             {
                 path: RouteNames.ConfirmedOrders,
-                element: <ListOfOrders />
+                element: <ConfirmedOrders />
             },
             {
                 path: RouteNames.scheduleOrders,
-                element: <ListOfOrders />
+                element: <ScheduleOrders />
             },
         ],
     },

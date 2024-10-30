@@ -305,7 +305,7 @@ const columns = [
 ];
 
 
-export default function FollowUp() {
+export default function ChatBotConfirmation() {
 
     const [selectionBehavior, setSelectionBehavior] = useState("toggle");
 
@@ -391,11 +391,11 @@ export default function FollowUp() {
     }, []);
     return (
         <>
-            <DashboardLayout title="Call Center - Follow Up" icon={<CustomerService01Icon className="text-info" />}
+            <DashboardLayout title="Orders Management - Chat Bot Confirmation" icon={<DeliveryBox01Icon className="text-info" />}
             >
-                <div className="p-2 md:p-4">
+                <div className="p-2 md:p-4">{/**here ---|> responsv */}
                     {/*Tabs*/}
-                    <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
+                    <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
                         <StatusTabs
                             activeCount={rows.filter(row => row.status === "active").length}
                             archivedCount={rows.filter(row => row.status === "archived").length}
@@ -404,10 +404,7 @@ export default function FollowUp() {
                         />
 
 
-                        <div className="flex gap-2 flex-wrap items-center">
-                            <Button color="default" className="rounded-full bg-info text-white">
-                                <Calling02Icon size={18} /> Start Follow Up
-                            </Button>
+                        <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
                             <Dropdown>
                                 <DropdownTrigger>
                                     <Button variant="bordered" className="rounded-full">
