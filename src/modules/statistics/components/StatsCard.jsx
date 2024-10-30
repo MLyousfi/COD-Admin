@@ -23,9 +23,9 @@ const StatsCard = ({
                 {/* Icon and percentage change */}
                 <div className="flex justify-start gap-2 items-center mb-4">
                     <div className={`w-10 h-10 flex items-center justify-center rounded-full ${bgColor}`}>
-                        <span className="text-white text-2xl">{icon}</span>
+                        <span className="text-black dark:text-white text-2xl">{icon}</span>
                     </div>
-                    <p className="text-sm">{title}</p>
+                    <p className="text-lg">{title}</p>
                 </div>
 
                 {/* Net amount */}

@@ -47,6 +47,8 @@ const ListOfShipments = () => {
       setSelectedRows([...selectedRows, key]);
     }
   };
+  const [activeView, setActiveView] = useState('active'); 
+
 
   const handleDelete = (key) => {
     setProducts(products.filter(product => product.key !== key));
@@ -113,6 +115,13 @@ const ListOfShipments = () => {
     <DashboardLayout title="Collects - List of Shipments" icon={<DeliveryTruck01Icon className="text-info" />}>
       <div className="p-2 md:p-4">{/**here ---|> responsv */}
         <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
+        <StatusTabs 
+            activeCount={products.filter(product => product.status === "active").length}
+            archivedCount={products.filter(product => product.status === "archived").length}
+            selectedTab={activeView}
+            onTabChange={setActiveView}
+          />
+     
           {/* <StatusTabs
             activeCount={products.filter(product => product.status === "active").length}
             archivedCount={products.filter(product => product.status === "archived").length}

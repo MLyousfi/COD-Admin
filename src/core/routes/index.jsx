@@ -30,13 +30,13 @@ import Notification from "../../modules/notification/Notification.jsx";
 import Orders from "../../modules/first-mile/components/Orders.jsx";
 import Collects from "../../modules/first-mile/components/Collects.jsx";
 import Stock from "../../modules/first-mile/components/Stock.jsx";
+import FollowUpStatistics from "../../modules/statistics/pages/FollowUp.jsx";
 import ChatBotConfirmation from "../../modules/ordersManagement/pages/ChatBotConfirmation.jsx";
 import ConfirmedOrders from "../../modules/ordersManagement/pages/ConfirmedOrders.jsx";
 import ScheduleOrders from "../../modules/ordersManagement/pages/ScheduleOrders.jsx";
 import Settings from "../../modules/settings/pages/Settings.jsx";
 import Help from "../../modules/help/pages/Help.jsx";
 import Referral from "../../modules/referral/pages/Referral.jsx";
-
 
 const routes = createBrowserRouter([
     {
@@ -56,13 +56,22 @@ const routes = createBrowserRouter([
             },
             {
                 path: RouteNames.warehouses,
-                element: <FollowUp />
+                element: <StockManagement />
             },
         ],
     },
     {
-        path: RouteNames.collectsListOfShipments,
-        element: <ListOfShipments />
+        path: RouteNames.Collects,
+        children: [
+            {
+                path: RouteNames.collectsListOfShipments,
+                element: <ListOfShipments />
+            },
+            {
+                path: RouteNames.collectShippemdTransit,
+                element: <ListOfShipments />
+            },
+        ],
     },
     {
         path: RouteNames.notification,
@@ -337,7 +346,7 @@ const routes = createBrowserRouter([
                     },
                     {
                         path: RouteNames.statiscticsAgentsFollowup,
-                        element: <Products />
+                        element: <FollowUpStatistics />
                     },
                 ],
             },
