@@ -87,16 +87,16 @@ const ListOfShipments = () => {
              bg-[#00000020] dark:bg-[#FFFFFF20]"
   style={{ padding: 0, minWidth: '32px', height: '32px' }}
 >
-  <EyeIcon size={14}
+  <EyeIcon size={16}
    />
 </Button>
     
               <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}>
-                <PencilEdit01Icon size={14} style={{ color: 'white' }} />
+                <PencilEdit01Icon size={16} style={{ color: 'white' }} />
               </Button>
     
               <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }} onClick={() => handleDelete(item.key)}>
-                <Delete01Icon size={14} style={{ color: 'white' }} />
+                <Delete01Icon size={16} style={{ color: 'white' }} />
               </Button>
             </div>
           );

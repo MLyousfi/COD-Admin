@@ -27,9 +27,13 @@ import Countries from "../../modules/countries/pages/Countries.jsx";
 import Templates from "../../modules/whatsapp/pages/Templates.jsx";
 import ListOfSellers from "../../modules/sellers/pages/ListOfSellers.jsx";
 import Notification from "../../modules/notification/Notification.jsx";
+import Orders from "../../modules/first-mile/components/Orders.jsx";
+import Collects from "../../modules/first-mile/components/Collects.jsx";
+import Stock from "../../modules/first-mile/components/Stock.jsx";
 import ChatBotConfirmation from "../../modules/ordersManagement/pages/ChatBotConfirmation.jsx";
 import ConfirmedOrders from "../../modules/ordersManagement/pages/ConfirmedOrders.jsx";
 import ScheduleOrders from "../../modules/ordersManagement/pages/ScheduleOrders.jsx";
+
 
 const routes = createBrowserRouter([
     {
@@ -62,8 +66,29 @@ const routes = createBrowserRouter([
         element: <Notification />
     },
     {
-        path: RouteNames.firstMileDashboard,
-        element: <FirstMileDashboard />
+        path: RouteNames.firstMile,
+        children: [
+            {
+                path: RouteNames.firstMileDashboard,
+                element: <FirstMileDashboard />
+            },
+            {
+                path: RouteNames.firstMileOrders,
+                element: <Orders />
+            },
+            {
+                path: RouteNames.firstMileCollects,
+                element: <Collects />
+            },
+            {
+                path: RouteNames.firstMileStock,
+                element: <Stock />
+            },
+            {
+                path: RouteNames.firstMileWarehouse,
+                element: <Orders />
+            },
+        ],
     },
     {
         path: RouteNames.callCenterManager,
