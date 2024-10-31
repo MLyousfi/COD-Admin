@@ -16,7 +16,6 @@ import { motion } from 'framer-motion';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import { agentNames } from "../../../core/utils/shared.data";
 
-
 const rows = [
     {
         key: "1",
@@ -94,11 +93,9 @@ const rows = [
         country: "Saudi Arabia",
         price: "12.564 SAR",
         agent: "Alice Smith",
-        status: "active",
+        status: "archived",
     },
 ];
-
-
 
 const columns = [
     { key: "checkbox", label: "#" },
@@ -119,17 +116,29 @@ export default function Confirmation() {
     const [callTab, setCallTab] = useState('All');
     const [sortAscending, setSortAscending] = useState(true);
 
-    const handleCheckboxChange = (key) => {
-        if (selectedRows.includes(key)) {
-            setSelectedRows(selectedRows.filter((selectedKey) => selectedKey !== key));
+    const handleCheckboxChange = (keys, isRange = false) => {
+        if (isRange && Array.isArray(keys)) {
+          setSelectedRows(prevSelected => {
+            const newSelected = new Set(prevSelected);
+            keys.forEach(key => newSelected.add(key));
+            return Array.from(newSelected);
+          });
         } else {
-            setSelectedRows([...selectedRows, key]);
+          setSelectedRows(prevSelected => {
+            const newSelected = new Set(prevSelected);
+            if (newSelected.has(keys)) {
+              newSelected.delete(keys);
+            } else {
+              newSelected.add(keys);
+            }
+            return Array.from(newSelected);
+          });
         }
-    };
+      };
 
-    const filteredRows = selectedTab === 'active'
-        ? rows.filter(row => row.status === "active")
-        : rows.filter(row => row.status === "archived");
+    const filteredRows = rows.filter(row => row.status.toLowerCase() === selectedTab.toLowerCase());
+    console.log('Selected Tab:', selectedTab);
+    console.log('Filtered Rows:', filteredRows);
 
     const sortedRows = [...filteredRows].sort((a, b) => {
         const priceA = parseFloat(a.price);
@@ -184,16 +193,16 @@ export default function Confirmation() {
                 </div>
             }
         >
-            <div className="p-2 md:p-4">{/**here ---|> responsv */}
-                <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
+            <div className="p-2 md:p-4">{/** Responsive Padding */}
+                <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/** Responsive Flex Layout */}
                     <StatusTabs
-                        activeCount={rows.filter(row => row.status === "active").length}
-                        archivedCount={rows.filter(row => row.status === "archived").length}
+                        activeCount={rows.filter(row => row.status.toLowerCase() === "active").length}
+                        archivedCount={rows.filter(row => row.status.toLowerCase() === "archived").length}
                         selectedTab={selectedTab}
                         onTabChange={setSelectedTab}
                     />
 
-                    <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
+                    <div className="flex gap-2 flex-wrap items-center"> {/** Responsive Action Buttons */}
                         <Button color="default" className="rounded-full bg-info text-white">
                             <Calling02Icon size={18} /> Start Call
                         </Button>
@@ -211,7 +220,6 @@ export default function Confirmation() {
                                             <div className="flex gap-2">
                                                 <UserIcon size={15} /> {i}
                                             </div>
-
                                         </div>
                                     </DropdownItem>
                                 ))}
@@ -221,7 +229,6 @@ export default function Confirmation() {
                             <PencilEdit01Icon size={18} /> Actions
                         </Button>
                     </div>
-
                 </div>
 
                 <Table

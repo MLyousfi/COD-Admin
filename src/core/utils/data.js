@@ -7,7 +7,7 @@ export const rows = [
       sku: "SKU-001",
       type: "Type 1",
       category: "Category 1",
-      status: "active",  // Status set to active
+      status: "archived",  // Status set to active
     },
     {
       key: "2",
@@ -17,7 +17,7 @@ export const rows = [
       sku: "SKU-002",
       type: "Type 2",
       category: "Category 2",
-      status: "active",  // Status set to archived
+      status: "archived",  // Status set to archived
     },
     {
       key: "3",
@@ -37,7 +37,7 @@ export const rows = [
         sku: "SKU-001",
         type: "Type 1",
         category: "Category 1",
-        status: "active",  // Status set to active
+        status: "actarchivedive",  // Status set to active
       },
       {
         key: "5",
@@ -57,7 +57,7 @@ export const rows = [
         sku: "SKU-001",
         type: "Type 1",
         category: "Category 1",
-        status: "active",  // Status set to active
+        status: "archived",  // Status set to active
       },
       {
         key: "7",
@@ -78,7 +78,7 @@ export const rows = [
         sku: "SKU-001",
         type: "Type 1",
         category: "Category 1",
-        status: "active",  // Status set to active
+        status: "archived",  // Status set to active
       },
       {
         key: "9",
@@ -98,7 +98,7 @@ export const rows = [
         sku: "SKU-001",
         type: "Type 1",
         category: "Category 1",
-        status: "active",  // Status set to active
+        status: "archived",  // Status set to active
       },
 
       {
