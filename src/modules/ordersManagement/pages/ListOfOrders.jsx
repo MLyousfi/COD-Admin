@@ -313,6 +313,8 @@ export default function ListOfOrders() {
     const [selectedRows, setSelectedRows] = useState([]);
     const rowsPerPage = 10;
 
+
+
     const handleCheckboxChange = (keys, isRange = false) => {
         if (isRange && Array.isArray(keys)) {
             setSelectedRows(prevSelected => {
@@ -321,6 +323,8 @@ export default function ListOfOrders() {
                 return Array.from(newSelected);
             });
         } else {
+
+
             setSelectedRows(prevSelected => {
                 const newSelected = new Set(prevSelected);
                 if (newSelected.has(keys)) {

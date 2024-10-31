@@ -230,6 +230,8 @@ const columns = [
 ];
 
 const ListOfUsers = () => {
+
+
     const [activeView, setActiveView] = useState('active');
     const [selectedRows, setSelectedRows] = useState([]);
     const companies = [...new Set(rows.map(row => row.company))];
