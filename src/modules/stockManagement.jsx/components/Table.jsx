@@ -21,6 +21,7 @@ const Table = ({
   emptyMessage = "No records available."
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
+
   const totalPages = Math.ceil(data.length / rowsPerPage);
 
   const currentData = () => data.length > 0 && enablePagination
@@ -78,6 +79,8 @@ const Table = ({
     };
   }, []);
 
+
+
   return (
     <div className="w-full mx-4">
       {/* Wrapper div for table and pagination to control the fixed height */}
@@ -121,7 +124,7 @@ const Table = ({
                             <motion.div
                               initial={{ scale: 1 }}
                               whileTap={{ scale: 0.9 }}
-                              transition={{ duration: 0.1 }} className='h-full w-full py-2' onClick={() => handleCheckboxChange(item.key)}>
+                              transition={{ duration: 0.1 }} className='h-full w-full cursor-pointer py-2' onClick={() => handleCheckboxChange(item.key)}>
                               {/* animate this div and it's child ontap when the parent div above clicked using framer motion */}
                               <div
                                 className='w-5 h-5 mx-auto rounded-md border border-[#00000050] dark:border-[#ffffff50] flex justify-center items-center'>

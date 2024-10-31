@@ -217,7 +217,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                                         <button
                                             id={route.path}
                                             onClick={() => toggleRoute(route.name)}
-                                            className={`flex  ${showSidebar ? "w-full justify-between" : "w-[50px] mx-auto justify-start"}    items-center py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white
+                                            className={`flex  ${showSidebar ? "w-full justify-between" : "w-[50px] mx-auto justify-start"} items-center py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white
                                             ${isActiveParent || pathname.includes("/" + route.path) ? "bg-glb_blue text-white" : ""}`}
                                         >
                                             <div className={`flex w-full items-center ${showSidebar ? " px-2" : " justify-center"}`} >

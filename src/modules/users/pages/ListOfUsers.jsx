@@ -297,9 +297,10 @@ const ListOfUsers = () => {
             <div className="p-2 md:p-4">{/**here ---|> responsv */}
                 {/* Tabs for Active and Archived */}
                 <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
-                    <div className="flex justify-center items-center gap-2">
+                    <div className="flex justify-center items-center gap-2 flex-wrap">
                         {companies && companies.length > 0 && companies.map((item, index) =>
-                        (<div key={index} onClick={() => setSelectedCompany(companies[index])} className={`py-2 cursor-pointer text-sm px-6 rounded-full text-white ${selectedCompany === item ? 'bg-[#0258E8]' : 'bg-[#0256e83d]'} `}>
+                        (<div key={index} onClick={() => setSelectedCompany(companies[index])}
+                            className={`py-2 cursor-pointer text-sm px-6 rounded-full test-white dark:text-white ${selectedCompany === item ? 'bg-[#0258E8]' : 'bg-[#0256e83d]'} `}>
                             {item}
                         </div>)
                         )}

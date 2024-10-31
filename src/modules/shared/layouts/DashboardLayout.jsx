@@ -25,6 +25,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
     const storedSidebarEpingled = localStorage.getItem("sidebar-epingled");
     const [sidebarEpingled, setSidebarEpingled] = useState(storedSidebarEpingled === null ? false : storedSidebarEpingled === "true");
     const [showSidebar, setShowSidebar] = useState(sidebarEpingled);
+    const [showReSidebar, setShowReSidebar] = useState(false);
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -56,6 +57,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
         hidden: { opacity: 0, x: -10 },
         visible: { opacity: 1, x: 0 },
     };
+
     const HandleSideBarChange = (v) => {
 
         setShowSidebar(v); // Ensure to update showSidebar here
@@ -64,18 +66,19 @@ export default function DashboardLayout({ children, icon, title, additionalConte
     const HandlePinglingSideBar = (v) => {
 
         localStorage.setItem("sidebar-epingled", v);
-        setSidebarEpingled(v)
+        setSidebarEpingled(v);
     }
     return (
         <>
             {/* i want to add a hover on 10px in the right of this parent div to show the side bar  */}
-            <div className="relative flex w-screen overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
+            <div className="flex w-screen overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
 
 
                 <div className={`relative flex flex-col w-full lg:ml-auto min-h-screen ${sidebarEpingled ? ' lg:w-[calc(100%-20rem)] ' : showSidebar ? ' lg:w-[calc(100%-20rem)]' : 'lg:w-[calc(100%-3.5rem)]'}`}>
                     {/*  Site header */}
-                    <Header epingled={sidebarEpingled} setEpingled={HandlePinglingSideBar} showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
-                    {!hasReturnLink && <div className="flex p-3 md:p-4 md:hidden mx-auto gap-6 mt-4 justify-between items-center">
+                    <Header epingled={sidebarEpingled} setEpingled={HandlePinglingSideBar}
+                        showSidebar={showReSidebar} setShowSidebar={setShowReSidebar} />
+                    {/* {!hasReturnLink && <div className="flex p-3 md:p-4 md:hidden mx-auto gap-6 mt-4 justify-between items-center">
 
                         <Dropdown placement="bottom-start">
                             <DropdownTrigger>
@@ -124,7 +127,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                             <Search01Icon />
                         </Button>
 
-                    </div>}
+                    </div>} */}
                     <div className="relative  h-12 w-full p-3 md:p-4 mx-auto text-center hidden lg:hidden">
                         <div ref={dropdownRef} onClick={() => setSmallNotOpen(!SmallNotOpen)} className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
                             <div className=" flex justify-center items-center gap-2 ">
@@ -197,7 +200,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                     </footer>
                 </div>
                 {/* sidebar for mobiles screens */}
-                <ResideBar showSidebar={showSidebar} setShowSidebar={HandleSideBarChange} />
+                <ResideBar showSidebar={showReSidebar} setShowSidebar={setShowReSidebar} />
                 {/* sidebar for bigger screens */}
                 <Sidebar showSidebar={sidebarEpingled ? true : showSidebar} setShowSidebar={HandleSideBarChange} />
 
