@@ -37,6 +37,7 @@ import ScheduleOrders from "../../modules/ordersManagement/pages/ScheduleOrders.
 import Settings from "../../modules/settings/pages/Settings.jsx";
 import Help from "../../modules/help/pages/Help.jsx";
 import Referral from "../../modules/referral/pages/Referral.jsx";
+import Funds from "../../modules/statistics/pages/Funds.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -327,7 +328,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: RouteNames.statiscticsFunds,
-                element: <Products />
+                element: <Funds />
             },
             {
                 path: RouteNames.statiscticsSponsoring,
