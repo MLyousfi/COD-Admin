@@ -32,11 +32,23 @@ const Templates = () => {
     setProducts([...products, newTemplate]);
   };
 
-  const handleCheckboxChange = (key) => {
-    if (selectedRows.includes(key)) {
-      setSelectedRows(selectedRows.filter((selectedKey) => selectedKey !== key));
+  const handleCheckboxChange = (keys, isRange = false) => {
+    if (isRange && Array.isArray(keys)) {
+      setSelectedRows(prevSelected => {
+        const newSelected = new Set(prevSelected);
+        keys.forEach(key => newSelected.add(key));
+        return Array.from(newSelected);
+      });
     } else {
-      setSelectedRows([...selectedRows, key]);
+      setSelectedRows(prevSelected => {
+        const newSelected = new Set(prevSelected);
+        if (newSelected.has(keys)) {
+          newSelected.delete(keys);
+        } else {
+          newSelected.add(keys);
+        }
+        return Array.from(newSelected);
+      });
     }
   };
 
