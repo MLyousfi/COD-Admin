@@ -1,6 +1,7 @@
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import { Database01Icon, DeliveryBox01Icon, DeliveryTruck02Icon, File01Icon, Idea01Icon, LockIcon, Notification01Icon, ProductLoadingIcon, Wallet01Icon } from "hugeicons-react";
-import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowDown01Icon, ArrowRight01Icon, Database01Icon, DeliveryBox01Icon, DeliveryTruck02Icon, File01Icon, Idea01Icon, LockIcon, Notification01Icon, ProductLoadingIcon, Wallet01Icon } from "hugeicons-react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 
@@ -83,7 +84,8 @@ export default function Notification() {
     const location = useLocation();
     const navigate = useNavigate();
     const [visibleNotifications, setVisibleNotifications] = useState(4);
-
+    const [SmallNotOpen, setSmallNotOpen] = useState(false);
+    const dropdownRef = useRef(null);
     // Function to load more notifications
     const loadMoreNotifications = () => {
         setVisibleNotifications((prevCount) => prevCount + 4);
@@ -92,11 +94,67 @@ export default function Notification() {
     // Retrieve the redirection link from the state
     const redirectLink = location.state ? location.state.from : '/dashboard';
 
+    const dropdownVariants = {
+        hidden: { opacity: 0, height: 0 },
+        visible: {
+            opacity: 1,
+            height: "auto",
+            transition: {
+                duration: 0.1,
+                when: "beforeChildren",
+                staggerChildren: 0.1,
+            },
+        },
+    };
 
+    const itemVariants = {
+        hidden: { opacity: 0, x: -10 },
+        visible: { opacity: 1, x: 0 },
+    };
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setSmallNotOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
     return (
         <>
             <DashboardLayout title="Notifications" hasSearchInput={false} hasReturnLink={redirectLink}
             >
+                <div className="relative  h-12 w-full p-3 md:p-4 mx-auto text-center lg:hidden">
+                    <div ref={dropdownRef} onClick={() => setSmallNotOpen(!SmallNotOpen)}
+                        className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
+                        <div className=" flex justify-center items-center gap-2 ">
+                            <h4 className="text-sm font-semibold ">Important Notifications in the ERP</h4>
+                            {SmallNotOpen ? <ArrowDown01Icon className="font-thin" /> : <ArrowRight01Icon className="font-thin" />}
+                        </div>
+
+                        <AnimatePresence>
+                            {SmallNotOpen && (
+                                <motion.div initial="hidden"
+                                    animate="visible"
+                                    exit="hidden"
+                                    index={22}
+                                    variants={dropdownVariants} className="w-full flex flex-col gap-2 mt-2">
+                                    {[{ data: 154, label: 'No Answers Late' }, { data: 21415, label: 'Schedule Late - Follow Up' }
+                                        , { data: 21415, label: 'Schedule Late - Follow Up' }, { data: 21415, label: 'Schedule Late - Follow Up' }
+                                    ].map((i, ix) => (
+                                        <motion.div variants={itemVariants}
+                                            custom={ix} key={ix} className=" flex justify-start items-center gap-2 ">
+                                            <h4 className="text-sm"><b>{i.data}</b></h4>
+                                            <h4 className="text-sm font-thin">{i.label}</h4>
+
+                                        </motion.div>))}</motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                </div>
                 <div className="p-12 flex flex-col justify-center items-center gap-2">
                     {notifications.slice(0, visibleNotifications).map((item, index) => (
                         <div key={index} className="group  flex cursor-pointer hover:bg-[#0258E810] justify-start bg-[#00000008] dark:bg-[#ffffff05] items-center rounded-xl gap-2 w-full py-3 px-4">
