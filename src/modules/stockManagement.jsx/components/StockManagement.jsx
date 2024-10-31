@@ -6,14 +6,12 @@ import {
   PencilEdit01Icon,
   EyeIcon,
   Delete01Icon,
-
   EarthIcon, 
   DropboxIcon,
   PackageIcon,      
   Layers01Icon,     
   SaleTag02Icon,   
   Dollar02Icon     
-
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
@@ -23,7 +21,6 @@ import Table from './Table';
 import { rows } from '../../../core/utils/data'; 
 import CustomModal from './modal'; 
 import InformationsForm from './InformationsForm'; // Import the InformationsForm component
-
 
 const selectedButtonColor = '#0258E8';
 const headerBackgroundColorDark = 'rgba(255, 255, 255, 0.02)';
@@ -109,7 +106,6 @@ const StockManagement = () => {
 
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
-
     setModalView('warehouses'); 
     setModalType('view');
     setIsModalOpen(true);
@@ -118,7 +114,6 @@ const StockManagement = () => {
   const handleOpenNewProductModal = () => {
     setModalType('new');
     setActiveNewProductSection('informations'); // Default to 'informations' when opening new product modal
-
     setIsModalOpen(true);
   };
 
@@ -141,7 +136,7 @@ const StockManagement = () => {
               variant="flat"
               size="sm"
               className="w-8 h-8 rounded-full p-0 flex items-center justify-center
-                         bg-[#00000020] dark:bg-[#FFFFFF20]"
+                         bg-[#00000020] dark:bg-[#FFFFFF20] flex-shrink-0"
               style={{ padding: 0, minWidth: '32px', height: '32px' }}
               onClick={() => handleOpenModal(item)}
             >
@@ -151,7 +146,7 @@ const StockManagement = () => {
             <Button
               variant="flat"
               size="sm"
-              className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
+              className="w-8 h-8 rounded-full p-0 flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
             >
               <PencilEdit01Icon size={14} style={{ color: 'white' }} />
@@ -160,7 +155,7 @@ const StockManagement = () => {
             <Button
               variant="flat"
               size="sm"
-              className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
+              className="w-8 h-8 rounded-full p-0 flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
               onClick={() => handleDelete(item.key)}
             >
@@ -221,35 +216,41 @@ const StockManagement = () => {
 
   return (
     <DashboardLayout title="Stock Management - List of Products" icon={<GarageIcon className="text-info" />}>
-      <div className="p-2 md:p-4">{/**here ---|> responsv */}
-        <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
-          <StatusTabs
-            activeCount={products.filter(product => product.status === "active").length}
-            archivedCount={products.filter(product => product.status === "archived").length}
-            selectedTab={activeView}
-            onTabChange={setActiveView}
-          />
-
-
-          <div className="flex gap-2 flex-wrap items-center">
+      <div className="p-2 md:p-4">
+        {/* === Updated Flex Container === */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+          {/* Buttons Container */}
+          <div className="order-1 md:order-2 flex gap-2 flex-wrap w-full md:w-auto justify-end">
             <Button 
               color="default" 
               onClick={handleOpenNewProductModal} // Updated to open modal
-              className="rounded-full" 
+              className="rounded-full flex items-center space-x-2 px-4 py-2"
               style={{ backgroundColor: '#0258E8', color: 'white' }}  
-
             >
-              <PlusSignIcon size={18} /> New Product
+              <PlusSignIcon size={18} className="flex-shrink-0" /> 
+              <span className="text-sm sm:text-base">New Product</span>
             </Button>
             <Button
               color="default"
-              className="rounded-full"
+              className="rounded-full flex items-center space-x-2 px-4 py-2"
               style={{ backgroundColor: '#ED0006', color: 'white' }}
             >
-              <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions
+              <PencilEdit01Icon size={18} className="flex-shrink-0" /> 
+              <span className="text-sm sm:text-base">Actions</span>
             </Button>
           </div>
+
+          {/* StatusTabs */}
+          <div className="order-2 md:order-1 w-full md:w-auto">
+            <StatusTabs
+              activeCount={products.filter(product => product.status === "active").length}
+              archivedCount={products.filter(product => product.status === "archived").length}
+              selectedTab={activeView}
+              onTabChange={setActiveView}
+            />
+          </div>
         </div>
+        {/* === End of Updated Flex Container === */}
 
         <Table
           columns={columns}
@@ -389,15 +390,12 @@ const StockManagement = () => {
                                 <DropboxIcon size={200} className="mb-4 text-[#34343450]" />
                                 <p className="text-lg text-gray-600">There is no stock of this product at the moment</p>
                               </div>
-
                             </td>
                           </tr>
                         ) : (
-
                           <tr>
                             <td colSpan={modalTableColumns.length + 1} className="py-4 text-center text-gray-400">
                               No data available.
-
                             </td>
                           </tr>
                         )
@@ -410,68 +408,71 @@ const StockManagement = () => {
           ) : modalType === 'new' ? (
             /* New Product Modal Content */
             <>
-              {/* Buttons for New Product Sections */}
-              <div className="flex space-x-4 mb-10">
+              {/* === Updated Buttons Section === */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
                 {/* Informations Button */}
                 <Button
                   color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
-                    activeNewProductSection === 'informations' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
-                  }`}
+                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 w-full`}
                   onClick={() => setActiveNewProductSection('informations')}
                   style={{
-                    borderColor: activeNewProductSection === 'informations' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
+                    backgroundColor: activeNewProductSection === 'informations' ? selectedButtonColor : 'transparent',
+                    color: activeNewProductSection === 'informations' ? 'white' : isDarkMode ? '#A0AEC0' : 'black',
+                    borderColor: activeNewProductSection === 'informations' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
                   }}
                 >
-                  <PackageIcon size={20} />
-                  <span>Informations</span>
+                  {/* Responsive Icon */}
+                  <PackageIcon className="flex-shrink-0 h-5 w-5 sm:h-6 sm:w-6" />
+                  {/* Responsive Text */}
+                  <span className="text-sm sm:text-base">Informations</span>
                 </Button>
 
                 {/* Stocks Button */}
                 <Button
                   color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
-                    activeNewProductSection === 'stocks' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
-                  }`}
+                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 w-full`}
                   onClick={() => setActiveNewProductSection('stocks')}
                   style={{
-                    borderColor: activeNewProductSection === 'stocks' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
+                    backgroundColor: activeNewProductSection === 'stocks' ? selectedButtonColor : 'transparent',
+                    color: activeNewProductSection === 'stocks' ? 'white' : isDarkMode ? '#A0AEC0' : 'black',
+                    borderColor: activeNewProductSection === 'stocks' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
                   }}
                 >
-                  <Layers01Icon size={20} />
-                  <span>Stocks</span>
+                  <Layers01Icon className="flex-shrink-0 h-5 w-5 sm:h-6 sm:w-6" />
+                  <span className="text-sm sm:text-base">Stocks</span>
                 </Button>
 
                 {/* Sales Price Button */}
                 <Button
                   color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
-                    activeNewProductSection === 'salesPrice' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
-                  }`}
+                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 w-full`}
                   onClick={() => setActiveNewProductSection('salesPrice')}
                   style={{
-                    borderColor: activeNewProductSection === 'salesPrice' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
+                    backgroundColor: activeNewProductSection === 'salesPrice' ? selectedButtonColor : 'transparent',
+                    color: activeNewProductSection === 'salesPrice' ? 'white' : isDarkMode ? '#A0AEC0' : 'black',
+                    borderColor: activeNewProductSection === 'salesPrice' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
                   }}
                 >
-                  <SaleTag02Icon size={20} />
-                  <span>Sales Price</span>
+                  <SaleTag02Icon className="flex-shrink-0 h-5 w-5 sm:h-6 sm:w-6" />
+                  <span className="text-sm sm:text-base">Sales Price</span>
                 </Button>
 
                 {/* Upsell Button */}
                 <Button
                   color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
-                    activeNewProductSection === 'upsell' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
-                  }`}
+                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 w-full`}
                   onClick={() => setActiveNewProductSection('upsell')}
                   style={{
-                    borderColor: activeNewProductSection === 'upsell' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
+                    backgroundColor: activeNewProductSection === 'upsell' ? selectedButtonColor : 'transparent',
+                    color: activeNewProductSection === 'upsell' ? 'white' : isDarkMode ? '#A0AEC0' : 'black',
+                    borderColor: activeNewProductSection === 'upsell' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
                   }}
                 >
-                  <Dollar02Icon size={20} />
-                  <span>Upsell</span>
+                  <Dollar02Icon className="flex-shrink-0 h-5 w-5 sm:h-6 sm:w-6" />
+                  <span className="text-sm sm:text-base">Upsell</span>
                 </Button>
               </div>
+              {/* === End of Updated Buttons Section === */}
 
               {/* Modal Content Based on Active New Product Section */}
               <div className="flex-1 overflow-auto">

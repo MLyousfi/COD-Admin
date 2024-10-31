@@ -254,8 +254,8 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                                         placeholder="Select an agent"
                                         labelPlacement="outside"
                                         classNames={{
-                                            value: " dark:!text-[#ffffff85] !text-[#00000085]",
-                                            trigger: 'bg-transparent  mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
+                                            value: " dark:!text-[#ffffff85] !text-[#00000085] ",
+                                            trigger: 'bg-transparent  mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg ',
                                         }}>
                                         <SelectItem key={"1"}>
                                             All
@@ -273,7 +273,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                                         labelPlacement="outside"
                                         classNames={{
                                             value: " dark:!text-[#ffffff85] !text-[#00000085]",
-                                            trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
+                                            trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg ',
                                         }}>
                                         <SelectItem key={"1"}>
                                             Date
@@ -292,7 +292,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                                         labelPlacement="outside"
                                         classNames={{
                                             value: " dark:!text-[#ffffff85] !text-[#00000085]",
-                                            trigger: 'bg-transparent  mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
+                                            trigger: 'bg-transparent  mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
                                         }}>
                                         <SelectItem key={"1"}>
                                             List of Sellers
@@ -310,7 +310,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                                         labelPlacement="outside"
                                         classNames={{
                                             value: " dark:!text-[#ffffff85] !text-[#00000085]",
-                                            trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
+                                            trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg ',
                                         }}>
                                         <SelectItem key={"1"}>
                                             List of Products
@@ -330,7 +330,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                                         labelPlacement="outside"
                                         classNames={{
                                             value: " dark:!text-[#ffffff85] !text-[#00000085]",
-                                            trigger: 'bg-transparent  mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
+                                            trigger: 'bg-transparent  mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
                                         }}>
                                         <SelectItem key="1">
                                             All Countries
@@ -348,7 +348,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                                         labelPlacement="outside"
                                         classNames={{
                                             value: " dark:!text-[#ffffff85] !text-[#00000085]",
-                                            trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] ',
+                                            trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
                                         }}>
                                         <SelectItem key={"1"}>
                                             All Countries

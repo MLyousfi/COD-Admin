@@ -271,7 +271,7 @@ export default function Products() {
         <DashboardLayout title="Statistics - Follow Up" icon={<ChartHistogramIcon className="text-info" />}>
             {/* Header Section with Title and Buttons */}
             <div className="flex justify-between items-center px-2 flex-wrap gap-2 md:px-8 mb-6">
-                <div className="text-xl font-semibold text-black dark:text-white">Statistics - Follow Up</div>
+                <div className="text-xl font-semibold text-black dark:text-white">Statistics</div>
                 <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
                     <Button className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center" auto>
                         <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
