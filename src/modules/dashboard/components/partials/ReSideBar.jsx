@@ -9,7 +9,7 @@ import codPowerGroupLogoDark from "@shared/assets/images/cod-logo-dark.svg";
 import ThemeToggle from "@/modules/dashboard/components/ThemeToggle.jsx";
 import { RouteNames, RoutesConfig } from "@/core/constants/routes.js";
 import { useThemeProvider } from "../../../../core/providers/ThemeContext";
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function ResideBar({ showSidebar, setShowSidebar }) {
     const location = useLocation();
@@ -113,17 +113,21 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
             expandCurrentRouteOnly();
 
         }
+
     }, [showSidebar, pathname]);
 
 
 
     return (
         // w-10/12
-        <div onClick={() => setShowSidebar(false)}
-            className={`${showSidebar ? 'block' : 'hidden'} lg:hidden backdrop-blur-xl backdrop-saturate-150 z-30 fixed inset-0 p-0 h-screen  bg-gray-500/10`}>
-            {showSidebar &&
+        <AnimatePresence>
+            {showSidebar && <div onClick={() => setShowSidebar(false)}
+                className={`lg:hidden backdrop-blur-xl backdrop-saturate-150 z-30 fixed inset-0 p-0 h-screen  bg-gray-500/10`}>
 
-                <motion.div layout initial={{ width: 0 }} animate={{ width: '80%' }} exit={{ width: 0 }} onClick={(e) => e.stopPropagation()} className="flex max-w-80 flex-col overflow-y-auto h-full mr-auto bg-base_light dark:bg-base_dark">
+
+
+                <motion.div layout initial={{ width: 0 }} animate={{ width: '80%' }} transition={{ duration: 0.3 }} exit={{ width: 0 }} onClick={(e) => e.stopPropagation()}
+                    className="flex max-w-80 flex-col overflow-y-auto h-full mr-auto bg-base_light dark:bg-base_dark">
                     <div className="flex justify-between items-center my-6 px-6">
                         <Link to='/dashboard' onClick={() => setShowSidebar(false)} >{currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
                             <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}</Link>
@@ -135,7 +139,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                     </div>
 
                     <div className="px-4 my-12">
-                        <h3 className="my-2 text-gray-600">Menu</h3>
+                        <h3 className="my-2 text-gray-600"></h3>
 
                         <ul className="flex flex-col gap-2 dark:text-gray-400 text-gray-600">
                             {RoutesConfig.filter(route => route.showInSidebar && route.path).map((route, index) => {
@@ -155,7 +159,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                             <>
                                                 <button id={route.path}
                                                     onClick={() => toggleRoute(route.name)}
-                                                    className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white 
+                                                    className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white
                                             ${isActiveParent || pathname.includes("/" + route.path) ? "bg-glb_blue text-white" : ""}`}
                                                 >
                                                     <div className="flex items-center">
@@ -191,7 +195,10 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                                                                             key={grandChildIndex}
                                                                                             className={`flex justify-between items-center ml-6 px-2 py-2 rounded-xl ${pathname === grandChild.path ? "text-dark_selected" : "text-gray-600 dark:text-white"} hover:text-blue-600 dark:hover:text-blue-400`}
                                                                                         >
-                                                                                            <Link onClick={() => setShowSidebar(false)} to={grandChild.path} className="flex w-full items-center">
+                                                                                            <Link onClick={() => {
+                                                                                                setShowSidebar(false);
+                                                                                                console.log("Sidebar closed"); // For debugging
+                                                                                            }} to={grandChild.path} className="flex w-full items-center">
                                                                                                 {grandChild.name}
                                                                                             </Link>
                                                                                         </li>
@@ -200,7 +207,10 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                                                             )}
                                                                         </>
                                                                     ) : (
-                                                                        <Link onClick={() => setShowSidebar(false)}
+                                                                        <Link onClick={() => {
+                                                                            setShowSidebar(false);
+                                                                            console.log("Sidebar closed"); // For debugging
+                                                                        }}
                                                                             to={child.path}
                                                                             className={`flex w-full items-center px-2 py-2 rounded-xl ${pathname === child.path ? "text-dark_selected" : "text-gray-600 dark:text-white "} hover:text-blue-600 dark:hover:text-blue-400 `}
                                                                         >
@@ -217,7 +227,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                             <Link
                                                 id={route.path}
                                                 to={route.path}
-                                                className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-white  ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
+                                                className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white  ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
                                             >
                                                 {React.createElement(route.icon, { className: "mr-2 ml-1", size: 20 })}
                                                 {route.name}
@@ -267,7 +277,8 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                             </ul>
                         </div> */}
                     </div>
-                </motion.div>}
-        </div>
+                </motion.div>
+            </div>}
+        </AnimatePresence>
     )
 }

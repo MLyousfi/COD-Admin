@@ -87,10 +87,10 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
         <>
             <Navbar disableAnimation isBordered className="z-20 w-full px-2 py-4 bg-transparent" maxWidth="full">
 
-                <Button onClick={() => setEpingled(!epingled)} isIconOnly variant="light" className="hidden md:flex">
+                <Button onClick={() => setEpingled(!epingled)} isIconOnly variant="light" className="hidden lg:flex">
                     <SidebarRight01Icon />
                 </Button>
-                <Button onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light" className="md:hidden">
+                <Button onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light" className="lg:hidden">
                     <SidebarRight01Icon />
                 </Button>
 
@@ -278,42 +278,48 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                 </NavbarContent>
 
                 {/*right side bar small size */}
-                <NavbarMenu onClick={() => setIsMenuOpen(false)}
-                    className={`${isMenuOpen ? 'flex' : 'hidden'} fixed w-full inset-0 p-0 h-screen bg-gray-500/10`}>
+                <AnimatePresence>
+                    {isMenuOpen && <NavbarMenu onClick={() => setIsMenuOpen(false)}
+                        className={`flex fixed w-full inset-0 p-0 h-screen bg-gray-500/10`}>
 
-                    {isMenuOpen &&
 
-                        <motion.div layout initial={{ width: 0 }} animate={{ width: '80%' }} onClick={(e) => e.stopPropagation()} className={`max-w-80 ml-auto overflow-y-auto h-full flex flex-col justify-center bg-base_light dark:bg-base_dark`}>
+
+                        <motion.div layout initial={{ width: 0 }} animate={{ width: '80%' }} transition={{ duration: 0.3 }} exit={{ width: 0 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className={`max-w-80 ml-auto  bg-base_light dark:bg-base_dark`}>
                             {/* <NavbarMenuItem className="ml-auto mr-4 w-fit">
                                 <Button isIconOnly className="my-4 bg-gray-100 rounded-full dark:bg-gray-800"
                                     onClick={() => setIsMenuOpen(false)}>
                                     <Cancel01Icon className="mx-auto" />
                                 </Button>
                             </NavbarMenuItem> */}
-                            <div className="flex my-3 flex-col gap-1 w-full justify-center items-center">
-                                <h4 className="text-lg font-bold">{moment().format('dddd, MM MMM YYYY')}</h4>
-                                <span className="flex flex-row items-center gap-1 text-gray-600"> <Clock01Icon
-                                    size={16} /> {moment().format('HH:mm  Z')}</span>
-                            </div>
-                            <NavbarMenuItem className="px-4 my-8">
-                                <div className="flex justify-center gap-2  w-full  items-center">
-                                    <User
-                                        as="button"
-                                        avatarProps={{
-                                            isBordered: true,
-                                            src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-                                        }}
-                                        classNames={{ name: "font-bold", }}
-                                        className="transition-transform"
-                                    // description="Super Admin"
-                                    // name="Tony Reichert"
-                                    />
-                                    <div className="flex flex-col">
-                                        <h4 className="font-thin">{'Hello, 👋 Good Morning'}</h4>
-                                        <h1 className="font-semibold">Tony Reichert</h1>
-                                    </div>
+                            <motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.2 }}
+                                exit={{ opacity: 0, transition: { ease: 'easeIn', delay: 0 } }}
+                                className="w-full h-full overflow-y-auto h-full flex flex-col justify-center ">
+                                <div className="flex my-3 flex-col gap-1 w-full justify-center items-center">
+                                    <h4 className="text-lg font-bold">{moment().format('dddd, MM MMM YYYY')}</h4>
+                                    <span className="flex flex-row items-center gap-1 text-gray-600"> <Clock01Icon
+                                        size={16} /> {moment().format('HH:mm  Z')}</span>
                                 </div>
-                                {/* <Dropdown placement="bottom-start">
+                                <NavbarMenuItem className="px-4 my-8">
+                                    <div className="flex justify-center gap-2  w-full  items-center">
+                                        <User
+                                            as="button"
+                                            avatarProps={{
+                                                isBordered: true,
+                                                src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                                            }}
+                                            classNames={{ name: "font-bold", }}
+                                            className="transition-transform"
+                                        // description="Super Admin"
+                                        // name="Tony Reichert"
+                                        />
+                                        <div className="flex flex-col">
+                                            <h4 className="font-thin">{'Hello, 👋 Good Morning'}</h4>
+                                            <h1 className="font-semibold">Tony Reichert</h1>
+                                        </div>
+                                    </div>
+                                    {/* <Dropdown placement="bottom-start">
                                     <DropdownTrigger>
                                         <div className="flex justify-center gap-2 items-center">
                                             <User
@@ -356,66 +362,69 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                         </DropdownItem>
                                     </DropdownMenu>
                                 </Dropdown> */}
-                                <div className="flex flex-row w-full my-4">
-                                    <Input className="w-full ml-auto" placeholder="Search" classNames={{
-                                        inputWrapper: "bg-gray-100 dark:bg-neutral-800 rounded-full",
-                                    }} startContent={<Search01Icon size={18} className="text-gray-500" />}
-                                        endContent={<FilterIcon size={18} className="text-gray-500" />} />
+                                    <div className="flex flex-row w-full my-4">
+                                        <Input className="w-full ml-auto" placeholder="Search" classNames={{
+                                            inputWrapper: "bg-gray-100 dark:bg-neutral-800 rounded-full",
+                                        }} startContent={<Search01Icon size={18} className="text-gray-500" />}
+                                            endContent={<FilterIcon size={18} className="text-gray-500" />} />
 
 
-                                </div>
-                            </NavbarMenuItem>
-                            <NavbarMenuItem className="px-8 my-12 text-sm flex-grow">
-                                <h3 className="mt-4 mb-2 text-gray-400">System</h3>
-                                <ul>
-                                    <li className="px-2 py-2">
-                                        <Link to="#" className="flex w-full justify-start gap-4 items-center">
-                                            <span className="flex w-full gap-1">
-                                                <MoonCloudIcon className={showSidebar ? "mr-2 ml-1" : ''} size="20" />
-                                                Dark Mode
-                                            </span>
-                                            <ThemeToggle />
-                                        </Link>
-                                    </li>
-                                    <li className="px-2 py-2">
-                                        <Link state={{ from: pathname }} to="/settings" className="flex w-full">
-                                            <span className="flex w-full gap-1">
-                                                <Settings02Icon className="ml-1 mr-2" size="20" />
-                                                Settings
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="px-2 py-2">
-                                        <Link state={{ from: pathname }} to="/referrals" className="flex w-full">
-                                            <span className="flex w-full gap-1">
-                                                <Share08Icon className="ml-1 mr-2" size="20" />
-                                                Referrals
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="px-2 py-2">
-                                        <Link state={{ from: pathname }} to="/help" className="flex w-full">
-                                            <span className="flex w-full gap-1">
-                                                <HelpCircleIcon className="ml-1 mr-2" size="20" />
-                                                Help
-                                            </span>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </NavbarMenuItem>
+                                    </div>
+                                </NavbarMenuItem>
+                                <NavbarMenuItem className="px-8 my-12 text-sm flex-grow">
+                                    <h3 className="mt-4 mb-2 text-gray-400">System</h3>
+                                    <ul>
+                                        <li className="px-2 py-2">
+                                            <Link to="#" className="flex w-full justify-start gap-4 items-center">
+                                                <span className="flex w-full gap-1">
+                                                    <MoonCloudIcon className={showSidebar ? "mr-2 ml-1" : ''} size="20" />
+                                                    Dark Mode
+                                                </span>
+                                                <ThemeToggle />
+                                            </Link>
+                                        </li>
+                                        <li className="px-2 py-2">
+                                            <Link state={{ from: pathname }} to="/settings" className="flex w-full">
+                                                <span className="flex w-full gap-1">
+                                                    <Settings02Icon className="ml-1 mr-2" size="20" />
+                                                    Settings
+                                                </span>
+                                            </Link>
+                                        </li>
+                                        <li className="px-2 py-2">
+                                            <Link state={{ from: pathname }} to="/referrals" className="flex w-full">
+                                                <span className="flex w-full gap-1">
+                                                    <Share08Icon className="ml-1 mr-2" size="20" />
+                                                    Referrals
+                                                </span>
+                                            </Link>
+                                        </li>
+                                        <li className="px-2 py-2">
+                                            <Link state={{ from: pathname }} to="/help" className="flex w-full">
+                                                <span className="flex w-full gap-1">
+                                                    <HelpCircleIcon className="ml-1 mr-2" size="20" />
+                                                    Help
+                                                </span>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </NavbarMenuItem>
 
-                            <NavbarMenuItem className="block px-8 my-12">
-                                <Link to="/login"
-                                    className="flex flex-row items-center justify-start w-full gap-2 my-2 text-danger">
-                                    <Logout05Icon size={18} className="rotate-45" />
-                                    <span>Logout</span>
-                                </Link>
-                                <span className="text-sm text-gray-500">
-                                    Copyright © {new Date().getFullYear()}. COD Power Group, All rights reserved.
-                                </span>
-                            </NavbarMenuItem>
-                        </motion.div>}
-                </NavbarMenu>
+                                <NavbarMenuItem className="block px-8 my-12">
+                                    <Link to="/login"
+                                        className="flex flex-row items-center justify-start w-full gap-2 my-2 text-danger">
+                                        <Logout05Icon size={18} className="rotate-45" />
+                                        <span>Logout</span>
+                                    </Link>
+                                    <span className="text-sm text-gray-500">
+                                        Copyright © {new Date().getFullYear()}. COD Power Group, All rights reserved.
+                                    </span>
+                                </NavbarMenuItem>
+                            </motion.div>
+
+                        </motion.div>
+                    </NavbarMenu>}
+                </AnimatePresence>
             </Navbar >
 
 

@@ -252,7 +252,7 @@ const shipping = [
 export default function Dashboard() {
     const chartData = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        values: [2, 3, 4, 3, 5, 4, 4, 3, 4, 2, 4, 5],
+        values: [1, 3, 3, 2.5, 2.5, 2, 4, 4, 3, 3, 2, 4],
     };
 
     const container = {
@@ -284,6 +284,12 @@ export default function Dashboard() {
 
                 </motion.div>
                 <div className="flex flex-row flex-wrap items-start justify-start p-2 md:px-8">
+                    {/* <LineChartCard
+                        title="Product Delivery"
+                        data={chartData}
+                        percentChange={7.9}
+                        timeRange="Last Month"
+                    /> */}
                     <LineChartCard
                         title="Product Delivery"
                         data={chartData}

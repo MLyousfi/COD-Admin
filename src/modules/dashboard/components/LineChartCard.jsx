@@ -10,24 +10,39 @@ import {
 } from "hugeicons-react";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import { Button } from "@nextui-org/button";
+import { useThemeProvider } from '../../../core/providers/ThemeContext';
 
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => {
+    const { currentTheme } = useThemeProvider();
+
+    const createShadowDataset = (offset, opacity) => ({
+        data: data.values.map(value => value - offset),
+        borderColor: `rgba(0, 96, 255, ${opacity})`,
+        borderWidth: 8,
+        pointRadius: 0,
+        tension: 0.15,
+        fill: false,
+        borderCapStyle: 'round',
+        borderJoinStyle: 'round',
+        clip: false,
+    });
     const chartData = {
         labels: data.labels,
         datasets: [
+            createShadowDataset(0.1, 0.08),
+            createShadowDataset(0.04, 0.06),
             {
                 data: data.values,
                 borderColor: '#0060FF',
                 borderWidth: 1.5,
-                pointBorderColor: '#0060FF',
-                pointBackgroundColor: '#fff',
                 pointRadius: 0,
                 pointHoverRadius: 3,
-                fill: true,
-                tension: 0.3,
+                tension: 0.15,
+                fill: false,
+                clip: false,
             },
         ],
     };
@@ -40,22 +55,23 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
                 beginAtZero: true,
                 max: Math.max(...data.values) + 1,
                 ticks: {
-                    color: '#FFFFFF30',
+                    color: '#94a3b8',
                     stepSize: 1,
                 },
                 grid: {
-                    color: 'transparent',
+                    display: false,
                 },
             },
+            // TODO make the lines dashed
             x: {
                 ticks: {
-                    color: '#FFFFFF30',
+                    color: '#94a3b8',
                 },
                 grid: {
-                    color: '#FFFFFF10', // Color of the dashed lines
-                    borderColor: 'rgba(0, 0, 0, 0)', // Optional: Set to transparent if you want only the lines
-                    lineWidth: 1, // Width of the lines
-                    dash: [5, 5], // This creates the dashed effect (5px line, 5px space)
+                    color: currentTheme === 'light' ? '#E6E6E6' : '#242325',
+                    // TODO make the lines dashed
+                    borderDash: [8, 8],
+                    lineWidth: 1.5,
                 },
             },
         },
