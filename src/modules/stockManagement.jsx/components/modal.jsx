@@ -15,7 +15,7 @@ const getCustomStyles = (isDarkMode) => ({
     borderRadius: '15px',
     width: '90%',               // Adjust as needed
     maxWidth: '600px',          // Reduced from 800px to 600px
-    maxHeight: '80vh',
+    maxHeight: '90vh',
     overflowY: 'auto',
     backgroundColor: isDarkMode ? '#0C0B0C' : '#FFFFFF',
     color: isDarkMode ? '#FFFFFF' : '#000000',
