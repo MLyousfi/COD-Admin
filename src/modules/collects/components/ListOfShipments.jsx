@@ -1,43 +1,42 @@
 import React, { useState } from 'react';
-import { DeliveryTruck01Icon, PencilEdit01Icon, PlusSignIcon, Delete01Icon, EyeIcon, CheckmarkCircle01Icon, Recycle03Icon, ArrowDown01Icon } from "hugeicons-react";
-import { Button } from "@nextui-org/button";
-import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import {
+  DeliveryTruck01Icon,
+  PencilEdit01Icon,
+  PlusSignIcon,
+  Delete01Icon,
+  EyeIcon,
+  CheckmarkCircle01Icon,
+  Recycle03Icon,
+  ArrowDown01Icon,
+} from 'hugeicons-react';
+import { Button } from '@nextui-org/button';
+import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
 import Table from '../../stockManagement.jsx/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data2';
 
-
 const columns = [
-  { key: "number", label: "N°" },
-  { key: "orderNumber", label: "N° Orders" },
-  { key: "createdAt", label: "Created At" },
-  { key: "sentAt", label: "Sent At" },
-  { key: "shippedAt", label: "Shipped At" },
-  { key: "shoppingBy", label: "Shopping By" },
-  { key: "statut", label: "Status" },
-  { key: "send", label: "Send" },
-  { key: "options", label: "Actions" },
+  { key: 'number', label: 'N°' },
+  { key: 'orderNumber', label: 'N° Orders' },
+  { key: 'createdAt', label: 'Created At' },
+  { key: 'sentAt', label: 'Sent At' },
+  { key: 'shippedAt', label: 'Shipped At' },
+  { key: 'shoppingBy', label: 'Shopping By' },
+  { key: 'statut', label: 'Status' },
+  { key: 'send', label: 'Send' },
+  { key: 'options', label: 'Actions' },
 ];
 
 const ListOfShipments = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
   const [selectedTab, setSelectedTab] = useState('active');
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
   const rowsPerPage = 10;
 
   const addNewProduct = () => {
-    const newProduct = {
-      key: products.length + 1,
-      orderNumber: products.length + 1,
-      createdAt: "2024-01-01",
-      sentAt: "2024-01-05",
-      shippedAt: "2024-01-10",
-      shoppingBy: "John Doe",
-      statut: "Delivery Again",
-      send: "Shipped",
-      status: "active",
-    };
-    setProducts([...products, newProduct]);
+    navigate('/collects/new-collect'); // Navigate to NewCollect route
   };
 
   const handleCheckboxChange = (key) => {
@@ -47,89 +46,95 @@ const ListOfShipments = () => {
       setSelectedRows([...selectedRows, key]);
     }
   };
-  const [activeView, setActiveView] = useState('active'); 
-
+  const [activeView, setActiveView] = useState('active');
 
   const handleDelete = (key) => {
-    setProducts(products.filter(product => product.key !== key));
+    setProducts(products.filter((product) => product.key !== key));
   };
 
-  const filteredProducts = selectedTab === 'active'
-    ? products.filter(product => product.status === "active")
-    : products.filter(product => product.status === "archived");
+  const filteredProducts =
+    selectedTab === 'active'
+      ? products.filter((product) => product.status === 'active')
+      : products.filter((product) => product.status === 'archived');
 
-    const renderCell = (item, columnKey) => {
-      switch (columnKey) {
-        case "statut":
-          return (
-            <div className="flex items-center">
-              <span className="bg-[#5902E843] text-black dark:text-white px-2 py-1 rounded-full flex items-center">
-                <Recycle03Icon size={16} className="mr-1" />
-                <span className="whitespace-nowrap">{item.statut.trim()}</span>
-              </span>
-            </div>
-          );
-    
-        case "send":
-          return (
-            <div className="flex items-center">
-              <span className={item.send === "Shipped" ? "bg-[#00E0FF30] text-black dark:text-white px-2 py-1 rounded-full flex items-center" : "bg-[#00FF2930] text-black dark:text-white px-2 py-1 rounded-full flex items-center"}>
-                <CheckmarkCircle01Icon size={16} className="mr-1" />
-                {item.send}
-              </span>
-            </div>
-          );
-    
-        case "options":
-          return (
-            <div className="flex space-x-2 justify-center">
-                  <Button
-  variant="flat"
-  size="sm"
-  className="w-8 h-8 rounded-full p-0 flex items-center justify-center
-             bg-[#00000020] dark:bg-[#FFFFFF20]"
-  style={{ padding: 0, minWidth: '32px', height: '32px' }}
->
-  <EyeIcon size={16}
-   />
-</Button>
-    
-              <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}>
-                <PencilEdit01Icon size={16} style={{ color: 'white' }} />
-              </Button>
-    
-              <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }} onClick={() => handleDelete(item.key)}>
-                <Delete01Icon size={16} style={{ color: 'white' }} />
-              </Button>
-            </div>
-          );
-    
-        default:
-          return <span className="text-sm dark:text-white">{item[columnKey]}</span>;
-      }
-    };
-    
+  const renderCell = (item, columnKey) => {
+    switch (columnKey) {
+      case 'statut':
+        return (
+          <div className="flex items-center">
+            <span className="bg-[#5902E843] text-black dark:text-white px-2 py-1 rounded-full flex items-center">
+              <Recycle03Icon size={16} className="mr-1" />
+              <span className="whitespace-nowrap">{item.statut.trim()}</span>
+            </span>
+          </div>
+        );
 
+      case 'send':
+        return (
+          <div className="flex items-center">
+            <span
+              className={
+                item.send === 'Shipped'
+                  ? 'bg-[#00E0FF30] text-black dark:text-white px-2 py-1 rounded-full flex items-center'
+                  : 'bg-[#00FF2930] text-black dark:text-white px-2 py-1 rounded-full flex items-center'
+              }
+            >
+              <CheckmarkCircle01Icon size={16} className="mr-1" />
+              {item.send}
+            </span>
+          </div>
+        );
+
+      case 'options':
+        return (
+          <div className="flex space-x-2 justify-center">
+            <Button
+              variant="flat"
+              size="sm"
+              className="w-8 h-8 rounded-full p-0 flex items-center justify-center bg-[#00000020] dark:bg-[#FFFFFF20]"
+              style={{ padding: 0, minWidth: '32px', height: '32px' }}
+            >
+              <EyeIcon size={16} />
+            </Button>
+
+            <Button
+              variant="flat"
+              size="sm"
+              className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
+              style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
+            >
+              <PencilEdit01Icon size={16} style={{ color: 'white' }} />
+            </Button>
+
+            <Button
+              variant="flat"
+              size="sm"
+              className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
+              style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
+              onClick={() => handleDelete(item.key)}
+            >
+              <Delete01Icon size={16} style={{ color: 'white' }} />
+            </Button>
+          </div>
+        );
+
+      default:
+        return <span className="text-sm dark:text-white">{item[columnKey]}</span>;
+    }
+  };
 
   return (
     <DashboardLayout title="Collects - List of Shipments" icon={<DeliveryTruck01Icon className="text-info" />}>
-      <div className="p-2 md:p-4">{/**here ---|> responsv */}
-        <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
-        <StatusTabs 
-            activeCount={products.filter(product => product.status === "active").length}
-            archivedCount={products.filter(product => product.status === "archived").length}
+      <div className="p-2 md:p-4">
+        <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
+          <StatusTabs
+            activeCount={products.filter((product) => product.status === 'active').length}
+            archivedCount={products.filter((product) => product.status === 'archived').length}
             selectedTab={activeView}
             onTabChange={setActiveView}
           />
-     
-          {/* <StatusTabs
-            activeCount={products.filter(product => product.status === "active").length}
-            archivedCount={products.filter(product => product.status === "archived").length}
-            selectedTab={selectedTab}
-            onTabChange={setSelectedTab}
-          /> */}
 
-          <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
+          <div className="flex gap-2 flex-wrap items-center">
             <Button
               color="default"
               onClick={addNewProduct}
@@ -138,15 +143,10 @@ const ListOfShipments = () => {
             >
               <PlusSignIcon size={18} /> New Collect
             </Button>
-            <Button
-              color="default"
-              className="rounded-full"
-              style={{ backgroundColor: '#ED0006', color: 'white' }}
-            >
+            <Button color="default" className="rounded-full" style={{ backgroundColor: '#ED0006', color: 'white' }}>
               <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions
             </Button>
 
-            {/* Status Button from ListOfSellers */}
             <Button
               color="default"
               className="rounded-full flex items-center border transition-colors duration-200 dark:border-white border-black"

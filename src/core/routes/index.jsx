@@ -38,6 +38,8 @@ import Settings from "../../modules/settings/pages/Settings.jsx";
 import Help from "../../modules/help/pages/Help.jsx";
 import Referral from "../../modules/referral/pages/Referral.jsx";
 import Funds from "../../modules/statistics/pages/Funds.jsx";
+import NewCollect from "../../modules/collects/components/NewCollect.jsx";
+import SourcingInvoices from "../../modules/invoices/components/SourcingInvoices.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -72,6 +74,10 @@ const routes = createBrowserRouter([
                 path: RouteNames.collectShippemdTransit,
                 element: <ListOfShipments />
             },
+            {
+                path: RouteNames.newCollect,
+                element: <NewCollect />
+            }
         ],
     },
     {
@@ -145,7 +151,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: RouteNames.invoicesSourcing,
-                element: <SellersInvoices />
+                element: <SourcingInvoices />
             },
         ],
     },

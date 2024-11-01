@@ -29,6 +29,7 @@ const RouteNames = {
     scheduleOrders: '/ordersManagement/schedule-orders',
     collectShippemdTransit: '/collects/shippement-transit',
     collects: '/collects',
+    newCollect: '/collects/new-collect',
     firstMile: '/first-mile',
     firstMileDashboard: '/first-mile/Dashboard',
     firstMileOrders: '/first-mile/orders',

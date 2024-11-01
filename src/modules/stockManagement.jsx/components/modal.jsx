@@ -13,10 +13,10 @@ const getCustomStyles = (isDarkMode) => ({
     transform: 'translate(-50%, -50%)',
     padding: '20px',
     borderRadius: '15px',
-    width: '90%',               // Set responsive width
-    maxWidth: '800px',           // Limit width on larger screens
+    width: '90%',               // Adjust as needed
+    maxWidth: '600px',          // Reduced from 800px to 600px
     maxHeight: '80vh',
-    overflowY: 'auto',           // Enable scroll if needed
+    overflowY: 'auto',
     backgroundColor: isDarkMode ? '#0C0B0C' : '#FFFFFF',
     color: isDarkMode ? '#FFFFFF' : '#000000',
     border: isDarkMode ? '1px solid #FFFFFF10' : '1px solid #00000010',
@@ -45,7 +45,7 @@ const CustomModal = ({
       <div className="flex flex-col h-full">
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-5">
-          <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>  {/* Responsive title size */}
+          <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>
           <button
             onClick={onClose}
             className={`hover:text-gray-400 focus:outline-none ${

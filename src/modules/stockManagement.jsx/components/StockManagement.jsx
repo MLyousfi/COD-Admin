@@ -413,7 +413,7 @@ const StockManagement = () => {
                 {/* Informations Button */}
                 <Button
                   color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 w-full`}
+                  className={`flex items-center space-x-0 rounded-full border transition-colors duration-300 w-full`}
                   onClick={() => setActiveNewProductSection('informations')}
                   style={{
                     backgroundColor: activeNewProductSection === 'informations' ? selectedButtonColor : 'transparent',
@@ -430,7 +430,7 @@ const StockManagement = () => {
                 {/* Stocks Button */}
                 <Button
                   color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 w-full`}
+                  className={`flex items-center space-x-1 rounded-full border transition-colors duration-300 w-full`}
                   onClick={() => setActiveNewProductSection('stocks')}
                   style={{
                     backgroundColor: activeNewProductSection === 'stocks' ? selectedButtonColor : 'transparent',
