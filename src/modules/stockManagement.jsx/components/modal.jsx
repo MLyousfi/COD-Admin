@@ -61,8 +61,8 @@ const CustomModal = ({
         <hr
           className={
             isDarkMode
-              ? 'w-full mb-8 border-gray-800'
-              : 'w-full mb-8 border-gray-200'
+              ? 'w-full mb-2 border-gray-800'
+              : 'w-full mb-2 border-gray-200'
           }
         />
 

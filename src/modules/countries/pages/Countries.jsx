@@ -7,7 +7,11 @@ import {
   EarthIcon,
   Download02Icon,
   ArrowLeft01Icon, 
-  ArrowRight01Icon
+  ArrowRight01Icon,
+  CloudUploadIcon,
+  GoogleIcon,
+  MultiplicationSignIcon,
+  DocumentAttachmentIcon
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
@@ -68,6 +72,9 @@ const Countries = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);     
   const [isNewCountryModalOpen, setIsNewCountryModalOpen] = useState(false); 
   const [currentCountry, setCurrentCountry] = useState(null);        
+
+  // New State Variable for Import Modal
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false); // <--- Added
 
   // Separate form data for Create and Edit
   const [createFormData, setCreateFormData] = useState({
@@ -172,6 +179,15 @@ const Countries = () => {
 
   const closeNewCountryModal = () => {
     setIsNewCountryModalOpen(false);
+  };
+
+  // New Handlers to open and close Import Modal
+  const openImportModal = () => {
+    setIsImportModalOpen(true);
+  };
+
+  const closeImportModal = () => {
+    setIsImportModalOpen(false);
   };
 
   const handleCreateCountry = () => {
@@ -348,7 +364,7 @@ const Countries = () => {
     const isEven = index % 2 === 0;
     const bgColor = isDarkMode 
       ? (isEven ? '#FFFFFF02' : '#FFFFFF08') 
-      : (isEven ? '#00000010' : '#00000008'); 
+      : (isEven ? '#00000008' : '#00000002'); 
     return (
       <tr key={city.id} style={{ backgroundColor: bgColor }}>
         <td className="px-4 py-2 text-xs">{city.cityCode}</td>
@@ -429,7 +445,7 @@ const Countries = () => {
                 name="name"
                 value={createFormData.name}
                 onChange={handleCreateInputChange}
-                className={`block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                className="block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300"
                 placeholder="Enter country name"
               />
             </div>
@@ -448,7 +464,7 @@ const Countries = () => {
                 name="tags"
                 value={createFormData.tags}
                 onChange={handleCreateInputChange}
-                className={`block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                className="block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300"
                 placeholder="Public key"
               />
             </div>
@@ -467,7 +483,7 @@ const Countries = () => {
                 name="countryCode"
                 value={createFormData.countryCode}
                 onChange={handleCreateInputChange}
-                className={`block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                className="block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300"
                 placeholder="Country code (e.g., US)"
               />
             </div>
@@ -485,7 +501,7 @@ const Countries = () => {
                 name="shipping"
                 value={createFormData.shipping}
                 onChange={handleCreateInputChange}
-                className={`block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                className="block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300"
               >
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
@@ -539,7 +555,7 @@ const Countries = () => {
                 name="name"
                 value={editFormData.name}
                 onChange={handleEditInputChange}
-                className={`block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                className="block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300"
                 placeholder="Enter country name"
               />
             </div>
@@ -558,7 +574,7 @@ const Countries = () => {
                 name="tags"
                 value={editFormData.tags}
                 onChange={handleEditInputChange}
-                className={`block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                className="block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300"
                 placeholder="Public key"
               />
             </div>
@@ -577,7 +593,7 @@ const Countries = () => {
                 name="countryCode"
                 value={editFormData.countryCode}
                 onChange={handleEditInputChange}
-                className={`block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                className="block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300"
                 placeholder="Country code (e.g., US)"
               />
             </div>
@@ -595,7 +611,7 @@ const Countries = () => {
                 name="shipping"
                 value={editFormData.shipping}
                 onChange={handleEditInputChange}
-                className={`block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                className="block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300"
               >
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
@@ -612,7 +628,7 @@ const Countries = () => {
               onClick={handleUpdateCountry}
               className="bg-info text-white rounded-full px-4 py-2 text-sm"
             >
-              Create Country
+              Update Country
             </Button>
             <Button
               onClick={closeEditModal}
@@ -646,14 +662,12 @@ const Countries = () => {
             color="info"
             className="flex items-center gap-2 bg-info rounded-full text-xs text-white" 
             size="sm"
-            onClick={() => alert('Import functionality to be implemented')}
+            onClick={openImportModal} // <--- Modified to open Import Modal
           >
             <Download02Icon size={16} />
             Import
           </Button>
         </div>
-
-       
 
         {/* Cities Table */}
         <div className="overflow-x-auto">
@@ -715,6 +729,100 @@ const Countries = () => {
           >
             <span>Next</span> <ArrowRight01Icon size={ICON_SIZE} />
           </button>
+        </div>
+      </CustomModal>
+
+      {/* New Import Modal */}
+      <CustomModal
+        isOpen={isImportModalOpen}
+        onClose={closeImportModal}
+        title="Importing your sheet file by drag or upload" // <--- Added Import Modal
+        isDarkMode={isDarkMode}
+      >
+
+        <div className="flex flex-col items-center justify-center p-2">
+          {/* New Section: Text and Button */}
+          <div className="w-full flex justify-between items-center mb-4">
+            {/* Left Side: Descriptive Text */}
+            <p className="text-gray-600 text-sm">Select relevant document to complete your computer</p> {/* <--- Added Text */}
+
+            {/* Right Side: Document Attachment Button */}
+            <Button
+              variant="link"
+              color="info"
+              className="text-blue-500 flex items-center gap-2"
+              onClick={() => alert('Document attachment functionality to be implemented')}
+              aria-label="Attach Document"
+            >
+              <DocumentAttachmentIcon size={16} /> {/* <--- Document Attachment Icon */}
+              Get Sheet Model
+            </Button>
+          </div>
+
+          {/* Drag and Drop Area or Upload Button */}
+          <div className="w-full border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 flex flex-col items-center justify-center mb-3">
+            {/* Cloud Upload Icon */}
+            <CloudUploadIcon size={60} className="text-gray-400 mb-1" /> {/* <--- Added Icon */}
+
+            {/* Main Text */}
+            <p className="dark:text-white text-black text-center text-xlg mb-2">Select file or drag and drop here</p> {/* <--- Updated Text */}
+
+            {/* Sub Text */}
+            <p className="text-gray-400 text-sm text-center mb-4">Excel, Google sheet, file size no more than 10MB</p> {/* <--- Updated Sub Text */}
+
+            {/* Upload Button */}
+            <Button 
+              variant="outline" 
+              color="info" 
+              className="mt-2 bg-info rounded-full flex items-center gap-2 text-white" // Added border
+              onClick={() => document.getElementById('import-file-input').click()}
+            >
+              Select file from here
+            </Button>
+            <input
+              type="file"
+              id="import-file-input"
+              accept=".xlsx,.csv"
+              className="hidden"
+              onChange={(e) => {
+                // Handle file upload here
+                const file = e.target.files[0];
+                if (file) {
+                  console.log('File selected:', file);
+                  // Implement your file processing logic here
+                  alert(`File "${file.name}" selected. Implement upload functionality.`);
+                  closeImportModal();
+                }
+              }}
+            />
+          </div>
+
+          {/* New Elements: Descriptive Text and Buttons */}
+          <p className="text-gray-500 text-sm text-center mt-1">Or connect with Google Sheet or Shopify store :</p> {/* <--- Added Text */}
+
+          {/* Continue with Google Button */}
+          <Button
+            variant="outline"
+            color="info"
+            className="mt-2 rounded-full flex items-center gap-2 border border-gray-600"
+            onClick={() => alert('Continue with Google functionality to be implemented')}
+            aria-label="Continue with Google"
+          >
+            <GoogleIcon size={20} className="text-blue-500" /> {/* <--- Google Icon */}
+            Continue with Google
+          </Button>
+
+          {/* Close Button */}
+          <Button
+            variant="flat"
+            color="error"
+            className="mt-2 rounded-full flex items-center gap-2 text-white bg-[#ff0000]"
+            onClick={closeImportModal}
+            aria-label="Close Import Modal"
+          >
+            <MultiplicationSignIcon size={16} className="text-white" /> {/* <--- Cross Icon */}
+            Close
+          </Button>
         </div>
       </CustomModal>
     </DashboardLayout>
