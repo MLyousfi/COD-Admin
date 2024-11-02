@@ -162,6 +162,7 @@ export default function Funds() {
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+    
     useEffect(() => {
         const checkDarkMode = () => {
           const darkMode = document.documentElement.classList.contains('dark');
