@@ -4,15 +4,20 @@ import {
   PencilEdit01Icon, 
   PlusSignIcon, 
   Delete01Icon, 
-  Logout02Icon, 
-  EarthIcon 
+  EarthIcon,
+  Download02Icon,
+  ArrowLeft01Icon, 
+  ArrowRight01Icon
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data5';
 import Flag from 'react-world-flags';
-import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the path if necessary
+import CustomModal from '../../stockManagement.jsx/components/modal'; 
+
+// Define ICON_SIZE constant
+const ICON_SIZE = 16;
 
 const columns = [
   { key: "checkbox", label: "#" },
@@ -47,12 +52,22 @@ const countryCodeMap = {
   "Switzerland": "CH",
 };
 
+// Sample Cities Data
+const sampleCities = [
+  { id: 1, cityCode: 'C001', destCode: 'D001', province: 'Aldayeen', name: 'Alskhama', arabicName: 'مدينة واحدة', zipCode: '12345', available: 'Yes' },
+  { id: 2, cityCode: 'C002', destCode: 'D002', province: 'Aldayeen', name: 'Alskhama', arabicName: 'مدينة اثنين', zipCode: '23456', available: 'No' },
+  { id: 3, cityCode: 'C003', destCode: 'D003', province: 'Aldayeen', name: 'Alskhama', arabicName: 'مدينة ثلاثة', zipCode: '34567', available: 'Yes' },
+  { id: 4, cityCode: 'C004', destCode: 'D004', province: 'Aldayeen', name: 'Alskhama', arabicName: 'مدينة أربعة', zipCode: '45678', available: 'Yes' },
+  { id: 5, cityCode: 'C005', destCode: 'D005', province: 'Aldayeen', name: 'Alskhama', arabicName: 'مدينة خمسة', zipCode: '56789', available: 'No' },
+];
+
 const Countries = () => {
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // State for Create Modal
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);     // State for Edit Modal
-  const [currentCountry, setCurrentCountry] = useState(null);        // Country being edited
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);     
+  const [isNewCountryModalOpen, setIsNewCountryModalOpen] = useState(false); 
+  const [currentCountry, setCurrentCountry] = useState(null);        
 
   // Separate form data for Create and Edit
   const [createFormData, setCreateFormData] = useState({
@@ -69,7 +84,12 @@ const Countries = () => {
     shipping: 'Yes',
   });
 
-  const rowsPerPage = 10;
+  // State for Cities in New Country Modal
+  const [cities, setCities] = useState(sampleCities);
+
+  // Pagination States for Cities Table
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 5; // Fixed rows per page
 
   // State for Dark Mode
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -89,6 +109,15 @@ const Countries = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Pagination Logic for Cities Table
+  const totalPages = Math.ceil(cities.length / rowsPerPage);
+  const enablePagination = true; // Always enable pagination
+
+  useEffect(() => {
+    console.log("Total Pages:", totalPages);
+    console.log("Enable Pagination:", enablePagination);
+  }, [totalPages, enablePagination]);
+
   // Handlers to open and close Create Modal
   const openCreateModal = () => {
     setCreateFormData({
@@ -98,6 +127,7 @@ const Countries = () => {
       shipping: 'Yes',
     });
     setIsCreateModalOpen(true);
+    setCurrentPage(1); 
   };
 
   const closeCreateModal = () => {
@@ -112,6 +142,7 @@ const Countries = () => {
 
   // Handlers to open and close Edit Modal
   const openEditModal = (country) => {
+    console.log('Editing Country:', country); 
     setCurrentCountry(country);
     setEditFormData({
       name: '',
@@ -133,11 +164,19 @@ const Countries = () => {
     });
   };
 
-  // Handler to add a new country
+  // Handlers to open and close New Country Modal
+  const openNewCountryModal = () => {
+    setIsNewCountryModalOpen(true);
+    setCurrentPage(1); 
+  };
+
+  const closeNewCountryModal = () => {
+    setIsNewCountryModalOpen(false);
+  };
+
   const handleCreateCountry = () => {
     const { name, tags, countryCode, shipping } = createFormData;
 
-    // Simple validation
     if (!name.trim() || !tags.trim() || !countryCode.trim()) {
       alert("Please fill in all the required fields.");
       return;
@@ -147,7 +186,7 @@ const Countries = () => {
       key: (products.length + 1).toString(),
       id: products.length + 1,
       name: name.trim(),
-      slogan: "Sample Slogan", // Placeholder or dynamic
+      slogan: "Sample Slogan", 
       shipping,
       tags: tags.trim(),
       countryCode: countryCode.trim(),
@@ -185,24 +224,16 @@ const Countries = () => {
   };
 
   // Handlers for checkbox selection
-  const handleCheckboxChange = (keys, isRange = false) => {
-    if (isRange && Array.isArray(keys)) {
-      setSelectedRows(prevSelected => {
-        const newSelected = new Set(prevSelected);
-        keys.forEach(key => newSelected.add(key));
-        return Array.from(newSelected);
-      });
-    } else {
-      setSelectedRows(prevSelected => {
-        const newSelected = new Set(prevSelected);
-        if (newSelected.has(keys)) {
-          newSelected.delete(keys);
-        } else {
-          newSelected.add(keys);
-        }
-        return Array.from(newSelected);
-      });
-    }
+  const handleCheckboxChange = (key) => {
+    setSelectedRows(prevSelected => {
+      const newSelected = new Set(prevSelected);
+      if (newSelected.has(key)) {
+        newSelected.delete(key);
+      } else {
+        newSelected.add(key);
+      }
+      return Array.from(newSelected);
+    });
   };
 
   // Handler to delete a country
@@ -210,7 +241,7 @@ const Countries = () => {
     setProducts(products.filter(product => product.key !== key));
   };
 
-  // Handler for create input changes
+  // Handlers for create input changes
   const handleCreateInputChange = (e) => {
     const { name, value } = e.target;
     setCreateFormData(prevData => ({
@@ -219,7 +250,7 @@ const Countries = () => {
     }));
   };
 
-  // Handler for edit input changes
+  // Handlers for edit input changes
   const handleEditInputChange = (e) => {
     const { name, value } = e.target;
     setEditFormData(prevData => ({
@@ -228,10 +259,21 @@ const Countries = () => {
     }));
   };
 
-  // Function to determine if a field is filled
-  const isFilled = (value) => value.trim() !== '';
+  // Handler for specific page change
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
-  // Render cell content based on column key
+  const handlePreviousPage = () => {
+    setCurrentPage(prev => (prev > 1 ? prev - 1 : prev));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage(prev => (prev < totalPages ? prev + 1 : prev));
+  };
+
   const renderCell = (item, columnKey) => {
     switch (columnKey) {
       case "checkbox":
@@ -240,11 +282,12 @@ const Countries = () => {
             type="checkbox"
             checked={selectedRows.includes(item.key)}
             onChange={() => handleCheckboxChange(item.key)}
+            className="h-4 w-4"
           />
         );
       case "slogan":
         return (
-          <div className="flex items-center">
+          <div className="flex items-center text-xs whitespace-nowrap"> 
             <div
               style={{
                 width: '24px',
@@ -267,7 +310,7 @@ const Countries = () => {
         );
       case "shipping":
         return (
-          <span className={`rounded-full px-2 py-1 ${item.shipping === "Yes" ? "bg-green-600 bg-opacity-20 text-green-600" : "bg-red-600 bg-opacity-20 text-red-600"}`}>
+          <span className={`rounded-full px-2 py-1 text-xs ${item.shipping === "Yes" ? "bg-green-600 bg-opacity-20 text-green-600" : "bg-red-600 bg-opacity-20 text-red-600"}`}>
             {item.shipping}
           </span>
         );
@@ -297,9 +340,35 @@ const Countries = () => {
           </div>
         );
       default:
-        return <span className="text-sm dark:text-white">{item[columnKey]}</span>;
+        return <span className="text-xs dark:text-white">{item[columnKey]}</span>;
     }
   };
+
+  const renderCityRow = (city, index) => {
+    const isEven = index % 2 === 0;
+    const bgColor = isDarkMode 
+      ? (isEven ? '#FFFFFF02' : '#FFFFFF08') 
+      : (isEven ? '#00000010' : '#00000008'); 
+    return (
+      <tr key={city.id} style={{ backgroundColor: bgColor }}>
+        <td className="px-4 py-2 text-xs">{city.cityCode}</td>
+        <td className="px-4 py-2 text-xs">{city.destCode}</td>
+        <td className="px-4 py-2 text-xs">{city.province}</td>
+        <td className="px-4 py-2 text-xs">{city.name}</td>
+        <td className="px-4 py-2 text-xs">{city.arabicName}</td>
+        <td className="px-4 py-2 text-xs">{city.zipCode}</td>
+        <td className="px-4 py-2 text-xs flex justify-center">
+          <span className={`rounded-full px-2 py-1 text-xs  ${city.available === 'Yes' ? 'bg-green-600 bg-opacity-20 text-green-600' : 'bg-red-600 bg-opacity-20 text-red-600'}`}>
+            {city.available}
+          </span>
+        </td>
+      </tr>
+    );
+  };
+
+  const currentCities = React.useMemo(() => {
+    return cities.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+  }, [cities, currentPage, rowsPerPage]);
 
   return (
     <DashboardLayout title="Countries" icon={<EarthIcon className="text-info" />}>
@@ -308,9 +377,9 @@ const Countries = () => {
         <div className="flex justify-end space-x-4 mb-4"> 
           <Button 
             color="default" 
-            onClick={openCreateModal} 
             className="rounded-full flex items-center gap-2" 
             style={{ backgroundColor: '#0258E8', color: 'white' }}  
+            onClick={openNewCountryModal} 
           >
             <PlusSignIcon size={18} /> New Country 
           </Button>
@@ -318,6 +387,7 @@ const Countries = () => {
             color="default" 
             className="rounded-full flex items-center gap-2" 
             style={{ backgroundColor: '#ED0006', color: 'white' }} 
+            onClick={() => alert('Actions functionality to be implemented')} 
           >
             <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions 
           </Button>
@@ -330,8 +400,8 @@ const Countries = () => {
           renderCell={renderCell} 
           handleCheckboxChange={handleCheckboxChange}
           selectedRows={selectedRows} 
-          rowsPerPage={rowsPerPage}  
-          className="dark:bg-gray-800 dark:text-white" 
+          rowsPerPage={10}  
+          className="dark:bg-gray-800 dark:text-white text-xs" 
         />
       </div>
 
@@ -339,7 +409,7 @@ const Countries = () => {
       <CustomModal
         isOpen={isCreateModalOpen}
         onClose={closeCreateModal}
-        title="informations"
+        title="Add New Country" 
         isDarkMode={isDarkMode}
       >
         <div className="flex flex-col">
@@ -398,7 +468,7 @@ const Countries = () => {
                 value={createFormData.countryCode}
                 onChange={handleCreateInputChange}
                 className={`block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
-                placeholder="Public key"
+                placeholder="Country code (e.g., US)"
               />
             </div>
 
@@ -430,14 +500,14 @@ const Countries = () => {
           <div className="flex justify-center gap-4">
             <Button
               onClick={handleCreateCountry}
-              className="bg-info text-white rounded-full px-4 py-2"
+              className="bg-info text-white rounded-full px-4 py-2 text-sm"
             >
               Create Country
             </Button>
             <Button
               onClick={closeCreateModal}
               variant="light"
-              className="border border-[#00000050] dark:border-gray-300 rounded-full px-4 py-2"
+              className="border border-[#00000050] dark:border-gray-300 rounded-full px-4 py-2 text-sm"
             >
               Cancel
             </Button>
@@ -449,7 +519,7 @@ const Countries = () => {
       <CustomModal
         isOpen={isEditModalOpen}
         onClose={closeEditModal}
-        title="informations"
+        title="Edit Country" 
         isDarkMode={isDarkMode}
       >
         <div className="flex flex-col">
@@ -508,7 +578,7 @@ const Countries = () => {
                 value={editFormData.countryCode}
                 onChange={handleEditInputChange}
                 className={`block w-full px-4 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
-                placeholder="Public key"
+                placeholder="Country code (e.g., US)"
               />
             </div>
 
@@ -540,18 +610,111 @@ const Countries = () => {
           <div className="flex justify-center gap-4">
             <Button
               onClick={handleUpdateCountry}
-              className="bg-info text-white rounded-full px-4 py-2"
+              className="bg-info text-white rounded-full px-4 py-2 text-sm"
             >
-              Save Changes
+              Create Country
             </Button>
             <Button
               onClick={closeEditModal}
               variant="light"
-              className="border border-[#00000050] dark:border-gray-300 rounded-full px-4 py-2"
+              className="border border-[#00000050] dark:border-gray-300 rounded-full px-4 py-2 text-sm"
             >
               Cancel
             </Button>
           </div>
+        </div>
+      </CustomModal>
+
+      {/* New Country Modal */}
+      <CustomModal
+        isOpen={isNewCountryModalOpen}
+        onClose={closeNewCountryModal}
+        title={`New Country`} 
+        isDarkMode={isDarkMode}
+      >
+        {/* Modal Header with Import Button and Informations */}
+        <div className="flex justify-between items-center mb-4">
+          {/* Left Side: Informations */}
+          <div className="flex flex-col">
+            <p className="text-gray-500 text-xs whitespace-nowrap">Informations</p> 
+            <p className="text-black dark:text-white text-sm whitespace-nowrap">List of Cities</p> 
+          </div>
+
+          {/* Right Side: Import Button */}
+          <Button 
+            variant="outline"
+            color="info"
+            className="flex items-center gap-2 bg-info rounded-full text-xs text-white" 
+            size="sm"
+            onClick={() => alert('Import functionality to be implemented')}
+          >
+            <Download02Icon size={16} />
+            Import
+          </Button>
+        </div>
+
+       
+
+        {/* Cities Table */}
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto text-xs"> 
+            <thead>
+              <tr className="bg-[#00000020] dark:bg-[#FFFFFF05] text-black dark:text-white"> 
+                <th className="px-4 py-2 whitespace-nowrap ">City Code</th> 
+                <th className="px-4 py-2 whitespace-nowrap ">Dest Code</th>
+                <th className="px-4 py-2 whitespace-nowrap ">Province</th>
+                <th className="px-4 py-2 whitespace-nowrap ">Name</th>
+                <th className="px-4 py-2 whitespace-nowrap ">Arabic Name</th>
+                <th className="px-4 py-2 whitespace-nowrap ">Zip Code</th>
+                <th className="px-4 py-2 whitespace-nowrap  ">Available</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cities.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="text-center  text-xs py-4">No cities available.</td>
+                </tr>
+              ) : (
+                currentCities.map((city, index) => renderCityRow(city, index))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Always Render Pagination Controls */}
+        <div className="pagination-container flex justify-center items-center my-4 space-x-2">
+          <button
+            aria-label="Previous Page"
+            className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm hover:bg-gray-300 dark:hover:bg-gray-500 disabled:opacity-50"
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+          >
+            <ArrowLeft01Icon size={ICON_SIZE} /> <span>Previous</span>
+          </button>
+
+          {/* Page Number Buttons */}
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              aria-label={`Page ${index + 1}`}
+              className={`px-3 py-1 text-sm ${currentPage === index + 1
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-200 dark:bg-gray-600 dark:text-white'
+                } rounded hover:bg-blue-400`}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            aria-label="Next Page"
+            className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm hover:bg-gray-300 dark:hover:bg-gray-500 disabled:opacity-50"
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <span>Next</span> <ArrowRight01Icon size={ICON_SIZE} />
+          </button>
         </div>
       </CustomModal>
     </DashboardLayout>
