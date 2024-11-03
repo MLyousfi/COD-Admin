@@ -9,7 +9,7 @@ import { RouteNames, RoutesConfig } from "@/core/constants/routes.js";
 import { useThemeProvider } from "../../../../core/providers/ThemeContext";
 import { motion } from "framer-motion";
 
-export default function Sidebar({ showSidebar, setShowSidebar }) {
+export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }) {
     const location = useLocation();
     const { currentTheme, changeCurrentTheme } = useThemeProvider();
     const { pathname } = location;
@@ -146,11 +146,14 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
 
     // Toggle sidebar and keep only current route expanded
     useEffect(() => {
-        if (showSidebar) {
-            expandCurrentRouteOnly();
-        } else {
-            setExpandedRoutes({});
+        if (!sidebarEpingled) {
+            if (showSidebar) {
+                expandCurrentRouteOnly();
+            } else {
+                setExpandedRoutes({});
+            }
         }
+
     }, [showSidebar, pathname]);
 
     const pathMapWithNotif = {};

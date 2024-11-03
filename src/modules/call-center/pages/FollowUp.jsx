@@ -30,6 +30,7 @@ import Table from "../../stockManagement.jsx/components/Table";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import StatusTabs from "../../shared/components/StatusTabs";
 import { agentNames } from "../../../core/utils/shared.data";
+import OrderDetailsModal from "../components/OrderDetailsModal";
 const rows = [
     {
         key: 1,
@@ -307,32 +308,37 @@ const columns = [
 
 export default function FollowUp() {
 
-    const [selectionBehavior, setSelectionBehavior] = useState("toggle");
-
+    const [openOderDModel, setOpenOderDModel] = useState(false)
+    const [orderdetails, setOrderdetails] = useState(null)
     const [selectedRows, setSelectedRows] = useState([]);
     const rowsPerPage = 10;
 
     const handleCheckboxChange = (keys, isRange = false) => {
         if (isRange && Array.isArray(keys)) {
-          setSelectedRows(prevSelected => {
-            const newSelected = new Set(prevSelected);
-            keys.forEach(key => newSelected.add(key));
-            return Array.from(newSelected);
-          });
+            setSelectedRows(prevSelected => {
+                const newSelected = new Set(prevSelected);
+                keys.forEach(key => newSelected.add(key));
+                return Array.from(newSelected);
+            });
         } else {
-          setSelectedRows(prevSelected => {
-            const newSelected = new Set(prevSelected);
-            if (newSelected.has(keys)) {
-              newSelected.delete(keys);
-            } else {
-              newSelected.add(keys);
-            }
-            return Array.from(newSelected);
-          });
+            setSelectedRows(prevSelected => {
+                const newSelected = new Set(prevSelected);
+                if (newSelected.has(keys)) {
+                    newSelected.delete(keys);
+                } else {
+                    newSelected.add(keys);
+                }
+                return Array.from(newSelected);
+            });
         }
-      };
+    };
     const [selectedTab, setSelectedTab] = useState('active');
 
+
+    const openOrderDetailsModal = (item) => {
+        setOrderdetails(item)
+        setOpenOderDModel(true);
+    }
     const renderCell = useCallback((item, columnKey) => {
         const cellValue = item[columnKey];
 
@@ -341,7 +347,7 @@ export default function FollowUp() {
                 return (
                     <div>
                         <p>{item.orderNum}</p>
-                        <span className="text-blue-500">({item.subNum})</span>
+                        <Button onClick={() => openOrderDetailsModal(item)} className="bg-transparent p-0 m-0 cursor-pointer text-blue-500">({item.subNum})</Button>
                     </div>
                 );
             case "trackN":
@@ -356,7 +362,7 @@ export default function FollowUp() {
                 return (
                     <div>
                         <p>{item.product}</p>
-                        <span className="text-blue-500">(SKU: {item.productId})</span>
+                        <span className="text-dark_selected">(SKU: {item.productId})</span>
                     </div>
                 );
             case "name":
@@ -375,7 +381,7 @@ export default function FollowUp() {
                 return (
                     <div>
                         <p>{item.invoiceNum}</p>
-                        <span className="text-blue-500">(Status: {item.paymentStatus})</span>
+                        <span className="text-dark_selected">(Status: {item.paymentStatus})</span>
                     </div>
                 );
             case "orderStatus":
@@ -416,7 +422,7 @@ export default function FollowUp() {
                         />
 
 
-                        <div className="flex gap-2 flex-wrap items-center">
+                        <div className="flex gap-2 flex-wrap items-center justify-end ">
                             <Button color="default" className="rounded-full bg-info text-white">
                                 <Calling02Icon size={18} /> Start Follow Up
                             </Button>
@@ -510,6 +516,8 @@ export default function FollowUp() {
                     />
                 </div>
 
+
+                <OrderDetailsModal modalOpen={openOderDModel} Order={orderdetails} setModalOpen={setOpenOderDModel} id={4} />
 
             </DashboardLayout>
         </>

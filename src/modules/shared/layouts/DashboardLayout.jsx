@@ -71,7 +71,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
     return (
         <>
             {/* i want to add a hover on 10px in the right of this parent div to show the side bar  */}
-            <div className="flex w-screen overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
+            <div className="relative flex w-screen overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
 
 
                 <div className={`relative flex flex-col w-full lg:ml-auto min-h-screen ${sidebarEpingled ? ' lg:w-[calc(100%-20rem)] ' : showSidebar ? ' lg:w-[calc(100%-20rem)]' : 'lg:w-[calc(100%-3.5rem)]'}`}>
@@ -202,7 +202,7 @@ export default function DashboardLayout({ children, icon, title, additionalConte
                 {/* sidebar for mobiles screens */}
                 <ResideBar showSidebar={showReSidebar} setShowSidebar={setShowReSidebar} />
                 {/* sidebar for bigger screens */}
-                <Sidebar showSidebar={sidebarEpingled ? true : showSidebar} setShowSidebar={HandleSideBarChange} />
+                <Sidebar sidebarEpingled={sidebarEpingled} showSidebar={sidebarEpingled ? true : showSidebar} setShowSidebar={HandleSideBarChange} />
 
             </div >
             <SearchModal id="search-modal" searchId="search" modalOpen={searchModalOpen}

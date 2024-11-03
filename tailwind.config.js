@@ -26,7 +26,7 @@ export default {
         // background
         normal: '#F2F2F9',
         ghost: '#E9E9EE',
-        ghosted: '#FFFFFF60',
+        ghosted: '#FFFFFF40',
         selected: '#CDE7FF',
 
 
@@ -37,7 +37,10 @@ export default {
         dark_selected_hover: '#0258E815',
 
         glb_blue: '#0258E8',
+        glb_blue_opacity: '#0258E820',
         glb_red: '#ED0006',
+        glb_red_opacity: '#ED000630',
+        glb_green: '#27B83E',
 
         base_dark: '#141618',
         base_card: '#2d2d2d',

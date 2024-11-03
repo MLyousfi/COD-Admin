@@ -164,28 +164,28 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                             </div>
                         </NavbarItem>
                         <NavbarItem className="md:hidden" >
-                        <Button
-      isIconOnly
-      color="default"
-      variant="flat"
-      className={`
-        ${
-          currentTheme === 'light'
-            ? "bg-glb_blue text-white"
-            : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"
-        }
-        font-bold rounded-full
-      `}
-      onClick={() => changeCurrentTheme(currentTheme === 'light' ? 'dark' : 'light')}
-      aria-label="Toggle Theme"
-    >
-      {currentTheme === 'light' ? <Sun02Icon /> : <Moon02Icon />}
-    </Button>
+                            <Button
+                                isIconOnly
+                                color="default"
+                                variant="flat"
+                                className={`
+                                ${currentTheme === 'light'
+                                        ? "bg-glb_blue text-white"
+                                        : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"
+                                    }
+                                font-bold rounded-full
+                            `}
+                                onClick={() => changeCurrentTheme(currentTheme === 'light' ? 'dark' : 'light')}
+                                aria-label="Toggle Theme"
+                            >
+                                {currentTheme === 'light' ? <Sun02Icon /> : <Moon02Icon />}
+                            </Button>
 
 
                         </NavbarItem>
-                        <NavbarItem className="md:hidden">
+                        <NavbarItem className="md:hidden flex justify-center items-center">
                             <Button
+                                className="rounded-full"
                                 isIconOnly
                                 variant="light"
                                 onClick={(e) => {
@@ -194,7 +194,8 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                 }}
                                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                             >
-                                <Menu11Icon />
+                                {/* <Menu11Icon /> */}
+                                <img src={'https://i.pravatar.cc/150?u=a042581f4e29026024d'} />
                             </Button>
                         </NavbarItem>
                         <NavbarItem className="hidden lg:block">
@@ -207,7 +208,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                             animate={{ width: "300px", opacity: 1 }}
                                             exit={{ width: 0, opacity: 0 }}
                                             transition={{ duration: 0.3 }}
-                                            className="outline-none w-full bg-transparent text-gray-700 dark:text-white rounded-full focus:outline-none ">
+                                            className="outline-none w-full  bg-transparent text-gray-700 dark:text-white rounded-full focus:outline-none ">
 
                                             {SearchInputOpen && <motion.div className="w-full flex justify-center items-center gap-2 " initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
@@ -269,11 +270,11 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                         </div>
                     </NavbarItem>
 
-                   <NavbarItem className="ml-auto">
-    <h4 className="text-lg font-bold">{moment().format('dddd, DD MMM YYYY')}</h4>
-    <span className="flex flex-row items-center gap-1 text-gray-600"> <Clock01Icon
+                    <NavbarItem className="ml-auto">
+                        <h4 className="text-lg font-bold">{moment().format('dddd, DD MMM YYYY')}</h4>
+                        <span className="flex flex-row items-center gap-1 text-gray-600"> <Clock01Icon
                             size={16} /> {moment().format('HH:mm  Z')}</span>
-</NavbarItem>
+                    </NavbarItem>
 
                 </NavbarContent>
 
@@ -286,7 +287,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
 
                         <motion.div layout initial={{ width: 0 }} animate={{ width: '80%' }} transition={{ duration: 0.3 }} exit={{ width: 0 }}
                             onClick={(e) => e.stopPropagation()}
-                            className={`max-w-80 ml-auto  bg-base_light dark:bg-base_dark`}>
+                            className={`max-w-80 ml-auto h-screen bg-base_light dark:bg-base_dark`}>
                             {/* <NavbarMenuItem className="ml-auto mr-4 w-fit">
                                 <Button isIconOnly className="my-4 bg-gray-100 rounded-full dark:bg-gray-800"
                                     onClick={() => setIsMenuOpen(false)}>
