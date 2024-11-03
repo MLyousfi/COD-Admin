@@ -22,16 +22,16 @@ const CallsCard = ({
     console.log('bgColor:', bgColor);
 
     return (
-        <motion.div variants={item} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 ">
+        <motion.div variants={item} className="col-span-1">
             <div className="border border-gray-200 
-            dark:border-[#ffffff10] hover:bg-gray-200 transition-colors duration-300 ease-in-out dark:hover:bg-gray-900 px-4 py-3 rounded-lg shadow-sm mx-2 my-1.5">
+            dark:border-[#ffffff10] hover:bg-gray-200 transition-colors duration-300 ease-in-out dark:hover:bg-gray-900 px-1 py-1 md:px-4 md:py-3 rounded-lg shadow-sm mx-2 my-1.5">
                 {/* Icon and percentage change */}
                 <div className="flex justify-start items-center mb-4">
                     <div className={`w-10 h-10 flex items-center justify-center bg-opacity-30 rounded-full ${bgColor}`}>
-                        <span className="text-gray-800 dark:text-gray-100">{icon}</span>
+                        <span className="text-gray-800 dark:text-gray-100 ">{icon}</span>
                     </div>
                     <div className="flex flex-col justify-start items-start mx-2">
-                        <p className="text-lg font-medium">{title}</p>
+                        <p className="text-sm md:text-lg font-medium">{title}</p>
                     </div>
                     <div className="ml-auto md:hidden">
                         <Button isIconOnly variant="light">
@@ -52,7 +52,7 @@ const CallsCard = ({
 
 
                 <div className="hidden flex-row justify-between items-center mt-6 md:flex text-xl">
-                    <Chip className="flex flex-row gap-4 bg-gray-100 dark:bg-gray-950">
+                    <Chip className="flex flex-row gap-4 bg-glb_blue_opacity">
                         <span className="inline-block font-bold text-info">{percentage}%</span>
                     </Chip>
                     <div className="flex justify-start items-center gap-1">

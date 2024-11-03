@@ -220,7 +220,7 @@ const shipping = [
         title: "Shipped",
         amount: 13293,
         icon: TruckIcon, // replace with the appropriate icon component or class
-        backgroundColor: "#00C85390",
+        backgroundColor: "#026712",
         textColor: "#FFFFFF",
         percentage: 32,
     },
@@ -276,7 +276,7 @@ export default function Dashboard() {
             <DashboardLayout title="Dashboard" icon={<Home01Icon className="text-info" />}>
 
                 <motion.div initial="hidden"
-                    animate="visible" variants={container} className="flex flex-col flex-wrap justify-start px-2 md:px-8 md:flex-row">
+                    animate="visible" variants={container} className="grid grid-cols-2 md:grid-cols-4 gap-2 mx-2 md:mx-4 lg:mx-8">
                     {dataCards.map((item, index) => (
                         <StatsCard
                             key={index}
@@ -311,10 +311,10 @@ export default function Dashboard() {
 
                 </div>
 
-                <div className="px-2 my-12 md:px-8">
+                <div className="mx-2 md:mx-4 lg:mx-8">
                     <h3 className="my-6 text-xl font-bold">Call Center</h3>
                     <motion.div initial="hidden"
-                        animate="visible" variants={container} className="flex flex-row flex-wrap">
+                        animate="visible" variants={container} className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-5 gap-1 lg:gap-2 ">
                         {callCenterItems.map((i, index) => (
 
                             <CallsCard
@@ -331,9 +331,9 @@ export default function Dashboard() {
                     </motion.div>
                 </div>
 
-                <div className="px-2 md:px-8 ">
+                <div className="mx-2 md:mx-4 lg:mx-8">
                     <h3 className="my-6 text-xl font-bold">Shipping</h3>
-                    <div className="flex flex-row flex-wrap justify-start">
+                    <div className="grid grid-cols-2 xl:grid-cols-4 gap-1 lg:gap-2 ">
                         {shipping.map((i, index) => (
                             <ShippingCard
                                 key={index}
