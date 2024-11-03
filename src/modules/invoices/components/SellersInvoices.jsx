@@ -226,6 +226,7 @@ const SellersInvoices = () => {
         onClose={handleCloseModal}
         title="New Invoice"
         isDarkMode={currentTheme === "dark"}
+        width='600px'
       >
         {/* Modal Content */}
         <div className="flex flex-col gap-6">

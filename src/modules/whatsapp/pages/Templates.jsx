@@ -226,6 +226,7 @@ const Templates = () => {
         onClose={closeModal}
         title="New Template"
         isDarkMode={isDarkMode} // Adjust based on your theme context
+        width='700px'
       >
         <div className="flex flex-col md:flex-row">
           {/* Left Section: Menu */}
@@ -358,13 +359,13 @@ const Templates = () => {
                     className={`block w-full px-4 pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300`}
                     placeholder=""
                   />
-                  <div
-                    className={`absolute left-4 bottom-1 h-[0.5px] w-full transition-colors duration-300 ${
-                      isFilled(newTemplateData.content)
-                        ? 'bg-[#0258E8]'
-                        : 'bg-gray-500'
-                    }`}
-                  ></div>
+ <div
+                      className={`absolute left-4 bottom-1 h-[2px] w-full transition-colors duration-300 ${
+                        isFilled(newTemplateData.content)
+                          ? 'bg-[#0258E8]'
+                          : 'bg-gray-500'
+                      }`}
+                    ></div>
                 </div>
               </div>
             )}
