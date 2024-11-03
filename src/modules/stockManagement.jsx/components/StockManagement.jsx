@@ -274,6 +274,7 @@ const StockManagement = () => {
               : "Product Details"
           }
           isDarkMode={isDarkMode}
+          width='700px'
         >
           {modalType === 'view' ? (
             /* Existing Modal Content for Viewing Product */
