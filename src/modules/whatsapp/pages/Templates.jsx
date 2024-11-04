@@ -92,23 +92,28 @@ const Templates = () => {
   };
 
   // Handlers for checkbox selection
-  const handleCheckboxChange = (keys, isRange = false) => {
-    if (isRange && Array.isArray(keys)) {
-      setSelectedRows(prevSelected => {
-        const newSelected = new Set(prevSelected);
-        keys.forEach(key => newSelected.add(key));
-        return Array.from(newSelected);
+  const handleCheckboxChange = (keys, isRange) => {
+    if (isRange) {
+      // Add all keys in the range
+      setSelectedRows((prevSelected) => {
+        const newSelection = [...prevSelected];
+        keys.forEach((key) => {
+          if (!newSelection.includes(key)) {
+            newSelection.push(key);
+          }
+        });
+        return newSelection;
       });
+    } else if (Array.isArray(keys)) {
+      // Select all or unselect all
+      setSelectedRows(keys);
     } else {
-      setSelectedRows(prevSelected => {
-        const newSelected = new Set(prevSelected);
-        if (newSelected.has(keys)) {
-          newSelected.delete(keys);
-        } else {
-          newSelected.add(keys);
-        }
-        return Array.from(newSelected);
-      });
+      // Toggle single selection
+      setSelectedRows((prevSelected) =>
+        prevSelected.includes(keys)
+          ? prevSelected.filter((key) => key !== keys)
+          : [...prevSelected, keys]
+      );
     }
   };
 
@@ -281,7 +286,7 @@ const Templates = () => {
                   <div className="relative flex-1">
                     <label
                       htmlFor="title"
-                      className={`absolute left-4 top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
+                      className={`absolute  top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
                         isFilled(newTemplateData.title) ? 'transform -translate-y-4 scale-90' : ''
                       }`}
                     >
@@ -295,11 +300,11 @@ const Templates = () => {
                       onChange={handleInputChange}
                       onFocus={() => {}}
                       onBlur={() => {}}
-                      className={`block w-full px-4 pt-6 pb-2 text-sm bg-transparent focus:outline-none  transition-colors duration-300`}
+                      className={`block w-full pt-6 pb-2 text-sm bg-transparent focus:outline-none  transition-colors duration-300`}
                       placeholder=""
                     />
                     <div
-                      className={`absolute left-4  bottom-1 h-[1px] w-full transition-colors duration-300 ${
+                      className={`absolute  bottom-1 h-[1px] w-full transition-colors duration-300 ${
                         isFilled(newTemplateData.title)
                           ? 'bg-[#0258E8]'
                           : 'bg-gray-500'
@@ -311,7 +316,7 @@ const Templates = () => {
                   <div className="relative flex-1">
                     <label
                       htmlFor="alias"
-                      className={`absolute left-4 top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
+                      className={`absolute top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
                         isFilled(newTemplateData.alias) ? 'transform -translate-y-4 scale-90' : ''
                       }`}
                     >
@@ -325,11 +330,11 @@ const Templates = () => {
                       onChange={handleInputChange}
                       onFocus={() => {}}
                       onBlur={() => {}}
-                      className={`block w-full px-4 pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300`}
+                      className={`block w-full pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300`}
                       placeholder=""
                     />
                     <div
-                      className={`absolute left-4 bottom-1 h-[1px] w-full transition-colors duration-300 ${
+                      className={`absolute bottom-1 h-[1.8px] w-full transition-colors duration-300 ${
                         isFilled(newTemplateData.alias)
                           ? 'bg-[#0258E8]'
                           : 'bg-gray-500'
@@ -342,7 +347,7 @@ const Templates = () => {
                 <div className="relative flex-1">
                   <label
                     htmlFor="content"
-                    className={`absolute left-4 top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
+                    className={`absolute  top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
                       isFilled(newTemplateData.content) ? 'transform -translate-y-4 scale-90' : ''
                     }`}
                   >
@@ -356,11 +361,11 @@ const Templates = () => {
                     onChange={handleInputChange}
                     onFocus={() => {}}
                     onBlur={() => {}}
-                    className={`block w-full px-4 pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300`}
+                    className={`block w-full  pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300`}
                     placeholder=""
                   />
  <div
-                      className={`absolute left-4 bottom-1 h-[2px] w-full transition-colors duration-300 ${
+                      className={`absolute  bottom-1 h-[2px] w-full transition-colors duration-300 ${
                         isFilled(newTemplateData.content)
                           ? 'bg-[#0258E8]'
                           : 'bg-gray-500'
@@ -385,7 +390,7 @@ const Templates = () => {
         </div>
 
         {/* Modal Action Buttons */}
-        <div className="flex justify-end gap-4 mt-8">
+        <div className="flex justify-center gap-4 mt-8">
           <Button
             onClick={handleCreateTemplate}
             className="bg-info text-white rounded-full px-4 py-2"
