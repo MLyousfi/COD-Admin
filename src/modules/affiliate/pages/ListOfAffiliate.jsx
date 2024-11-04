@@ -5,6 +5,7 @@ import { Chip } from "@nextui-org/chip";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
+import NewAffiliateModal from '../components/NewAffiliateModal';
 
 const rows = [
     {
@@ -159,7 +160,7 @@ const columns = [
 ];
 
 const ListOfAffiliate = () => {
-    const [activeView, setActiveView] = useState('active');
+    const [openModal, setOpenModal] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
     const rowsPerPage = 13;
 
@@ -167,23 +168,23 @@ const ListOfAffiliate = () => {
     // Handle checkbox toggle
     const handleCheckboxChange = (keys, isRange = false) => {
         if (isRange && Array.isArray(keys)) {
-          setSelectedRows(prevSelected => {
-            const newSelected = new Set(prevSelected);
-            keys.forEach(key => newSelected.add(key));
-            return Array.from(newSelected);
-          });
+            setSelectedRows(prevSelected => {
+                const newSelected = new Set(prevSelected);
+                keys.forEach(key => newSelected.add(key));
+                return Array.from(newSelected);
+            });
         } else {
-          setSelectedRows(prevSelected => {
-            const newSelected = new Set(prevSelected);
-            if (newSelected.has(keys)) {
-              newSelected.delete(keys);
-            } else {
-              newSelected.add(keys);
-            }
-            return Array.from(newSelected);
-          });
+            setSelectedRows(prevSelected => {
+                const newSelected = new Set(prevSelected);
+                if (newSelected.has(keys)) {
+                    newSelected.delete(keys);
+                } else {
+                    newSelected.add(keys);
+                }
+                return Array.from(newSelected);
+            });
         }
-      };
+    };
 
 
 
@@ -242,6 +243,7 @@ const ListOfAffiliate = () => {
                     {/* New Product and Actions Buttons */}
                     <div className="space-x-4">
                         <Button
+                            onClick={() => setOpenModal(true)}
                             color="default"
                             className="rounded-full"
                             style={{ backgroundColor: '#0258E8', color: 'white' }}
@@ -269,6 +271,7 @@ const ListOfAffiliate = () => {
                     className="dark:bg-gray-800 dark:text-white" // Dark mode support
                 />
             </div>
+            <NewAffiliateModal modalOpen={openModal} setModalOpen={setOpenModal} id={1} />
         </DashboardLayout>
     );
 };
