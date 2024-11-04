@@ -56,7 +56,7 @@ const Subscription = ({ isDarkMode }) => {
         <div className="relative col-span-2">
           <label
             htmlFor="from"
-            className={`absolute left-4 top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
+            className={`absolute  top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
               focusState.address || isFilled('from') ? 'transform -translate-y-4 scale-90' : ''
             }`}
           >
@@ -70,13 +70,13 @@ const Subscription = ({ isDarkMode }) => {
             onChange={handleInputChange}
             onFocus={() => handleFocus('from')}
             onBlur={() => handleBlur('from')}
-            className={`block w-full px-4 pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
+            className={`block w-full  pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
               isDarkMode ? 'text-white' : 'text-black'
             }`}
             placeholder=""
           />
           <div
-            className={`absolute left-4 bottom-1 h-px w-full transition-colors duration-300 ${
+            className={`absolute  bottom-1 h-px w-full transition-colors duration-300 ${
               isFilled('from')
                 ? 'bg-[#0258E8]'
                 : isDarkMode
@@ -91,7 +91,7 @@ const Subscription = ({ isDarkMode }) => {
             <div className="relative col-span-2">
           <label
             htmlFor="to"
-            className={`absolute left-4 top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
+            className={`absolute top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
               focusState.address || isFilled('to') ? 'transform -translate-y-4 scale-90' : ''
             }`}
           >
@@ -105,13 +105,13 @@ const Subscription = ({ isDarkMode }) => {
             onChange={handleInputChange}
             onFocus={() => handleFocus('to')}
             onBlur={() => handleBlur('to')}
-            className={`block w-full px-4 pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
+            className={`block w-full  pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
               isDarkMode ? 'text-white' : 'text-black'
             }`}
             placeholder=""
           />
           <div
-            className={`absolute left-4 bottom-1 h-px w-full transition-colors duration-300 ${
+            className={`absolute  bottom-1 h-px w-full transition-colors duration-300 ${
               isFilled('to')
                 ? 'bg-[#0258E8]'
                 : isDarkMode

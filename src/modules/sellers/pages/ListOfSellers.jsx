@@ -1,22 +1,21 @@
 // ListOfSellers.jsx
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
-  DeliveryTruck01Icon,
   PencilEdit01Icon,
   PlusSignIcon,
   Delete01Icon,
   ArrowDown01Icon,
   Logout02Icon,
   UserMultipleIcon,
+  Recycle03Icon,
 } from 'hugeicons-react';
 import { Button } from '@nextui-org/button';
 import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
 import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data6';
-import { Recycle03Icon } from 'hugeicons-react';
 import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the path as needed
-import InformationsForm from './InformationForm'; // Import the new component
-import Store from './Store'
+import InformationsForm from './InformationForm'; // Import the updated component
+import Store from './Store';
 import Subscription from './Subscription';
 
 const columns = [
@@ -40,7 +39,20 @@ const ListOfSellers = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSeller, setSelectedSeller] = useState(null);
   const [activeMenuItem, setActiveMenuItem] = useState('Informations');
-  const isDarkMode = true; // Adjust based on your theme logic
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  useEffect(() => {
+    const checkDarkMode = () => {
+      const darkMode = document.documentElement.classList.contains('dark');
+      setIsDarkMode(darkMode);
+    };
+
+    checkDarkMode();
+
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
 
   const addNewSeller = () => {
     const newSeller = {
@@ -157,6 +169,7 @@ const ListOfSellers = () => {
         return <Store isDarkMode={isDarkMode} />;
       case 'Subscription':
         return <Subscription isDarkMode={isDarkMode} />;
+      // Add more cases as needed
       default:
         return <div className="p-4">Content for {activeMenuItem}</div>;
     }
@@ -215,29 +228,36 @@ const ListOfSellers = () => {
             isDarkMode={isDarkMode}
             width="800px"
           >
-            <div className="flex">
-              {/* Left Menu */}
-              <div className="w-1/4  p-4">
-                <ul className="space-y-2">
+            <div className="flex flex-col md:flex-row">
+              {/* Menu Section */}
+              <div className="w-full md:w-1/4 p-4">
+                {/* Flex container with wrapping */}
+                <div className="flex flex-row flex-wrap md:flex-col gap-1">
                   {menuItems.map((item) => (
-                    <li key={item}>
-                      <button
-                        onClick={() => setActiveMenuItem(item)}
-                        className={` text-sm w-full text-left px-2 rounded whitespace-nowrap hover:text-info ${
+                    <button
+                      key={item}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevents the click from affecting parent elements
+                        setActiveMenuItem(item);
+                      }}
+                      className={`text-sm text-left px-1.5 
+                        ${
                           activeMenuItem === item
-                            ? 'text-white'
-                            : 'text-gray-500'
-                        }`}
-                      >
-                        {item}
-                      </button>
-                    </li>
+                            ? 'dark:text-white text-black'
+                            : 'dark:text-gray-600 text-gray-400'
+                        } 
+                        hover:underline 
+                        cursor-pointer`}
+                      aria-label={`Navigate to ${item}`}
+                    >
+                      {item}
+                    </button>
                   ))}
-                </ul>
+                </div>
               </div>
 
-              {/* Right Content */}
-              <div className="w-3/4 p-4">
+              {/* Content Section */}
+              <div className="w-full md:w-3/4 p-4">
                 {renderContent()}
               </div>
             </div>
