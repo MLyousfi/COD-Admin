@@ -24,6 +24,8 @@ import { Button } from "@nextui-org/button";
 import ChartCard from "../components/ChartCard";
 import Table from "../../stockManagement.jsx/components/Table";
 import { useState } from "react";
+import NewExpensesModal from "../components/NewExpensesModal";
+import NewReportModal from "../components/NewReportModal";
 
 const rows = [
     {
@@ -156,6 +158,8 @@ const columns = [
     { key: "options", label: "Options" },
 ];
 export default function Expenses() {
+    const [openModal, setOpenModal] = useState(false)
+    const [openReportModal, setOpenReportModal] = useState(false)
     const chartData = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         values: [50, 100, 500, 500, 500, 300, 300, 300, 300, 200, 1000, 1000, 1000, 1000, 500, 500],
@@ -220,10 +224,10 @@ export default function Expenses() {
 
                 <div className="flex px-4 my-12 md:px-8 justify-end">
                     <div className="flex flex-row gap-2">
-                        <Button color="default" className="rounded-full bg-info text-white">
+                        <Button onClick={() => setOpenModal(true)} color="default" className="rounded-full bg-info text-white">
                             <PlusSignIcon size={18} /> New Expense
                         </Button>
-                        <Button variant="bordered" className="rounded-full">
+                        <Button onClick={() => setOpenReportModal(true)} variant="bordered" className="rounded-full">
                             <Calendar03Icon size={16} /> 2024 <ArrowDown01Icon size={16} />
                         </Button>
 
@@ -259,7 +263,8 @@ export default function Expenses() {
 
                 </div>
 
-
+                <NewReportModal modalOpen={openReportModal} setModalOpen={setOpenReportModal} id={1} />
+                <NewExpensesModal modalOpen={openModal} setModalOpen={setOpenModal} id={1} />
             </DashboardLayout>
         </>
     );

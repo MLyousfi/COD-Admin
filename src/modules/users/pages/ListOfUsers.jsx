@@ -5,6 +5,7 @@ import { Chip } from "@nextui-org/chip";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
+import EditUserModal from '../components/EditUserModal';
 
 const rows = [
     {
@@ -231,8 +232,7 @@ const columns = [
 
 const ListOfUsers = () => {
 
-
-    const [activeView, setActiveView] = useState('active');
+    const [openModal, setOpenModal] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
     const companies = [...new Set(rows.map(row => row.company))];
     const [selectedCompany, setSelectedCompany] = useState(companies[0]);
@@ -311,6 +311,7 @@ const ListOfUsers = () => {
                     {/* New Product and Actions Buttons */}
                     <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
                         <Button
+                            onClick={() => setOpenModal(true)}
                             color="default"
                             className="rounded-full"
                             style={{ backgroundColor: '#0258E8', color: 'white' }}
@@ -338,6 +339,7 @@ const ListOfUsers = () => {
                     className="dark:bg-gray-800 dark:text-white" // Dark mode support
                 />
             </div>
+            <EditUserModal modalOpen={openModal} setModalOpen={setOpenModal} id={1} />
         </DashboardLayout>
     );
 };
