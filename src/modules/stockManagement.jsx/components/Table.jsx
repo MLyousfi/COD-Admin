@@ -41,12 +41,12 @@ const Table = ({
     }
   };
 
-  // Determine if all rows are selected
-  const isAllSelected = data.length > 0 && selectedRows.length === data.length;
+  // Determine if any rows are selected
+  const isAnySelected = selectedRows.length > 0;
 
   // Handle select all/unselect all
   const handleSelectAll = () => {
-    if (isAllSelected) {
+    if (isAnySelected) {
       // Unselect all
       handleCheckboxChange([], false);
     } else {
@@ -142,7 +142,7 @@ const Table = ({
                         onClick={handleSelectAll}
                       >
                         <div className='w-5 h-5 mx-auto rounded-md border border-[#00000050] dark:border-[#ffffff50] flex justify-center items-center'>
-                          {isAllSelected && (
+                          {isAnySelected && (
                             <motion.div
                               initial={{ scale: 0 }}
                               transition={{ type: "spring", stiffness: 100 }}
