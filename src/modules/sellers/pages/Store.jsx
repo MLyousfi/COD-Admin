@@ -39,7 +39,7 @@ const Store = ({ isDarkMode }) => {
         <div className="relative">
           <label
             htmlFor="storeName"
-            className={`absolute left-4 top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
+            className={`absolute top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
               focusState.storeName || isFilled('storeName') ? 'transform -translate-y-4 scale-90' : ''
             }`}
           >
@@ -53,13 +53,13 @@ const Store = ({ isDarkMode }) => {
             onChange={handleInputChange}
             onFocus={() => handleFocus('storeName')}
             onBlur={() => handleBlur('storeName')}
-            className={`block w-full px-4 pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
+            className={`block w-full pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
               isDarkMode ? 'text-white' : 'text-black'
             }`}
             placeholder=""
           />
           <div
-            className={`absolute left-4 bottom-1 h-px w-full transition-colors duration-300 ${
+            className={`absolute  bottom-1 h-px w-full transition-colors duration-300 ${
               isFilled('storeName')
                 ? 'bg-[#0258E8]'
                 : isDarkMode
@@ -73,7 +73,7 @@ const Store = ({ isDarkMode }) => {
         <div className="relative">
           <label
             htmlFor="website"
-            className={`absolute left-4 top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
+            className={`absolute  top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
               focusState.website || isFilled('website') ? 'transform -translate-y-4 scale-90' : ''
             }`}
           >
@@ -87,13 +87,13 @@ const Store = ({ isDarkMode }) => {
             onChange={handleInputChange}
             onFocus={() => handleFocus('website')}
             onBlur={() => handleBlur('website')}
-            className={`block w-full px-4 pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
+            className={`block w-full pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
               isDarkMode ? 'text-white' : 'text-black'
             }`}
             placeholder=""
           />
           <div
-            className={`absolute left-4 bottom-1 h-px w-full transition-colors duration-300 ${
+            className={`absolute  bottom-1 h-px w-full transition-colors duration-300 ${
               isFilled('website')
                 ? 'bg-[#0258E8]'
                 : isDarkMode
