@@ -103,14 +103,13 @@ const ListOfSellers = () => {
             <Button
               variant="flat"
               size="sm"
-              className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
+              className="w-8 h-8 rounded-full p-0 flex items-center justify-center bg-[#00000020] dark:bg-[#FFFFFF20]"
               style={{
-                backgroundColor: '#747d80',
                 minWidth: '32px',
                 height: '32px',
               }}
             >
-              <Logout02Icon size={14} style={{ color: 'white' }} />
+              <Logout02Icon size={14} className='text-black dark:text-white' />
             </Button>
             <Button
               variant="flat"
@@ -181,22 +180,23 @@ const ListOfSellers = () => {
       icon={<UserMultipleIcon className="text-info" />}
     >
       <div className="p-4">
-        <div className="flex justify-end space-x-4 mb-4">
+        <div className="flex justify-end space-x-2 mb-4">
           <Button
             color="default"
             onClick={addNewSeller}
             className="rounded-full"
             style={{ backgroundColor: '#0258E8', color: 'white' }}
           >
-            <PlusSignIcon size={18} /> New Seller
+            <PlusSignIcon size={18} className="flex-shrink-0" />  New Seller
           </Button>
           <Button
-            color="default"
-            className="rounded-full"
-            style={{ backgroundColor: '#ED0006', color: 'white' }}
-          >
-            <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions
-          </Button>
+              color="default"
+              className="rounded-full flex items-center space-x-2 px-4 py-2"
+              style={{ backgroundColor: '#ED0006', color: 'white' }}
+            >
+              <PencilEdit01Icon size={18} className="flex-shrink-0" /> 
+              <span className="text-sm sm:text-base">Actions</span>
+            </Button>
           <Button
             color="default"
             className="rounded-full flex items-center border transition-colors duration-200 dark:border-white border-black"
@@ -204,8 +204,8 @@ const ListOfSellers = () => {
               backgroundColor: 'transparent',
             }}
           >
-            <span className="text-black dark:text-white">Status</span>
-            <ArrowDown01Icon className="ml-1 text-black dark:text-white" />
+            <span className="text-black dark:text-white ">Status</span>
+            <ArrowDown01Icon size={18} className="ml-1 text-black dark:text-white flex-shrink-0" />
           </Button>
         </div>
 

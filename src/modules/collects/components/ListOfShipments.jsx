@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   DeliveryTruck01Icon,
   PencilEdit01Icon,
@@ -15,6 +15,34 @@ import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
 import Table from '../../stockManagement.jsx/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data2';
+import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the import path accordingly
+import { Select, SelectItem } from '@nextui-org/select'; // Ensure you have the Select components imported
+
+// Define options for Select components
+const collectionNoOptions = [
+  { key: 'COL001', label: 'COL001' },
+  { key: 'COL002', label: 'COL002' },
+  { key: 'COL003', label: 'COL003' },
+  { key: 'COL004', label: 'COL004' },
+  // Add more as needed
+];
+
+const shippedByOptions = [
+  { key: 'DHL', label: 'DHL' },
+  { key: 'FedEx', label: 'FedEx' },
+  { key: 'UPS', label: 'UPS' },
+  { key: 'USPS', label: 'USPS' },
+  // Add more as needed
+];
+
+const dueDateOptions = [
+  { key: 'Today', label: 'Today' },
+  { key: 'Tomorrow', label: 'Tomorrow' },
+  { key: 'This Week', label: 'This Week' },
+  { key: 'Next Week', label: 'Next Week' },
+  { key: 'This Month', label: 'This Month' },
+  // Add more as needed
+];
 
 const columns = [
   { key: 'number', label: 'N°' },
@@ -29,14 +57,24 @@ const columns = [
 ];
 
 const ListOfShipments = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState('active');
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const rowsPerPage = 10;
 
+  // State for Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // States for Modal Select Inputs
+  const [collectionNo, setCollectionNo] = useState('');
+  const [statut, setStatut] = useState('');
+  const [shippedBy, setShippedBy] = useState('');
+  const [dueDate, setDueDate] = useState('');
+
   const addNewProduct = () => {
-    navigate('/collects/new-collect'); // Navigate to NewCollect route
+    navigate('/collects/new-collect');
   };
 
   const handleCheckboxChange = (key) => {
@@ -46,6 +84,20 @@ const ListOfShipments = () => {
       setSelectedRows([...selectedRows, key]);
     }
   };
+  useEffect(() => {
+    const checkDarkMode = () => {
+      const darkMode = document.documentElement.classList.contains('dark');
+      setIsDarkMode(darkMode);
+    };
+
+    checkDarkMode();
+
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
+
   const [activeView, setActiveView] = useState('active');
 
   const handleDelete = (key) => {
@@ -123,9 +175,52 @@ const ListOfShipments = () => {
     }
   };
 
+  // Handle Ctrl+K to open the modal
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // Check if Ctrl + K is pressed
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setIsModalOpen(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  // Handle Search
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Implement your search/filter logic here
+    const filtered = rows.filter((product) => {
+      return (
+        (collectionNo ? product.collectionNo === collectionNo : true) &&
+        (statut && statut !== 'All' ? product.statut === statut : true) &&
+        (shippedBy ? product.shippedBy === shippedBy : true) &&
+        (dueDate ? product.dueDate === dueDate : true)
+      );
+    });
+    setProducts(filtered);
+    setIsModalOpen(false);
+  };
+
+  // Handle Cancel - Reset filters and close modal
+  const handleCancel = () => {
+    setCollectionNo('');
+    setStatut('');
+    setShippedBy('');
+    setDueDate('');
+    setIsModalOpen(false);
+  };
+
   return (
     <DashboardLayout title="Collects - List of Shipments" icon={<DeliveryTruck01Icon className="text-info" />}>
-      <div className="p-2 md:p-4">
+      <div className="pr-2 pl-1 md:p-4">
         <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
           <StatusTabs
             activeCount={products.filter((product) => product.status === 'active').length}
@@ -134,7 +229,7 @@ const ListOfShipments = () => {
             onTabChange={setActiveView}
           />
 
-          <div className="flex gap-2 flex-wrap items-center">
+          <div className="flex justify-center space-x-1 mb-4">
             <Button
               color="default"
               onClick={addNewProduct}
@@ -170,6 +265,120 @@ const ListOfShipments = () => {
           className="dark:bg-gray-800 dark:text-white"
         />
       </div>
+
+      {/* Render the CustomModal */}
+      <CustomModal
+        isOpen={isModalOpen}
+        onClose={handleCancel}
+        title="Search"
+        isDarkMode={isDarkMode}
+        width="600px" // Optional: customize the width if needed
+      >
+        <form onSubmit={handleSearch} className="space-y-4">
+          {/* Collection No Select */}
+          <div className="w-full">
+            <label htmlFor="collection-no" className="block mb-1">
+            </label>
+            <Select
+              selectedKeys={collectionNo ? [collectionNo] : []}
+              id="collection-no"
+              placeholder="Select Collection No"
+              labelPlacement="outside"
+              classNames={{
+                value: "dark:!text-[#ffffff85] !text-[#00000085]",
+                trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+              }}
+              onSelectionChange={(keys) => setCollectionNo(keys[0])}
+            >
+              {collectionNoOptions.map(option => (
+                <SelectItem key={option.key}>{option.label}</SelectItem>
+              ))}
+            </Select>
+          </div>
+
+          {/* Statut Select */}
+          <div className="w-full">
+            <label htmlFor="statut" className="block mb-1">
+              <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Statut</span>
+            </label>
+            <Select
+              selectedKeys={statut ? [statut] : []}
+              id="statut"
+              placeholder="All"
+              labelPlacement="outside"
+              classNames={{
+                value: "dark:!text-[#ffffff85] !text-[#00000085]",
+                trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+              }}
+              onSelectionChange={(keys) => setStatut(keys[0])}
+            >
+              <SelectItem key="All">All</SelectItem>
+              <SelectItem key="Active">Active</SelectItem>
+              <SelectItem key="Archived">Archived</SelectItem>
+              {/* Add more options if needed */}
+            </Select>
+          </div>
+
+          {/* Shipped By Select */}
+          <div className="w-full">
+            <label htmlFor="shipped-by" className="block mb-1">
+              <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Shipped By</span>
+            </label>
+            <Select
+              selectedKeys={shippedBy ? [shippedBy] : []}
+              id="shipped-by"
+              placeholder="All"
+              labelPlacement="outside"
+              classNames={{
+                value: "dark:!text-[#ffffff85] !text-[#00000085]",
+                trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+              }}
+              onSelectionChange={(keys) => setShippedBy(keys[0])}
+            >
+              {shippedByOptions.map(option => (
+                <SelectItem key={option.key}>{option.label}</SelectItem>
+              ))}
+            </Select>
+          </div>
+
+          {/* Due Date Select (No Borders) */}
+          <div className="w-full flex items-center">
+            <label htmlFor="due-date" className="block mb-1">
+            </label>
+            <Select
+              selectedKeys={dueDate ? [dueDate] : []}
+              id="due-date"
+              placeholder="Due Date"
+              labelPlacement="outside"
+              classNames={{
+                value: "dark:!text-[#ffffff] !text-[#00000085]",
+                trigger: 'bg-transparent mt-2 focus:border-none border-none rounded-lg', // No border
+              }}
+              onSelectionChange={(keys) => setDueDate(keys[0])}
+            >
+              {dueDateOptions.map(option => (
+                <SelectItem key={option.key}>{option.label}</SelectItem>
+              ))}
+            </Select>
+          </div>
+
+          {/* Submit and Cancel Buttons */}
+          <div className="flex justify-center space-x-4 rounded-full">
+            <Button type="submit" color="primary" className='rounded-full'>
+              Search Now
+            </Button>
+            <Button
+              type="button"
+              color="default"
+              variant="flat"
+              className="rounded-full bg-transparent border border-black dark:border-white text-black dark:text-white hover:bg-transparent"
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </CustomModal>
     </DashboardLayout>
   );
 };

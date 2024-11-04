@@ -77,26 +77,30 @@ const Stock = () => {
     setProducts([...products, newProduct]);
   };
 
-  const handleCheckboxChange = (keys, isRange = false) => {
-    if (isRange && Array.isArray(keys)) {
-      setSelectedRows(prevSelected => {
-        const newSelected = new Set(prevSelected);
-        keys.forEach(key => newSelected.add(key));
-        return Array.from(newSelected);
+  const handleCheckboxChange = (keys, isRange) => {
+    if (isRange) {
+      // Add all keys in the range
+      setSelectedRows((prevSelected) => {
+        const newSelection = [...prevSelected];
+        keys.forEach((key) => {
+          if (!newSelection.includes(key)) {
+            newSelection.push(key);
+          }
+        });
+        return newSelection;
       });
+    } else if (Array.isArray(keys)) {
+      // Select all or unselect all
+      setSelectedRows(keys);
     } else {
-      setSelectedRows(prevSelected => {
-        const newSelected = new Set(prevSelected);
-        if (newSelected.has(keys)) {
-          newSelected.delete(keys);
-        } else {
-          newSelected.add(keys);
-        }
-        return Array.from(newSelected);
-      });
+      // Toggle single selection
+      setSelectedRows((prevSelected) =>
+        prevSelected.includes(keys)
+          ? prevSelected.filter((key) => key !== keys)
+          : [...prevSelected, keys]
+      );
     }
   };
-
   const handleDelete = (key) => {
     setProducts(products.map(product => 
       product.key === key ? { ...product, status: 'deleted' } : product
