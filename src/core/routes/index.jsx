@@ -41,6 +41,7 @@ import Funds from "../../modules/statistics/pages/Funds.jsx";
 import NewCollect from "../../modules/collects/components/NewCollect.jsx";
 import SourcingInvoices from "../../modules/invoices/components/SourcingInvoices.jsx";
 import Accounts from "../../modules/whatsapp/pages/Accounts.jsx";
+import ShippingCompanies from "../../modules/shippingCost/pages/ShippingCompanies.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -169,6 +170,11 @@ const routes = createBrowserRouter([
     {
         path: RouteNames.shippingCost,
         element: <ShippingCost />
+
+    },
+    {
+        path: RouteNames.shippingCompanies,
+        element: <ShippingCompanies />
 
     },
     {
