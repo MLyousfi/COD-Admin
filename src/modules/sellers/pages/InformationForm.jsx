@@ -41,9 +41,11 @@ const InformationsForm = ({ isDarkMode }) => {
           <div className="relative">
             <label
               htmlFor="name1"
+
               className={`absolute top-4  text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
                 formData.name1 !== '' ? 'transform -translate-y-4 scale-90' : ''
               }`}
+
             >
               Name 1
             </label>
@@ -53,13 +55,15 @@ const InformationsForm = ({ isDarkMode }) => {
               name="name1"
               value={formData.name1}
               onChange={handleInputChange}
+
               className={`block w-full  pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 border-b ${
                 isDarkMode ? 'border-gray-600' : 'border-gray-300'
               } ${
                 formData.name1 !== ''
                   ? 'border-blue-500' // Updated to use standard Tailwind color
+
                   : ''
-              }`}
+                }`}
               placeholder=""
             />
           
@@ -69,9 +73,11 @@ const InformationsForm = ({ isDarkMode }) => {
           <div className="relative">
             <label
               htmlFor="name2"
+
               className={`absolute top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
                 formData.name2 !== '' ? 'transform -translate-y-4 scale-90' : ''
               }`}
+
             >
               Name 2
             </label>
@@ -81,13 +87,15 @@ const InformationsForm = ({ isDarkMode }) => {
               name="name2"
               value={formData.name2}
               onChange={handleInputChange}
+
               className={`block w-full  pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 border-b ${
                 isDarkMode ? 'border-gray-600' : 'border-gray-300'
               } ${
                 formData.name2 !== ''
                   ? 'border-blue-500' // Updated to use standard Tailwind color
+
                   : ''
-              }`}
+                }`}
               placeholder=""
             />
 
@@ -97,9 +105,11 @@ const InformationsForm = ({ isDarkMode }) => {
           <div className="relative">
             <label
               htmlFor="name3"
+
               className={`absolute top-4  text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
                 formData.name3 !== '' ? 'transform -translate-y-4 scale-90' : ''
               }`}
+
             >
               Name 3
             </label>
@@ -114,8 +124,9 @@ const InformationsForm = ({ isDarkMode }) => {
               } ${
                 formData.name3 !== ''
                   ? 'border-blue-500' // Updated to use standard Tailwind color
+
                   : ''
-              }`}
+                }`}
               placeholder=""
             />
             
@@ -125,9 +136,11 @@ const InformationsForm = ({ isDarkMode }) => {
           <div className="relative">
             <label
               htmlFor="name4"
+
               className={`absolute top-4  text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
                 formData.name4 !== '' ? 'transform -translate-y-4 scale-90' : ''
               }`}
+
             >
               Name 4
             </label>
@@ -137,13 +150,15 @@ const InformationsForm = ({ isDarkMode }) => {
               name="name4"
               value={formData.name4}
               onChange={handleInputChange}
+
               className={`block w-full pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 border-b ${
                 isDarkMode ? 'border-gray-600' : 'border-gray-300'
               } ${
                 formData.name4 !== ''
                   ? 'border-blue-500' // Updated to use standard Tailwind color
+
                   : ''
-              }`}
+                }`}
               placeholder=""
             />
         
@@ -270,6 +285,7 @@ const InformationsForm = ({ isDarkMode }) => {
               className={`absolute top-4  text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
                 formData.email !== '' ? 'transform -translate-y-4 scale-90' : ''
               }`}
+
             >
               Email
             </label>
@@ -279,13 +295,15 @@ const InformationsForm = ({ isDarkMode }) => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
+
               className={`block w-full  pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 border-b ${
                 isDarkMode ? 'border-gray-600' : 'border-gray-300'
               } ${
                 formData.email !== ''
                   ? 'border-blue-500' // Updated to use standard Tailwind color
+
                   : ''
-              }`}
+                }`}
               placeholder=""
             />
             
@@ -295,6 +313,7 @@ const InformationsForm = ({ isDarkMode }) => {
           <div className="relative">
             <label
               htmlFor="password"
+
               className={`absolute top-4  text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
                 formData.password !== '' ? 'transform -translate-y-4 scale-90' : ''
               }`}
@@ -307,13 +326,14 @@ const InformationsForm = ({ isDarkMode }) => {
               name="password"
               value={formData.password}
               onChange={handleInputChange}
+
               className={`block w-full  pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 border-b ${
                 isDarkMode ? 'border-gray-600' : 'border-gray-300'
               } ${
                 formData.password !== ''
                   ? 'border-blue-500' // Updated to use standard Tailwind color
                   : ''
-              }`}
+                }`}
               placeholder=""
             />
             
@@ -323,9 +343,11 @@ const InformationsForm = ({ isDarkMode }) => {
           <div className="relative col-span-1 md:col-span-2">
             <label
               htmlFor="address"
+
               className={`absolute top-4  text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
                 formData.address !== '' ? 'transform -translate-y-4 scale-90' : ''
               }`}
+
             >
               Address
             </label>
@@ -334,13 +356,15 @@ const InformationsForm = ({ isDarkMode }) => {
               name="address"
               value={formData.address}
               onChange={handleInputChange}
+
               className={`block w-full pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 border-b ${
                 isDarkMode ? 'border-gray-600' : 'border-gray-300'
               } ${
                 formData.address !== ''
                   ? 'border-blue-500' // Updated to use standard Tailwind color
+
                   : ''
-              }`}
+                }`}
               placeholder=""
             ></input>
             

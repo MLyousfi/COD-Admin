@@ -144,13 +144,13 @@ export default function MyAgent() {
     );
     return (
         <>
-            <DashboardLayout title="Call Center Manager - My Agent" icon={<CustomerService01Icon className="text-info" />}
+            <DashboardLayout title="Call Center Manager - My Agents" icon={<CustomerService01Icon className="text-info" />}
             >
                 <div className="p-2 md:p-4">{/**here ---|> responsv */}
                     <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
                         <StatusTabs
-                            activeCount={rows.filter(row => row.status === "active").length}
-                            archivedCount={rows.filter(row => row.status === "archived").length}
+                            activeCount={10928}
+                            archivedCount={10}
                             selectedTab={selectedTab}
                             onTabChange={setSelectedTab}
                         />

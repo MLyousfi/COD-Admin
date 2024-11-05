@@ -224,13 +224,11 @@ const rows = [
 
 
 const columns = [
-    { key: "name", label: "Name" },
-    { key: "email", label: "Email" },
-    { key: "role", label: "Role" },
-    { key: "actions", label: "Actions" },
+    { key: "role", label: "Role", w: 'w-[80%]' },
+    { key: "actions", label: "Actions", w: 'w-[20%]' },
 ];
 
-const ListOfUsers = () => {
+const Roles = () => {
 
     const [openModal, setOpenModal] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
@@ -259,14 +257,7 @@ const ListOfUsers = () => {
                 return (
                     <div className="flex space-x-2 justify-center">
                         {/* View Button */}
-                        <Button
-                            variant="flat"
-                            size="sm"
-                            className="w-8 h-8 bg-[#00000020] dark:bg-[#ffffff20] rounded-full p-0 flex items-center justify-center"
-                            style={{ padding: 0, minWidth: '32px', height: '32px' }}
-                        >
-                            <EyeIcon size={14} />
-                        </Button>
+
 
                         {/* Edit Button */}
                         <Button
@@ -295,7 +286,7 @@ const ListOfUsers = () => {
         }
     };
     return (
-        <DashboardLayout title="Users - List of Users" icon={<UserIcon className="text-info" />}>
+        <DashboardLayout title="Users - Roles" icon={<UserIcon className="text-info" />}>
             <div className="p-2 md:p-4">{/**here ---|> responsv */}
                 {/* Tabs for Active and Archived */}
                 <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
@@ -316,7 +307,7 @@ const ListOfUsers = () => {
                             className="rounded-full"
                             style={{ backgroundColor: '#0258E8', color: 'white' }}
                         >
-                            <PlusSignIcon size={18} /> New User
+                            <PlusSignIcon size={18} /> New Role
                         </Button>
                         <Button
                             color="default"
@@ -344,4 +335,4 @@ const ListOfUsers = () => {
     );
 };
 
-export default ListOfUsers;
+export default Roles;

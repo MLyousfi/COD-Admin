@@ -113,12 +113,12 @@ export default function DashboardLayout({
 
           {/* Notification Banner (Hidden on large screens) */}
           <div className="relative h-12 w-full p-3 md:p-4 mx-auto text-center hidden lg:hidden">
-            <div
+            <div 
               ref={dropdownRef}
-              onClick={() => setSmallNotOpen(!smallNotOpen)}
+              onClick={() => setSmallNotOpen(!SmallNotOpen)}
               className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]"
-            >
-              <div className="flex justify-center items-center gap-2">
+              >             
+                             <div className="flex justify-center items-center gap-2">
                 <h4 className="text-sm font-semibold">Important Notifications in the ERP</h4>
                 {smallNotOpen ? (
                   <ArrowDown01Icon className="font-thin" />
