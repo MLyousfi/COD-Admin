@@ -372,13 +372,12 @@ export default function Orders() {
         return (
           <div className="flex items-center justify-center">
             <span
-              className={`px-2 py-1 rounded-full ${
-                item.statut === "No"
-                  ? "bg-red-500 bg-opacity-20 text-red-600"
-                  : item.statut === "Yes"
+              className={`px-2 py-1 rounded-full ${item.statut === "No"
+                ? "bg-red-500 bg-opacity-20 text-red-600"
+                : item.statut === "Yes"
                   ? "bg-green-500 bg-opacity-20 text-green-600"
                   : ""
-              }`}
+                }`}
             >
               {item.statut}
             </span>
@@ -491,18 +490,18 @@ export default function Orders() {
             columns={columns.map((col) =>
               col.key === "price"
                 ? {
-                    ...col,
-                    label: (
-                      <div className="flex items-center">
-                        {col.label}
-                        <ArrowUpDownIcon
-                          size={15}
-                          onClick={toggleSortOrder}
-                          className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
-                        />
-                      </div>
-                    ),
-                  }
+                  ...col,
+                  label: (
+                    <div className="flex items-center">
+                      {col.label}
+                      <ArrowUpDownIcon
+                        size={15}
+                        onClick={toggleSortOrder}
+                        className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
+                      />
+                    </div>
+                  ),
+                }
                 : col
             )}
             data={filteredRows} // Use filteredRows based on selected tab

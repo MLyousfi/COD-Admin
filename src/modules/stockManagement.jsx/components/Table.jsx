@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft01Icon, ArrowRight01Icon } from 'hugeicons-react';
+import { ArrowLeft01Icon, ArrowRight01Icon, ArrowUpDownIcon } from 'hugeicons-react';
 import { motion } from 'framer-motion';
 
 const ICON_SIZE = 12;
@@ -115,6 +115,8 @@ const Table = ({
     }
   };
 
+
+
   return (
     <div className="w-full mx-4 lg:mx-0">
       {/* Wrapper div for table and pagination to control the fixed height */}
@@ -152,9 +154,18 @@ const Table = ({
                           )}
                         </div>
                       </motion.div>
+                    ) : column.sortable && column.sortable === true ? (
+                      <div className="flex items-center">
+                        {column.label}
+                        <ArrowUpDownIcon
+                          size={15}
+                          className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
+                        />
+                      </div>
                     ) : (
                       column.label
                     )}
+
                   </th>
                 ))}
               </tr>
@@ -224,11 +235,10 @@ const Table = ({
             {[...Array(totalPages)].map((_, index) => (
               <button
                 key={index}
-                className={`px-3 py-1 text-sm ${
-                  currentPage === index + 1
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-200 dark:bg-gray-600 dark:text-white'
-                } rounded`}
+                className={`px-3 py-1 text-sm ${currentPage === index + 1
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-200 dark:bg-gray-600 dark:text-white'
+                  } rounded`}
                 onClick={() => handlePageChange(index + 1)}
               >
                 {index + 1}
