@@ -50,7 +50,7 @@ const columns = [
   { key: 'createdAt', label: 'Created At' },
   { key: 'sentAt', label: 'Sent At' },
   { key: 'shippedAt', label: 'Shipped At' },
-  { key: 'shoppingBy', label: 'Shopping By' },
+  { key: 'shoppingBy', label: 'Shipping By' },
   { key: 'statut', label: 'Status' },
   { key: 'send', label: 'Send' },
   { key: 'options', label: 'Actions' },

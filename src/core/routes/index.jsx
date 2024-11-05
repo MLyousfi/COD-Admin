@@ -336,30 +336,30 @@ const routes = createBrowserRouter([
         path: RouteNames.Statistics,
         children: [
             {
-                path: RouteNames.statiscticsProducts,
+                path: RouteNames.statisticsProducts,
                 element: <Products />
             },
             {
-                path: RouteNames.statiscticsFunds,
+                path: RouteNames.statisticsFunds,
                 element: <Funds />
             },
             {
-                path: RouteNames.statiscticsSponsoring,
+                path: RouteNames.statisticsSponsoring,
                 element: <Products />
             },
             {
-                path: RouteNames.statiscticsAgents,
+                path: RouteNames.statisticsAgents,
                 children: [
                     {
-                        path: RouteNames.statiscticsAgentsActivities,
+                        path: RouteNames.statisticsAgentsActivities,
                         element: <Products />
                     },
                     {
-                        path: RouteNames.statiscticsAgentscallCenter,
+                        path: RouteNames.statisticsAgentscallCenter,
                         element: <Products />
                     },
                     {
-                        path: RouteNames.statiscticsAgentsFollowup,
+                        path: RouteNames.statisticsAgentsFollowup,
                         element: <FollowUpStatistics />
                     },
                 ],

@@ -256,8 +256,8 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                         exit="hidden"
                                         index={22}
                                         variants={dropdownVariants} className="w-full flex flex-col gap-2 mt-2">
-                                        {[{ data: 154, label: 'No Answers Late' }, { data: 21415, label: 'Schedule Late - Follow Up' }
-                                            , { data: 21415, label: 'Schedule Late - Follow Up' }, { data: 21415, label: 'Schedule Late - Follow Up' }
+                                        {[{ data: 154, label: 'No Answers Late' }, { data: "21,415", label: 'Schedule Late - Follow Up' }
+                                            , { data: "21,415", label: 'Schedule Late - Follow Up' }, { data: "21,415", label: 'Schedule Late - Follow Up' }
                                         ].map((i, ix) => (
                                             <motion.div variants={itemVariants}
                                                 custom={ix} key={ix} className=" flex justify-start items-center gap-2 ">
