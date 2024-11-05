@@ -335,18 +335,31 @@ export default function FollowUpStatistics() {
             },
         },
     };
-
+    const headerButtons = (
+        <div className="flex gap-2 flex-wrap items-center">
+        
+            <Button
+                className="bg-[#0258E8] border border-blue-800 text-white rounded-full px-4 py-2 flex items-center"
+                auto
+                aria-label="Apply Filter"
+            >
+                <FilterIcon className="text-white" size={18} />
+                <span>Apply Filter</span>
+            </Button>
+        </div>
+    );
     return (
-        <DashboardLayout title="Statistics - Follow Up" icon={<ChartHistogramIcon className="text-info" />}>
+        <DashboardLayout hasSearchInput={false} title="Statistics - Follow Up" icon={<ChartHistogramIcon className="text-info" 
+        
+        />}
+        additionalContent={headerButtons}
+
+        >
+
             {/* Header Section with Title and Buttons */}
             <div className="flex justify-between items-center px-8 mb-6">
-                <div className="text-xl font-semibold text-black dark:text-white">Statistics</div>
-                <div className="flex space-x-2">
-                    <Button className="bg-[#0258E8] border border-blue-800 text-white rounded-full px-4 py-2 flex items-center" auto>
-                        <FilterIcon className="text-white" size={18} />
-                        <span>Apply Filter</span>
-                    </Button>
-                </div>
+                <div className="mt-14 text-xl font-semibold text-black dark:text-white">Statistics</div>
+                
             </div>
 
             {/* Statistics Cards */}

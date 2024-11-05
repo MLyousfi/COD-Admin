@@ -173,7 +173,7 @@ const RoutesConfig = [
     },
     {
         name: 'Orders Management',
-        path: RouteNames.callCenterManager,
+        path: RouteNames.ordersManagement,
         showInSidebar: true,
         icon: DeliveryBox01Icon,
         children: [

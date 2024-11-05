@@ -30,11 +30,11 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
         RoutesConfig.forEach((route) => {
             if (route.children) {
                 const isParentActive = route.children.some((child) => {
-                    // Check if any grandchild route is active
-                    const isChildActive = pathname.includes(child.path);
+                    // Replace includes with precise matching
+                    const isChildActive = pathname === child.path || pathname.startsWith(`${child.path}/`);
                     const isGrandchildActive =
                         child.children &&
-                        child.children.some((grandChild) => pathname.includes(grandChild.path));
+                        child.children.some((grandChild) => pathname === grandChild.path || pathname.startsWith(`${grandChild.path}/`));
 
                     return isChildActive || isGrandchildActive;
                 });
@@ -50,7 +50,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                 route.children.forEach((child) => {
                     const isGrandchildActive =
                         child.children &&
-                        child.children.some((grandChild) => pathname.includes(grandChild.path));
+                        child.children.some((grandChild) => pathname === grandChild.path || pathname.startsWith(`${grandChild.path}/`));
 
                     if (isGrandchildActive) {
                         setExpandedRoutes((prev) => ({
@@ -63,7 +63,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
         });
     }, [pathname]);
 
-    // close if the esc key is pressed
+    // Close sidebar on ESC key press
     useEffect(() => {
         const keyHandler = ({ keyCode }) => {
             if (!showSidebar || keyCode !== 27) return;
@@ -82,21 +82,21 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
         }
     }, [showSidebar]);
 
-
     const scrollToItem = (route) => {
         const element = document.getElementById(route);
         element?.scrollIntoView({ behavior: 'instant', block: "center" });
     };
+
     const expandCurrentRouteOnly = () => {
         let newExpandedRoutes = {};
 
         RoutesConfig.forEach((route) => {
-            if (route.children && route.children.some(child => pathname.includes(child.path))) {
+            if (route.children && route.children.some(child => pathname === child.path || pathname.startsWith(`${child.path}/`))) {
                 scrollToItem(route.path);
 
                 newExpandedRoutes[route.path] = true; // Use route.path instead of route.name
                 route.children.forEach((child) => {
-                    if (pathname.includes(child.path)) {
+                    if (pathname === child.path || pathname.startsWith(`${child.path}/`)) {
                         newExpandedRoutes[child.path] = true; // Use child.path instead of child.name
                     }
                 });
@@ -149,11 +149,11 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                         <ul className="flex flex-col gap-2 dark:text-gray-400 text-gray-600">
                             {RoutesConfig.filter(route => route.showInSidebar && route.path).map((route, index) => {
                                 const isActiveParent = route.children && route.children.some((child) => {
-                                    // Check if any child or grandchild route is active
-                                    const isChildActive = pathname.includes(child.path);
+                                    // Replace includes with precise matching
+                                    const isChildActive = pathname === child.path || pathname.startsWith(`${child.path}/`);
                                     const isGrandchildActive =
                                         child.children &&
-                                        child.children.some((grandChild) => pathname.includes(grandChild.path));
+                                        child.children.some((grandChild) => pathname === grandChild.path || pathname.startsWith(`${grandChild.path}/`));
 
                                     return isChildActive || isGrandchildActive;
                                 });
@@ -166,7 +166,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                                     id={route.path}
                                                     onClick={() => toggleRoute(route.path)} // Use route.path
                                                     className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white
-                                                    ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
+                                                    ${isActiveParent || pathname === route.path ? "bg-glb_blue text-white" : ""}`}
                                                 >
                                                     <div className="flex items-center">
                                                         {React.createElement(route.icon, { className: "mr-2 ml-1", size: 20 })}
@@ -176,10 +176,10 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                                 {expandedRoutes[route.path] && ( // Use route.path
                                                     <ul className="pl-4">
                                                         {route.children.map((child, childIndex) => {
-                                                            const isActiveChild = pathname.includes(child.path);
+                                                            const isActiveChild = pathname === child.path || pathname.startsWith(`${child.path}/`);
                                                             const isActiveGrandchild =
                                                                 child.children &&
-                                                                child.children.some((grandChild) => pathname.includes(grandChild.path));
+                                                                child.children.some((grandChild) => pathname === grandChild.path || pathname.startsWith(`${grandChild.path}/`));
 
                                                             return (
                                                                 <li key={child.path} className="ml-6">
@@ -244,7 +244,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                                 id={route.path}
                                                 to={route.path}
                                                 className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white  
-                                                ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
+                                                ${isActiveParent || pathname === route.path ? "bg-glb_blue text-white" : ""}`}
                                             >
                                                 {React.createElement(route.icon, { className: "mr-2 ml-1", size: 20 })}
                                                 {showSidebar && route.name} {/* Conditionally render name */}
@@ -255,7 +255,8 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                             })}
                         </ul>
 
-                        {/* <div className="mt-24 px-2">
+                        {/* 
+                        <div className="mt-24 px-2">
                             <h3 className="text-gray-600 mb-2 mt-4">System</h3>
                             <ul className="dark:text-gray-400 text-gray-600">
                                 <li className="px-2 py-2">
@@ -292,7 +293,8 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                     </Link>
                                 </li>
                             </ul>
-                        </div> */}
+                        </div> 
+                        */}
                     </div>
                 </motion.div>
             </div>}
