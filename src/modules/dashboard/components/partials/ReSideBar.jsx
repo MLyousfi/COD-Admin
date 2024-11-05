@@ -1,6 +1,5 @@
-
-import { NavbarMenu, NavbarMenuItem } from '@nextui-org/navbar'
-import { Cancel01Icon, HelpCircleIcon, MoonCloudIcon, Settings02Icon, Share08Icon, SidebarLeft01Icon } from 'hugeicons-react'
+import { NavbarMenu, NavbarMenuItem } from '@nextui-org/navbar';
+import { Cancel01Icon, HelpCircleIcon, MoonCloudIcon, Settings02Icon, Share08Icon, SidebarLeft01Icon } from 'hugeicons-react';
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@nextui-org/button";
@@ -19,10 +18,10 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
     const [expandedRoutes, setExpandedRoutes] = useState({});
     const { currentTheme } = useThemeProvider();
 
-    const toggleRoute = (routeName) => {
+    const toggleRoute = (routePath) => { 
         setExpandedRoutes((prev) => ({
             ...prev,
-            [routeName]: !prev[routeName],
+            [routePath]: !prev[routePath],
         }));
     };
 
@@ -43,7 +42,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                 if (isParentActive) {
                     setExpandedRoutes((prev) => ({
                         ...prev,
-                        [route.name]: true,
+                        [route.path]: true, 
                     }));
                 }
 
@@ -56,7 +55,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                     if (isGrandchildActive) {
                         setExpandedRoutes((prev) => ({
                             ...prev,
-                            [child.name]: true,
+                            [child.path]: true, 
                         }));
                     }
                 });
@@ -72,7 +71,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
         };
         document.addEventListener("keydown", keyHandler);
         return () => document.removeEventListener("keydown", keyHandler);
-    });
+    }, [showSidebar, setShowSidebar]);
 
     useEffect(() => {
         localStorage.setItem("sidebar-expanded", showSidebar);
@@ -95,10 +94,10 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
             if (route.children && route.children.some(child => pathname.includes(child.path))) {
                 scrollToItem(route.path);
 
-                newExpandedRoutes[route.name] = true;
+                newExpandedRoutes[route.path] = true; // Use route.path instead of route.name
                 route.children.forEach((child) => {
                     if (pathname.includes(child.path)) {
-                        newExpandedRoutes[child.name] = true;
+                        newExpandedRoutes[child.path] = true; // Use child.path instead of child.name
                     }
                 });
             }
@@ -111,26 +110,32 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
     useEffect(() => {
         if (showSidebar) {
             expandCurrentRouteOnly();
-
         }
-
     }, [showSidebar, pathname]);
-
-
 
     return (
         // w-10/12
         <AnimatePresence>
             {showSidebar && <div onClick={() => setShowSidebar(false)}
-                className={`lg:hidden backdrop-blur-xl backdrop-saturate-150 z-30 fixed inset-0 p-0 h-screen  bg-gray-500/10`}>
+                className={`lg:hidden backdrop-blur-xl backdrop-saturate-150 z-30 fixed inset-0 p-0 h-screen bg-gray-500/10`}>
 
-
-
-                <motion.div layout initial={{ width: 0 }} animate={{ width: '80%' }} transition={{ duration: 0.3 }} exit={{ width: 0 }} onClick={(e) => e.stopPropagation()}
-                    className="flex max-w-80 flex-col overflow-y-auto h-full mr-auto bg-base_light dark:bg-base_dark">
+                <motion.div
+                    layout
+                    initial={{ width: 0 }}
+                    animate={{ width: '80%' }}
+                    transition={{ duration: 0.3 }}
+                    exit={{ width: 0 }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex max-w-80 flex-col overflow-y-auto h-full mr-auto bg-base_light dark:bg-base_dark"
+                >
                     <div className="flex justify-between items-center my-6 px-6">
-                        <Link to='/dashboard' onClick={() => setShowSidebar(false)} >{currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> :
-                            <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}</Link>
+                        <Link to='/dashboard' onClick={() => setShowSidebar(false)}>
+                            {currentTheme === 'light' ? (
+                                <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" />
+                            ) : (
+                                <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />
+                            )}
+                        </Link>
                         {showSidebar && (
                             <Button ref={trigger} onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
                                 <SidebarLeft01Icon />
@@ -154,20 +159,21 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                 });
 
                                 return (
-                                    <li key={index}>
+                                    <li key={route.path}>
                                         {route.children ? (
                                             <>
-                                                <button id={route.path}
-                                                    onClick={() => toggleRoute(route.name)}
+                                                <button
+                                                    id={route.path}
+                                                    onClick={() => toggleRoute(route.path)} // Use route.path
                                                     className={`flex w-full justify-between items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white
-                                            ${isActiveParent || pathname.includes("/" + route.path) ? "bg-glb_blue text-white" : ""}`}
+                                                    ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
                                                 >
                                                     <div className="flex items-center">
                                                         {React.createElement(route.icon, { className: "mr-2 ml-1", size: 20 })}
-                                                        {route.name}
+                                                        {showSidebar && route.name} {/* Conditionally render name */}
                                                     </div>
                                                 </button>
-                                                {expandedRoutes[route.name] && (
+                                                {expandedRoutes[route.path] && ( // Use route.path
                                                     <ul className="pl-4">
                                                         {route.children.map((child, childIndex) => {
                                                             const isActiveChild = pathname.includes(child.path);
@@ -176,29 +182,36 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                                                 child.children.some((grandChild) => pathname.includes(grandChild.path));
 
                                                             return (
-                                                                <li key={childIndex} className="ml-6">
+                                                                <li key={child.path} className="ml-6">
                                                                     {child.children ? (
                                                                         <>
                                                                             <button
-                                                                                onClick={() => toggleRoute(child.name)}
-                                                                                className={`flex w-full justify-between items-center px-2 py-2 rounded-xl ${isActiveChild || isActiveGrandchild ? "text-dark_selected" : "text-gray-600 dark:text-white"}  
-                                                                        hover:text-blue-600 dark:hover:text-blue-400`}
+                                                                                onClick={() => toggleRoute(child.path)} // Use child.path
+                                                                                className={`flex w-full justify-between items-center px-2 py-2 rounded-xl 
+                                                                                    ${isActiveChild || isActiveGrandchild ? "text-dark_selected" : "text-gray-600 dark:text-white"}  
+                                                                                    hover:text-blue-600 dark:hover:text-blue-400`}
                                                                             >
                                                                                 <div className="flex items-center">
                                                                                     {child.name}
                                                                                 </div>
                                                                             </button>
-                                                                            {expandedRoutes[child.name] && (
+                                                                            {expandedRoutes[child.path] && ( // Use child.path
                                                                                 <ul className="pl-4">
                                                                                     {child.children.map((grandChild, grandChildIndex) => (
                                                                                         <li
-                                                                                            key={grandChildIndex}
-                                                                                            className={`flex justify-between items-center ml-6 px-2 py-2 rounded-xl ${pathname === grandChild.path ? "text-dark_selected" : "text-gray-600 dark:text-white"} hover:text-blue-600 dark:hover:text-blue-400`}
+                                                                                            key={grandChild.path}
+                                                                                            className={`flex justify-between items-center ml-6 px-2 py-2 rounded-xl  
+                                                                                            ${pathname === grandChild.path ? "text-dark_selected" : "text-gray-600 dark:text-white"} 
+                                                                                            hover:text-blue-600 dark:hover:text-blue-400`}
                                                                                         >
-                                                                                            <Link onClick={() => {
-                                                                                                setShowSidebar(false);
-                                                                                                console.log("Sidebar closed"); // For debugging
-                                                                                            }} to={grandChild.path} className="flex w-full items-center">
+                                                                                            <Link
+                                                                                                onClick={() => {
+                                                                                                    setShowSidebar(false);
+                                                                                                    console.log("Sidebar closed"); // For debugging
+                                                                                                }}
+                                                                                                to={grandChild.path}
+                                                                                                className="flex w-full items-center"
+                                                                                            >
                                                                                                 {grandChild.name}
                                                                                             </Link>
                                                                                         </li>
@@ -207,12 +220,15 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                                                             )}
                                                                         </>
                                                                     ) : (
-                                                                        <Link onClick={() => {
-                                                                            setShowSidebar(false);
-                                                                            console.log("Sidebar closed"); // For debugging
-                                                                        }}
+                                                                        <Link
+                                                                            onClick={() => {
+                                                                                setShowSidebar(false);
+                                                                                console.log("Sidebar closed"); // For debugging
+                                                                            }}
                                                                             to={child.path}
-                                                                            className={`flex w-full items-center px-2 py-2 rounded-xl ${pathname === child.path ? "text-dark_selected" : "text-gray-600 dark:text-white "} hover:text-blue-600 dark:hover:text-blue-400 `}
+                                                                            className={`flex w-full items-center px-2 py-2 rounded-xl 
+                                                                            ${pathname === child.path ? "text-dark_selected" : "text-gray-600 dark:text-white "} 
+                                                                            hover:text-blue-600 dark:hover:text-blue-400`}
                                                                         >
                                                                             {child.name}
                                                                         </Link>
@@ -227,10 +243,11 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                             <Link
                                                 id={route.path}
                                                 to={route.path}
-                                                className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white  ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
+                                                className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white  
+                                                ${isActiveParent || pathname.includes(route.path) ? "bg-glb_blue text-white" : ""}`}
                                             >
                                                 {React.createElement(route.icon, { className: "mr-2 ml-1", size: 20 })}
-                                                {route.name}
+                                                {showSidebar && route.name} {/* Conditionally render name */}
                                             </Link>
                                         )}
                                     </li>

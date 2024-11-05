@@ -309,7 +309,7 @@ const Collects = () => {
 
           >
 {/* Informations Button */}
-<div className="mb-8 flex items-center justify-center">
+<div className="mb-8 mt-10 flex items-center justify-center">
   <Button
     size="15"
     className="flex items-center space-x-2 rounded-full bg-[#0258E8] text-white px-4 py-2"

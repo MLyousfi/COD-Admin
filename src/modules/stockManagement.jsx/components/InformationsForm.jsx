@@ -824,7 +824,7 @@ const InformationsForm = ({ isDarkMode }) => {
         {/* Row 10: Toggle - Is the product for testing */}
         <div className="flex items-center justify-between w-full">
           <label className={`text-sm ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
-            Is the product for testing
+            Is the product for testing ?
           </label>
           <label className="relative inline-flex items-center cursor-pointer ml-auto">
             <input
