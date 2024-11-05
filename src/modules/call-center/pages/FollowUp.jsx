@@ -31,6 +31,7 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-o
 import StatusTabs from "../../shared/components/StatusTabs";
 import { agentNames } from "../../../core/utils/shared.data";
 import OrderDetailsModal from "../components/OrderDetailsModal";
+import { motion } from 'framer-motion'
 const rows = [
     {
         key: 1,
@@ -50,7 +51,8 @@ const rows = [
         orderStatus: "Confirmed at 03/10/2024 - 14:00",
         created: "03/10/2024 - 14:00",
         followUp: "03/10/2024 - 14:00",
-        followUpUpdated: "03/10/2024 - 14:00"
+        followUpUpdated: "03/10/2024 - 14:00",
+        agent: 'Dergouch Khadija'
     },
     {
         key: 2,
@@ -70,7 +72,8 @@ const rows = [
         orderStatus: "Confirmed at 03/11/2024 - 10:05",
         created: "03/11/2024 - 10:05",
         followUp: "03/11/2024 - 10:05",
-        followUpUpdated: "03/11/2024 - 10:05"
+        followUpUpdated: "03/11/2024 - 10:05",
+        agent: 'Dergouch Khadija'
     },
     {
         key: 3,
@@ -90,7 +93,8 @@ const rows = [
         orderStatus: "Confirmed at 03/12/2024 - 11:30",
         created: "03/12/2024 - 11:30",
         followUp: "03/12/2024 - 11:30",
-        followUpUpdated: "03/12/2024 - 11:30"
+        followUpUpdated: "03/12/2024 - 11:30",
+        agent: 'Dergouch Khadija'
     },
     {
         key: 4,
@@ -110,7 +114,8 @@ const rows = [
         orderStatus: "Confirmed at 03/13/2024 - 13:45",
         created: "03/13/2024 - 13:45",
         followUp: "03/13/2024 - 13:45",
-        followUpUpdated: "03/13/2024 - 13:45"
+        followUpUpdated: "03/13/2024 - 13:45",
+        agent: 'Dergouch Khadija'
     },
     {
         key: 5,
@@ -130,7 +135,8 @@ const rows = [
         orderStatus: "Confirmed at 03/14/2024 - 09:15",
         created: "03/14/2024 - 09:15",
         followUp: "03/14/2024 - 09:15",
-        followUpUpdated: "03/14/2024 - 09:15"
+        followUpUpdated: "03/14/2024 - 09:15",
+        agent: 'Dergouch Khadija'
     },
     {
         key: 6,
@@ -150,7 +156,8 @@ const rows = [
         orderStatus: "Confirmed at 03/15/2024 - 17:20",
         created: "03/15/2024 - 17:20",
         followUp: "03/15/2024 - 17:20",
-        followUpUpdated: "03/15/2024 - 17:20"
+        followUpUpdated: "03/15/2024 - 17:20",
+        agent: 'Dergouch Khadija'
     },
     {
         key: 7,
@@ -170,7 +177,8 @@ const rows = [
         orderStatus: "Confirmed at 03/16/2024 - 18:35",
         created: "03/16/2024 - 18:35",
         followUp: "03/16/2024 - 18:35",
-        followUpUpdated: "03/16/2024 - 18:35"
+        followUpUpdated: "03/16/2024 - 18:35",
+        agent: 'Dergouch Khadija'
     },
     {
         key: 8,
@@ -190,7 +198,8 @@ const rows = [
         orderStatus: "Confirmed at 03/17/2024 - 10:50",
         created: "03/17/2024 - 10:50",
         followUp: "03/17/2024 - 10:50",
-        followUpUpdated: "03/17/2024 - 10:50"
+        followUpUpdated: "03/17/2024 - 10:50",
+        agent: 'Dergouch Khadija'
     },
     {
         key: 9,
@@ -210,7 +219,8 @@ const rows = [
         orderStatus: "Confirmed at 03/18/2024 - 12:10",
         created: "03/18/2024 - 12:10",
         followUp: "03/18/2024 - 12:10",
-        followUpUpdated: "03/18/2024 - 12:10"
+        followUpUpdated: "03/18/2024 - 12:10",
+        agent: 'Dergouch Khadija'
     },
     {
         key: 10,
@@ -230,33 +240,29 @@ const rows = [
         orderStatus: "Confirmed at 03/19/2024 - 16:25",
         created: "03/19/2024 - 16:25",
         followUp: "03/19/2024 - 16:25",
-        followUpUpdated: "03/19/2024 - 16:25"
+        followUpUpdated: "03/19/2024 - 16:25",
+        agent: 'Dergouch Khadija'
     }
 ];
 
 
 
 const columns = [
-    { key: "checkbox", label: "#", w: "w-[3%]" },
+    { key: "checkbox", label: "#", w: "w-[4%]" },
     {
         key: "orderNum",
         label: "Order Number",
         w: "w-[12%]"
     },
     {
-        key: "trackN",
-        label: "Track №",
-        w: "w-[8%]"
-    },
-    {
         key: "store",
         label: "Store",
-        w: "w-[10%]"
+        w: "w-[8%]"
     },
     {
         key: "product",
         label: "Product",
-        w: "w-[15%]"
+        w: "w-[18%]"
     },
     {
         key: "name",
@@ -266,7 +272,7 @@ const columns = [
     {
         key: "country",
         label: "Country",
-        w: "w-[8%]"
+        w: "w-[10%]"
     },
     {
         key: "price",
@@ -274,35 +280,42 @@ const columns = [
         w: "w-[8%]"
     },
     {
-        key: "shippingPrice",
-        label: "Shipping Price",
-        w: "w-[8%]"
-    },
-    {
-        key: "invoiceNum",
-        label: "Invoice №",
-        w: "w-[8%]"
-    },
-    {
-        key: "paymentStatus",
-        label: "Status",
-        w: "w-[7%]"
-    },
-    {
-        key: "orderStatus",
-        label: "Created",
+        key: "agent",
+        label: "Agent",
         w: "w-[10%]"
     },
     {
+        key: "orderStatus",
+        label: "Status",
+        w: "w-[10%]"
+    },
+    {
+        key: "paymentStatus",
+        label: "Upsell",
+        w: "w-[5%]"
+    },
+
+    {
+        key: "created",
+        label: "Add At",
+        w: "w-[8%]"
+    },
+    {
         key: "followUp",
-        label: "Follow Up",
-        w: "w-[7%]"
+        label: "First Call",
+        w: "w-[8%]"
     },
     {
         key: "followUpUpdated",
-        label: "Follow Up Created",
+        label: "Last Call",
         w: "w-[8%]"
     },
+    {
+        key: "key",
+        label: "№ Call",
+        w: "w-[5%]"
+    },
+
 ];
 
 
@@ -311,6 +324,7 @@ export default function FollowUp() {
     const [openOderDModel, setOpenOderDModel] = useState(false)
     const [orderdetails, setOrderdetails] = useState(null)
     const [selectedRows, setSelectedRows] = useState([]);
+    const [callTab, setCallTab] = useState('All');
     const rowsPerPage = 10;
 
     const handleCheckboxChange = (keys, isRange = false) => {
@@ -410,13 +424,30 @@ export default function FollowUp() {
     return (
         <>
             <DashboardLayout title="Call Center - Follow Up" icon={<CustomerService01Icon className="text-info" />}
+                additionalContent={
+                    <div className="flex  flex-1">
+                        <div className="flex justify-evenly gap-2 items-center px-4 rounded-full bg-[#0258E810]">
+                            {['All', 'Call'].map((t, idx) => (
+                                <motion.div
+                                    whileTap={{ scale: 0.8 }}
+                                    key={idx}
+                                    className={`flex justify-center items-center p-2 cursor-pointer ${callTab === t ? 'font-bold text-[#0258E8]' : 'font-normal text-black dark:text-white'}`}
+                                    onClick={() => setCallTab(t)}
+                                >
+                                    {t}
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+
+                }
             >
                 <div className="p-2 md:p-4">
                     {/*Tabs*/}
                     <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
                         <StatusTabs
-                            activeCount={rows.filter(row => row.status === "active").length}
-                            archivedCount={rows.filter(row => row.status === "archived").length}
+                            activeCount={10928}
+                            archivedCount={10}
                             selectedTab={selectedTab}
                             onTabChange={setSelectedTab}
                         />

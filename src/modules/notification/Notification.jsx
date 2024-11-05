@@ -127,7 +127,7 @@ export default function Notification() {
         <>
             <DashboardLayout title="Notifications" hasSearchInput={false} hasReturnLink={redirectLink}
             >
-                <div className="relative  h-12 w-full p-3 md:p-4 mx-auto text-center lg:hidden">
+                <div className="relative  h-12 w-full p-3 md:p-4 mx-auto text-center ">
                     <div ref={dropdownRef} onClick={() => setSmallNotOpen(!SmallNotOpen)}
                         className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
                         <div className=" flex justify-center items-center gap-2 ">

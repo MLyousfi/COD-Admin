@@ -314,23 +314,23 @@ export default function ChatBotConfirmation() {
 
     const handleCheckboxChange = (keys, isRange = false) => {
         if (isRange && Array.isArray(keys)) {
-          setSelectedRows(prevSelected => {
-            const newSelected = new Set(prevSelected);
-            keys.forEach(key => newSelected.add(key));
-            return Array.from(newSelected);
-          });
+            setSelectedRows(prevSelected => {
+                const newSelected = new Set(prevSelected);
+                keys.forEach(key => newSelected.add(key));
+                return Array.from(newSelected);
+            });
         } else {
-          setSelectedRows(prevSelected => {
-            const newSelected = new Set(prevSelected);
-            if (newSelected.has(keys)) {
-              newSelected.delete(keys);
-            } else {
-              newSelected.add(keys);
-            }
-            return Array.from(newSelected);
-          });
+            setSelectedRows(prevSelected => {
+                const newSelected = new Set(prevSelected);
+                if (newSelected.has(keys)) {
+                    newSelected.delete(keys);
+                } else {
+                    newSelected.add(keys);
+                }
+                return Array.from(newSelected);
+            });
         }
-      };
+    };
     const [selectedTab, setSelectedTab] = useState('active');
 
     const renderCell = useCallback((item, columnKey) => {
@@ -403,7 +403,7 @@ export default function ChatBotConfirmation() {
     }, []);
     return (
         <>
-            <DashboardLayout title="Orders Management - Chat Bot Confirmation" icon={<DeliveryBox01Icon className="text-info" />}
+            <DashboardLayout title="Orders Management - Chatbot Confirmation" icon={<DeliveryBox01Icon className="text-info" />}
             >
                 <div className="p-2 md:p-4">{/**here ---|> responsv */}
                     {/*Tabs*/}

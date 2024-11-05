@@ -6,27 +6,21 @@ import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data7';
+import NewBankModal from '../components/NewBankModal';
 
 const columns = [
-  { key: "checkbox", label: "#" },
-  { key: "bankName", label: "Bank Name" },
-  { key: "options", label: "Actions" },
+  { key: "checkbox", label: "#", w: 'w-[5%]' },
+  { key: "bankName", label: "Bank Name", w: 'w-[75%]' },
+  { key: "options", label: "Actions", w: 'w-[20%]' },
 ];
 
 const Banks = () => {
+  const [openModal, setOpenModal] = useState(false)
   const [selectedTab, setSelectedTab] = useState('active');
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
   const rowsPerPage = 10;
-
-  const addNewProduct = () => {
-    const newProduct = {
-      key: products.length + 1,
-      bankName: "New Bank",
-      status: "active",
-    };
-    setProducts([...products, newProduct]);
-  };
+  const [editedBank, setEditedBank] = useState(null)
 
   const handleCheckboxChange = (keys, isRange = false) => {
     if (isRange && Array.isArray(keys)) {
@@ -70,7 +64,7 @@ const Banks = () => {
           <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
             <Button
               color="default"
-              onClick={addNewProduct}
+              onClick={() => { setEditedBank(null); setOpenModal(true) }}
               className="rounded-full"
               style={{ backgroundColor: '#0258E8', color: 'white' }}
             >
@@ -103,6 +97,7 @@ const Banks = () => {
                 return (
                   <div className="flex space-x-2 justify-center">
                     <Button
+                      onClick={() => { setEditedBank(item); setOpenModal(true) }}
                       variant="flat"
                       size="sm"
                       className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
@@ -131,6 +126,7 @@ const Banks = () => {
           className="dark:bg-gray-800 dark:text-white"
         />
       </div>
+      <NewBankModal modalOpen={openModal} setModalOpen={setOpenModal} editedBank={editedBank} id={1} />
     </DashboardLayout>
   );
 };

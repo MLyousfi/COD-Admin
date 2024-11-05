@@ -58,7 +58,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                         <div className="flex flex-col lg:flex-row">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#fromCountry" className="block mr-2">
-                                    <span className="text-sm text-gray-400">From Country</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">From Country *</span>
                                     <CountrySelector
                                         open={isFromCountryOpen}
                                         onToggle={() => setIsFromCountryOpen(!isFromCountryOpen)}
@@ -68,7 +68,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                             </div>
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#toCountry" className="block mt-4 lg:mt-0 lg:ml-2">
-                                    <span className="text-sm text-gray-400">To Country</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">To Country *</span>
                                     <CountrySelector
                                         open={isToCountryOpen}
                                         onToggle={() => setIsToCountryOpen(!isToCountryOpen)}
@@ -81,7 +81,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                         <div className="flex flex-col lg:flex-row my-2">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#agents" className="block mr-2">
-                                    <span className="text-sm text-gray-400">List of agents</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">List of Agents</span>
                                     <Select
                                         id="agents"
                                         placeholder="Select an agent"
@@ -97,7 +97,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                             </div>
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#follow-up-agents" className="block mt-4 lg:mt-0 lg:ml-2">
-                                    <span className="text-sm text-gray-400">List of follow up agents</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">List of Followup Agents *</span>
                                     <Select
                                         id="follow-up-agents"
                                         placeholder="Select a follow up agent"
@@ -115,13 +115,13 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                         <div className="flex flex-col lg:flex-row my-4">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#seller" className="block mr-2">
-                                    <span className="text-sm text-gray-400">List of sellers *</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">List of Sellers *</span>
                                     <Select
                                         id="seller"
                                         placeholder="Select a seller"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg', 
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -131,7 +131,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                             </div>
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#product" className="block mt-4 lg:mt-0 lg:ml-2">
-                                    <span className="text-sm text-gray-400">List of products *</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">List of Products *</span>
                                     <Select
                                         id="product"
                                         placeholder="Select a product"
@@ -149,13 +149,13 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                         <div className="flex flex-col lg:flex-row my-4">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#affiliate" className="block mr-2">
-                                    <span className="text-sm text-gray-400">List of affiliates *</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">List of Affiliates *</span>
                                     <Select
                                         id="affiliate"
                                         placeholder="Select an affiliate"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg', 
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -165,13 +165,13 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                             </div>
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#store" className="block mt-4 lg:mt-0 lg:ml-2">
-                                    <span className="text-sm text-gray-400">List of stores *</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">List of Stores *</span>
                                     <Select
                                         id="store"
                                         placeholder="Select a store"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg', 
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg',
                                         }}
                                         color="default">
                                         <SelectItem>
@@ -185,13 +185,13 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                         <div className="flex flex-col lg:flex-row my-2">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#agents" className="block mr-2">
-                                    <span className="text-sm text-gray-400">Confirmed by</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Confirmed by *</span>
                                     <Select
                                         id="agents"
                                         placeholder="Confirmed by"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg', 
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg',
                                         }}>
                                         <SelectItem>
                                             Agent
@@ -201,7 +201,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                             </div>
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#follow-up-agents" className="block mt-4 lg:mt-0 lg:ml-2">
-                                    <span className="text-sm text-gray-400">Confirmed via</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Confirmed Via *</span>
                                     <Select
                                         id="follow-up-agents"
                                         placeholder="Confirmed via"
@@ -220,13 +220,13 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                         <div className="flex flex-col lg:flex-row my-2">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#agents" className="block mr-2">
-                                    <span className="text-sm text-gray-400">Sales Channel *</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Sales Channels *</span>
                                     <Select
                                         id="agents"
                                         placeholder="Select a channel"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg', 
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg',
                                         }}>
                                         <SelectItem>
                                             Chanel
@@ -239,13 +239,13 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                         <div className="flex flex-col lg:flex-row my-2">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#agents" className="block mr-2">
-                                    <span className="text-sm text-gray-400">Shopping Company *</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Shopping Company *</span>
                                     <Select
                                         id="agents"
                                         placeholder="Select a company"
                                         labelPlacement="outside"
                                         classNames={{
-                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg', 
+                                            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg',
                                         }}>
                                         <SelectItem>
                                             Chanel
