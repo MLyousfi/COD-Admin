@@ -1,3 +1,5 @@
+// Products.jsx
+
 import React, { useState } from "react";
 import CallsCard from "@/modules/dashboard/components/CallsCard.jsx";
 import GaugeChart from "@/modules/dashboard/components/GaugeChart.jsx";
@@ -267,29 +269,47 @@ export default function Products() {
         },
     };
 
-    return (
-        <DashboardLayout title="Statistics - Follow Up" icon={<ChartHistogramIcon className="text-info" />}>
-            {/* Header Section with Title and Buttons */}
-            <div className="flex justify-between items-center px-2 flex-wrap gap-2 md:px-8 mb-6">
-                <div className="text-xl font-semibold text-black dark:text-white">Statistics</div>
-                <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
-                    <Button className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center" auto>
-                        <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-                        <span>Today</span>
-                    </Button>
-                    <Button className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center" auto>
-                        <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-                        <span>List of Agents</span>
-                        <ArrowDown01Icon className="ml-1 text-black dark:text-white" size={18} />
-                    </Button>
-                    <Button className="bg-[#0258E8] border border-blue-800 text-white rounded-full px-4 py-2 flex items-center" auto>
-                        <FilterIcon className="text-white" size={18} />
-                        <span>Apply Filter</span>
-                    </Button>
-                </div>
-            </div>
+    // Define the buttons to be passed as additionalContent
+    const headerButtons = (
+        <div className="flex gap-2 flex-wrap items-center">
+            <Button
+                className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center"
+                auto
+                aria-label="Select Today"
+            >
+                <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
+                <span>Today</span>
+            </Button>
+            <Button
+                className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center"
+                auto
+                aria-label="List of Agents"
+            >
+                <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
+                <span>List of Agents</span>
+                <ArrowDown01Icon className="ml-1 text-black dark:text-white" size={18} />
+            </Button>
+            <Button
+                className="bg-[#0258E8] border border-blue-800 text-white rounded-full px-4 py-2 flex items-center"
+                auto
+                aria-label="Apply Filter"
+            >
+                <FilterIcon className="text-white" size={18} />
+                <span>Apply Filter</span>
+            </Button>
+        </div>
+    );
 
+    return (
+        <DashboardLayout
+            hasSearchInput={false}
+            title="Statistics - Follow Up"
+            icon={<ChartHistogramIcon className="text-info" />}
+            additionalContent={headerButtons}
+        >
             {/* Statistics Cards */}
+             <div className="mt-14 px-2 md:px-8">
+                <h2 className="text-xl font-semibold mb-4 text-black dark:text-white">Statistics</h2>
             <motion.div initial="hidden" animate="visible" variants={container} className="flex flex-col flex-wrap justify-start px-2 md:px-8 md:flex-row">
                 {statistics.map((stat, index) => (
                     <StatsCard
@@ -303,6 +323,7 @@ export default function Products() {
                     />
                 ))}
             </motion.div>
+            </div>
 
             {/* Title and Inline Table Section */}
             <div className="mt-8 px-2 md:px-8">

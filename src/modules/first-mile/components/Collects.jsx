@@ -322,9 +322,9 @@ const Collects = () => {
 
 
             {/* Modal Content */}
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-center">
-                <tbody>
+            <div className="overflow-x-auto rounded-[20px]">
+            <table className="w-full text-left text-center">
+            <tbody>
                   {[
                     { title: 'Code', value: selectedCollect.number },
                     { title: 'Store', value: selectedCollect.warehouse },

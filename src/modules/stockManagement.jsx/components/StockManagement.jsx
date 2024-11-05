@@ -13,6 +13,7 @@ import {
   SaleTag02Icon,   
   Dollar02Icon     
 } from "hugeicons-react";
+import { TfiDropbox } from "react-icons/tfi";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatusTabs from '../../shared/components/StatusTabs';
@@ -392,7 +393,7 @@ const StockManagement = () => {
                           <tr>
                             <td colSpan={modalTableColumns.length} className="py-4 text-center text-gray-400">
                               <div className="flex flex-col items-center justify-center">
-                                <DropboxIcon size={200} className="mb-4 text-[#34343450]" />
+                                <TfiDropbox size={200} className="mb-4 text-[#34343450]" />
                                 <p className="text-lg text-gray-600">There is no stock of this product at the moment</p>
                               </div>
                             </td>
