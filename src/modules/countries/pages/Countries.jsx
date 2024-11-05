@@ -240,21 +240,29 @@ const Countries = () => {
   };
 
   // Handlers for checkbox selection
-  const handleCheckboxChange = (key) => {
-    setSelectedRows(prevSelected => {
-      const newSelected = new Set(prevSelected);
-      if (newSelected.has(key)) {
-        newSelected.delete(key);
-      } else {
-        newSelected.add(key);
-      }
-      return Array.from(newSelected);
-    });
-  };
-
-  // Handler to delete a country
-  const handleDelete = (key) => {
-    setProducts(products.filter(product => product.key !== key));
+  const handleCheckboxChange = (keys, isRange) => {
+    if (isRange) {
+      // Add all keys in the range
+      setSelectedRows((prevSelected) => {
+        const newSelection = [...prevSelected];
+        keys.forEach((key) => {
+          if (!newSelection.includes(key)) {
+            newSelection.push(key);
+          }
+        });
+        return newSelection;
+      });
+    } else if (Array.isArray(keys)) {
+      // Select all or unselect all
+      setSelectedRows(keys);
+    } else {
+      // Toggle single selection
+      setSelectedRows((prevSelected) =>
+        prevSelected.includes(keys)
+          ? prevSelected.filter((key) => key !== keys)
+          : [...prevSelected, keys]
+      );
+    }
   };
 
   // Handlers for create input changes

@@ -78,26 +78,30 @@ const StockManagement = () => {
     setProducts([...products, newProduct]);
   };
 
-  const handleCheckboxChange = (keys, isRange = false) => {
-    if (isRange && Array.isArray(keys)) {
-      setSelectedRows(prevSelected => {
-        const newSelected = new Set(prevSelected);
-        keys.forEach(key => newSelected.add(key));
-        return Array.from(newSelected);
+  const handleCheckboxChange = (keys, isRange) => {
+    if (isRange) {
+      // Add all keys in the range
+      setSelectedRows((prevSelected) => {
+        const newSelection = [...prevSelected];
+        keys.forEach((key) => {
+          if (!newSelection.includes(key)) {
+            newSelection.push(key);
+          }
+        });
+        return newSelection;
       });
+    } else if (Array.isArray(keys)) {
+      // Select all or unselect all
+      setSelectedRows(keys);
     } else {
-      setSelectedRows(prevSelected => {
-        const newSelected = new Set(prevSelected);
-        if (newSelected.has(keys)) {
-          newSelected.delete(keys);
-        } else {
-          newSelected.add(keys);
-        }
-        return Array.from(newSelected);
-      });
+      // Toggle single selection
+      setSelectedRows((prevSelected) =>
+        prevSelected.includes(keys)
+          ? prevSelected.filter((key) => key !== keys)
+          : [...prevSelected, keys]
+      );
     }
   };
-
   const handleDelete = (key) => {
     setProducts(products.map(product =>
       product.key === key ? { ...product, status: 'deleted' } : product
@@ -410,7 +414,7 @@ const StockManagement = () => {
             /* New Product Modal Content */
             <>
               {/* === Updated Buttons Section === */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
                 {/* Informations Button */}
                 <Button
                   color="default"
@@ -423,15 +427,15 @@ const StockManagement = () => {
                   }}
                 >
                   {/* Responsive Icon */}
-                  <PackageIcon className="flex-shrink-0 h-5 w-5 sm:h-6 sm:w-6" />
+                  <PackageIcon className="flex-shrink-0 h-5 w-5 sm:h-5 sm:w-5" />
                   {/* Responsive Text */}
-                  <span className="text-sm sm:text-base">Informations</span>
+                  <span className="text-sm sm:text-base md:text-sm">Informations</span>
                 </Button>
 
                 {/* Stocks Button */}
                 <Button
                   color="default"
-                  className={`flex items-center space-x-1 rounded-full border transition-colors duration-300 w-full`}
+                  className={`flex items-center space-x-0 rounded-full border transition-colors duration-300 w-full`}
                   onClick={() => setActiveNewProductSection('stocks')}
                   style={{
                     backgroundColor: activeNewProductSection === 'stocks' ? selectedButtonColor : 'transparent',
@@ -439,14 +443,14 @@ const StockManagement = () => {
                     borderColor: activeNewProductSection === 'stocks' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
                   }}
                 >
-                  <Layers01Icon className="flex-shrink-0 h-5 w-5 sm:h-6 sm:w-6" />
-                  <span className="text-sm sm:text-base">Stocks</span>
+                  <Layers01Icon className="flex-shrink-0 h-5 w-5 sm:h-5 sm:w-5" />
+                  <span className="text-sm sm:text-base md:text-sm">Stocks</span>
                 </Button>
 
                 {/* Sales Price Button */}
                 <Button
                   color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 w-full`}
+                  className={`flex items-center space-x-0 rounded-full border transition-colors duration-300 w-full`}
                   onClick={() => setActiveNewProductSection('salesPrice')}
                   style={{
                     backgroundColor: activeNewProductSection === 'salesPrice' ? selectedButtonColor : 'transparent',
@@ -454,14 +458,14 @@ const StockManagement = () => {
                     borderColor: activeNewProductSection === 'salesPrice' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
                   }}
                 >
-                  <SaleTag02Icon className="flex-shrink-0 h-5 w-5 sm:h-6 sm:w-6" />
-                  <span className="text-sm sm:text-base">Sales Price</span>
+                  <SaleTag02Icon className="flex-shrink-0 h-5 w-5 sm:h-5 sm:w-5" />
+                  <span className="text-sm sm:text-base md:text-sm">Sales Price</span>
                 </Button>
 
                 {/* Upsell Button */}
                 <Button
                   color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 w-full`}
+                  className={`flex items-center space-x-0 rounded-full border transition-colors duration-300 w-full`}
                   onClick={() => setActiveNewProductSection('upsell')}
                   style={{
                     backgroundColor: activeNewProductSection === 'upsell' ? selectedButtonColor : 'transparent',
@@ -469,8 +473,8 @@ const StockManagement = () => {
                     borderColor: activeNewProductSection === 'upsell' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
                   }}
                 >
-                  <Dollar02Icon className="flex-shrink-0 h-5 w-5 sm:h-6 sm:w-6" />
-                  <span className="text-sm sm:text-base">Upsell</span>
+                  <Dollar02Icon className="flex-shrink-0 h-5 w-5 sm:h-5 sm:w-5" />
+                  <span className="text-sm sm:text-base md:text-sm">Upsell</span>
                 </Button>
               </div>
               {/* === End of Updated Buttons Section === */}

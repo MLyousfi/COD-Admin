@@ -14,6 +14,7 @@ import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs';
+import { useNavigate } from 'react-router-dom';
 
 export const rows = [
   {
@@ -115,30 +116,36 @@ const NewCollect = () => {
       status: "active",
     };
     setProducts([...products, newProduct]);
+    navigate('/Collects/listOfShipments'); 
   };
 
   const [sortAscending, setSortAscending] = useState(true);
 
-  const handleCheckboxChange = (keys, isRange = false) => {
-    if (isRange && Array.isArray(keys)) {
-      setSelectedRows(prevSelected => {
-        const newSelected = new Set(prevSelected);
-        keys.forEach(key => newSelected.add(key));
-        return Array.from(newSelected);
+  const handleCheckboxChange = (keys, isRange) => {
+    if (isRange) {
+      // Add all keys in the range
+      setSelectedRows((prevSelected) => {
+        const newSelection = [...prevSelected];
+        keys.forEach((key) => {
+          if (!newSelection.includes(key)) {
+            newSelection.push(key);
+          }
+        });
+        return newSelection;
       });
+    } else if (Array.isArray(keys)) {
+      // Select all or unselect all
+      setSelectedRows(keys);
     } else {
-      setSelectedRows(prevSelected => {
-        const newSelected = new Set(prevSelected);
-        if (newSelected.has(keys)) {
-          newSelected.delete(keys);
-        } else {
-          newSelected.add(keys);
-        }
-        return Array.from(newSelected);
-      });
+      // Toggle single selection
+      setSelectedRows((prevSelected) =>
+        prevSelected.includes(keys)
+          ? prevSelected.filter((key) => key !== keys)
+          : [...prevSelected, keys]
+      );
     }
   };
-
+  const navigate = useNavigate();
   const parsePrice = (priceStr) => {
     if (!priceStr) return 0; // Fallback for undefined or null values
     const num = parseFloat(priceStr.toString().replace(/[^\d.-]/g, ""));

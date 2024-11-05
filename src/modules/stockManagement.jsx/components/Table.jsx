@@ -21,13 +21,15 @@ const Table = ({
   emptyMessage = "No records available.",
   rowDetails = null, //shipping cost page
   expandedRow = null, //shipping cost page
-
-
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / rowsPerPage);
   const tableRef = useRef(null);
   const lastSelectedIndex = useRef(null); // Ref to track the last selected row index
+
+  // Refs to track touch positions
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
 
   const currentData = () => data.length > 0 && enablePagination
     ? data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
@@ -37,6 +39,22 @@ const Table = ({
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
+  };
+
+  // Determine if all rows are selected
+  const isAllSelected = data.length > 0 && selectedRows.length === data.length;
+
+  // Handle select all/unselect all
+  const handleSelectAll = () => {
+    if (isAllSelected) {
+      // Unselect all
+      handleCheckboxChange([], false);
+    } else {
+      // Select all
+      const allKeys = data.map(row => row.key);
+      handleCheckboxChange(allKeys, true);
+    }
+    lastSelectedIndex.current = null; // Reset last selected index
   };
 
   if (loading) {
@@ -97,10 +115,8 @@ const Table = ({
     }
   };
 
-
-
   return (
-    <div className="w-full mx-4  lg:mx-0">
+    <div className="w-full mx-4 lg:mx-0">
       {/* Wrapper div for table and pagination to control the fixed height */}
       <div className="min-h-[calc(3rem_*_12)] flex flex-col justify-between">
         {/* Add overflow-x-auto to enable horizontal scrolling */}
@@ -117,7 +133,28 @@ const Table = ({
                     }}
                     className={`${column.w ? column.w : ""} whitespace-nowrap text-center px-10 mx-6 py-2 text-gray-900 dark:text-gray-300 text-sm`}
                   >
-                    {column.label}
+                    {column.label === "#" ? (
+                      <motion.div
+                        initial={{ scale: 1 }}
+                        whileTap={{ scale: 0.9 }}
+                        transition={{ duration: 0.1 }}
+                        className='h-full w-full cursor-pointer py-2'
+                        onClick={handleSelectAll}
+                      >
+                        <div className='w-5 h-5 mx-auto rounded-md border border-[#00000050] dark:border-[#ffffff50] flex justify-center items-center'>
+                          {isAllSelected && (
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              transition={{ type: "spring", stiffness: 100 }}
+                              animate={{ scale: 1 }}
+                              className='w-3 h-3 rounded-sm bg-glb_blue'
+                            />
+                          )}
+                        </div>
+                      </motion.div>
+                    ) : (
+                      column.label
+                    )}
                   </th>
                 ))}
               </tr>
@@ -132,17 +169,14 @@ const Table = ({
                     : rowClassNames.odd;
 
                 return (
-                  <>
-                    <tr
-                      key={item.key}
-                    >
+                  <React.Fragment key={item.key}>
+                    <tr>
                       {columns.map((column, indx) => {
                         // Determine additional class names based on the column index
                         const borderRadiusClass = indx === 0 ? 'rounded-l-lg' : indx === columns.length - 1 ? 'rounded-r-lg' : '';
 
-
                         return (
-                          <td key={indx} className={`${rowClass} ${borderRadiusClass}  px-1 py-2 text-center dark:text-gray-300 text-sm whitespace-nowrap`}>
+                          <td key={indx} className={`${rowClass} ${borderRadiusClass} px-1 py-2 text-center dark:text-gray-300 text-sm whitespace-nowrap`}>
                             {column.key === "checkbox" ? (
                               <motion.div
                                 initial={{ scale: 1 }}
@@ -169,7 +203,8 @@ const Table = ({
                         )
                       })}
                     </tr>
-                    {rowDetails && expandedRow && expandedRow === item.id && rowDetails(item)}</>
+                    {rowDetails && expandedRow && expandedRow === item.id && rowDetails(item)}
+                  </React.Fragment>
                 )
               })}
             </tbody>
@@ -189,10 +224,11 @@ const Table = ({
             {[...Array(totalPages)].map((_, index) => (
               <button
                 key={index}
-                className={`px-3 py-1 text-sm ${currentPage === index + 1
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-200 dark:bg-gray-600 dark:text-white'
-                  } rounded`}
+                className={`px-3 py-1 text-sm ${
+                  currentPage === index + 1
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 dark:bg-gray-600 dark:text-white'
+                } rounded`}
                 onClick={() => handlePageChange(index + 1)}
               >
                 {index + 1}
