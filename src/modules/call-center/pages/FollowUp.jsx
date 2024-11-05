@@ -4,6 +4,7 @@ import {
     ArrowLeft02Icon,
     ArrowRight01Icon,
     ArrowRight02Icon,
+    ArrowUpDownIcon,
     Calculator01Icon,
     Calling02Icon,
     CallOutgoing01Icon,
@@ -52,7 +53,8 @@ const rows = [
         created: "03/10/2024 - 14:00",
         followUp: "03/10/2024 - 14:00",
         followUpUpdated: "03/10/2024 - 14:00",
-        agent: 'Dergouch Khadija'
+        agent: 'Dergouch Khadija',
+        status: 'active' // Added status property
     },
     {
         key: 2,
@@ -73,7 +75,8 @@ const rows = [
         created: "03/11/2024 - 10:05",
         followUp: "03/11/2024 - 10:05",
         followUpUpdated: "03/11/2024 - 10:05",
-        agent: 'Dergouch Khadija'
+        agent: 'Dergouch Khadija',
+        status: 'archived' // Added status property
     },
     {
         key: 3,
@@ -94,7 +97,8 @@ const rows = [
         created: "03/12/2024 - 11:30",
         followUp: "03/12/2024 - 11:30",
         followUpUpdated: "03/12/2024 - 11:30",
-        agent: 'Dergouch Khadija'
+        agent: 'Dergouch Khadija',
+        status: 'active' // Added status property
     },
     {
         key: 4,
@@ -115,7 +119,8 @@ const rows = [
         created: "03/13/2024 - 13:45",
         followUp: "03/13/2024 - 13:45",
         followUpUpdated: "03/13/2024 - 13:45",
-        agent: 'Dergouch Khadija'
+        agent: 'Dergouch Khadija',
+        status: 'archived' // Added status property
     },
     {
         key: 5,
@@ -136,7 +141,8 @@ const rows = [
         created: "03/14/2024 - 09:15",
         followUp: "03/14/2024 - 09:15",
         followUpUpdated: "03/14/2024 - 09:15",
-        agent: 'Dergouch Khadija'
+        agent: 'Dergouch Khadija',
+        status: 'active' // Added status property
     },
     {
         key: 6,
@@ -157,7 +163,8 @@ const rows = [
         created: "03/15/2024 - 17:20",
         followUp: "03/15/2024 - 17:20",
         followUpUpdated: "03/15/2024 - 17:20",
-        agent: 'Dergouch Khadija'
+        agent: 'Dergouch Khadija',
+        status: 'archived' // Added status property
     },
     {
         key: 7,
@@ -178,7 +185,8 @@ const rows = [
         created: "03/16/2024 - 18:35",
         followUp: "03/16/2024 - 18:35",
         followUpUpdated: "03/16/2024 - 18:35",
-        agent: 'Dergouch Khadija'
+        agent: 'Dergouch Khadija',
+        status: 'active' // Added status property
     },
     {
         key: 8,
@@ -199,7 +207,8 @@ const rows = [
         created: "03/17/2024 - 10:50",
         followUp: "03/17/2024 - 10:50",
         followUpUpdated: "03/17/2024 - 10:50",
-        agent: 'Dergouch Khadija'
+        agent: 'Dergouch Khadija',
+        status: 'archived' // Added status property
     },
     {
         key: 9,
@@ -220,29 +229,31 @@ const rows = [
         created: "03/18/2024 - 12:10",
         followUp: "03/18/2024 - 12:10",
         followUpUpdated: "03/18/2024 - 12:10",
-        agent: 'Dergouch Khadija'
+        agent: 'Dergouch Khadija',
+        status: 'active' // Added status property
     },
     {
         key: 10,
         orderNum: "CSA817302782786789012",
-        subNum: "KLDSD832",
+        subNum: "JDJD83W",
         trackNum: "TRK_01234",
         issue: "Store name",
         store: "Store name",
-        product: "1x men's Suit 11",
-        productId: "19767676",
+        product: "1x men's Suit 01",
+        productId: "19954545",
         name: "منال الرشيدي",
         country: "Saudi Arabia",
-        price: "599.99 SAR",
-        invoiceNum: "INV_10193456",
+        price: "600.99 SAR",
+        invoiceNum: "INV_10283467",
         shippingPrice: "0 USD",
         paymentStatus: "No",
         orderStatus: "Confirmed at 03/19/2024 - 16:25",
         created: "03/19/2024 - 16:25",
         followUp: "03/19/2024 - 16:25",
         followUpUpdated: "03/19/2024 - 16:25",
-        agent: 'Dergouch Khadija'
-    }
+        agent: 'Dergouch Khadija',
+        status: 'archived' // Added status property
+    },
 ];
 
 
@@ -325,32 +336,33 @@ export default function FollowUp() {
     const [orderdetails, setOrderdetails] = useState(null)
     const [selectedRows, setSelectedRows] = useState([]);
     const [callTab, setCallTab] = useState('All');
+    const [sortAscending, setSortAscending] = useState(true);
     const rowsPerPage = 10;
 
     const handleCheckboxChange = (keys, isRange) => {
         if (isRange) {
-          // Add all keys in the range
-          setSelectedRows((prevSelected) => {
-            const newSelection = [...prevSelected];
-            keys.forEach((key) => {
-              if (!newSelection.includes(key)) {
-                newSelection.push(key);
-              }
+            // Add all keys in the range
+            setSelectedRows((prevSelected) => {
+                const newSelection = [...prevSelected];
+                keys.forEach((key) => {
+                    if (!newSelection.includes(key)) {
+                        newSelection.push(key);
+                    }
+                });
+                return newSelection;
             });
-            return newSelection;
-          });
         } else if (Array.isArray(keys)) {
-          // Select all or unselect all
-          setSelectedRows(keys);
+            // Select all or unselect all
+            setSelectedRows(keys);
         } else {
-          // Toggle single selection
-          setSelectedRows((prevSelected) =>
-            prevSelected.includes(keys)
-              ? prevSelected.filter((key) => key !== keys)
-              : [...prevSelected, keys]
-          );
+            // Toggle single selection
+            setSelectedRows((prevSelected) =>
+                prevSelected.includes(keys)
+                    ? prevSelected.filter((key) => key !== keys)
+                    : [...prevSelected, keys]
+            );
         }
-      };
+    };
     const [selectedTab, setSelectedTab] = useState('active');
 
 
@@ -358,6 +370,36 @@ export default function FollowUp() {
         setOrderdetails(item)
         setOpenOderDModel(true);
     }
+
+
+
+    // Helper function to parse price string and extract numeric value
+    const parsePrice = (priceStr) => {
+        const num = parseFloat(priceStr.replace(/[^\d.-]/g, ""));
+        return num;
+    };
+
+    // Sort the rows based on the price and sort order
+    const sortedRows = useMemo(() => {
+        return [...rows].sort((a, b) => {
+            const priceA = parsePrice(a.price);
+            const priceB = parsePrice(b.price);
+
+            return sortAscending ? priceA - priceB : priceB - priceA;
+        });
+    }, [sortAscending]);
+
+    const toggleSortOrder = () => {
+        setSortAscending(!sortAscending);
+    };
+
+    const filteredRows = useMemo(() => {
+        return selectedTab === "active"
+            ? sortedRows.filter(row => row.status === "active")
+            : sortedRows.filter(row => row.status === "archived");
+    }, [selectedTab, sortedRows]);
+    // Toggle the sort order between ascending and descending
+
     const renderCell = useCallback((item, columnKey) => {
         const cellValue = item[columnKey];
 
@@ -426,6 +468,9 @@ export default function FollowUp() {
                 return cellValue;
         }
     }, []);
+
+
+
     return (
         <>
             <DashboardLayout title="Call Center - Follow Up" icon={<CustomerService01Icon className="text-info" />}
@@ -451,8 +496,10 @@ export default function FollowUp() {
                     {/*Tabs*/}
                     <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
                         <StatusTabs
-                            activeCount={10928}
-                            archivedCount={10}
+                            activeCount={rows.filter((row) => row.status === "active").length}
+                            archivedCount={
+                                rows.filter((row) => row.status === "archived").length
+                            }
                             selectedTab={selectedTab}
                             onTabChange={setSelectedTab}
                         />
@@ -542,8 +589,24 @@ export default function FollowUp() {
                         </div>
                     </div>
                     <Table
-                        columns={columns}
-                        data={rows}  // Pass filtered products based on the view
+                        columns={columns.map((col) =>
+                            col.key === "price"
+                                ? {
+                                    ...col,
+                                    label: (
+                                        <div className="flex items-center">
+                                            {col.label}
+                                            <ArrowUpDownIcon
+                                                size={15}
+                                                onClick={toggleSortOrder}
+                                                className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
+                                            />
+                                        </div>
+                                    ),
+                                }
+                                : col
+                        )}
+                        data={filteredRows}  // Pass filtered products based on the view
                         renderCell={renderCell}
                         handleCheckboxChange={handleCheckboxChange}
                         selectedRows={selectedRows} // Pass selected rows state

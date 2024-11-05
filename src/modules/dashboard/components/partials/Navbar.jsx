@@ -100,7 +100,23 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                     {currentTheme === 'light' ? <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" /> : <img src={codPowerGroupLogoDark} alt="cod power group logo" className="w-20" />}
                 </NavbarItem>
                 {/* profile , notification, search icons big size screen*/}
-                <NavbarContent className=" justify-between gap-4 flex md:flex-row max-w-fit">
+
+
+                {/* red wide button and date time big size */}
+                <NavbarContent className="justify-between hidden gap-4 px-2 md:flex md:flex-row">
+
+
+
+                    <NavbarItem className="">
+                        <h4 className="text-lg font-bold">{moment().format('dddd, DD MMM YYYY')}</h4>
+                        <span className="flex flex-row items-center gap-1 text-gray-600"> <Clock01Icon
+                            size={16} /> {moment().format('HH:mm  Z')}</span>
+                    </NavbarItem>
+
+
+
+                </NavbarContent>
+                <NavbarContent className="justify-between gap-4 flex md:flex-row max-w-fit ">
                     <NavbarItem className="ml-2 mr-4 hidden md:block">
                         <Dropdown placement="bottom-start">
                             <DropdownTrigger>
@@ -236,45 +252,6 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                         </NavbarItem>
                     </NavbarContent>
 
-
-                </NavbarContent>
-
-                {/* red wide button and date time big size */}
-                <NavbarContent className="justify-between hidden gap-4 px-2 md:flex md:flex-row">
-
-                    {/* <NavbarItem className="hidden ml-auto lg:block relative bg-slate-600 p-5">
-                        <div ref={dropdownRef} onClick={() => setSmallNotOpen(!SmallNotOpen)} className="cursor-pointer absolute top-0 left-1/2 transform -translate-x-1/2 rounded-xl p-2 text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
-                            <div className=" flex justify-center items-center gap-2 ">
-                                <h4 className="text-sm font-semibold ">Important Notifications in the ERP</h4>
-                                {SmallNotOpen ? <ArrowDown01Icon className="font-thin" /> : <ArrowRight01Icon className="font-thin" />}
-                            </div>
-
-                            <AnimatePresence>
-                                {SmallNotOpen && (
-                                    <motion.div initial="hidden"
-                                        animate="visible"
-                                        exit="hidden"
-                                        index={22}
-                                        variants={dropdownVariants} className="w-full flex flex-col gap-2 mt-2">
-                                        {[{ data: 154, label: 'No Answers Late' }, { data: "21,415", label: 'Schedule Late - Follow Up' }
-                                            , { data: "21,415", label: 'Schedule Late - Follow Up' }, { data: "21,415", label: 'Schedule Late - Follow Up' }
-                                        ].map((i, ix) => (
-                                            <motion.div variants={itemVariants}
-                                                custom={ix} key={ix} className=" flex justify-start items-center gap-2 ">
-                                                <h4 className="text-sm"><b>{i.data}</b></h4>
-                                                <h4 className="text-sm font-thin">{i.label}</h4>
-
-                                            </motion.div>))}</motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    </NavbarItem> */}
-
-                    <NavbarItem className="ml-auto">
-                        <h4 className="text-lg font-bold">{moment().format('dddd, DD MMM YYYY')}</h4>
-                        <span className="flex flex-row items-center gap-1 text-gray-600"> <Clock01Icon
-                            size={16} /> {moment().format('HH:mm  Z')}</span>
-                    </NavbarItem>
 
                 </NavbarContent>
 

@@ -13,6 +13,7 @@ import { Switch } from "@nextui-org/switch";
 import avatar from "@shared/assets/images/150.jpg"
 import { Avatar } from "@nextui-org/react";
 import { countries_code } from "../../../core/utils/dataCountries";
+import NumTelSelect from "../../shared/components/NumTelSelect";
 
 
 const NavOptions = [
@@ -59,6 +60,19 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
 
     }
 
+    const [telephone, setTelephone] = useState({
+        code: '🇲🇦 +212',
+        num: ''
+    });
+
+    const updateTelephone = (property, newValue) => {
+        setTelephone(prevState => ({
+            ...prevState,
+            [property]: newValue
+        }));
+    };
+
+    const [openTelCode, setOpenTelCode] = useState(false)
 
 
 
@@ -105,7 +119,7 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                 leaveEnd="opacity-0 translate-y-4">
                 <div
                     ref={modalContent}
-                    className="bg-white relative dark:bg-base_dark border border-transparent dark:border-[#ffffff10] max-w-4xl w-full max-h-full rounded-lg shadow-lg 
+                    className="bg-white relative z-20 dark:bg-base_dark border border-transparent dark:border-[#ffffff10] max-w-4xl w-full max-h-full rounded-lg shadow-lg 
                     px-6 py-4 overflow-y-auto">
                     <div className="flex flex-row justify-between items-center w-full border-b border-b-gray-200 dark:border-b-[#ffffff10] mb-6 pb-4">
                         <h3 className="text-lg font-normal">Edit User - User Name</h3>
@@ -231,37 +245,14 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                                     </div>
                                     <div className="flex flex-col gap-8 lg:flex-row mt-6">
                                         <div className="w-full lg:w-1/2 flex">
-                                            <Select
+                                            <NumTelSelect
+                                                id={'countries_code'}
+                                                open={openTelCode}
+                                                onToggle={() => setOpenTelCode(!openTelCode)}
+                                                onChange={updateTelephone}
+                                                selectedValue={telephone}
+                                            />
 
-                                                variant="underlined"
-                                                color="primary"
-                                                labelPlacement="outside"
-                                                classNames={{
-                                                    base: 'w-[30%]',
-                                                    content: 'min-w-[120px]',
-                                                    value: " dark:!text-[#ffffff] !text-[#000000]",
-                                                }}>
-                                                {countries_code.map((cc, i) => (
-                                                    <SelectItem key={cc.flag + ' ' + cc.telephoneCode}>
-                                                        {cc.flag + ' ' + cc.telephoneCode}
-                                                    </SelectItem>
-                                                ))}
-
-                                            </Select>
-                                            <div className="flex-1">
-                                                <Input type="text" variant="underlined" color="primary"
-                                                    classNames={{
-                                                        label: ["!text-[#00000050] dark:!text-[#FFFFFF30]"],
-
-                                                    }}
-                                                    endContent={
-                                                        <button className="focus:outline-none" type="button" aria-label="toggle password visibility">
-                                                            <InformationCircleIcon size={18} className="text-2xl text-default-400 pointer-events-none" />
-
-                                                        </button>
-                                                    }
-                                                    label="CIN" />
-                                            </div>
 
                                         </div>
 
