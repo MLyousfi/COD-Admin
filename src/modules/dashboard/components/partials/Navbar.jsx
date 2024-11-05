@@ -242,7 +242,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                 {/* red wide button and date time big size */}
                 <NavbarContent className="justify-between hidden gap-4 px-2 md:flex md:flex-row">
 
-                    <NavbarItem className="hidden ml-auto lg:block relative bg-slate-600 p-5">
+                    {/* <NavbarItem className="hidden ml-auto lg:block relative bg-slate-600 p-5">
                         <div ref={dropdownRef} onClick={() => setSmallNotOpen(!SmallNotOpen)} className="cursor-pointer absolute top-0 left-1/2 transform -translate-x-1/2 rounded-xl p-2 text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]">
                             <div className=" flex justify-center items-center gap-2 ">
                                 <h4 className="text-sm font-semibold ">Important Notifications in the ERP</h4>
@@ -268,7 +268,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                 )}
                             </AnimatePresence>
                         </div>
-                    </NavbarItem>
+                    </NavbarItem> */}
 
                     <NavbarItem className="ml-auto">
                         <h4 className="text-lg font-bold">{moment().format('dddd, DD MMM YYYY')}</h4>

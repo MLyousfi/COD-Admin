@@ -42,6 +42,8 @@ import NewCollect from "../../modules/collects/components/NewCollect.jsx";
 import SourcingInvoices from "../../modules/invoices/components/SourcingInvoices.jsx";
 import Accounts from "../../modules/whatsapp/pages/Accounts.jsx";
 import ShippingCompanies from "../../modules/shippingCost/pages/ShippingCompanies.jsx";
+import Roles from "../../modules/users/pages/Roles.jsx";
+import Partners from "../../modules/general/pages/Partners.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -298,7 +300,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: RouteNames.usersRoles,
-                element: <ListOfUsers />
+                element: <Roles />
             },
 
 
@@ -314,7 +316,7 @@ const routes = createBrowserRouter([
 
             {
                 path: RouteNames.generalPartners,
-                element: <Banks />
+                element: <Partners />
             },
 
             {

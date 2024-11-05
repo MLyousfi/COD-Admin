@@ -20,7 +20,7 @@ const StatusTabs = ({ tabs = ['Active', 'Archived'], activeCount, archivedCount,
       selectedKey={selectedTab}
       onSelectionChange={onTabChange}
     >
-      {tabs.map((i) => (
+      {tabs.map((i, index) => (
         <Tab
           className='px-2'
           key={i}
@@ -35,7 +35,7 @@ const StatusTabs = ({ tabs = ['Active', 'Archived'], activeCount, archivedCount,
                 className={`${selectedTab === i ? 'bg-red-600 text-white' : 'bg-black dark:bg-white bg-opacity-25 dark:bg-opacity-25 dark:text-white text-black text-opacity-50 dark:text-opacity-50'
                   }`}
               >
-                {activeCount}
+                {index === 0 ? activeCount : archivedCount}
               </Chip>
 
             </div>
