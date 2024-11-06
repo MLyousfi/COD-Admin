@@ -19,6 +19,8 @@ import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Code } from "@nextui-org/code";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowReSidebar, setShowSidebar, setSidebarEpingled } from "../../../core/redux/slices/sidebarSlice";
 
 export default function DashboardLayout({
   children,
@@ -31,22 +33,52 @@ export default function DashboardLayout({
 }) {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const storedSidebarEpingled = localStorage.getItem("sidebar-epingled");
-  const [sidebarEpingled, setSidebarEpingled] = useState(
-    storedSidebarEpingled === null ? false : storedSidebarEpingled === "true"
-  );
-  const [showSidebar, setShowSidebar] = useState(sidebarEpingled);
-  const [showReSidebar, setShowReSidebar] = useState(false);
 
-  // Handlers for sidebar state
-  const handleSideBarChange = (v) => {
-    setShowSidebar(v);
+
+  // reduuuux 
+  const dispatch = useDispatch();
+  const sidebarEpingled = useSelector((state) => state.sidebar.sidebarEpingled);
+  const showSidebar = useSelector((state) => state.sidebar.showSidebar);
+  const showReSidebar = useSelector((state) => state.sidebar.showReSidebar);
+
+
+
+
+  // Handle clicks outside the dropdown to close it
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setSmallNotOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Animation variants for dropdown
+  const dropdownVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: {
+      opacity: 1,
+      height: "auto",
+      transition: {
+        duration: 0.1,
+        when: "beforeChildren",
+        staggerChildren: 0.1,
+      },
+    },
   };
 
-  const handlePinningSidebar = (v) => {
-    localStorage.setItem("sidebar-epingled", v);
-    setSidebarEpingled(v);
+  const itemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { opacity: 1, x: 0 },
   };
+
+
+
 
   return (
     <>
@@ -54,21 +86,68 @@ export default function DashboardLayout({
       <div className="relative flex w-screen overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
         {/* Main Content Area */}
         <div
-          className={`relative flex flex-col w-full lg:ml-auto min-h-screen ${
-            sidebarEpingled
-              ? "lg:w-[calc(100%-20rem)]"
-              : showSidebar
+          className={`relative flex flex-col w-full lg:ml-auto min-h-screen ${sidebarEpingled
+            ? "lg:w-[calc(100%-20rem)]"
+            : showSidebar
               ? "lg:w-[calc(100%-20rem)]"
               : "lg:w-[calc(100%-3.5rem)]"
-          }`}
+            }`}
         >
           {/* Header / Navbar */}
           <Header
             epingled={sidebarEpingled}
-            setEpingled={handlePinningSidebar}
+            setEpingled={(v) => dispatch(setSidebarEpingled(v))}
             showSidebar={showReSidebar}
-            setShowSidebar={setShowReSidebar}
+            setShowSidebar={(v) => dispatch(setShowReSidebar(v))}
           />
+
+          {/* Notification Banner (Hidden on large screens) */}
+          <div className="relative h-12 w-full p-3 md:p-4 mx-auto text-center hidden lg:hidden">
+            <div
+              ref={dropdownRef}
+              onClick={() => setSmallNotOpen(!SmallNotOpen)}
+              className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]"
+            >
+              <div className="flex justify-center items-center gap-2">
+                <h4 className="text-sm font-semibold">Important Notifications in the ERP</h4>
+                {smallNotOpen ? (
+                  <ArrowDown01Icon className="font-thin" />
+                ) : (
+                  <ArrowRight01Icon className="font-thin" />
+                )}
+              </div>
+
+              <AnimatePresence>
+                {smallNotOpen && (
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    variants={dropdownVariants}
+                    className="w-full flex flex-col gap-2 mt-2"
+                  >
+                    {[
+                      { data: 154, label: "No Answers Late" },
+                      { data: 21415, label: "Schedule Late - Follow Up" },
+                      { data: 21415, label: "Schedule Late - Follow Up" },
+                      { data: 21415, label: "Schedule Late - Follow Up" },
+                    ].map((item, index) => (
+                      <motion.div
+                        variants={itemVariants}
+                        key={index}
+                        className="flex justify-start items-center gap-2"
+                      >
+                        <h4 className="text-sm">
+                          <b>{item.data}</b>
+                        </h4>
+                        <h4 className="text-sm font-thin">{item.label}</h4>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
 
           {/* Page Header with Title, Icons, and Optional Return Link */}
           <div className="flex flex-col items-start justify-start md:items-center md:justify-between w-full gap-4 px-3 md:px-4 my-6 md:flex-row">
@@ -127,15 +206,7 @@ export default function DashboardLayout({
           </footer>
         </div>
 
-        {/* Sidebar for Mobile Screens */}
-        <ResideBar showSidebar={showReSidebar} setShowSidebar={setShowReSidebar} />
 
-        {/* Sidebar for Larger Screens */}
-        <Sidebar
-          sidebarEpingled={sidebarEpingled}
-          showSidebar={sidebarEpingled ? true : showSidebar}
-          setShowSidebar={handleSideBarChange}
-        />
       </div>
 
       {/* Modals */}
