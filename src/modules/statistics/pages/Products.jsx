@@ -308,21 +308,21 @@ export default function Products() {
             additionalContent={headerButtons}
         >
             {/* Statistics Cards */}
-             <div className="mt-14 px-2 md:px-8">
+            <div className="mt-14 px-2 md:px-8">
                 <h2 className="text-xl font-semibold mb-4 text-black dark:text-white">Statistics</h2>
-            <motion.div initial="hidden" animate="visible" variants={container} className="flex flex-col flex-wrap justify-start px-2 md:px-8 md:flex-row">
-                {statistics.map((stat, index) => (
-                    <StatsCard
-                        useHover={true}
-                        icon={React.createElement(stat.icon)}
-                        bgColor={stat.bgColor}
-                        title={stat.title}
-                        key={index}
-                        percentage={stat.percentage}
-                        total={stat.total}
-                    />
-                ))}
-            </motion.div>
+                <div className="flex flex-col flex-wrap justify-start px-2 md:px-8 md:flex-row">
+                    {statistics.map((stat, index) => (
+                        <StatsCard
+                            useHover={true}
+                            icon={React.createElement(stat.icon)}
+                            bgColor={stat.bgColor}
+                            title={stat.title}
+                            key={index}
+                            percentage={stat.percentage}
+                            total={stat.total}
+                        />
+                    ))}
+                </div>
             </div>
 
             {/* Title and Inline Table Section */}

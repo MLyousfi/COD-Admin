@@ -294,7 +294,14 @@ export default function Dashboard() {
                     /> */}
                     <LineChartCard
                         title="Product Delivery"
-                        data={chartData}
+                        data={{
+                            labels: [
+                                "Jan", "Feb", "Mar", "Apr", "May",
+                                "Jun", "Jul", "Aug", "Sep", "Oct",
+                                "Nov", "Dec"
+                            ],
+                            values: [1, 3, 3, 2.5, 2.5, 2, 4, 4, 3, 3, 2, 4],
+                        }}
                         percentChange={7.9}
                         timeRange="Last Month"
                     />
