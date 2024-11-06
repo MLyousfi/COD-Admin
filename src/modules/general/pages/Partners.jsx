@@ -177,7 +177,7 @@ const Partners = () => {
                         onTabChange={setSelectedTab}
                     />
 
-                    <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
+                    <div className="flex gap-2 flex-wrap justify-end items-center"> {/**here ---|> responsv */}
                         <Button
                             color="default"
                             onClick={() => { setEditedBank(null); setOpenModal(true) }}

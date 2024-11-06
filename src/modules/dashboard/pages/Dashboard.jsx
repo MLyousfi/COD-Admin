@@ -32,7 +32,7 @@ import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import { motion } from "framer-motion";
 import CallsCard from "../components/CallsCard";
 import React from "react";
-
+import FilterModal from "../components/FilterModal"
 
 const dataCards = [
     {
@@ -273,7 +273,10 @@ export default function Dashboard() {
 
     return (
         <>
-            <DashboardLayout title="Dashboard" icon={<Home01Icon className="text-info" />}>
+            <DashboardLayout title="Dashboard" 
+            icon={<Home01Icon className="text-info" />}
+            filterModalComponent={<FilterModal />} 
+            >
 
                 <motion.div initial="hidden"
                     animate="visible" variants={container} className="grid grid-cols-2 md:grid-cols-4 gap-2 mx-2 md:mx-4 lg:mx-8">

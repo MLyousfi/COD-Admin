@@ -43,7 +43,7 @@ const rows = [
     paymentStatus: "Ng",
     shipPrice: "0 USD",
     statut: "No",
-    status: "active", // Added status
+    status: "active",
     orderStatus: "Confirmed at 03/10/2024 - 14:00",
     created: "03/10/2024 - 14:00",
     followUp: "03/10/2024 - 14:00",
@@ -65,7 +65,7 @@ const rows = [
     invoiceNum: "INV_02974613",
     paymentStatus: "Ng",
     shipPrice: "0 USD",
-    status: "active", // Added status
+    status: "active",
     orderStatus: "Confirmed at 03/11/2024 - 10:05",
     created: "03/11/2024 - 10:05",
     followUp: "03/11/2024 - 10:05",
@@ -87,7 +87,7 @@ const rows = [
     paymentStatus: "Ng",
     statut: "No",
     shipPrice: "0 USD",
-    status: "archived", // Added status
+    status: "archived",
     orderStatus: "Confirmed at 03/12/2024 - 11:30",
     created: "03/12/2024 - 11:30",
     followUp: "03/12/2024 - 11:30",
@@ -109,7 +109,7 @@ const rows = [
     invoiceNum: "INV_04958413",
     paymentStatus: "Ng",
     shipPrice: "0 USD",
-    status: "active", // Added status
+    status: "active",
     orderStatus: "Confirmed at 03/13/2024 - 13:45",
     created: "03/13/2024 - 13:45",
     followUp: "03/13/2024 - 13:45",
@@ -131,7 +131,7 @@ const rows = [
     invoiceNum: "INV_05927365",
     paymentStatus: "Ng",
     shipPrice: "0 USD",
-    status: "archived", // Added status
+    status: "archived",
     orderStatus: "Confirmed at 03/14/2024 - 09:15",
     created: "03/14/2024 - 09:15",
     followUp: "03/14/2024 - 09:15",
@@ -153,7 +153,7 @@ const rows = [
     invoiceNum: "INV_06325341",
     paymentStatus: "Ng",
     shipPrice: "0 USD",
-    status: "archived", // Added status
+    status: "archived",
     orderStatus: "Confirmed at 03/15/2024 - 17:20",
     created: "03/15/2024 - 17:20",
     followUp: "03/15/2024 - 17:20",
@@ -175,7 +175,7 @@ const rows = [
     statut: "Yes",
     paymentStatus: "Ng",
     shipPrice: "0 USD",
-    status: "active", // Added status
+    status: "active",
     orderStatus: "Confirmed at 03/16/2024 - 18:35",
     created: "03/16/2024 - 18:35",
     followUp: "03/16/2024 - 18:35",
@@ -197,7 +197,7 @@ const rows = [
     invoiceNum: "INV_08371645",
     paymentStatus: "Ng",
     shipPrice: "0 USD",
-    status: "active", // Added status
+    status: "active",
     orderStatus: "Confirmed at 03/17/2024 - 10:50",
     created: "03/17/2024 - 10:50",
     followUp: "03/17/2024 - 10:50",
@@ -214,12 +214,12 @@ const rows = [
     productId: "19898989",
     name: "منال الرشيدي",
     country: "Saudi Arabia",
+    statut: "No",
     price: "450.25 SAR",
     invoiceNum: "INV_09235124",
     paymentStatus: "Ng",
-    statut: "No",
     shipPrice: "0 USD",
-    status: "archived", // Added status
+    status: "archived",
     orderStatus: "Confirmed at 03/18/2024 - 12:10",
     created: "03/18/2024 - 12:10",
     followUp: "03/18/2024 - 12:10",
@@ -241,7 +241,7 @@ const rows = [
     invoiceNum: "INV_10193456",
     paymentStatus: "Ng",
     shipPrice: "0 USD",
-    status: "active", // Added status
+    status: "active",
     orderStatus: "Confirmed at 03/19/2024 - 16:25",
     created: "03/19/2024 - 16:25",
     followUp: "03/19/2024 - 16:25",
@@ -274,7 +274,6 @@ export default function Orders() {
 
   const handleCheckboxChange = (keys, isRange) => {
     if (isRange) {
-      // Add all keys in the range
       setSelectedRows((prevSelected) => {
         const newSelection = [...prevSelected];
         keys.forEach((key) => {
@@ -285,10 +284,8 @@ export default function Orders() {
         return newSelection;
       });
     } else if (Array.isArray(keys)) {
-      // Select all or unselect all
       setSelectedRows(keys);
     } else {
-      // Toggle single selection
       setSelectedRows((prevSelected) =>
         prevSelected.includes(keys)
           ? prevSelected.filter((key) => key !== keys)
@@ -297,28 +294,23 @@ export default function Orders() {
     }
   };
 
-  // Helper function to parse price string and extract numeric value
   const parsePrice = (priceStr) => {
     const num = parseFloat(priceStr.replace(/[^\d.-]/g, ""));
     return num;
   };
 
-  // Sort the rows based on the price and sort order
   const sortedRows = useMemo(() => {
     return [...rows].sort((a, b) => {
       const priceA = parsePrice(a.price);
       const priceB = parsePrice(b.price);
-
       return sortAscending ? priceA - priceB : priceB - priceA;
     });
   }, [sortAscending]);
 
-  // Toggle the sort order between ascending and descending
   const toggleSortOrder = () => {
     setSortAscending(!sortAscending);
   };
 
-  // Filter the rows based on selected tab
   const filteredRows = useMemo(() => {
     return selectedTab === "active"
       ? sortedRows.filter(row => row.status === "active")
@@ -327,7 +319,6 @@ export default function Orders() {
 
   const renderCell = useCallback((item, columnKey) => {
     const cellValue = item[columnKey];
-
     switch (columnKey) {
       case "orderNum":
         return (
@@ -372,12 +363,13 @@ export default function Orders() {
         return (
           <div className="flex items-center justify-center">
             <span
-              className={`px-2 py-1 rounded-full ${item.statut === "No"
-                ? "bg-red-500 bg-opacity-20 text-red-600"
-                : item.statut === "Yes"
+              className={`px-2 py-1 rounded-full ${
+                item.statut === "No"
+                  ? "bg-red-500 bg-opacity-20 text-red-600"
+                  : item.statut === "Yes"
                   ? "bg-green-500 bg-opacity-20 text-green-600"
                   : ""
-                }`}
+              }`}
             >
               {item.statut}
             </span>
@@ -395,14 +387,13 @@ export default function Orders() {
   }, []);
 
   return (
-    <>
-      <DashboardLayout
-        title="First Mile - Orders"
-        icon={<DeliveryBox01Icon className="text-info" />}
-      >
-        <div>
-          {/* Tabs */}
-          <div className="flex flex-row justify-between items-center gap-4 p-12">
+    <DashboardLayout
+      title="First Mile - Orders"
+      icon={<DeliveryBox01Icon className="text-info" />}
+    >
+      <div>
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-4 p-4 lg:p-12">
+          <div className="order-2 lg:order-1 w-full lg:w-auto mt-8">
             <StatusTabs
               activeCount={rows.filter((row) => row.status === "active").length}
               archivedCount={
@@ -411,85 +402,80 @@ export default function Orders() {
               selectedTab={selectedTab}
               onTabChange={setSelectedTab}
             />
-
-            <div className="flex flex-row gap-2">
-              {/* New Sales Channel Button */}
-              <Button
-                color="default"
-                className="rounded-full text-white bg-blue-600 flex items-center"
-              >
-                <PlusSignIcon size={18} className="mr-1" /> New Sales Channel
-              </Button>
-
-              {/* Actions Dropdown */}
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button
-                    color="default"
-                    className="rounded-full text-white bg-glb_red flex items-center"
-                  >
-                    <PencilEdit01Icon size={18} className="mr-1" /> Actions
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions">
-                  <DropdownItem key="print">
-                    <div className="flex justify-between items-center">
-                      <div className="flex gap-2">
-                        <PrinterIcon size={15} /> Print
-                      </div>
-                      <ArrowRight01Icon size={18} />
-                    </div>
-                  </DropdownItem>
-                  <DropdownItem key="export">
-                    <div className="flex justify-between items-center">
-                      <div className="flex gap-2">
-                        <Download01Icon size={15} /> Export
-                      </div>
-                      <ArrowRight01Icon size={18} />
-                    </div>
-                  </DropdownItem>
-                  <DropdownItem key="call-center">
-                    <div className="flex justify-between items-center">
-                      <div className="flex gap-2">
-                        <CustomerSupportIcon size={15} /> Call center
-                      </div>
-                      <ArrowRight01Icon size={18} />
-                    </div>
-                  </DropdownItem>
-                  <DropdownItem key="follow-up">
-                    <div className="flex justify-between items-center">
-                      <div className="flex gap-2">
-                        <CallOutgoing01Icon size={15} /> Follow up
-                      </div>
-                      <ArrowRight01Icon size={18} />
-                    </div>
-                  </DropdownItem>
-                  <DropdownItem key="shipping">
-                    <div className="flex justify-between items-center">
-                      <div className="flex gap-2">
-                        <DropboxIcon size={15} /> Shipping
-                      </div>
-                      <ArrowRight01Icon size={18} />
-                    </div>
-                  </DropdownItem>
-                  <DropdownItem key="general">
-                    <div className="flex justify-between items-center">
-                      <div className="flex gap-2">
-                        <Settings02Icon size={15} /> General
-                      </div>
-                      <ArrowRight01Icon size={18} />
-                    </div>
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
           </div>
-
-          {/* Table */}
-          <Table
-            columns={columns.map((col) =>
-              col.key === "price"
-                ? {
+          <div className="order-1 lg:order-2 flex flex-row gap-2 w-full lg:w-auto justify-end">
+            <Button
+              color="default"
+              className="rounded-full text-white bg-blue-600 flex items-center"
+            >
+              <PlusSignIcon size={18} className="mr-1" /> New Sales Channel
+            </Button>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+        </div>
+        <Table
+          columns={columns.map((col) =>
+            col.key === "price"
+              ? {
                   ...col,
                   label: (
                     <div className="flex items-center">
@@ -502,17 +488,16 @@ export default function Orders() {
                     </div>
                   ),
                 }
-                : col
-            )}
-            data={filteredRows} // Use filteredRows based on selected tab
-            renderCell={renderCell}
-            handleCheckboxChange={handleCheckboxChange}
-            selectedRows={selectedRows}
-            rowsPerPage={rowsPerPage}
-            className="dark:bg-gray-800 dark:text-white"
-          />
-        </div>
-      </DashboardLayout>
-    </>
+              : col
+          )}
+          data={filteredRows}
+          renderCell={renderCell}
+          handleCheckboxChange={handleCheckboxChange}
+          selectedRows={selectedRows}
+          rowsPerPage={rowsPerPage}
+          className="dark:bg-gray-800 dark:text-white"
+        />
+      </div>
+    </DashboardLayout>
   );
 }
