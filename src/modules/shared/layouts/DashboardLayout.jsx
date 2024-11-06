@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 import Sidebar from "@/modules/dashboard/components/partials/Sidebar.jsx";
 import ResideBar from "@/modules/dashboard/components/partials/ReSideBar.jsx";
 import Header from "@/modules/dashboard/components/partials/Navbar.jsx";
+import FilterModal from "@/modules/dashboard/components/FilterModal.jsx";
 import SearchModal from "@/modules/dashboard/components/SearchModal.jsx";
 import {
   ArrowDown01Icon,
   ArrowLeft01Icon,
   ArrowRight01Icon,
+  Clock01Icon,
   CommandIcon,
   FilterIcon,
   Search01Icon,
@@ -18,6 +20,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Code } from "@nextui-org/code";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
+import { User } from "@nextui-org/user";
+import { NavbarContent, NavbarItem } from "@nextui-org/navbar";
+import moment from "moment";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowReSidebar, setShowSidebar, setSidebarEpingled } from "../../../core/redux/slices/sidebarSlice";
@@ -29,9 +35,11 @@ export default function DashboardLayout({
   additionalContent,
   hasSearchInput = true,
   hasReturnLink = null,
-  filterModalComponent = null, // New prop for custom modals
 }) {
+  // State management
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const [smallNotOpen, setSmallNotOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
 
@@ -40,7 +48,6 @@ export default function DashboardLayout({
   const sidebarEpingled = useSelector((state) => state.sidebar.sidebarEpingled);
   const showSidebar = useSelector((state) => state.sidebar.showSidebar);
   const showReSidebar = useSelector((state) => state.sidebar.showReSidebar);
-
 
 
 
@@ -155,9 +162,10 @@ export default function DashboardLayout({
               {hasReturnLink && (
                 <Link
                   to={hasReturnLink}
-                  className="rounded-lg p-1 flex items-center justify-center"
+                  className="overflow-visible rounded-lg p-1 flex items-center justify-center"
                 >
                   <ArrowLeft01Icon />
+                  <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full"></div>
                 </Link>
               )}
               {icon}
@@ -216,13 +224,7 @@ export default function DashboardLayout({
         modalOpen={searchModalOpen}
         setModalOpen={setSearchModalOpen}
       />
-
-      {/* Render custom filter modal if provided */}
-      {filterModalComponent &&
-        React.cloneElement(filterModalComponent, {
-          modalOpen: showFilterModal,
-          setModalOpen: setShowFilterModal,
-        })}
+      <FilterModal modalOpen={showFilterModal} setModalOpen={setShowFilterModal} id={2} />
     </>
   );
 }
@@ -235,7 +237,6 @@ DashboardLayout.propTypes = {
   additionalContent: PropTypes.node,
   hasSearchInput: PropTypes.bool, // Controls visibility of search and filter
   hasReturnLink: PropTypes.string, // Optional return link
-  filterModalComponent: PropTypes.element, // Optional custom filter modal component
 };
 
 // Default Props
@@ -244,5 +245,4 @@ DashboardLayout.defaultProps = {
   hasReturnLink: null,
   icon: null,
   additionalContent: null,
-  filterModalComponent: null, // Default to null for no custom filter modal
 };
