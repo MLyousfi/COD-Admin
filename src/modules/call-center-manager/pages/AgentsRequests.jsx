@@ -312,28 +312,28 @@ export default function AgentsRequests() {
     const rowsPerPage = 10;
     const handleCheckboxChange = (keys, isRange) => {
         if (isRange) {
-          // Add all keys in the range
-          setSelectedRows((prevSelected) => {
-            const newSelection = [...prevSelected];
-            keys.forEach((key) => {
-              if (!newSelection.includes(key)) {
-                newSelection.push(key);
-              }
+            // Add all keys in the range
+            setSelectedRows((prevSelected) => {
+                const newSelection = [...prevSelected];
+                keys.forEach((key) => {
+                    if (!newSelection.includes(key)) {
+                        newSelection.push(key);
+                    }
+                });
+                return newSelection;
             });
-            return newSelection;
-          });
         } else if (Array.isArray(keys)) {
-          // Select all or unselect all
-          setSelectedRows(keys);
+            // Select all or unselect all
+            setSelectedRows(keys);
         } else {
-          // Toggle single selection
-          setSelectedRows((prevSelected) =>
-            prevSelected.includes(keys)
-              ? prevSelected.filter((key) => key !== keys)
-              : [...prevSelected, keys]
-          );
+            // Toggle single selection
+            setSelectedRows((prevSelected) =>
+                prevSelected.includes(keys)
+                    ? prevSelected.filter((key) => key !== keys)
+                    : [...prevSelected, keys]
+            );
         }
-      };
+    };
     const [selectedTab, setSelectedTab] = useState('active');
 
     const renderCell = useCallback((item, columnKey) => {
@@ -419,7 +419,7 @@ export default function AgentsRequests() {
                         />
 
 
-                        <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
+                        <div className="flex gap-2 flex-wrap items-center self-end"> {/**here ---|> responsv */}
 
                             <Dropdown className="!backdrop-blur-md !bg-gray-400/30">
                                 <DropdownTrigger>

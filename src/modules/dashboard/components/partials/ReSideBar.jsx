@@ -123,6 +123,28 @@ export default function ResideBar() {
         }
     }, [showSidebar, pathname]);
 
+    const pathMapWithNotif = {};
+
+    RoutesConfig.forEach((route) => {
+        if (route.path) {
+            pathMapWithNotif[route.path] = { notifNum: 0 };
+        }
+        if (route.children) {
+            route.children.forEach((child) => {
+                const childPath = child.path;
+                pathMapWithNotif[childPath] = {
+                    notifNum: childPath === "/call-center-manager/agents-requests" ? 10 : 0,
+                };
+
+                if (child.children) {
+                    child.children.forEach((grandChild) => {
+                        pathMapWithNotif[grandChild.path] = { notifNum: 0 };
+                    });
+                }
+            });
+        }
+    });
+
     return (
         // w-10/12
         <AnimatePresence>
@@ -237,7 +259,40 @@ export default function ResideBar() {
                                                                             className={`flex w-full items-center px-2 py-2 rounded-xl 
                                                                             ${pathname === child.path ? "text-dark_selected" : "text-gray-600 dark:text-white "} 
                                                                             hover:text-blue-600 dark:hover:text-blue-400`}
+                                                                        ><motion.div
+                                                                            initial={{
+                                                                                scale: 0.8,
+                                                                                opacity: 0,
+                                                                                y: 10,
+                                                                            }}
+                                                                            animate={{
+                                                                                scale: 1,
+                                                                                opacity: 1,
+                                                                                y: 0,
+                                                                            }}
+                                                                            transition={{
+                                                                                type: "spring",
+                                                                                stiffness: 300,
+                                                                                damping: 15,
+                                                                                bounce: 0.5,
+                                                                            }}
+                                                                            className={`flex justify-center text-[11px] items-center p-1 rounded-full ${pathMapWithNotif &&
+                                                                                pathMapWithNotif[
+                                                                                    child.path
+                                                                                ].notifNum !== 0
+                                                                                ? "bg-glb_red"
+                                                                                : ""
+                                                                                }  w-6 h-6 mr-3 text-white`}
                                                                         >
+                                                                                {pathMapWithNotif &&
+                                                                                    pathMapWithNotif[
+                                                                                        child.path
+                                                                                    ].notifNum !== 0
+                                                                                    ? pathMapWithNotif[
+                                                                                        child.path
+                                                                                    ].notifNum
+                                                                                    : ""}
+                                                                            </motion.div>
                                                                             {child.name}
                                                                         </Link>
                                                                     )}

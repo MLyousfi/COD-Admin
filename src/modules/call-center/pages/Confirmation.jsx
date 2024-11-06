@@ -27,84 +27,84 @@ import CustomModal from '../../stockManagement.jsx/components/modal';
 import { Code } from '@nextui-org/code'; // Import Code component
 
 const rows = [
-    {
-        key: "1",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "active",
-    },
-    {
-        key: "2",
-        orderNum: "DSAKDJFUIREOWJDNCAS",
-        subNum: "AKSKDHJS",
-        store: "Store 2",
-        product: "Product Y",
-        productId: "987654321",
-        name: "Jane Smith",
-        country: "United Arab Emirates",
-        price: "15.324 AED",
-        agent: "Bob Johnson",
-        status: "archived",
-    },
-    {
-        key: "3",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "active",
-    },
-    {
-        key: "4",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "11.564 SAR",
-        agent: "Alice Smith",
-        status: "active",
-    },
-    {
-        key: "5",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "active",
-    },
-    {
-        key: "6",
-        orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
-        subNum: "JDHSKDHD",
-        store: "Store 1",
-        product: "Product X",
-        productId: "123456789",
-        name: "John Doe",
-        country: "Saudi Arabia",
-        price: "12.564 SAR",
-        agent: "Alice Smith",
-        status: "archived",
-    },
+  {
+    key: "1",
+    orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
+    subNum: "JDHSKDHD",
+    store: "Store 1",
+    product: "Product X",
+    productId: "123456789",
+    name: "John Doe",
+    country: "Saudi Arabia",
+    price: "12.564 SAR",
+    agent: "Alice Smith",
+    status: "active",
+  },
+  {
+    key: "2",
+    orderNum: "DSAKDJFUIREOWJDNCAS",
+    subNum: "AKSKDHJS",
+    store: "Store 2",
+    product: "Product Y",
+    productId: "987654321",
+    name: "Jane Smith",
+    country: "United Arab Emirates",
+    price: "15.324 AED",
+    agent: "Bob Johnson",
+    status: "archived",
+  },
+  {
+    key: "3",
+    orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
+    subNum: "JDHSKDHD",
+    store: "Store 1",
+    product: "Product X",
+    productId: "123456789",
+    name: "John Doe",
+    country: "Saudi Arabia",
+    price: "12.564 SAR",
+    agent: "Alice Smith",
+    status: "active",
+  },
+  {
+    key: "4",
+    orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
+    subNum: "JDHSKDHD",
+    store: "Store 1",
+    product: "Product X",
+    productId: "123456789",
+    name: "John Doe",
+    country: "Saudi Arabia",
+    price: "11.564 SAR",
+    agent: "Alice Smith",
+    status: "active",
+  },
+  {
+    key: "5",
+    orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
+    subNum: "JDHSKDHD",
+    store: "Store 1",
+    product: "Product X",
+    productId: "123456789",
+    name: "John Doe",
+    country: "Saudi Arabia",
+    price: "12.564 SAR",
+    agent: "Alice Smith",
+    status: "active",
+  },
+  {
+    key: "6",
+    orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
+    subNum: "JDHSKDHD",
+    store: "Store 1",
+    product: "Product X",
+    productId: "123456789",
+    name: "John Doe",
+    country: "Saudi Arabia",
+    price: "12.564 SAR",
+    agent: "Alice Smith",
+    status: "archived",
+  },
 ];
 
 // Define table columns
@@ -391,7 +391,7 @@ const Confirmation = () => {
               onTabChange={setSelectedTab}
             />
 
-            <div className="flex gap-1 items-center">
+            <div className="flex gap-1 items-center self-end">
               <Button color="default" className="rounded-full bg-info text-white">
                 <Calling02Icon size={18} /> <h6 className="text-[12px] md:text-sm">Start Call</h6>
               </Button>
@@ -424,18 +424,18 @@ const Confirmation = () => {
             columns={columns.map(col =>
               col.key === "price"
                 ? {
-                    ...col,
-                    label: (
-                      <div className="flex justify-center items-center">
-                        {col.label}
-                        <ArrowUpDownIcon
-                          size={15}
-                          onClick={toggleSortOrder}
-                          className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
-                        />
-                      </div>
-                    )
-                  }
+                  ...col,
+                  label: (
+                    <div className="flex justify-center items-center">
+                      {col.label}
+                      <ArrowUpDownIcon
+                        size={15}
+                        onClick={toggleSortOrder}
+                        className="ml-1 cursor-pointer text-gray-400 hover:text-blue-500"
+                      />
+                    </div>
+                  )
+                }
                 : col
             )}
             data={sortedRows}

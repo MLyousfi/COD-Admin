@@ -300,7 +300,7 @@ const Roles = () => {
                     </div>
 
                     {/* New Product and Actions Buttons */}
-                    <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
+                    <div className="flex gap-2 flex-wrap items-center self-end"> {/**here ---|> responsv */}
                         <Button
                             onClick={() => setOpenModal(true)}
                             color="default"

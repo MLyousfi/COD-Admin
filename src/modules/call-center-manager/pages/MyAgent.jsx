@@ -157,7 +157,7 @@ export default function MyAgent() {
 
                         {/*Tab content*/}
 
-                        <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
+                        <div className="flex gap-2 flex-wrap items-center self-end"> {/**here ---|> responsv */}
 
                             <Button color="default" className="rounded-full text-white bg-danger">
                                 <PencilEdit01Icon size={18} /> Actions

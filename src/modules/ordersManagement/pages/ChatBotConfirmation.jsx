@@ -423,7 +423,7 @@ export default function ChatBotConfirmation() {
                         />
 
 
-                        <div className="flex gap-2 flex-wrap items-center"> {/**here ---|> responsv */}
+                        <div className="flex gap-2 flex-wrap items-center self-end"> {/**here ---|> responsv */}
                             <Dropdown>
                                 <DropdownTrigger>
                                     <Button variant="bordered" className="rounded-full">
