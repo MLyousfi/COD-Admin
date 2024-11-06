@@ -220,7 +220,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                 <User
                                     as="button"
                                     avatarProps={{
-                                        isBordered: true,
+                                        isBordered: false,
                                         src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
                                     }}
                                     classNames={{
@@ -285,7 +285,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                         <User
                                             as="button"
                                             avatarProps={{
-                                                isBordered: true,
+                                                isBordered: false,
                                                 src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
                                             }}
                                             classNames={{ name: "font-bold", }}
@@ -298,49 +298,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                             <h1 className="font-semibold">Tony Reichert</h1>
                                         </div>
                                     </div>
-                                    {/* <Dropdown placement="bottom-start">
-                                    <DropdownTrigger>
-                                        <div className="flex justify-center gap-2 items-center">
-                                            <User
-                                                as="button"
-                                                avatarProps={{
-                                                    isBordered: true,
-                                                    src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-                                                }}
-                                                classNames={{ name: "font-bold", }}
-                                                className="transition-transform"
-                                            // description="Super Admin"
-                                            // name="Tony Reichert"
-                                            />
-                                            <div className="flex flex-col">
-                                                <h4 className="font-thin">{'Hello, 👋 Good Morning'}</h4>
-                                                <h1 className="font-semibold">Tony Reichert</h1>
-                                            </div>
-                                        </div>
 
-                                    </DropdownTrigger>
-                                    <DropdownMenu aria-label="User Actions" variant="flat">
-                                        <DropdownItem key="profile" className="gap-2 h-14">
-                                            <p className="font-bold">Signed in as</p>
-                                            <p className="font-bold">@tonyreichert</p>
-                                        </DropdownItem>
-                                        <DropdownItem key="settings">
-                                            My Settings
-                                        </DropdownItem>
-                                        <DropdownItem key="team_settings">Team Settings</DropdownItem>
-                                        <DropdownItem key="analytics">
-                                            Analytics
-                                        </DropdownItem>
-                                        <DropdownItem key="system">System</DropdownItem>
-                                        <DropdownItem key="configurations">Configurations</DropdownItem>
-                                        <DropdownItem key="help_and_feedback">
-                                            Help & Feedback
-                                        </DropdownItem>
-                                        <DropdownItem key="logout" color="danger">
-                                            Log Out
-                                        </DropdownItem>
-                                    </DropdownMenu>
-                                </Dropdown> */}
                                     <div className="flex flex-row w-full my-4">
                                         <Input className="w-full ml-auto" placeholder="Search" classNames={{
                                             inputWrapper: "bg-gray-100 dark:bg-neutral-800 rounded-full",
