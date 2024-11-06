@@ -27,9 +27,6 @@ const Table = ({
   const tableRef = useRef(null);
   const lastSelectedIndex = useRef(null); // Ref to track the last selected row index
 
-  // Refs to track touch positions
-  const touchStartX = useRef(0);
-  const touchStartY = useRef(0);
 
   const currentData = () => data.length > 0 && enablePagination
     ? data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
@@ -65,35 +62,6 @@ const Table = ({
     return <div>{emptyMessage}</div>;
   }
 
-  useEffect(() => {
-    const handleTouchStart = (e) => {
-      const touch = e.touches[0];
-      if (touch) {
-        touchStartX.current = touch.clientX;
-        touchStartY.current = touch.clientY; // Initialize touchStartY
-      }
-    };
-
-    const handleTouchMove = (e) => {
-      const touch = e.touches[0];
-      if (touch) {
-        const deltaX = touch.clientX - touchStartX.current;
-        const deltaY = touch.clientY - touchStartY.current;
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-          e.preventDefault();
-        }
-      }
-    };
-
-    const tableElement = tableRef.current;
-    tableElement.addEventListener('touchstart', handleTouchStart, { passive: false });
-    tableElement.addEventListener('touchmove', handleTouchMove, { passive: false });
-
-    return () => {
-      tableElement.removeEventListener('touchstart', handleTouchStart);
-      tableElement.removeEventListener('touchmove', handleTouchMove);
-    };
-  }, []);
 
   // Function to handle selection with Shift key support
   const handleSelection = (itemKey, index, event) => {
