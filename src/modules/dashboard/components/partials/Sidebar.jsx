@@ -16,14 +16,28 @@ import ThemeToggle from "@/modules/dashboard/components/ThemeToggle.jsx";
 import { RouteNames, RoutesConfig } from "@/core/constants/routes.js";
 import { useThemeProvider } from "../../../../core/providers/ThemeContext";
 import { motion } from "framer-motion";
+import { useSelector, useDispatch } from 'react-redux';
+import { setShowSidebar } from "../../../../core/redux/slices/sidebarSlice";
 
-export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }) {
+export default function Sidebar() {
     const location = useLocation();
     const { currentTheme } = useThemeProvider();
     const { pathname } = location;
     const sidebar = useRef(null);
     const [expandedRoutes, setExpandedRoutes] = useState({});
     const [scrollPosition, setScrollPosition] = useState(0);
+
+
+    // reduuux
+    // reduuuux 
+    const dispatch = useDispatch();
+    const sidebarEpingled = useSelector((state) => state.sidebar.sidebarEpingled);
+    const showSidebar = useSelector((state) => state.sidebar.sidebarEpingled ? true : state.sidebar.showSidebar);
+    const HandleSetShowSidebar = (v) => {
+        dispatch(setShowSidebar(v));
+    }
+
+
 
     const toggleRoute = (routePath) => {
         setExpandedRoutes((prev) => ({
@@ -92,11 +106,11 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
     useEffect(() => {
         const keyHandler = ({ keyCode }) => {
             if (!showSidebar || keyCode !== 27) return;
-            setShowSidebar(false);
+            HandleSetShowSidebar(false);
         };
         document.addEventListener("keydown", keyHandler);
         return () => document.removeEventListener("keydown", keyHandler);
-    }, [showSidebar, setShowSidebar]);
+    }, [showSidebar, HandleSetShowSidebar]);
 
     useEffect(() => {
         localStorage.setItem("sidebar-expanded", showSidebar);
@@ -107,17 +121,7 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
         }
     }, [showSidebar]);
 
-    const container = {
-        hidden: { opacity: 0, scale: 0 },
-        visible: {
-            opacity: 1,
-            scale: 1,
-            transition: {
-                delayChildren: 0.1,
-                staggerChildren: 0.05,
-            },
-        },
-    };
+
 
     useEffect(() => {
         if (showSidebar) {
@@ -151,14 +155,13 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
     };
 
     useEffect(() => {
-        if (!sidebarEpingled) {
-            if (showSidebar) {
-                expandCurrentRouteOnly();
-            } else {
-                setExpandedRoutes({});
-            }
+        if (showSidebar) {
+            expandCurrentRouteOnly();
+        } else {
+            setExpandedRoutes({});
         }
-    }, [showSidebar, pathname, sidebarEpingled]);
+
+    }, [showSidebar, pathname]);
 
     const pathMapWithNotif = {};
 
@@ -184,20 +187,17 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
 
     return (
         <motion.div
-            layout
             transition={{ duration: 0.2 }}
             ref={sidebar}
-            onMouseEnter={() => setShowSidebar(true)}
-            onMouseLeave={() => setShowSidebar(false)}
-            className={`${
-                showSidebar ? "hidden lg:block lg:w-80 lg:min-w-64" : "hidden lg:block lg:w-14"
-            } fixed left-0 top-0 bottom-0 overflow-x-hidden bg-base_light dark:bg-transparent border-r border-gray-200 
+            onMouseEnter={() => HandleSetShowSidebar(true)}
+            onMouseLeave={() => HandleSetShowSidebar(false)}
+            className={`${showSidebar ? "hidden lg:block lg:w-80 lg:min-w-64" : "hidden lg:block lg:w-14"
+                } fixed left-0 top-0 bottom-0 overflow-x-hidden bg-base_light dark:bg-transparent border-r border-gray-200 
             dark:border-[#ffffff10] z-30 overflow-y-auto max-h-screen`}
         >
             <div
-                className={`flex justify-between items-center ${
-                    showSidebar ? "my-6 px-6" : "my-6 px-2"
-                } h-10`}
+                className={`flex justify-between items-center ${showSidebar ? "my-6 px-6" : "my-6 px-2"
+                    } h-10`}
             >
                 <Link to="/dashboard">
                     {currentTheme === "light" ? (
@@ -214,25 +214,13 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                         />
                     )}
                 </Link>
-                {/* Uncomment if you want a toggle button
-                {showSidebar && (
-                    <Button
-                        ref={trigger}
-                        onClick={() => setShowSidebar(!showSidebar)}
-                        isIconOnly
-                        variant="light"
-                    >
-                        <SidebarLeft01Icon />
-                    </Button>
-                )}
-                */}
+
             </div>
 
             <div className={`${showSidebar ? "px-4 my-12" : "p-0 my-12"}`}>
                 <h3
-                    className={`my-2 ${
-                        showSidebar ? "" : "text-center"
-                    } text-gray-600`}
+                    className={`my-2 ${showSidebar ? "" : "text-center"
+                        } text-gray-600`}
                 >
                     {showSidebar ? "Menu" : "M"}
                 </h3>
@@ -267,23 +255,20 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                                             <button
                                                 id={route.path}
                                                 onClick={() => toggleRoute(route.path)}
-                                                className={`flex ${
-                                                    showSidebar
-                                                        ? "w-full justify-between"
-                                                        : "w-[50px] mx-auto justify-start"
-                                                } items-center py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white
-                                                ${
-                                                    isActiveParent || pathname === route.path
+                                                className={`flex ${showSidebar
+                                                    ? "w-full justify-between"
+                                                    : "w-[50px] mx-auto justify-start"
+                                                    } items-center py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white
+                                                ${isActiveParent || pathname === route.path
                                                         ? "bg-glb_blue text-white"
                                                         : ""
-                                                }`}
+                                                    }`}
                                             >
                                                 <div
-                                                    className={`flex w-full items-center ${
-                                                        showSidebar
-                                                            ? "px-2"
-                                                            : "justify-center"
-                                                    }`}
+                                                    className={`flex w-full items-center ${showSidebar
+                                                        ? "px-2"
+                                                        : "justify-center"
+                                                        }`}
                                                 >
                                                     {showSidebar ? (
                                                         <>
@@ -329,12 +314,11 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                                                                             onClick={() =>
                                                                                 toggleRoute(child.path)
                                                                             }
-                                                                            className={`flex w-full justify-between items-center px-11 py-2 rounded-xl ${
-                                                                                isActiveChild ||
+                                                                            className={`flex w-full justify-between items-center px-11 py-2 rounded-xl ${isActiveChild ||
                                                                                 isActiveGrandchild
-                                                                                    ? "text-dark_selected"
-                                                                                    : "text-gray-600 dark:text-white"
-                                                                            } hover:text-blue-600 dark:hover:text-blue-400`}
+                                                                                ? "text-dark_selected"
+                                                                                : "text-gray-600 dark:text-white"
+                                                                                } hover:text-blue-600 dark:hover:text-blue-400`}
                                                                         >
                                                                             <div className="flex items-center">
                                                                                 {child.name}
@@ -347,12 +331,11 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                                                                                         (grandChild) => (
                                                                                             <li
                                                                                                 key={grandChild.path}
-                                                                                                className={`flex justify-between items-center ml-2 px-[10px] py-2 rounded-xl ${
-                                                                                                    pathname ===
+                                                                                                className={`flex justify-between items-center ml-2 px-[10px] py-2 rounded-xl ${pathname ===
                                                                                                     grandChild.path
-                                                                                                        ? "text-dark_selected"
-                                                                                                        : "text-gray-600 dark:text-white"
-                                                                                                } hover:text-blue-600 dark:hover:text-blue-400`}
+                                                                                                    ? "text-dark_selected"
+                                                                                                    : "text-gray-600 dark:text-white"
+                                                                                                    } hover:text-blue-600 dark:hover:text-blue-400`}
                                                                                             >
                                                                                                 <Link
                                                                                                     to={grandChild.path}
@@ -369,11 +352,10 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                                                                 ) : (
                                                                     <Link
                                                                         to={child.path}
-                                                                        className={`flex w-full items-center px-2 py-2 rounded-xl ${
-                                                                            pathname === child.path
-                                                                                ? "text-dark_selected"
-                                                                                : "text-gray-600 dark:text-white "
-                                                                        } hover:text-blue-600 dark:hover:text-blue-400`}
+                                                                        className={`flex w-full items-center px-2 py-2 rounded-xl ${pathname === child.path
+                                                                            ? "text-dark_selected"
+                                                                            : "text-gray-600 dark:text-white "
+                                                                            } hover:text-blue-600 dark:hover:text-blue-400`}
                                                                     >
                                                                         <motion.div
                                                                             initial={{
@@ -392,22 +374,21 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                                                                                 damping: 15,
                                                                                 bounce: 0.5,
                                                                             }}
-                                                                            className={`flex justify-center text-[11px] items-center p-1 rounded-full ${
-                                                                                pathMapWithNotif &&
+                                                                            className={`flex justify-center text-[11px] items-center p-1 rounded-full ${pathMapWithNotif &&
                                                                                 pathMapWithNotif[
                                                                                     child.path
                                                                                 ].notifNum !== 0
-                                                                                    ? "bg-glb_red"
-                                                                                    : ""
-                                                                            }  w-6 h-6 mr-3 text-white`}
+                                                                                ? "bg-glb_red"
+                                                                                : ""
+                                                                                }  w-6 h-6 mr-3 text-white`}
                                                                         >
                                                                             {pathMapWithNotif &&
-                                                                            pathMapWithNotif[
-                                                                                child.path
-                                                                            ].notifNum !== 0
+                                                                                pathMapWithNotif[
+                                                                                    child.path
+                                                                                ].notifNum !== 0
                                                                                 ? pathMapWithNotif[
-                                                                                      child.path
-                                                                                  ].notifNum
+                                                                                    child.path
+                                                                                ].notifNum
                                                                                 : ""}
                                                                         </motion.div>
                                                                         {child.name}
@@ -423,15 +404,13 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                                         <Link
                                             id={route.path}
                                             to={route.path}
-                                            className={`flex items-center ${
-                                                showSidebar
-                                                    ? "px-2 w-full justify-start"
-                                                    : "w-[50px] mx-auto justify-center"
-                                            } py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white ${
-                                                isActiveParent || pathname === route.path
+                                            className={`flex items-center ${showSidebar
+                                                ? "px-2 w-full justify-start"
+                                                : "w-[50px] mx-auto justify-center"
+                                                } py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white ${isActiveParent || pathname === route.path
                                                     ? "bg-glb_blue text-white"
                                                     : ""
-                                            }`}
+                                                }`}
                                         >
                                             {showSidebar ? (
                                                 <>
@@ -459,9 +438,8 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
 
                 <div className={`mt-24 ${showSidebar ? "px-2" : ""}`}>
                     <h3
-                        className={`my-2 ${
-                            showSidebar ? "" : "text-center"
-                        } text-gray-600`}
+                        className={`my-2 ${showSidebar ? "" : "text-center"
+                            } text-gray-600`}
                     >
                         {showSidebar ? "System" : "S"}
                     </h3>
@@ -472,9 +450,8 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                                 <Link to="#" className="flex w-full flex-row justify-between items-center">
                                     <span className="flex w-full gap-1">
                                         <MoonCloudIcon
-                                            className={`${
-                                                showSidebar ? "mr-2 ml-1" : ""
-                                            }`}
+                                            className={`${showSidebar ? "mr-2 ml-1" : ""
+                                                }`}
                                             size="20"
                                         />
                                         Dark Mode
@@ -490,16 +467,14 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                                 className="flex w-full hover:text-black hover:dark:text-white"
                             >
                                 <span
-                                    className={`flex w-full gap-1 ${
-                                        showSidebar
-                                            ? ""
-                                            : "items-center justify-center"
-                                    }`}
+                                    className={`flex w-full gap-1 ${showSidebar
+                                        ? ""
+                                        : "items-center justify-center"
+                                        }`}
                                 >
                                     <Settings02Icon
-                                        className={`${
-                                            showSidebar ? "mr-2 ml-1" : ""
-                                        }`}
+                                        className={`${showSidebar ? "mr-2 ml-1" : ""
+                                            }`}
                                         size="20"
                                     />
                                     {showSidebar && "Settings"}
@@ -513,16 +488,14 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                                 className="flex w-full hover:text-black hover:dark:text-white"
                             >
                                 <span
-                                    className={`flex w-full gap-1 ${
-                                        showSidebar
-                                            ? ""
-                                            : "items-center justify-center"
-                                    }`}
+                                    className={`flex w-full gap-1 ${showSidebar
+                                        ? ""
+                                        : "items-center justify-center"
+                                        }`}
                                 >
                                     <Share08Icon
-                                        className={`${
-                                            showSidebar ? "mr-2 ml-1" : ""
-                                        }`}
+                                        className={`${showSidebar ? "mr-2 ml-1" : ""
+                                            }`}
                                         size="20"
                                     />
                                     {showSidebar && "Referrals"}
@@ -536,16 +509,14 @@ export default function Sidebar({ sidebarEpingled, showSidebar, setShowSidebar }
                                 className="flex w-full hover:text-black hover:dark:text-white"
                             >
                                 <span
-                                    className={`flex w-full gap-1 ${
-                                        showSidebar
-                                            ? ""
-                                            : "items-center justify-center"
-                                    }`}
+                                    className={`flex w-full gap-1 ${showSidebar
+                                        ? ""
+                                        : "items-center justify-center"
+                                        }`}
                                 >
                                     <HelpCircleIcon
-                                        className={`${
-                                            showSidebar ? "mr-2 ml-1" : ""
-                                        }`}
+                                        className={`${showSidebar ? "mr-2 ml-1" : ""
+                                            }`}
                                         size="20"
                                     />
                                     {showSidebar && "Help & FAQ"}

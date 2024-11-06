@@ -25,6 +25,8 @@ import { User } from "@nextui-org/user";
 import { NavbarContent, NavbarItem } from "@nextui-org/navbar";
 import moment from "moment";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowReSidebar, setShowSidebar, setSidebarEpingled } from "../../../core/redux/slices/sidebarSlice";
 
 export default function DashboardLayout({
   children,
@@ -39,12 +41,15 @@ export default function DashboardLayout({
   const [smallNotOpen, setSmallNotOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const storedSidebarEpingled = localStorage.getItem("sidebar-epingled");
-  const [sidebarEpingled, setSidebarEpingled] = useState(
-    storedSidebarEpingled === null ? false : storedSidebarEpingled === "true"
-  );
-  const [showSidebar, setShowSidebar] = useState(sidebarEpingled);
-  const [showReSidebar, setShowReSidebar] = useState(false);
+
+
+  // reduuuux 
+  const dispatch = useDispatch();
+  const sidebarEpingled = useSelector((state) => state.sidebar.sidebarEpingled);
+  const showSidebar = useSelector((state) => state.sidebar.showSidebar);
+  const showReSidebar = useSelector((state) => state.sidebar.showReSidebar);
+
+
 
   // Handle clicks outside the dropdown to close it
   useEffect(() => {
@@ -79,15 +84,8 @@ export default function DashboardLayout({
     visible: { opacity: 1, x: 0 },
   };
 
-  // Handlers for sidebar state
-  const handleSideBarChange = (v) => {
-    setShowSidebar(v);
-  };
 
-  const handlePinningSidebar = (v) => {
-    localStorage.setItem("sidebar-epingled", v);
-    setSidebarEpingled(v);
-  };
+
 
   return (
     <>
@@ -95,30 +93,29 @@ export default function DashboardLayout({
       <div className="relative flex w-screen overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
         {/* Main Content Area */}
         <div
-          className={`relative flex flex-col w-full lg:ml-auto min-h-screen ${
-            sidebarEpingled
-              ? "lg:w-[calc(100%-20rem)]"
-              : showSidebar
+          className={`relative flex flex-col w-full lg:ml-auto min-h-screen ${sidebarEpingled
+            ? "lg:w-[calc(100%-20rem)]"
+            : showSidebar
               ? "lg:w-[calc(100%-20rem)]"
               : "lg:w-[calc(100%-3.5rem)]"
-          }`}
+            }`}
         >
           {/* Header / Navbar */}
           <Header
             epingled={sidebarEpingled}
-            setEpingled={handlePinningSidebar}
+            setEpingled={(v) => dispatch(setSidebarEpingled(v))}
             showSidebar={showReSidebar}
-            setShowSidebar={setShowReSidebar}
+            setShowSidebar={(v) => dispatch(setShowReSidebar(v))}
           />
 
           {/* Notification Banner (Hidden on large screens) */}
           <div className="relative h-12 w-full p-3 md:p-4 mx-auto text-center hidden lg:hidden">
-            <div 
+            <div
               ref={dropdownRef}
               onClick={() => setSmallNotOpen(!SmallNotOpen)}
               className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]"
-              >             
-                             <div className="flex justify-center items-center gap-2">
+            >
+              <div className="flex justify-center items-center gap-2">
                 <h4 className="text-sm font-semibold">Important Notifications in the ERP</h4>
                 {smallNotOpen ? (
                   <ArrowDown01Icon className="font-thin" />
@@ -217,15 +214,7 @@ export default function DashboardLayout({
           </footer>
         </div>
 
-        {/* Sidebar for Mobile Screens */}
-        <ResideBar showSidebar={showReSidebar} setShowSidebar={setShowReSidebar} />
 
-        {/* Sidebar for Larger Screens */}
-        <Sidebar
-          sidebarEpingled={sidebarEpingled}
-          showSidebar={sidebarEpingled ? true : showSidebar}
-          setShowSidebar={handleSideBarChange}
-        />
       </div>
 
       {/* Modals */}

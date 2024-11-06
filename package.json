@@ -28,7 +28,7 @@
     "@nextui-org/tabs": "^2.0.37",
     "@nextui-org/theme": "^2.2.11",
     "@nextui-org/user": "^2.0.34",
-    "@reduxjs/toolkit": "^2.2.8",
+    "@reduxjs/toolkit": "^2.3.0",
     "chart.js": "^4.4.5",
     "chartjs-adapter-moment": "^1.0.1",
     "date-fns": "^4.1.0",

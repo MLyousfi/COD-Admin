@@ -168,7 +168,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                             }}
 
                                 isIconOnly
-                                className={`${pathname.includes(RoutesConfig.find(r => r.name === "Notifications").path) ? " bg-glb_blue text-white" : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"} cursor-pointer overflow-visible p-2 rounded-full flex items-center justify-center relative`}
+                                className={`${pathname.includes(RoutesConfig.find(r => r.name === "Notifications").path) ? " bg-glb_red text-white" : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"} cursor-pointer overflow-visible p-2 rounded-full flex items-center justify-center relative`}
                             >
 
                                 <Notification01Icon />
