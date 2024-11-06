@@ -117,48 +117,45 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
 
                 </NavbarContent>
                 <NavbarContent className="justify-between gap-4 flex md:flex-row max-w-fit ">
-                    <NavbarItem className="ml-2 mr-4 hidden md:block">
-                        <Dropdown placement="bottom-start">
-                            <DropdownTrigger>
-                                <User
-                                    as="button"
-                                    avatarProps={{
-                                        isBordered: true,
-                                        src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-                                    }}
-                                    classNames={{
-                                        name: "font-bold",
-                                    }}
-                                    className="transition-transform"
-                                    description="Super Admin"
-                                    name="Tony Reichert"
-                                />
-                            </DropdownTrigger>
-                            <DropdownMenu aria-label="User Actions" variant="flat">
-                                <DropdownItem key="profile" className="gap-2 h-14">
-                                    <p className="font-bold">Signed in as</p>
-                                    <p className="font-bold">@tonyreichert</p>
-                                </DropdownItem>
-                                <DropdownItem key="settings">
-                                    My Settings
-                                </DropdownItem>
-                                <DropdownItem key="team_settings">Team Settings</DropdownItem>
-                                <DropdownItem key="analytics">
-                                    Analytics
-                                </DropdownItem>
-                                <DropdownItem key="system">System</DropdownItem>
-                                <DropdownItem key="configurations">Configurations</DropdownItem>
-                                <DropdownItem key="help_and_feedback">
-                                    Help & Feedback
-                                </DropdownItem>
-                                <DropdownItem key="logout" color="danger">
-                                    Log Out
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </NavbarItem>
+
 
                     <NavbarContent className="justify-self-start md:mr-auto max-w-fit">
+                        <NavbarItem className="hidden lg:block">
+                            <AnimatePresence>
+                                <div onClick={() => setSearchInputOpen(true)} className={`cursor-pointer  overflow-visible p-2 bg-gray-100 dark:bg-neutral-800 rounded-full flex items-center justify-center 
+                                    ${SearchInputOpen && 'bg-gray-200 dark:bg-gray-800'}`}>
+                                    {SearchInputOpen ? (
+                                        <motion.div key="searchInput"
+                                            initial={{ width: 0, opacity: 0 }}
+                                            animate={{ width: "300px", opacity: 1 }}
+                                            exit={{ width: 0, opacity: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                            className="outline-none w-full  bg-transparent text-gray-700 dark:text-white rounded-full focus:outline-none ">
+
+                                            {SearchInputOpen && <motion.div className="w-full flex justify-center items-center gap-2 " initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                                transition={{ duration: 0.3, delay: 0.2 }} ><Search01Icon size={24} />
+                                                <input
+
+                                                    className="flex-grow focus:outline-none outline-none bg-transparent placeholder:text-[#00000060] placeholder:dark:text-[#ffffff50]"
+                                                    type="text"
+                                                    placeholder="Search..."
+                                                    onBlur={() => setSearchInputOpen(false)}
+                                                    autoFocus
+                                                />
+                                                <Code className="flex flex-row  bg-transparent justify-center pl-0"> &nbsp; <CommandIcon
+                                                    className="mr-1" size={16} /> + k
+                                                </Code></motion.div>}
+                                        </motion.div>
+                                    ) : (<Search01Icon />)}
+
+
+                                </div>
+
+                            </AnimatePresence>
+
+                        </NavbarItem>
                         <NavbarItem>
                             <div onClick={(e) => {
                                 e.preventDefault();
@@ -171,7 +168,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                             }}
 
                                 isIconOnly
-                                className={`${pathname.includes(RoutesConfig.find(r => r.name === "Notifications").path) ? " bg-glb_blue text-white" : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"} cursor-pointer overflow-visible p-2 rounded-full flex items-center justify-center relative`}
+                                className={`${pathname.includes(RoutesConfig.find(r => r.name === "Notifications").path) ? " bg-glb_red text-white" : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"} cursor-pointer overflow-visible p-2 rounded-full flex items-center justify-center relative`}
                             >
 
                                 <Notification01Icon />
@@ -214,45 +211,49 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                 <img src={'https://i.pravatar.cc/150?u=a042581f4e29026024d'} />
                             </Button>
                         </NavbarItem>
-                        <NavbarItem className="hidden lg:block">
-                            <AnimatePresence>
-                                <div onClick={() => setSearchInputOpen(true)} className={`cursor-pointer  overflow-visible p-2 bg-gray-100 dark:bg-neutral-800 rounded-full flex items-center justify-center 
-                                    ${SearchInputOpen && 'bg-gray-200 dark:bg-gray-800'}`}>
-                                    {SearchInputOpen ? (
-                                        <motion.div key="searchInput"
-                                            initial={{ width: 0, opacity: 0 }}
-                                            animate={{ width: "300px", opacity: 1 }}
-                                            exit={{ width: 0, opacity: 0 }}
-                                            transition={{ duration: 0.3 }}
-                                            className="outline-none w-full  bg-transparent text-gray-700 dark:text-white rounded-full focus:outline-none ">
 
-                                            {SearchInputOpen && <motion.div className="w-full flex justify-center items-center gap-2 " initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                exit={{ opacity: 0 }}
-                                                transition={{ duration: 0.3, delay: 0.2 }} ><Search01Icon size={24} />
-                                                <input
-
-                                                    className="flex-grow focus:outline-none outline-none bg-transparent placeholder:text-[#00000060] placeholder:dark:text-[#ffffff50]"
-                                                    type="text"
-                                                    placeholder="Search..."
-                                                    onBlur={() => setSearchInputOpen(false)}
-                                                    autoFocus
-                                                />
-                                                <Code className="flex flex-row  bg-transparent justify-center pl-0"> &nbsp; <CommandIcon
-                                                    className="mr-1" size={16} /> + k
-                                                </Code></motion.div>}
-                                        </motion.div>
-                                    ) : (<Search01Icon />)}
-
-
-                                </div>
-
-                            </AnimatePresence>
-
-                        </NavbarItem>
                     </NavbarContent>
 
-
+                    <NavbarItem className="ml-2 mr-4 hidden md:block">
+                        <Dropdown placement="bottom-start">
+                            <DropdownTrigger>
+                                <User
+                                    as="button"
+                                    avatarProps={{
+                                        isBordered: true,
+                                        src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                                    }}
+                                    classNames={{
+                                        name: "font-bold",
+                                    }}
+                                    className="transition-transform"
+                                    description="Super Admin"
+                                    name="Tony Reichert"
+                                />
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="User Actions" variant="flat">
+                                <DropdownItem key="profile" className="gap-2 h-14">
+                                    <p className="font-bold">Signed in as</p>
+                                    <p className="font-bold">@tonyreichert</p>
+                                </DropdownItem>
+                                <DropdownItem key="settings">
+                                    My Settings
+                                </DropdownItem>
+                                <DropdownItem key="team_settings">Team Settings</DropdownItem>
+                                <DropdownItem key="analytics">
+                                    Analytics
+                                </DropdownItem>
+                                <DropdownItem key="system">System</DropdownItem>
+                                <DropdownItem key="configurations">Configurations</DropdownItem>
+                                <DropdownItem key="help_and_feedback">
+                                    Help & Feedback
+                                </DropdownItem>
+                                <DropdownItem key="logout" color="danger">
+                                    Log Out
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </NavbarItem>
                 </NavbarContent>
 
                 {/*right side bar small size */}

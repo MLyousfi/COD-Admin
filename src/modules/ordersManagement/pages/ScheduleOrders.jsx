@@ -312,28 +312,28 @@ export default function ScheduleOrders() {
 
     const handleCheckboxChange = (keys, isRange) => {
         if (isRange) {
-          // Add all keys in the range
-          setSelectedRows((prevSelected) => {
-            const newSelection = [...prevSelected];
-            keys.forEach((key) => {
-              if (!newSelection.includes(key)) {
-                newSelection.push(key);
-              }
+            // Add all keys in the range
+            setSelectedRows((prevSelected) => {
+                const newSelection = [...prevSelected];
+                keys.forEach((key) => {
+                    if (!newSelection.includes(key)) {
+                        newSelection.push(key);
+                    }
+                });
+                return newSelection;
             });
-            return newSelection;
-          });
         } else if (Array.isArray(keys)) {
-          // Select all or unselect all
-          setSelectedRows(keys);
+            // Select all or unselect all
+            setSelectedRows(keys);
         } else {
-          // Toggle single selection
-          setSelectedRows((prevSelected) =>
-            prevSelected.includes(keys)
-              ? prevSelected.filter((key) => key !== keys)
-              : [...prevSelected, keys]
-          );
+            // Toggle single selection
+            setSelectedRows((prevSelected) =>
+                prevSelected.includes(keys)
+                    ? prevSelected.filter((key) => key !== keys)
+                    : [...prevSelected, keys]
+            );
         }
-      };
+    };
     const [selectedTab, setSelectedTab] = useState('active');
 
     const renderCell = useCallback((item, columnKey) => {
@@ -412,7 +412,7 @@ export default function ScheduleOrders() {
             >
                 <div className="p-2 md:p-4">{/**here ---|> responsv */}
                     {/*Tabs*/}
-                    <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
+                    <div className="flex gap-4 justify-between items-center mb-4 ">{/**here ---|> responsv */}
                         <StatusTabs
                             tabs={["Orders"]}
                             activeCount={4}

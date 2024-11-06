@@ -9,8 +9,10 @@ import ThemeToggle from "@/modules/dashboard/components/ThemeToggle.jsx";
 import { RouteNames, RoutesConfig } from "@/core/constants/routes.js";
 import { useThemeProvider } from "../../../../core/providers/ThemeContext";
 import { AnimatePresence, motion } from 'framer-motion';
+import { setShowReSidebar } from '../../../../core/redux/slices/sidebarSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
-export default function ResideBar({ showSidebar, setShowSidebar }) {
+export default function ResideBar() {
     const location = useLocation();
     const { pathname } = location;
     const trigger = useRef(null);
@@ -18,7 +20,15 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
     const [expandedRoutes, setExpandedRoutes] = useState({});
     const { currentTheme } = useThemeProvider();
 
-    const toggleRoute = (routePath) => { 
+    // reduuuux 
+    const dispatch = useDispatch();
+    const showSidebar = useSelector((state) => state.sidebar.showReSidebar);
+    const HandleSetShowSidebar = (v) => {
+        dispatch(setShowReSidebar(v));
+    }
+
+
+    const toggleRoute = (routePath) => {
         setExpandedRoutes((prev) => ({
             ...prev,
             [routePath]: !prev[routePath],
@@ -42,7 +52,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                 if (isParentActive) {
                     setExpandedRoutes((prev) => ({
                         ...prev,
-                        [route.path]: true, 
+                        [route.path]: true,
                     }));
                 }
 
@@ -55,7 +65,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                     if (isGrandchildActive) {
                         setExpandedRoutes((prev) => ({
                             ...prev,
-                            [child.path]: true, 
+                            [child.path]: true,
                         }));
                     }
                 });
@@ -67,11 +77,11 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
     useEffect(() => {
         const keyHandler = ({ keyCode }) => {
             if (!showSidebar || keyCode !== 27) return;
-            setShowSidebar(false);
+            HandleSetShowSidebar(false);
         };
         document.addEventListener("keydown", keyHandler);
         return () => document.removeEventListener("keydown", keyHandler);
-    }, [showSidebar, setShowSidebar]);
+    }, [showSidebar, HandleSetShowSidebar]);
 
     useEffect(() => {
         localStorage.setItem("sidebar-expanded", showSidebar);
@@ -116,7 +126,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
     return (
         // w-10/12
         <AnimatePresence>
-            {showSidebar && <div onClick={() => setShowSidebar(false)}
+            {showSidebar && <div onClick={() => HandleSetShowSidebar(false)}
                 className={`lg:hidden backdrop-blur-xl backdrop-saturate-150 z-30 fixed inset-0 p-0 h-screen bg-gray-500/10`}>
 
                 <motion.div
@@ -129,7 +139,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                     className="flex max-w-80 flex-col overflow-y-auto h-full mr-auto bg-base_light dark:bg-base_dark"
                 >
                     <div className="flex justify-between items-center my-6 px-6">
-                        <Link to='/dashboard' onClick={() => setShowSidebar(false)}>
+                        <Link to='/dashboard' onClick={() => HandleSetShowSidebar(false)}>
                             {currentTheme === 'light' ? (
                                 <img src={codPowerGroupLogo} alt="cod power group logo" className="w-20" />
                             ) : (
@@ -137,7 +147,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                             )}
                         </Link>
                         {showSidebar && (
-                            <Button ref={trigger} onClick={() => setShowSidebar(!showSidebar)} isIconOnly variant="light">
+                            <Button ref={trigger} onClick={() => HandleSetShowSidebar(!showSidebar)} isIconOnly variant="light">
                                 <SidebarLeft01Icon />
                             </Button>
                         )}
@@ -206,8 +216,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                                                                         >
                                                                                             <Link
                                                                                                 onClick={() => {
-                                                                                                    setShowSidebar(false);
-                                                                                                    console.log("Sidebar closed"); // For debugging
+                                                                                                    HandleSetShowSidebar(false);
                                                                                                 }}
                                                                                                 to={grandChild.path}
                                                                                                 className="flex w-full items-center"
@@ -222,8 +231,7 @@ export default function ResideBar({ showSidebar, setShowSidebar }) {
                                                                     ) : (
                                                                         <Link
                                                                             onClick={() => {
-                                                                                setShowSidebar(false);
-                                                                                console.log("Sidebar closed"); // For debugging
+                                                                                HandleSetShowSidebar(false);
                                                                             }}
                                                                             to={child.path}
                                                                             className={`flex w-full items-center px-2 py-2 rounded-xl 

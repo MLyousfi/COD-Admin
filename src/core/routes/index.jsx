@@ -1,4 +1,10 @@
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate,
+} from 'react-router-dom';
 import Dashboard from '../../modules/dashboard/pages/Dashboard.jsx';
 import Login from "../../modules/onboarding/pages/Login.jsx";
 import ForgotPassword from "../../modules/onboarding/pages/ForgotPassword.jsx";
@@ -44,8 +50,11 @@ import Accounts from "../../modules/whatsapp/pages/Accounts.jsx";
 import ShippingCompanies from "../../modules/shippingCost/pages/ShippingCompanies.jsx";
 import Roles from "../../modules/users/pages/Roles.jsx";
 import Partners from "../../modules/general/pages/Partners.jsx";
+import { useState } from "react";
+import ResideBar from "../../modules/dashboard/components/partials/ReSideBar.jsx";
+import Sidebar from "../../modules/dashboard/components/partials/Sidebar.jsx";
 
-const routes = createBrowserRouter([
+const routes = [
     {
         path: "/",
         element: <Navigate to={RouteNames.dashboard} replace />
@@ -368,10 +377,41 @@ const routes = createBrowserRouter([
             },
         ],
     },
-]);
+]
+
+
 
 export default function RoutersWrapper() {
+    // Should log `true`
+
+    function generateRoutes(routes) {
+        return routes.map((route, index) => {
+            if (route.children) {
+                return (
+                    <Route key={index} path={route.path} element={route.element}>
+                        {generateRoutes(route.children)}
+                    </Route>
+                );
+            }
+
+            return <Route key={index} path={route.path} element={route.element} />;
+        });
+    }
+
     return (
-        <RouterProvider router={routes} />
+        <Router>
+            <div className="w-screen h-screen">
+                <Routes>
+                    {generateRoutes(routes)}
+                </Routes>
+
+                {/* Sidebar for Mobile Screens */}
+                <ResideBar />
+
+                {/* Sidebar for Larger Screens */}
+                <Sidebar />
+            </div>
+        </Router>
+
     );
 }

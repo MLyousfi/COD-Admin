@@ -19,7 +19,6 @@ const CallsCard = ({
         }
     };
 
-    console.log('bgColor:', bgColor);
 
     return (
         <motion.div variants={item} className="col-span-1">
