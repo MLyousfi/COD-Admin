@@ -323,7 +323,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                         <li className="px-2 py-2">
                                             <Link state={{ from: pathname }} to="/settings" className="flex w-full">
                                                 <span className="flex w-full gap-1">
-                                                    <Settings02Icon className="ml-1 mr-2" size="20" />
+                                                    <Settings02Icon className="mr-2" size="20" />
                                                     Settings
                                                 </span>
                                             </Link>
@@ -331,7 +331,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                         <li className="px-2 py-2">
                                             <Link state={{ from: pathname }} to="/referrals" className="flex w-full">
                                                 <span className="flex w-full gap-1">
-                                                    <Share08Icon className="ml-1 mr-2" size="20" />
+                                                    <Share08Icon className="mr-2" size="20" />
                                                     Referrals
                                                 </span>
                                             </Link>
@@ -339,7 +339,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                         <li className="px-2 py-2">
                                             <Link state={{ from: pathname }} to="/help" className="flex w-full">
                                                 <span className="flex w-full gap-1">
-                                                    <HelpCircleIcon className="ml-1 mr-2" size="20" />
+                                                    <HelpCircleIcon className="mr-2" size="20" />
                                                     Help
                                                 </span>
                                             </Link>
