@@ -224,7 +224,7 @@ const InlineTable = ({ columns, data, rowsPerPage = 10 }) => {
             {/* Pagination Controls */}
             <div className="flex justify-center items-center my-4 space-x-2">
                 <button
-                    className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm"
+                    className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                 >
@@ -245,7 +245,7 @@ const InlineTable = ({ columns, data, rowsPerPage = 10 }) => {
                 ))}
 
                 <button
-                    className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm"
+                    className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
                 >
@@ -269,48 +269,56 @@ export default function Products() {
         },
     };
 
-    // Define the buttons to be passed as additionalContent
+    // Updated headerButtons with reordered buttons
     const headerButtons = (
-        <div className="flex gap-2 flex-wrap items-center">
-            <Button
-                className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center"
-                auto
-                aria-label="Select Today"
-            >
-                <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-                <span>Today</span>
-            </Button>
-            <Button
-                className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center"
-                auto
-                aria-label="List of Agents"
-            >
-                <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-                <span>List of Agents</span>
-                <ArrowDown01Icon className="ml-1 text-black dark:text-white" size={18} />
-            </Button>
-            <Button
-                className="bg-[#0258E8] border border-blue-800 text-white rounded-full px-4 py-2 flex items-center"
-                auto
-                aria-label="Apply Filter"
-            >
-                <FilterIcon className="text-white" size={18} />
-                <span>Apply Filter</span>
-            </Button>
+        <div className="flex flex-col gap-2 lg:flex-row w-full lg:w-auto items-start lg:items-center">
+            {/* Apply Filter Button: First on small screens, Last on large screens */}
+            <div className="order-1  lg:order-3 flex justify-end mb-2 lg:mb-0 w-full lg:w-auto lg:ml-auto">
+                <Button
+                    className="bg-[#0258E8] border border-blue-800 text-white rounded-full px-4 py-2 flex items-center w-auto"
+                    auto
+                    aria-label="Apply Filter"
+                >
+                    <FilterIcon className="text-white" size={18} />
+                    <span className="ml-2">Apply Filter</span>
+                </Button>
+            </div>
+
+            {/* Today and List of Agents Buttons: Second on small screens, First on large screens */}
+            <div className="order-2 lg:order-1 flex flex-row justify-end gap-2 w-full lg:w-auto">
+                <Button
+                    className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center w-auto"
+                    auto
+                    aria-label="Select Today"
+                >
+                    <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
+                    <span className="ml-2">Today</span>
+                </Button>
+                <Button
+                    className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center w-auto"
+                    auto
+                    aria-label="List of Agents"
+                >
+                    <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
+                    <span className="ml-2">List of Agents</span>
+                    <ArrowDown01Icon className="ml-1 text-black dark:text-white" size={18} />
+                </Button>
+            </div>
         </div>
     );
 
     return (
         <DashboardLayout
             hasSearchInput={false}
-            title="Statistics - Follow Up"
+            title="Statistics - Products"
             icon={<ChartHistogramIcon className="text-info" />}
             additionalContent={headerButtons}
         >
-            {/* Statistics Cards */}
-            <div className="mt-14 px-2 md:px-8">
-                <h2 className="text-xl font-semibold mb-4 text-black dark:text-white">Statistics</h2>
-                <div className="flex flex-col flex-wrap justify-start px-2 md:px-8 md:flex-row">
+
+           <div className="mt-14 px-2 md:px-8">
+                <h2 className="text-xl font-semibold mb-4 text-black dark:text-white ml-4">Statistics</h2>
+                <div initial="hidden" animate="visible" variants={container} className="flex flex-wrap justify-start px-2 md:px-8">
+
                     {statistics.map((stat, index) => (
                         <StatsCard
                             useHover={true}
@@ -322,7 +330,9 @@ export default function Products() {
                             total={stat.total}
                         />
                     ))}
+
                 </div>
+
             </div>
 
             {/* Title and Inline Table Section */}

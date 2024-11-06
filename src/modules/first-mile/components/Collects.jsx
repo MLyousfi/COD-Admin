@@ -1,4 +1,5 @@
-import React, { useState ,useEffect} from 'react';
+// Collects.jsx
+import React, { useState, useEffect } from 'react';
 import { 
   DeliveryBox01Icon, 
   PencilEdit01Icon, 
@@ -28,7 +29,6 @@ const rows = [
         status: "active",
         statut: "New",
         warehouse:"China's Warehouse",
-
     },
     {
         key: "2",
@@ -41,7 +41,6 @@ const rows = [
         status: "active",
         statut: "Shipped",
         warehouse:"China's Warehouse",
-
     },
     {
         key: "3",
@@ -54,7 +53,6 @@ const rows = [
         status: "active",
         statut: "Shipped",
         warehouse:"China's Warehouse",
-
     },
     {
         key: "4",
@@ -67,7 +65,6 @@ const rows = [
         status: "active",
         statut: "Delivered",
         warehouse:"China's Warehouse",
-
     },
     {
         key: "5",
@@ -80,7 +77,6 @@ const rows = [
         status: "active",
         statut: "Shipped",
         warehouse:"China's Warehouse",
-
     },
     {
         key: "6",
@@ -93,7 +89,6 @@ const rows = [
         status: "active",
         statut: "Delivered",
         warehouse:"China's Warehouse",
-
     },
     {
         key: "9",
@@ -106,9 +101,7 @@ const rows = [
         status: "archived",
         statut: "Shipped",
         warehouse:"China's Warehouse",
-
     },
-   
 ];
 
 const columns = [
@@ -132,7 +125,20 @@ const Collects = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const addNewProduct = () => {
-    // ... your existing addNewProduct function
+    // Your existing addNewProduct function
+    const newCollect = {
+      key: (products.length + 1).toString(),
+      number: `WIY-${58168 + products.length + 1}`,
+      orderNumber: (2522 + products.length + 1).toString(),
+      createdAt: "2024-01-07",
+      sentAt: "2024-01-11",
+      shippedAt: "2024-01-16",
+      shippingBy: "New Shipper",
+      status: "active",
+      statut: "New",
+      warehouse:"China's Warehouse",
+    };
+    setProducts([...products, newCollect]);
   };
 
   useEffect(() => {
@@ -149,9 +155,12 @@ const Collects = () => {
     return () => observer.disconnect();
   }, []);
 
-
   const handleCheckboxChange = (key) => {
-    // ... your existing handleCheckboxChange function
+    if (selectedRows.includes(key)) {
+      setSelectedRows(selectedRows.filter(rowKey => rowKey !== key));
+    } else {
+      setSelectedRows([...selectedRows, key]);
+    }
   };
 
   const handleDelete = (key) => {
@@ -167,7 +176,6 @@ const Collects = () => {
     setIsModalOpen(false);
     setSelectedCollect(null);
   };
-
 
   const filteredProducts = selectedTab === 'active'
     ? products.filter(product => product.status === "active")
@@ -251,34 +259,38 @@ const Collects = () => {
   return (
     <DashboardLayout title="First Mile - Collects" icon={<DeliveryBox01Icon className="text-info" />}>
       <div className="p-4">
-        <div className="flex justify-between mb-4">
-          <StatusTabs
-            activeCount={products.filter(product => product.status === "active").length}
-            archivedCount={products.filter(product => product.status === "archived").length}
-            selectedTab={selectedTab}
-            onTabChange={setSelectedTab}
-          />
+        {/* Header Section */}
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mb-4">
+          {/* StatusTabs - Order 2 on small screens, Order 1 on large screens */}
+          <div className="order-2 lg:order-1 w-full lg:w-auto">
+            <StatusTabs
+              activeCount={products.filter(product => product.status === "active").length}
+              archivedCount={products.filter(product => product.status === "archived").length}
+              selectedTab={selectedTab}
+              onTabChange={setSelectedTab}
+            />
+          </div>
 
-          <div className="flex space-x-4 items-center">
+          {/* Action Buttons - Order 1 on small screens, Order 2 on large screens */}
+          <div className="order-1 lg:order-2 flex flex-row gap-2 w-full lg:w-auto justify-end">
             <Button
               color="default"
               onClick={addNewProduct}
-              className="rounded-full"
+              className="rounded-full flex items-center"
               style={{ backgroundColor: '#0258E8', color: 'white' }}
             >
-              <PlusSignIcon size={18} /> New Collect
+              <PlusSignIcon size={18} className="flex-shrink-0" /> New Collect
             </Button>
             <Button
               color="default"
-              className="rounded-full"
+              className="rounded-full flex items-center"
               style={{ backgroundColor: '#ED0006', color: 'white' }}
             >
-              <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions
+              <PencilEdit01Icon size={18} className="flex-shrink-0" /> Actions
             </Button>
-
             <Button
               color="default"
-              className="rounded-full flex items-center border transition-colors duration-200 dark:border-white border-black"
+              className="rounded-full flex items-center border transition-colors duration-200 dark:border-white border-black flex-shrink-0"
               style={{
                 backgroundColor: 'transparent',
               }}
@@ -289,6 +301,7 @@ const Collects = () => {
           </div>
         </div>
 
+        {/* Table Section */}
         <Table
           columns={columns}
           data={filteredProducts}
@@ -299,32 +312,29 @@ const Collects = () => {
           className="dark:bg-gray-800 dark:text-white text-center"
         />
 
-        {/* Custom Modal */}
+        {/* Modal Section */}
         {selectedCollect && (
           <CustomModal
             isOpen={isModalOpen}
             onClose={closeModal}
             title={`Collect - N° ${selectedCollect.number}`}
             isDarkMode={isDarkMode}
-
           >
-{/* Informations Button */}
-<div className="mb-8 mt-10 flex items-center justify-center">
-  <Button
-    size="15"
-    className="flex items-center space-x-2 rounded-full bg-[#0258E8] text-white px-4 py-2"
-  >
-    <InformationCircleIcon size={20} />
-    <span>Informations</span>
-  </Button>
-</div>
+            {/* Information Button */}
+            <div className="mb-8 mt-10 flex items-center justify-center">
+              <Button
+                size="15"
+                className="flex items-center space-x-2 rounded-full bg-[#0258E8] text-white px-4 py-2"
+              >
+                <InformationCircleIcon size={20} />
+                <span>Informations</span>
+              </Button>
+            </div>
 
-
-
-            {/* Modal Content */}
+            {/* Collect Details Table */}
             <div className="overflow-x-auto rounded-[20px]">
-            <table className="w-full text-left text-center">
-            <tbody>
+              <table className="w-full text-left text-center">
+                <tbody>
                   {[
                     { title: 'Code', value: selectedCollect.number },
                     { title: 'Store', value: selectedCollect.warehouse },

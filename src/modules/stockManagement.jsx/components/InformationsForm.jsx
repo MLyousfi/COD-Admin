@@ -1,5 +1,6 @@
 // InformationsForm.jsx
 import React, { useState, useEffect, useRef } from 'react';
+import { Upload04Icon } from 'hugeicons-react'; // Import the upload icon
 
 const InformationsForm = ({ isDarkMode }) => {
   // State for each input field
@@ -54,8 +55,16 @@ const InformationsForm = ({ isDarkMode }) => {
   const [isTestingProduct, setIsTestingProduct] = useState(false);
   const [isChatBotEnabled, setIsChatBotEnabled] = useState(false);
 
+  // New state variables for the new inputs
+  const [notesForCallCenter, setNotesForCallCenter] = useState('');
+  const [isNotesFocused, setIsNotesFocused] = useState(false);
+
+  const [productImage, setProductImage] = useState(null);
+  const [productImageName, setProductImageName] = useState('');
+  const [isProductImageFocused, setIsProductImageFocused] = useState(false);
+
   // Helper function to determine if a field is filled
-  const isFilled = (value) => value.trim() !== '';
+  const isFilled = (value) => value && value.toString().trim() !== '';
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -79,6 +88,17 @@ const InformationsForm = ({ isDarkMode }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  // Handle file input change
+  const handleProductImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setProductImage(e.target.files[0]);
+      setProductImageName(e.target.files[0].name);
+    } else {
+      setProductImage(null);
+      setProductImageName('');
+    }
+  };
 
   return (
     <form className="space-y-8 px-4 sm:px-6 lg:px-8 mx-auto max-w-2xl">
@@ -295,7 +315,9 @@ const InformationsForm = ({ isDarkMode }) => {
               <span
                 className={
                   selectedProductType
-                    ? 'text-black dark:text-white'
+                    ? isDarkMode
+                      ? 'text-white'
+                      : 'text-black'
                     : 'text-gray-500'
                 }
               >
@@ -362,7 +384,9 @@ const InformationsForm = ({ isDarkMode }) => {
                     setIsProductTypeOpen(false);
                   }}
                   role="option"
-                  aria-selected={selectedProductType === 'Product with Battery'}
+                  aria-selected={
+                    selectedProductType === 'Product with Battery'
+                  }
                 >
                   Product with Battery
                 </li>
@@ -438,7 +462,9 @@ const InformationsForm = ({ isDarkMode }) => {
               <span
                 className={
                   selectedCategory
-                    ? 'text-black dark:text-white'
+                    ? isDarkMode
+                      ? 'text-white'
+                      : 'text-black'
                     : 'text-gray-500'
                 }
               >
@@ -823,8 +849,12 @@ const InformationsForm = ({ isDarkMode }) => {
 
         {/* Row 10: Toggle - Is the product for testing */}
         <div className="flex items-center justify-between w-full">
-          <label className={`text-sm ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
-            Is the product for testing ?
+          <label
+            className={`text-sm ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}
+          >
+            Is the product for testing?
           </label>
           <label className="relative inline-flex items-center cursor-pointer ml-auto">
             <input
@@ -852,7 +882,11 @@ const InformationsForm = ({ isDarkMode }) => {
 
         {/* Row 11: Toggle - Enable ChatBot */}
         <div className="flex items-center justify-between w-full">
-          <label className={`text-sm ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+          <label
+            className={`text-sm ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}
+          >
             Enable ChatBot
           </label>
           <label className="relative inline-flex items-center cursor-pointer ml-auto">
@@ -877,6 +911,101 @@ const InformationsForm = ({ isDarkMode }) => {
               }`}
             ></span>
           </label>
+        </div>
+
+        {/* Row 12: Notes for Call Center */}
+        <div className="flex flex-col w-full">
+          <div className="relative flex-1">
+            {/* Static Label */}
+            <label
+              htmlFor="notesForCallCenter"
+              className={`absolute top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
+                isNotesFocused || isFilled(notesForCallCenter)
+                  ? 'transform -translate-y-4 scale-90'
+                  : ''
+              }`}
+            >
+              Notes for Call Center
+            </label>
+
+            {/* Input Field */}
+            <input
+              type="text"
+              id="notesForCallCenter"
+              name="notesForCallCenter"
+              value={notesForCallCenter}
+              onChange={(e) => setNotesForCallCenter(e.target.value)}
+              onFocus={() => setIsNotesFocused(true)}
+              onBlur={() => setIsNotesFocused(isFilled(notesForCallCenter))}
+              className={`block w-full pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-black'
+              }`}
+              placeholder=""
+            />
+
+            {/* Custom Line */}
+            <div
+              className={`absolute bottom-1 h-px w-full transition-colors duration-300 ${
+                isFilled(notesForCallCenter)
+                  ? 'bg-[#0258E8]'
+                  : isDarkMode
+                  ? 'bg-gray-600'
+                  : 'bg-gray-300'
+              }`}
+            ></div>
+          </div>
+        </div>
+
+        {/* Row 13: Select Product's Image */}
+        <div className="flex flex-col w-full">
+          <div className="relative flex-1">
+            {/* Static Label */}
+            <label
+              htmlFor="productImage"
+              className={`absolute top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
+                isProductImageFocused || productImage
+                  ? 'transform -translate-y-4 scale-90'
+                  : ''
+              }`}
+            >
+              Select Product's Image
+            </label>
+
+            {/* File Input Field */}
+            <div
+              className={`flex items-center pt-6 pb-2 cursor-pointer ${
+                isDarkMode ? 'text-white' : 'text-black'
+              }`}
+              onClick={() => document.getElementById('productImage').click()}
+            >
+              <Upload04Icon className="ml-auto text-gray-500 dark:text-gray-500 " />
+              <span>
+                {productImageName ? productImageName : ''}
+              </span>
+            </div>
+
+            {/* Hidden File Input */}
+            <input
+              type="file"
+              id="productImage"
+              accept="image/*"
+              onChange={handleProductImageChange}
+              style={{ display: 'none' }}
+              onFocus={() => setIsProductImageFocused(true)}
+              onBlur={() => setIsProductImageFocused(!!productImage)}
+            />
+
+            {/* Custom Line */}
+            <div
+              className={`absolute bottom-1 h-px w-full transition-colors duration-300 ${
+                productImage
+                  ? 'bg-[#0258E8]'
+                  : isDarkMode
+                  ? 'bg-gray-600'
+                  : 'bg-gray-300'
+              }`}
+            ></div>
+          </div>
         </div>
       </div>
     </form>
