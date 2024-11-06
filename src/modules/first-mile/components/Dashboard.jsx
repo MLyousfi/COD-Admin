@@ -133,60 +133,63 @@ const FirstMileDashboard = () => {
       title="First Mile - Dashboard"
       icon={<DeliveryBox01Icon className="text-info" />}
     >
-      <div className="flex justify-between flex-wrap items-center px-2 gap-2 md:px-6 mb-4">
+     <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-2 gap-2 md:px-6 mb-1">
 
-        <div className="text-xl font-semibold text-black dark:text-white">
-          Orders
-        </div>
+{/* Title */}
+<div className="text-xl font-semibold ml-3 mt-9 text-black dark:text-white order-2 md:order-1 mt-2 md:mt-0">
+  Orders
+</div>
 
-        <div className="flex items-center space-x-2">
-          <Button
-            auto
-            flat
-            className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center space-x-2"
-            onClick={() => setShowDatePicker(!showDatePicker)}
-          >
-            <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} /> {/* Calendar Icon */}
-            <span>{formatDateRange(startDate, endDate)}</span>
-          </Button>
+{/* Buttons */}
+<div className="flex items-center space-x-2 order-1 md:order-2 ml-auto">
+  <Button
+    auto
+    flat
+    className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center space-x-2"
+    onClick={() => setShowDatePicker(!showDatePicker)}
+  >
+    <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} /> {/* Calendar Icon */}
+    <span>{formatDateRange(startDate, endDate)}</span>
+  </Button>
 
-          {showDatePicker && (
-            <div ref={datePickerRef} className="absolute z-10 mt-2">
-              <DatePicker
-                selected={startDate}
-                onChange={handleDateChange}
-                startDate={startDate}
-                endDate={endDate}
-                selectsRange
-                inline
-              />
-            </div>
-          )}
+  {showDatePicker && (
+    <div ref={datePickerRef} className="absolute z-10 mt-2">
+      <DatePicker
+        selected={startDate}
+        onChange={handleDateChange}
+        startDate={startDate}
+        endDate={endDate}
+        selectsRange
+        inline
+      />
+    </div>
+  )}
 
-          <div className="relative">
-            <select
-              className="p-2 border border-gray-700 bg-transparent text-black dark:text-white rounded-full px-4 pr-8 appearance-none focus:outline-none"
-              value={selectedPeriod}
-              onChange={(e) => setSelectedPeriod(e.target.value)}
-            >
-              <option value="Daily">Daily</option>
-              <option value="Monthly">Monthly</option>
-              <option value="Yearly">Yearly</option>
-            </select>
-            <div className="absolute right-4 top-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-black dark:text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div className="relative">
+    <select
+      className="p-2 border border-gray-700 bg-transparent text-black dark:text-white rounded-full px-4 pr-8 appearance-none focus:outline-none"
+      value={selectedPeriod}
+      onChange={(e) => setSelectedPeriod(e.target.value)}
+    >
+      <option value="Daily">Daily</option>
+      <option value="Monthly">Monthly</option>
+      <option value="Yearly">Yearly</option>
+    </select>
+    <div className="absolute right-4 top-3 pointer-events-none">
+      <svg
+        className="w-4 h-4 text-black dark:text-white"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </div>
+  </div>
+</div>
+</div>
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-0">
         {cardData.map((card, index) => (
