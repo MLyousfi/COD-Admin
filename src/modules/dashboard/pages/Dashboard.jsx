@@ -541,12 +541,99 @@ export default function Dashboard() {
         </form>
       </CustomModal>
 
-      {/* Render the FilterModal */}
-      <FilterModal
+
+    return (
+        <>
+            <DashboardLayout title="Dashboard" icon={<Home01Icon className="text-info" />}>
+
+                <motion.div initial="hidden"
+                    animate="visible" variants={container} className="grid grid-cols-2 md:grid-cols-4 gap-2 mx-2 md:mx-4 lg:mx-8">
+                    {dataCards.map((item, index) => (
+                        <StatsCard
+                            key={index}
+                            item={item}
+                        />
+                    ))}
+
+                </motion.div>
+                <div className="flex flex-row flex-wrap items-start justify-start p-2 md:px-8">
+                    {/* <LineChartCard
+                        title="Product Delivery"
+                        data={chartData}
+                        percentChange={7.9}
+                        timeRange="Last Month"
+                    /> */}
+                    <LineChartCard
+                        title="Product Delivery"
+                        data={{
+                            labels: [
+                                "Jan", "Feb", "Mar", "Apr", "May",
+                                "Jun", "Jul", "Aug", "Sep", "Oct",
+                                "Nov", "Dec"
+                            ],
+                            values: [1, 3, 3, 2.5, 2.5, 2, 4, 4, 3, 3, 2, 4],
+                        }}
+                        percentChange={7.9}
+                        timeRange="Last Month"
+                    />
+
+                    <GaugeChart
+                        type="semi"
+                        value={50}  // Set a simple value
+                        size={200}
+                        min={0}
+                        max={100}
+                        arcWidth={10}
+                        arcs={[{ color: '#22c55e', limit: 50 }]}  // Single arc
+                    />
+
+                </div>
+
+                <div className="mx-2 md:mx-4 lg:mx-8">
+                    <h3 className="my-6 text-xl font-bold">Call Center</h3>
+                    <motion.div initial="hidden"
+                        animate="visible" variants={container} className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-5 gap-1 lg:gap-2 ">
+                        {callCenterItems.map((i, index) => (
+
+                            <CallsCard
+                                key={index}
+                                icon={React.createElement(i.icon, { size: 22 })}
+                                cardBg="bg-info"
+                                percentage={i.percentage}
+                                amount={i.total}
+                                title={i.title}
+                                bgColor={i.bgColor}
+                            />
+                        ))}
+
+                    </motion.div>
+                </div>
+
+                <div className="mx-2 md:mx-4 lg:mx-8">
+                    <h3 className="my-6 text-xl font-bold">Shipping</h3>
+                    <div className="grid grid-cols-2 xl:grid-cols-4 gap-1 lg:gap-2 ">
+                        {shipping.map((i, index) => (
+                            <ShippingCard
+                                key={index}
+                                icon={React.createElement(i.icon, { size: 22 })}
+
+                                percentage={i.percentage}
+                                amount={i.amount}
+                                title={i.title}
+                                bgColor={i.backgroundColor}
+                                textColor={i.textColor}
+                            />
+                        ))
+                        }
+                    </div>
+                </div>
+            </DashboardLayout>
+<FilterModal
         id="filter-modal"
         modalOpen={isFilterModalOpen}
         setModalOpen={setIsFilterModalOpen}
       />
-    </>
-  );
+        </>
+    );
 }
+

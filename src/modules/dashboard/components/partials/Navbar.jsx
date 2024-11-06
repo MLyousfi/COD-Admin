@@ -173,7 +173,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
 
                                 <Notification01Icon />
                                 <div
-                                    className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full"></div>
+                                    className={`absolute top-2 right-2 w-2.5 h-2.5 ${pathname.includes(RoutesConfig.find(r => r.name === "Notifications").path) ? 'bg-white border-2 border-glb_red dark:border-glb_red' : 'bg-glb_red border-2 border-gray-100 dark:border-gray-900'}  rounded-full`}></div>
                             </div>
                         </NavbarItem>
                         <NavbarItem className="md:hidden" >
@@ -186,7 +186,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                         ? "bg-glb_blue text-white"
                                         : "bg-gray-100 dark:bg-neutral-800 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800"
                                     }
-                                font-bold rounded-full
+                                    font-bold rounded-full
                             `}
                                 onClick={() => changeCurrentTheme(currentTheme === 'light' ? 'dark' : 'light')}
                                 aria-label="Toggle Theme"
