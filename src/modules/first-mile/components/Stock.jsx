@@ -1,7 +1,7 @@
 // StockManagement.jsx
 import React, { useState, useEffect } from 'react';
 import {
-DeliveryBox01Icon,
+  DeliveryBox01Icon,
   PlusSignIcon,
   GarageIcon,
   PencilEdit01Icon,
@@ -21,6 +21,7 @@ import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data'; 
 import InformationsForm from '../../stockManagement.jsx/components/InformationsForm';
 import CustomModal from '../../stockManagement.jsx/components/modal';
+
 const selectedButtonColor = '#0258E8';
 const headerBackgroundColorDark = 'rgba(255, 255, 255, 0.02)';
 const headerBackgroundColorLight = 'rgba(0, 0, 0, 0.05)';
@@ -48,7 +49,6 @@ const Stock = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const rowsPerPage = 10; 
 
-  // Detect dark mode
   useEffect(() => {
     const checkDarkMode = () => {
       const darkMode = document.documentElement.classList.contains('dark');
@@ -79,7 +79,6 @@ const Stock = () => {
 
   const handleCheckboxChange = (keys, isRange) => {
     if (isRange) {
-      // Add all keys in the range
       setSelectedRows((prevSelected) => {
         const newSelection = [...prevSelected];
         keys.forEach((key) => {
@@ -90,10 +89,8 @@ const Stock = () => {
         return newSelection;
       });
     } else if (Array.isArray(keys)) {
-      // Select all or unselect all
       setSelectedRows(keys);
     } else {
-      // Toggle single selection
       setSelectedRows((prevSelected) =>
         prevSelected.includes(keys)
           ? prevSelected.filter((key) => key !== keys)
@@ -101,6 +98,7 @@ const Stock = () => {
       );
     }
   };
+
   const handleDelete = (key) => {
     setProducts(products.map(product => 
       product.key === key ? { ...product, status: 'deleted' } : product
@@ -171,8 +169,11 @@ const Stock = () => {
     }
   };
 
-  // Sample data for the modal tables
-  const warehousesData = [];
+  const warehousesData = [
+    // Add your warehouse data here
+    // Example:
+    // { key: 1, warehouse: "Warehouse A", location: "Location A", capacity: 100 },
+  ];
   
   const countriesData = selectedProduct
     ? [
@@ -198,6 +199,9 @@ const Stock = () => {
 
   const modalTableColumns = modalView === 'warehouses' ? 
     [
+      { key: "warehouse", label: "Warehouse" },
+      { key: "location", label: "Location" },
+      { key: "capacity", label: "Capacity" },
     ] : 
     [
       { key: "productName", label: "Product Name" },
@@ -220,22 +224,23 @@ const Stock = () => {
   return (
     <DashboardLayout title="First Mile - Stock" icon={<DeliveryBox01Icon className="text-info" />}>
       <div className="p-4">
-        <div className="flex justify-between mb-4">
-          <StatusTabs 
-            activeCount={products.filter(product => product.status === "active").length}
-            archivedCount={products.filter(product => product.status === "archived").length}
-            selectedTab={activeView}
-            onTabChange={setActiveView}
-          />
-
-          <div className="space-x-4">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mb-4">
+          <div className="order-2 lg:order-1 w-full lg:w-auto mt-4">
+            <StatusTabs 
+              activeCount={products.filter(product => product.status === "active").length}
+              archivedCount={products.filter(product => product.status === "archived").length}
+              selectedTab={activeView}
+              onTabChange={setActiveView}
+            />
+          </div>
+          <div className="order-1 lg:order-2 flex space-x-4 items-center w-full lg:w-auto justify-end">
             <Button 
               color="default" 
-              onClick={handleOpenNewProductModal} // Updated to open modal
+              onClick={handleOpenNewProductModal}
               className="rounded-full" 
               style={{ backgroundColor: '#0258E8', color: 'white' }}  
             >
-              <PlusSignIcon size={18} /> New Product 
+              <PlusSignIcon size={18} className="mr-1"/> New Product 
             </Button>
             <Button 
               color="default" 
@@ -248,22 +253,21 @@ const Stock = () => {
         </div>
 
         <Table 
-          columns={columns} 
-          data={filteredProducts} 
-          renderCell={renderCell} 
+          columns={columns}
+          data={filteredProducts}
+          renderCell={renderCell}
           handleCheckboxChange={handleCheckboxChange}
-          selectedRows={selectedRows} 
-          rowsPerPage={rowsPerPage}  
-          className="dark:bg-gray-800 dark:text-white" 
+          selectedRows={selectedRows}
+          rowsPerPage={rowsPerPage}
+          className="dark:bg-gray-800 dark:text-white"
         />
 
-        {/* Custom Modal Component */}
         <CustomModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           title={
             modalType === 'new'
-              ? "Product Name - N°19827" // Replace 'N' with actual number if available
+              ? "New Product"
               : selectedProduct
               ? `${selectedProduct.product} - N°${selectedProduct.key}`
               : "Product Details"
@@ -271,11 +275,8 @@ const Stock = () => {
           isDarkMode={isDarkMode}
         >
           {modalType === 'view' ? (
-            /* Existing Modal Content for Viewing Product */
             <>
-              {/* Warehouses and Countries Toggle Buttons */}
               <div className="flex space-x-4 mb-10">
-                {/* Warehouses Button */}
                 <Button
                   color="default"
                   className="flex items-center space-x-2 rounded-full border transition-colors duration-300"
@@ -290,7 +291,6 @@ const Stock = () => {
                   <span>Warehouses</span>
                 </Button>
 
-                {/* Countries Button */}
                 <Button
                   color="default"
                   className="flex items-center space-x-2 rounded-full border transition-colors duration-300"
@@ -306,13 +306,11 @@ const Stock = () => {
                 </Button>
               </div>
 
-              {/* Modal Table Container with Scrollability */}
               <div className="flex-1 overflow-auto">
                 <div className="overflow-x-auto">
                   <table className="min-w-full bg-transparent border-separate border-spacing-0">
                     <thead>
                       <tr>
-                        {/* Empty header for Checkbox column */}
                         <th
                           className="py-2 px-4 text-left text-sm font-semibold"
                           style={{ width: '192px' }}
@@ -346,10 +344,12 @@ const Stock = () => {
                                 <td className={`py-2 px-4 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>
                                   {row.warehouse} - {row.location} (Capacity: {row.capacity})
                                 </td>
+                                <td className={`py-2 px-4 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                                  {row.capacity}
+                                </td>
                               </>
                             ) : (
                               <>
-                                {/* Product Name with Rounded Bottom-Left Corner */}
                                 <td
                                   className={`py-2 px-4 text-sm whitespace-nowrap font-bold ${
                                     modalView === 'countries' ? 'rounded-bl-lg' : ''
@@ -363,7 +363,6 @@ const Stock = () => {
                                 >
                                   {row.productName}
                                 </td>
-                                {/* Country Columns */}
                                 {modalTableColumns.slice(1).map((col) => (
                                   <td
                                     key={col.key}
@@ -401,72 +400,67 @@ const Stock = () => {
               </div>
             </>
           ) : modalType === 'new' ? (
-            /* New Product Modal Content */
             <>
-              {/* Buttons for New Product Sections */}
-              <div className="flex space-x-4 mb-10">
-                {/* Informations Button */}
-                <Button
-                  color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
-                    activeNewProductSection === 'informations' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
-                  }`}
-                  onClick={() => setActiveNewProductSection('informations')}
-                  style={{
-                    borderColor: activeNewProductSection === 'informations' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
-                  }}
-                >
-                  <PackageIcon size={20} />
-                  <span>Informations</span>
-                </Button>
+              <div className="flex flex-col lg:flex-row space-x-4 mb-10">
+                <div className="flex flex-col lg:flex-row lg:space-x-4">
+                  <Button
+                    color="default"
+                    className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 mb-4 lg:mb-0 ${
+                      activeNewProductSection === 'informations' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
+                    }`}
+                    onClick={() => setActiveNewProductSection('informations')}
+                    style={{
+                      borderColor: activeNewProductSection === 'informations' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
+                    }}
+                  >
+                    <PackageIcon size={20} />
+                    <span>Informations</span>
+                  </Button>
 
-                {/* Stocks Button */}
-                <Button
-                  color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
-                    activeNewProductSection === 'stocks' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
-                  }`}
-                  onClick={() => setActiveNewProductSection('stocks')}
-                  style={{
-                    borderColor: activeNewProductSection === 'stocks' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
-                  }}
-                >
-                  <Layers01Icon size={20} />
-                  <span>Stocks</span>
-                </Button>
+                  <Button
+                    color="default"
+                    className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 mb-4 lg:mb-0 ${
+                      activeNewProductSection === 'stocks' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
+                    }`}
+                    onClick={() => setActiveNewProductSection('stocks')}
+                    style={{
+                      borderColor: activeNewProductSection === 'stocks' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
+                    }}
+                  >
+                    <Layers01Icon size={20} />
+                    <span>Stocks</span>
+                  </Button>
 
-                {/* Sales Price Button */}
-                <Button
-                  color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
-                    activeNewProductSection === 'salesPrice' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
-                  }`}
-                  onClick={() => setActiveNewProductSection('salesPrice')}
-                  style={{
-                    borderColor: activeNewProductSection === 'salesPrice' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
-                  }}
-                >
-                  <SaleTag02Icon size={20} />
-                  <span>Sales Price</span>
-                </Button>
+                  <Button
+                    color="default"
+                    className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 mb-4 lg:mb-0 ${
+                      activeNewProductSection === 'salesPrice' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
+                    }`}
+                    onClick={() => setActiveNewProductSection('salesPrice')}
+                    style={{
+                      borderColor: activeNewProductSection === 'salesPrice' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
+                    }}
+                  >
+                    <SaleTag02Icon size={20} />
+                    <span>Sales Price</span>
+                  </Button>
 
-                {/* Upsell Button */}
-                <Button
-                  color="default"
-                  className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
-                    activeNewProductSection === 'upsell' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
-                  }`}
-                  onClick={() => setActiveNewProductSection('upsell')}
-                  style={{
-                    borderColor: activeNewProductSection === 'upsell' ? '#0258E8' : isDarkMode ? '#A0AEC0' : 'black',
-                  }}
-                >
-                  <Dollar02Icon size={20} />
-                  <span>Upsell</span>
-                </Button>
+                  <Button
+                    color="default"
+                    className={`flex items-center space-x-2 rounded-full border transition-colors duration-300 ${
+                      activeNewProductSection === 'upsell' ? 'bg-[#0258E8] text-white' : 'bg-transparent text-black dark:text-white'
+                    }`}
+                    onClick={() => setActiveNewProductSection('upsell')}
+                    style={{
+                      borderColor: activeNewProductSection === 'upsell' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
+                    }}
+                  >
+                    <Dollar02Icon size={20} />
+                    <span>Upsell</span>
+                  </Button>
+                </div>
               </div>
 
-              {/* Modal Content Based on Active New Product Section */}
               <div className="flex-1 overflow-auto">
                 {activeNewProductSection === 'informations' && (
                   <InformationsForm isDarkMode={isDarkMode} />

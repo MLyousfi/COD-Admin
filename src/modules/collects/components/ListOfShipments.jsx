@@ -9,7 +9,10 @@ import {
   CheckmarkCircle01Icon,
   Recycle03Icon,
   ArrowDown01Icon,
-} from 'hugeicons-react';
+  Search01Icon,
+  FilterIcon,
+  CommandIcon,
+} from 'hugeicons-react'; // Ensure these icons are available
 import { Button } from '@nextui-org/button';
 import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
 import Table from '../../stockManagement.jsx/components/Table';
@@ -17,6 +20,9 @@ import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data2';
 import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the import path accordingly
 import { Select, SelectItem } from '@nextui-org/select'; // Ensure you have the Select components imported
+import { Input } from '@nextui-org/input';
+import { Code } from '@nextui-org/code';
+import FilterModal from './FilterModal'; // Import FilterModal
 
 // Define options for Select components
 const collectionNoOptions = [
@@ -64,8 +70,11 @@ const ListOfShipments = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const rowsPerPage = 10;
 
-  // State for Modal
+  // State for CustomModal (Search Modal)
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // State for FilterModal
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   // States for Modal Select Inputs
   const [collectionNo, setCollectionNo] = useState('');
@@ -84,6 +93,7 @@ const ListOfShipments = () => {
       setSelectedRows([...selectedRows, key]);
     }
   };
+
   useEffect(() => {
     const checkDarkMode = () => {
       const darkMode = document.documentElement.classList.contains('dark');
@@ -175,7 +185,7 @@ const ListOfShipments = () => {
     }
   };
 
-  // Handle Ctrl+K to open the modal
+  // Handle Ctrl+K to open the search modal
   useEffect(() => {
     const handleKeyDown = (event) => {
       // Check if Ctrl + K is pressed
@@ -219,42 +229,100 @@ const ListOfShipments = () => {
   };
 
   return (
-    <DashboardLayout title="Collects - List of Shipments" icon={<DeliveryTruck01Icon className="text-info" />}>
+    <DashboardLayout
+      title="Collects - List of Shipments"
+      icon={<DeliveryTruck01Icon className="text-info" />
+        
+      }
+      filterModalComponent={<FilterModal />}
+    >
       <div className="pr-2 pl-1 md:p-4">
-        <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
+        {/* Small Screen: Search and Filter Icons on Top */}
+        <div className="flex space-x-2 justify-center mb-4">
+          {/* Small Screen: Search and Filter Icons */}
+          <div className="flex space-x-2 md:hidden mb-4">
+            {/* Use md:hidden to show only on small screens */}
+            <Input
+              className="w-full"
+              placeholder="Search"
+              classNames={{
+                inputWrapper: 'bg-gray-100 dark:bg-neutral-800 rounded-full',
+              }}
+              endContent={
+                <Code className="flex flex-row justify-center pl-0">
+                  &nbsp; <CommandIcon className="mr-1" size={16} /> + k
+                </Code>
+              }
+              startContent={<Search01Icon size={24} />}
+              onClick={() => setIsModalOpen(true)} // Open search modal on click
+            />
+
+            <Button
+              isIconOnly
+              className="dark:text-white text-black rounded-full bg-gray-100 dark:bg-neutral-800"
+              onClick={() => setIsFilterModalOpen(true)} // Open FilterModal on click
+            >
+              <FilterIcon size={18} />
+            </Button>
+          </div>
+        </div>
+
+        {/* Desktop and Medium Screens: Status Tabs on the Left, Buttons on the Right */}
+        <div className="flex justify-between items-center mb-4">
+          {/* Status Tabs on the left for medium and larger screens */}
+          <div className="hidden md:flex">
+            <StatusTabs
+              activeCount={products.filter((product) => product.status === 'active').length}
+              archivedCount={products.filter((product) => product.status === 'archived').length}
+              selectedTab={activeView}
+              onTabChange={setActiveView}
+            />
+          </div>
+
+          <div className="flex flex-wrap space-x-1 justify-center px-2 md:px-4">
+            <Button
+              color="default"
+              onClick={addNewProduct}
+              className="rounded-full flex items-center px-3 py-1 text-sm md:px-4 md:py-2 "
+              style={{ backgroundColor: '#0258E8', color: 'white' }}
+            >
+              <PlusSignIcon size={16} className="mr-1" /> New Collect
+            </Button>
+
+            <Button
+              color="default"
+              className="rounded-full flex items-center px-3 py-1 text-sm md:px-4 md:py-2"
+              style={{ backgroundColor: '#ED0006', color: 'white' }}
+            >
+              <PencilEdit01Icon size={16} className="mr-1" /> Actions
+            </Button>
+
+            <Button
+              color="default"
+              className="rounded-full flex items-center px-3 py-1 text-sm md:px-4 md:py-2  border"
+              style={{
+                backgroundColor: 'transparent',
+                borderColor: isDarkMode ? '#ffffff10' : '#00000030',
+                color: isDarkMode ? '#ffffff' : '#000000',
+              }}
+            >
+              <span className="mr-1">Status</span>
+              <ArrowDown01Icon size={16} className="ml-1" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Status Tabs for small screens */}
+        <div className="md:hidden mb-4">
           <StatusTabs
             activeCount={products.filter((product) => product.status === 'active').length}
             archivedCount={products.filter((product) => product.status === 'archived').length}
             selectedTab={activeView}
             onTabChange={setActiveView}
           />
-
-          <div className="flex justify-center space-x-1 mb-4">
-            <Button
-              color="default"
-              onClick={addNewProduct}
-              className="rounded-full"
-              style={{ backgroundColor: '#0258E8', color: 'white' }}
-            >
-              <PlusSignIcon size={18} /> New Collect
-            </Button>
-            <Button color="default" className="rounded-full" style={{ backgroundColor: '#ED0006', color: 'white' }}>
-              <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions
-            </Button>
-
-            <Button
-              color="default"
-              className="rounded-full flex items-center border transition-colors duration-200 dark:border-white border-black"
-              style={{
-                backgroundColor: 'transparent',
-              }}
-            >
-              <span className="text-black dark:text-white">Status</span>
-              <ArrowDown01Icon className="ml-1 text-black dark:text-white" />
-            </Button>
-          </div>
         </div>
 
+        {/* Table Component */}
         <Table
           columns={columns}
           data={filteredProducts}
@@ -266,7 +334,7 @@ const ListOfShipments = () => {
         />
       </div>
 
-      {/* Render the CustomModal */}
+      {/* Render the CustomModal (Search Modal) */}
       <CustomModal
         isOpen={isModalOpen}
         onClose={handleCancel}
@@ -278,6 +346,7 @@ const ListOfShipments = () => {
           {/* Collection No Select */}
           <div className="w-full">
             <label htmlFor="collection-no" className="block mb-1">
+              <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Collection No</span>
             </label>
             <Select
               selectedKeys={collectionNo ? [collectionNo] : []}
@@ -285,12 +354,13 @@ const ListOfShipments = () => {
               placeholder="Select Collection No"
               labelPlacement="outside"
               classNames={{
-                value: "dark:!text-[#ffffff85] !text-[#00000085]",
-                trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+                value: 'dark:!text-[#ffffff85] !text-[#00000085]',
+                trigger:
+                  'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
               }}
-              onSelectionChange={(keys) => setCollectionNo(keys[0])}
+              onSelectionChange={(keys) => setCollectionNo(keys.currentKey)}
             >
-              {collectionNoOptions.map(option => (
+              {collectionNoOptions.map((option) => (
                 <SelectItem key={option.key}>{option.label}</SelectItem>
               ))}
             </Select>
@@ -307,10 +377,11 @@ const ListOfShipments = () => {
               placeholder="All"
               labelPlacement="outside"
               classNames={{
-                value: "dark:!text-[#ffffff85] !text-[#00000085]",
-                trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+                value: 'dark:!text-[#ffffff85] !text-[#00000085]',
+                trigger:
+                  'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
               }}
-              onSelectionChange={(keys) => setStatut(keys[0])}
+              onSelectionChange={(keys) => setStatut(keys.currentKey)}
             >
               <SelectItem key="All">All</SelectItem>
               <SelectItem key="Active">Active</SelectItem>
@@ -330,12 +401,13 @@ const ListOfShipments = () => {
               placeholder="All"
               labelPlacement="outside"
               classNames={{
-                value: "dark:!text-[#ffffff85] !text-[#00000085]",
-                trigger: 'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+                value: 'dark:!text-[#ffffff85] !text-[#00000085]',
+                trigger:
+                  'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
               }}
-              onSelectionChange={(keys) => setShippedBy(keys[0])}
+              onSelectionChange={(keys) => setShippedBy(keys.currentKey)}
             >
-              {shippedByOptions.map(option => (
+              {shippedByOptions.map((option) => (
                 <SelectItem key={option.key}>{option.label}</SelectItem>
               ))}
             </Select>
@@ -343,20 +415,18 @@ const ListOfShipments = () => {
 
           {/* Due Date Select (No Borders) */}
           <div className="w-full flex items-center">
-            <label htmlFor="due-date" className="block mb-1">
-            </label>
             <Select
               selectedKeys={dueDate ? [dueDate] : []}
               id="due-date"
               placeholder="Due Date"
               labelPlacement="outside"
               classNames={{
-                value: "dark:!text-[#ffffff] !text-[#00000085]",
+                value: 'dark:!text-[#ffffff] !text-[#00000085]',
                 trigger: 'bg-transparent mt-2 focus:border-none border-none rounded-lg', // No border
               }}
-              onSelectionChange={(keys) => setDueDate(keys[0])}
+              onSelectionChange={(keys) => setDueDate(keys.currentKey)}
             >
-              {dueDateOptions.map(option => (
+              {dueDateOptions.map((option) => (
                 <SelectItem key={option.key}>{option.label}</SelectItem>
               ))}
             </Select>
@@ -364,7 +434,7 @@ const ListOfShipments = () => {
 
           {/* Submit and Cancel Buttons */}
           <div className="flex justify-center space-x-4 rounded-full">
-            <Button type="submit" color="primary" className='rounded-full'>
+            <Button type="submit" color="primary" className="rounded-full">
               Search Now
             </Button>
             <Button
@@ -379,6 +449,13 @@ const ListOfShipments = () => {
           </div>
         </form>
       </CustomModal>
+
+      {/* Render the FilterModal */}
+      <FilterModal
+        id="filter-modal"
+        modalOpen={isFilterModalOpen}
+        setModalOpen={setIsFilterModalOpen}
+      />
     </DashboardLayout>
   );
 };
