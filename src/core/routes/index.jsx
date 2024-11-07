@@ -53,6 +53,7 @@ import Partners from "../../modules/general/pages/Partners.jsx";
 import { useState } from "react";
 import ResideBar from "../../modules/dashboard/components/partials/ReSideBar.jsx";
 import Sidebar from "../../modules/dashboard/components/partials/Sidebar.jsx";
+import Warehouse from "../../modules/stockManagement.jsx/components/Warehouse.jsx";
 
 const routes = [
     {
@@ -72,7 +73,7 @@ const routes = [
             },
             {
                 path: RouteNames.warehouses,
-                element: <StockManagement />
+                element: <Warehouse />
             },
         ],
     },

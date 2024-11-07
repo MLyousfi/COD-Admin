@@ -22,7 +22,9 @@ import Table from './Table';
 import { rows } from '../../../core/utils/data'; 
 import CustomModal from './modal'; 
 import InformationsForm from './InformationsForm'; // Import the InformationsForm component
-
+import StocksForm from './StockForm'; // Import the StocksForm component
+import SalesPriceForm from './SalesPriceForm';
+import UpsellForm from './UpsellForm';
 const selectedButtonColor = '#0258E8';
 const headerBackgroundColorDark = 'rgba(255, 255, 255, 0.02)';
 const headerBackgroundColorLight = 'rgba(0, 0, 0, 0.05)';
@@ -103,6 +105,7 @@ const StockManagement = () => {
       );
     }
   };
+
   const handleDelete = (key) => {
     setProducts(products.map(product =>
       product.key === key ? { ...product, status: 'deleted' } : product
@@ -200,6 +203,7 @@ const StockManagement = () => {
 
   const modalTableColumns = modalView === 'warehouses' ?
     [
+     
     ] :
     [
       { key: "productName", label: "Product Name" },
@@ -273,13 +277,13 @@ const StockManagement = () => {
           onClose={handleCloseModal}
           title={
             modalType === 'new'
-              ? "Product Name - N°19827" // Replace 'N' with actual number if available
+              ? "New Product - N°19827" // Adjust as needed
               : selectedProduct
               ? `${selectedProduct.product} - N°${selectedProduct.key}`
               : "Product Details"
           }
           isDarkMode={isDarkMode}
-          width='700px'
+          width='1000px'
         >
           {modalType === 'view' ? (
             /* Existing Modal Content for Viewing Product */
@@ -414,8 +418,8 @@ const StockManagement = () => {
           ) : modalType === 'new' ? (
             /* New Product Modal Content */
             <>
-              {/* === Updated Buttons Section === */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
+              {/* === Buttons Section === */}
+              <div className="grid grid-cols-2 mt-8 sm:grid-cols-5  gap-7 mb-10">
                 {/* Informations Button */}
                 <Button
                   color="default"
@@ -427,9 +431,7 @@ const StockManagement = () => {
                     borderColor: activeNewProductSection === 'informations' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
                   }}
                 >
-                  {/* Responsive Icon */}
                   <PackageIcon className="flex-shrink-0 h-5 w-5 sm:h-5 sm:w-5" />
-                  {/* Responsive Text */}
                   <span className="text-sm sm:text-base md:text-sm">Informations</span>
                 </Button>
 
@@ -478,14 +480,23 @@ const StockManagement = () => {
                   <span className="text-sm sm:text-base md:text-sm">Upsell</span>
                 </Button>
               </div>
-              {/* === End of Updated Buttons Section === */}
+              {/* === End of Buttons Section === */}
 
               {/* Modal Content Based on Active New Product Section */}
               <div className="flex-1 overflow-auto">
                 {activeNewProductSection === 'informations' && (
                   <InformationsForm isDarkMode={isDarkMode} />
                 )}
-                {/* Similarly, you can create and render other sections like Stocks, Sales Price, Upsell */}
+                {activeNewProductSection === 'stocks' && (
+                  <StocksForm isDarkMode={isDarkMode} />
+                )}
+                 {activeNewProductSection === 'salesPrice' && (
+                  <SalesPriceForm isDarkMode={isDarkMode} />
+                )}
+                {activeNewProductSection === 'upsell' && (
+                  <UpsellForm isDarkMode={isDarkMode} />
+                )}
+                {/* Similarly, you can create and render other sections like Sales Price, Upsell */}
               </div>
             </>
           ) : null}
