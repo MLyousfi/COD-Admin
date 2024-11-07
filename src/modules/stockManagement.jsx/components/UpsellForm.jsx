@@ -92,9 +92,8 @@ const UpsellForm = ({ isDarkMode }) => {
 
   // Delete a row
   const handleDelete = (key) => {
-  
-      setUpsellEntries(upsellEntries.filter(entry => entry.key !== key));
-    
+    setUpsellEntries(upsellEntries.filter(entry => entry.key !== key));
+    setSelectedRows(selectedRows.filter(selectedKey => selectedKey !== key));
   };
 
   // Enter edit mode for a row
@@ -246,7 +245,7 @@ const UpsellForm = ({ isDarkMode }) => {
             onChange={(e) => handleInputChange(e, columnKey, item.key)}
             className={`w-full p-2 border ${
               isDarkMode ? 'border-gray-600' : 'border-gray-300'
-            } rounded bg-transparent text-sm focus:outline-none focus:ring-0`} // Removed border glow on focus
+            } rounded-lg bg-transparent text-sm focus:outline-none focus:ring-0`} // Removed border glow on focus
             required
           />
         );
@@ -289,7 +288,7 @@ const UpsellForm = ({ isDarkMode }) => {
           </div>
         );
       default:
-        return <span className="text-sm dark:text-white">{item[columnKey]}</span>;
+        return <span className={`text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>{item[columnKey]}</span>;
     }
   };
 
@@ -327,8 +326,6 @@ const UpsellForm = ({ isDarkMode }) => {
         isDarkMode={isDarkMode}
         width="600px" // Adjusted width as needed
       >
-   
-
         {/* Upsell Form */}
         <form onSubmit={handleNewUpsellSubmit} className="space-y-6">
           {/* Upsell Name Input with Floating Label */}
@@ -418,7 +415,7 @@ const UpsellForm = ({ isDarkMode }) => {
             <Button
               type="button"
               color="default"
-              className="flex items-center space-x-0 px-3 py-1 rounded-full bg-info  transition-colors"
+              className="flex items-center space-x-0 px-3 py-1 rounded-full bg-info transition-colors"
               onClick={handleAddPrice}
             >
               <PlusSignIcon size={16} className="text-white"/>
@@ -427,17 +424,17 @@ const UpsellForm = ({ isDarkMode }) => {
           </div>
 
           {/* Prices Table */}
-          {newPrices.length > 0 && (
-            <div className="mt-4">
-              {/* Table Headers */}
-              <div className="flex items-center border-b dark:border-gray-600 border-gray-300  text-sm  pb-2">
-                <div className="w-1/3 text-gray-600 flex justify-center">Price</div>
-                <div className="w-1/3 text-gray-600 flex justify-center">Currency</div>
-                <div className="w-1/3 text-gray-600 flex justify-center">Actions</div>
-              </div>
+          <div className="mt-4">
+            {/* Table Headers */}
+            <div className="flex items-center border-b dark:border-gray-600 border-gray-300 text-sm pb-2">
+              <div className="w-1/3 text-gray-600 dark:text-gray-400 flex justify-center">Price</div>
+              <div className="w-1/3 text-gray-600 dark:text-gray-400 flex justify-center">Currency</div>
+              <div className="w-1/3 text-gray-600 dark:text-gray-400 flex justify-center">Actions</div>
+            </div>
 
-              {/* Price Entries */}
-              {newPrices.map((priceEntry) => (
+            {/* Price Entries */}
+            {newPrices.length > 0 ? (
+              newPrices.map(priceEntry => (
                 <div key={priceEntry.id} className="flex items-center mt-6">
                   {/* Price Input */}
                   <div className="w-1/3">
@@ -454,7 +451,7 @@ const UpsellForm = ({ isDarkMode }) => {
                   </div>
 
                   {/* Currency Select */}
-                  <div className="w-1/3 ml-2 ">
+                  <div className="w-1/3 ml-2">
                     <Select
                       id={`currency-${priceEntry.id}`}
                       name={`currency-${priceEntry.id}`}
@@ -487,13 +484,11 @@ const UpsellForm = ({ isDarkMode }) => {
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-
-<div className="flex items-center border-b dark:border-gray-600 border-gray-300  text-sm pb-2">
-              </div>
-
+              ))
+            ) : (
+              <div className="text-center text-gray-500 mt-4">No prices added yet.</div>
+            )}
+          </div>
 
           {/* Submit and Cancel Buttons */}
           <div className="flex justify-center space-x-2 mt-6">
