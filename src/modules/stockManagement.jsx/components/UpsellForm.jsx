@@ -273,7 +273,6 @@ const UpsellForm = ({ isDarkMode }) => {
                 size="sm"
                 className="w-8 h-8 rounded-full p-0 flex items-center justify-center flex-shrink-0"
                 style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
-                onClick={() => handleEdit(item.key)}
               >
                 <PencilEdit01Icon size={14} style={{ color: 'white' }} />
               </Button>
