@@ -383,10 +383,7 @@ export default function Funds() {
 
       {/* Sales Section */}
       <h2 className="text-xl font-bold px-2 md:px-8 mb-4 ml-2 mt-10">Sales</h2>
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={container}
+      <div
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 px-2 md:px-8"
       >
         {salesData.map((stat, index) => (
@@ -400,14 +397,11 @@ export default function Funds() {
             total={stat.total}
           />
         ))}
-      </motion.div>
+      </div>
 
       {/* Fees Section */}
       <h2 className="text-xl font-bold px-2 md:px-8 mt-8 mb-4 ml-2">Fees</h2>
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={container}
+      <div
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-2 md:px-8"
       >
         {feesData.map((stat) => (
@@ -437,14 +431,11 @@ export default function Funds() {
             </div>
           </motion.div>
         ))}
-      </motion.div>
+      </div>
 
       {/* Profits Section */}
       <h2 className="text-xl font-bold px-2 md:px-8 mt-8 mb-4 ml-2">Profits</h2>
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={container}
+      <div
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 px-2 md:px-8"
       >
         {profitsData.map((stat) => (
@@ -471,7 +462,7 @@ export default function Funds() {
             </div>
           </motion.div>
         ))}
-      </motion.div>
+      </div>
     </DashboardLayout>
   );
 }
