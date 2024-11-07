@@ -279,7 +279,7 @@ const ListOfShipments = () => {
             />
           </div>
 
-          <div className="flex flex-wrap space-x-1 justify-center px-2 md:px-4">
+          <div className="flex flex-wrap space-x-1 justify-center px-2 md:px-4 ml-auto">
             <Button
               color="default"
               onClick={addNewProduct}
@@ -313,7 +313,7 @@ const ListOfShipments = () => {
         </div>
 
         {/* Status Tabs for small screens */}
-        <div className="md:hidden mb-4">
+        <div className="md:hidden ml-4 mb-4">
           <StatusTabs
             activeCount={products.filter((product) => product.status === 'active').length}
             archivedCount={products.filter((product) => product.status === 'archived').length}
