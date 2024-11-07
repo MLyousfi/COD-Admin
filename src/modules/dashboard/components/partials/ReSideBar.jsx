@@ -232,7 +232,7 @@ export default function ResideBar() {
                                                                                     {child.children.map((grandChild, grandChildIndex) => (
                                                                                         <li
                                                                                             key={grandChild.path}
-                                                                                            className={`flex justify-between items-center ml-6 px-2 py-2 ml-16 rounded-xl  
+                                                                                            className={`flex justify-between items-center ml-18 px-2 py-2 ml-16 rounded-xl  
                                                                                             ${pathname === grandChild.path ? "text-dark_selected" : "text-gray-600 dark:text-white"} 
                                                                                             hover:text-blue-600 dark:hover:text-blue-400`}
                                                                                         >
