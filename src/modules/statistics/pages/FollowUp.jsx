@@ -272,9 +272,8 @@ const InlineTable = ({ columns, data, rowsPerPage = 10 }) => {
             <tr key={item.key} className="h-12">
               {/* First Column with Alternating Backgrounds */}
               <td
-                className={`px-4 py-2 text-center dark:text-gray-300 text-sm font-semibold whitespace-nowrap ${
-                  index % 2 === 0 ? "dark:bg-[#FFFFFF06] bg-[#00000012]" : "dark:bg-[#FFFFFF02] bg-[#00000008]"
-                }`}
+                className={`px-4 py-2 text-center dark:text-gray-300 text-sm font-semibold whitespace-nowrap ${index % 2 === 0 ? "dark:bg-[#FFFFFF06] bg-[#00000012]" : "dark:bg-[#FFFFFF02] bg-[#00000008]"
+                  }`}
               >
                 {item.list}
               </td>
@@ -309,9 +308,8 @@ const InlineTable = ({ columns, data, rowsPerPage = 10 }) => {
         {[...Array(totalPages)].map((_, index) => (
           <button
             key={index}
-            className={`px-3 py-1 text-sm rounded ${
-              currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-600 dark:text-white"
-            }`}
+            className={`px-3 py-1 text-sm rounded ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-600 dark:text-white"
+              }`}
             onClick={() => handlePageChange(index + 1)}
           >
             {index + 1}
@@ -420,10 +418,7 @@ export default function FollowUpStatistics() {
       </div>
 
       {/* Statistics Cards */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={container}
+      <div
         className="flex flex-wrap justify-start px-2 md:px-8"
       >
         {statistics.map((stat, index) => (
@@ -437,7 +432,7 @@ export default function FollowUpStatistics() {
             total={stat.total}
           />
         ))}
-      </motion.div>
+      </div>
 
       {/* Title and Inline Table Section */}
       <div className="mt-8 px-8">
