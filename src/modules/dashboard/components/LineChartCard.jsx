@@ -44,7 +44,7 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
 
     const options = {
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         interaction: {
             intersect: false,
             mode: 'index',
@@ -169,9 +169,9 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
     }, [currentTheme]);
 
     return (
-        <div className="w-full lg:w-2/3 relative">
-            <div className="p-6 rounded-xl shadow-sm border-gray-200 dark:border-gray-800 border mx-2">
-                {header && <div className="flex justify-between items-center">
+        <div className="w-full lg:w-[55%]  relative">
+            <div className=" p-1 md:p-6 rounded-xl shadow-sm border-gray-200 dark:border-[#ffffff10] border md:mx-2">
+                {header && <div className="flex justify-between flex-wrap gap-2 items-center">
                     <div>
                         <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">{title}</h3>
                         <div className="flex items-center mt-1">
@@ -184,7 +184,7 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
                             <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">{timeRange}</span>
                         </div>
                     </div>
-                    <div className="flex space-x-2">
+                    <div className="flex space-x-2 justify-end flex-1">
                         <Dropdown>
                             <DropdownTrigger>
                                 <Button variant="bordered" className="rounded-full">
@@ -216,7 +216,7 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
                     </div>
                 </div>}
 
-                <div className=" min-h-64 my-4">
+                <div className=" md:min-h-64 my-4">
                     <Line ref={chartRef} key={currentTheme} className="max-w-full" data={chartData} options={options} />
                 </div>
             </div>
