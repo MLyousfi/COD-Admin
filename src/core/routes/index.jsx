@@ -396,6 +396,8 @@ export default function RoutersWrapper() {
             }
 
             return <Route key={index} path={route.path} element={route.element} />;
+
+
         });
     }
 
@@ -403,6 +405,7 @@ export default function RoutersWrapper() {
         <Router>
             <div className="w-screen h-screen">
                 <Routes>
+
                     {generateRoutes(routes)}
                 </Routes>
 
