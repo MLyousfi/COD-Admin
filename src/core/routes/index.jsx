@@ -54,6 +54,7 @@ import { useState } from "react";
 import ResideBar from "../../modules/dashboard/components/partials/ReSideBar.jsx";
 import Sidebar from "../../modules/dashboard/components/partials/Sidebar.jsx";
 import Warehouse from "../../modules/stockManagement.jsx/components/Warehouse.jsx";
+import ShipmentsInTransit from "../../modules/collects/components/ShipmentsInTransit.jsx";
 
 const routes = [
     {
@@ -86,7 +87,7 @@ const routes = [
             },
             {
                 path: RouteNames.collectShippemdTransit,
-                element: <ListOfShipments />
+                element: <ShipmentsInTransit />
             },
             {
                 path: RouteNames.newCollect,
