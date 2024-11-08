@@ -200,7 +200,7 @@ const ShipmentsInTransit = () => {
         <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
           {/* Clickable Menu Title for Orders */}
           <div className="flex items-center cursor-pointer">
-            <h2 className="text-xl ml-3 font-semibold border-b-2 border-blue-600 pb-1">Orders</h2>
+            <h2 className="text-lg ml-3 font-semibold border-b-2 border-blue-600 pb-1">Orders</h2>
             <span className="bg-red-600 text-white rounded-full h-5 w-5 flex items-center justify-center ml-2">
               {filteredUnknown2s.length}
             </span>
