@@ -4,31 +4,18 @@ import {
   GarageIcon,
   PlusSignIcon,
   PencilEdit01Icon,
-  EyeIcon,
   Delete01Icon,
-  EarthIcon, 
-  DropboxIcon,
-  PackageIcon,      
-  Layers01Icon,     
-  SaleTag02Icon,   
-  Dollar02Icon     
+   
 } from "hugeicons-react";
-import { TfiDropbox } from "react-icons/tfi";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatusTabs from '../../shared/components/StatusTabs';
 
 import Table from './Table'; 
-import { rows } from '../../../core/utils/data'; 
 import CustomModal from './modal'; 
-import InformationsForm from './InformationsForm'; // Import the InformationsForm component
-import StocksForm from './StockForm'; // Import the StocksForm component
-import SalesPriceForm from './SalesPriceForm';
-import UpsellForm from './UpsellForm';
 
-const selectedButtonColor = '#0258E8';
-const headerBackgroundColorDark = 'rgba(255, 255, 255, 0.02)';
-const headerBackgroundColorLight = 'rgba(0, 0, 0, 0.05)';
+
+
 
 const columns = [
   { key: "checkbox", label: "#" },
@@ -40,7 +27,7 @@ const columns = [
   { key: "options", label: "Options" },
 ];
 
-const Warehouse = () => {
+const FirstMileWarehouse = () => {
   const [activeView, setActiveView] = useState('active');
   const [products, setProducts] = useState([
     {
@@ -1022,4 +1009,4 @@ const Warehouse = () => {
   );
 };
 
-export default Warehouse;
+export default FirstMileWarehouse;

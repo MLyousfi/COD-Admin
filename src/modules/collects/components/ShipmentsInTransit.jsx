@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// ShipmentsInTransit.jsx
+import React, { useState, useMemo } from 'react';
 import {
   DeliveryTruck01Icon,
   PencilEdit01Icon,
@@ -7,6 +8,7 @@ import {
   TableIcon,
   PackageIcon,
   Settings02Icon,
+  ArrowUpDownIcon, // Import ArrowUpDownIcon
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
@@ -17,25 +19,12 @@ import CustomModal from '../../stockManagement.jsx/components/modal';
 import { Select, SelectItem } from "@nextui-org/select";
 import { Menu, MenuItem } from "@nextui-org/menu";
 
-// Define columns for the table
-const columns = [
-  { key: "checkbox", label: "#" },
-  { key: "orderNumber", label: "Order Num" },
-  { key: "TrackNumber", label: "Track N°" },
-  { key: "unknown", label: "Unknown" },
-  { key: "unknown2", label: "Unknown" },
-  { key: "statut", label: "Statut" },
-  { key: "name", label: "Name" },
-  { key: "price", label: "Price" },
-  { key: "shipping", label: "Shipping" },
-  { key: "products", label: "Products" },
-  { key: "from", label: "From" },
-  { key: "to", label: "To" },
-  { key: "city", label: "City" },
-  { key: "address", label: "Address" },
-  { key: "shipby", label: "Ship By" },
-  { key: "options", label: "Actions" },
-];
+// Assuming 'Unknown' is defined elsewhere. If not, replace with appropriate logic or data.
+class Unknown {
+  toLocaleString() {
+    return "Unknown Value";
+  }
+}
 
 const ShipmentsInTransit = () => {
   const [unknown2s, setUnknown2s] = useState(rows);
@@ -55,6 +44,50 @@ const ShipmentsInTransit = () => {
     { key: 'TrackNumber1', label: 'TrackNumber One' },
     { key: 'TrackNumber2', label: 'TrackNumber Two' },
   ];
+
+  // Sorting State
+  const [sortDirection, setSortDirection] = useState(null); // 'asc' | 'desc' | null
+
+  // Handler to toggle sort direction
+  const handleSortPrice = () => {
+    setSortDirection(prev => {
+      if (prev === 'asc') return 'desc';
+      return 'asc'; // Defaults to ascending if previously 'desc' or null
+    });
+  };
+
+  // Define columns inside the component to access sort state and handler
+  const columns = useMemo(() => [
+    { key: "checkbox", label: "#" },
+    { key: "orderNumber", label: "Order Num" },
+    { key: "TrackNumber", label: "Track N°" },
+    { key: "unknown", label: "Unknown" },
+    { key: "unknown2", label: "Unknown" },
+    { key: "statut", label: "Statut" },
+    { key: "name", label: "Name" },
+    { 
+      key: "price", 
+      label: (
+        <div className="flex items-center">
+          Price
+          <ArrowUpDownIcon
+            onClick={handleSortPrice}
+            className="ml-1 cursor-pointer"
+            size={16}
+            title="Sort by Price"
+          />
+        </div>
+      )
+    },
+    { key: "shipping", label: "Shipping" },
+    { key: "products", label: "Products" },
+    { key: "from", label: "From" },
+    { key: "to", label: "To" },
+    { key: "city", label: "City" },
+    { key: "address", label: "Address" },
+    { key: "shipby", label: "Ship By" },
+    { key: "options", label: "Actions" },
+  ], []); // Removed sortDirection from dependencies as we handle sorting separately
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -131,7 +164,28 @@ const ShipmentsInTransit = () => {
     setIsDropdownOpen(isDropdownOpen === key ? null : key);
   };
 
-  const filteredUnknown2s = unknown2s.filter(unknown2 => unknown2.status === "archived"); // Update the filter
+  // Filter rows based on status
+  const filteredUnknown2s = useMemo(() => {
+    return unknown2s.filter(unknown2 => unknown2.status === "archived");
+  }, [unknown2s]);
+
+  // Sorting Logic
+  const sortedUnknown2s = useMemo(() => {
+    if (!sortDirection) return filteredUnknown2s;
+
+    return [...filteredUnknown2s].sort((a, b) => {
+      // Extract numeric values from price strings
+      const priceA = parseFloat(a.price.replace(/[^0-9.-]+/g,""));
+      const priceB = parseFloat(b.price.replace(/[^0-9.-]+/g,""));
+
+      if (sortDirection === 'asc') {
+        return priceA - priceB;
+      } else if (sortDirection === 'desc') {
+        return priceB - priceA;
+      }
+      return 0;
+    });
+  }, [filteredUnknown2s, sortDirection]);
 
   const renderCell = (item, columnKey) => {
     switch (columnKey) {
@@ -227,7 +281,7 @@ const ShipmentsInTransit = () => {
         {/* The table is always visible */}
         <Table
           columns={columns}
-          data={filteredUnknown2s} // Make sure this is populated correctly
+          data={sortedUnknown2s} // Pass sorted data
           renderCell={renderCell}
           handleCheckboxChange={handleCheckboxChange}
           selectedRows={selectedRows}
