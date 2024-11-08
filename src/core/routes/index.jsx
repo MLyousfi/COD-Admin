@@ -17,6 +17,7 @@ import FollowUp from "@/modules/call-center/pages/FollowUp.jsx";
 import StockManagement from "../../modules/stockManagement.jsx/components/StockManagement.jsx";
 import ListOfShipments from "../../modules/collects/components/ListOfShipments.jsx";
 import FirstMileDashboard from "../../modules/first-mile/components/Dashboard.jsx";
+import FirstMileWarehouse from "../../modules/first-mile/components/Warehouse.jsx";
 import MyAgent from "../../modules/call-center-manager/pages/MyAgent.jsx";
 import AgentsRequests from "../../modules/call-center-manager/pages/AgentsRequests.jsx";
 import Products from "../../modules/statistics/pages/Products.jsx";
@@ -120,7 +121,7 @@ const routes = [
             },
             {
                 path: RouteNames.firstMileWarehouse,
-                element: <Orders />
+                element: <FirstMileWarehouse />
             },
         ],
     },

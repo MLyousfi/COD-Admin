@@ -1,5 +1,5 @@
 // Orders.jsx
-import React, { useCallback, useState, useMemo } from "react";
+import React, { useCallback, useState, useMemo, useEffect } from "react";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import {
   ArrowDown01Icon,
@@ -14,6 +14,8 @@ import {
   DropboxIcon,
   Settings02Icon,
   DeliveryBox01Icon,
+  MultiplicationSignIcon,
+  Upload02Icon, // For CustomModal close button
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import { Link } from "react-router-dom";
@@ -25,6 +27,8 @@ import {
   DropdownTrigger,
 } from "@nextui-org/dropdown";
 import StatusTabs from "../../shared/components/StatusTabs";
+import { Select, SelectItem } from "@nextui-org/react"; // Ensure Select components are imported
+import CustomModal from "../../stockManagement.jsx/components/modal"; // Adjust the import path accordingly
 
 const rows = [
   {
@@ -250,20 +254,20 @@ const rows = [
 ];
 
 const columns = [
-  { key: "checkbox", label: "#", w: "w-[3%]" },
-  { key: "orderNum", label: "Order Number", w: "w-[12%]" },
-  { key: "trackN", label: "Track №", w: "w-[8%]" },
-  { key: "store", label: "Store", w: "w-[10%]" },
-  { key: "product", label: "Product", w: "w-[15%]" },
-  { key: "name", label: "Name", w: "w-[10%]" },
-  { key: "country", label: "Country", w: "w-[8%]" },
-  { key: "price", label: "Price", w: "w-[8%]" },
-  { key: "shipPrice", label: "Shipping Price", w: "w-[8%]" },
-  { key: "invoiceNum", label: "Invoice №", w: "w-[8%]" },
-  { key: "statut", label: "Statut", w: "w-[7%]" },
-  { key: "created", label: "Created", w: "w-[8%]" },
-  { key: "followUp", label: "Follow Up", w: "w-[7%]" },
-  { key: "followUpCreated", label: "Follow Up Created", w: "w-[8%]" },
+  { key: "checkbox", label: "#" },
+  { key: "orderNum", label: "Order Number" },
+  { key: "trackN", label: "Track №" },
+  { key: "store", label: "Store" },
+  { key: "product", label: "Product" },
+  { key: "name", label: "Name" },
+  { key: "country", label: "Country" },
+  { key: "price", label: "Price" },
+  { key: "shipPrice", label: "Shipping Price" },
+  { key: "invoiceNum", label: "Invoice №" },
+  { key: "statut", label: "Statut" },
+  { key: "created", label: "Created" },
+  { key: "followUp", label: "Follow Up" },
+  { key: "followUpCreated", label: "Follow Up Created" },
 ];
 
 export default function Orders() {
@@ -272,8 +276,45 @@ export default function Orders() {
   const [selectedTab, setSelectedTab] = useState("active");
   const [sortAscending, setSortAscending] = useState(true);
 
+  // State for Modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // State for new sales channel form
+  const [newSalesChannel, setNewSalesChannel] = useState({
+    seller: "",
+    source: null,
+  });
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setModalType(null);
+    setEditWarehouse(null);
+    setShowSaveMessage(false);
+  };
+  // State for dark mode
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Detect dark mode
+  useEffect(() => {
+    const checkDarkMode = () => {
+      const darkMode = document.documentElement.classList.contains("dark");
+      setIsDarkMode(darkMode);
+    };
+
+    checkDarkMode();
+
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Handle checkbox changes
   const handleCheckboxChange = (keys, isRange) => {
     if (isRange) {
+      // Add all keys in the range
       setSelectedRows((prevSelected) => {
         const newSelection = [...prevSelected];
         keys.forEach((key) => {
@@ -284,8 +325,10 @@ export default function Orders() {
         return newSelection;
       });
     } else if (Array.isArray(keys)) {
+      // Select all or unselect all
       setSelectedRows(keys);
     } else {
+      // Toggle single selection
       setSelectedRows((prevSelected) =>
         prevSelected.includes(keys)
           ? prevSelected.filter((key) => key !== keys)
@@ -294,11 +337,13 @@ export default function Orders() {
     }
   };
 
+  // Parse price string to float
   const parsePrice = (priceStr) => {
     const num = parseFloat(priceStr.replace(/[^\d.-]/g, ""));
     return num;
   };
 
+  // Sort rows based on price
   const sortedRows = useMemo(() => {
     return [...rows].sort((a, b) => {
       const priceA = parsePrice(a.price);
@@ -307,16 +352,19 @@ export default function Orders() {
     });
   }, [sortAscending]);
 
+  // Toggle sort order
   const toggleSortOrder = () => {
     setSortAscending(!sortAscending);
   };
 
+  // Filter rows based on selected tab
   const filteredRows = useMemo(() => {
     return selectedTab === "active"
-      ? sortedRows.filter(row => row.status === "active")
-      : sortedRows.filter(row => row.status === "archived");
+      ? sortedRows.filter((row) => row.status === "active")
+      : sortedRows.filter((row) => row.status === "archived");
   }, [selectedTab, sortedRows]);
 
+  // Render cell content
   const renderCell = useCallback((item, columnKey) => {
     const cellValue = item[columnKey];
     switch (columnKey) {
@@ -386,12 +434,38 @@ export default function Orders() {
     }
   }, []);
 
+  // Handlers for Modal
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setNewSalesChannel({ seller: "", source: null });
+  };
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Implement your form submission logic here
+    console.log("New Sales Channel:", newSalesChannel);
+    // Reset form and close modal
+    setNewSalesChannel({ seller: "", source: null });
+    closeModal();
+  };
+
+  // Handle file upload
+  const handleFileChange = (e) => {
+    setNewSalesChannel((prev) => ({
+      ...prev,
+      source: e.target.files[0],
+    }));
+  };
+
   return (
     <DashboardLayout
       title="First Mile - Orders"
       icon={<DeliveryBox01Icon className="text-info" />}
     >
       <div>
+        {/* Header Section */}
         <div className="flex flex-col lg:flex-row justify-between items-center gap-4 p-4 lg:p-12">
           <div className="order-2 lg:order-1 w-full lg:w-auto mt-8">
             <StatusTabs
@@ -404,12 +478,16 @@ export default function Orders() {
             />
           </div>
           <div className="order-1 lg:order-2 flex flex-row gap-2 w-full lg:w-auto justify-end">
+            {/* New Sales Channel Button */}
             <Button
               color="default"
               className="rounded-full text-white bg-blue-600 flex items-center"
+              onClick={openModal} // Open modal on button click
             >
               <PlusSignIcon size={18} className="mr-1" /> New Sales Channel
             </Button>
+
+            {/* Actions Dropdown */}
             <Dropdown>
               <DropdownTrigger>
                 <Button
@@ -472,6 +550,8 @@ export default function Orders() {
             </Dropdown>
           </div>
         </div>
+
+        {/* Table Section */}
         <Table
           columns={columns.map((col) =>
             col.key === "price"
@@ -498,6 +578,91 @@ export default function Orders() {
           className="dark:bg-gray-800 dark:text-white"
         />
       </div>
+
+      {/* Custom Modal for New Sales Channel */}
+<CustomModal
+  isOpen={isModalOpen}
+  onClose={closeModal}
+  title="New Sales Channel"
+  isDarkMode={isDarkMode}
+  width="600px" // Optional: customize width if needed
+>
+  <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+    {/* Seller Select */}
+    <div className="w-full">
+      <label htmlFor="seller" className="block">
+        <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Seller *</span>
+        <Select
+          id="seller"
+          placeholder="Select seller"
+          labelPlacement="outside"
+          value={newSalesChannel.seller}
+          onChange={(value) =>
+            setNewSalesChannel((prev) => ({ ...prev, seller: value }))
+          }
+          classNames={{
+            trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg mt-1',
+            content: 'bg-white dark:bg-gray-700',
+          }}
+        >
+          {/* Replace with your actual seller options */}
+          <SelectItem key="seller1">Seller 1</SelectItem>
+          <SelectItem key="seller2">Seller 2</SelectItem>
+          <SelectItem key="seller3">Seller 3</SelectItem>
+        </Select>
+      </label>
+    </div>
+
+    {/* Source Upload */}
+    <div className="w-full">
+      <label htmlFor="source" className="block">
+        <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Source *</span>
+        <div
+          className={`flex items-center border border-gray-300 dark:border-[#ffffff10] rounded-lg px-3 py-2 mt-1 ${
+            isDarkMode ? "bg-transparent" : "bg-transparent"
+          }`}
+        >
+          <input
+            type="file"
+            id="source"
+            accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          <label
+            htmlFor="source"
+            className="flex-1 cursor-pointer text-gray-500 dark:text-gray-400"
+          >
+            {newSalesChannel.source
+              ? newSalesChannel.source.name
+              : "Upload now (Google Sheet, Excel)"}
+          </label>
+          <Upload02Icon size={18} className="dark:text-gray-700 text-gray-500 mr-2" />
+          <span className="dark:text-gray-700 text-gray-500 cursor-pointer">Browse</span>
+        </div>
+      </label>
+    </div>
+
+     {/* === Buttons Section === */}
+     <div className="flex justify-center space-x-4 mt-6">
+                  <Button
+                    color="primary"
+                    onClick={handleCloseModal}
+                    className="px-6 py-2 bg-info rounded-full"
+                  >
+                    Save Changes
+                  </Button>
+                  <Button
+                    color="secondary"
+                    onClick={handleCloseModal}
+                    className="px-6 py-2 rounded-full bg-transparent border dark:text-white text-black dark:border-white border-black"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+  </form>
+</CustomModal>
+
     </DashboardLayout>
   );
 }
