@@ -87,6 +87,12 @@ const UpsellForm = ({ isDarkMode }) => {
 
   // Save edited row
   const handleSave = (key) => {
+    const entry = upsellEntries.find(entry => entry.key === key);
+    if (!entry.upsellName || !entry.quantityPaid || !entry.quantityFree) {
+      alert("All fields must be filled out.");
+      return;
+    }
+    // Additional processing can be done here if needed
     setEditingKey(null);
   };
 
@@ -94,6 +100,10 @@ const UpsellForm = ({ isDarkMode }) => {
   const handleDelete = (key) => {
     setUpsellEntries(upsellEntries.filter(entry => entry.key !== key));
     setSelectedRows(selectedRows.filter(selectedKey => selectedKey !== key));
+    // If the deleted row was being edited, exit edit mode
+    if (editingKey === key) {
+      setEditingKey(null);
+    }
   };
 
   // Enter edit mode for a row
@@ -191,22 +201,13 @@ const UpsellForm = ({ isDarkMode }) => {
   // Render table cells, handling editable fields
   const renderCell = (item, columnKey) => {
     if (editingKey === item.key && columnKey !== "options") {
-      // Determine input type based on the column
+      // Render editable inputs without borders and with short, centered blue underlines
       if (columnKey === "upsellName") {
         return (
-          <div className="flex flex-col w-full">
-            <div className="relative flex-1">
+          <div className="flex flex-col items-center w-full">
+            <div className="relative w-full max-w-xs">
               {/* Floating Label */}
-              <label
-                htmlFor={`upsellName-${item.key}`}
-                className={`absolute top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
-                  focusedInput === `upsellName-${item.key}` || item.upsellName
-                    ? 'transform -translate-y-4 scale-90'
-                    : ''
-                }`}
-              >
-                Upsell Name
-              </label>
+ 
 
               {/* Input Field */}
               <input
@@ -217,37 +218,34 @@ const UpsellForm = ({ isDarkMode }) => {
                 onChange={(e) => handleInputChange(e, columnKey, item.key)}
                 onFocus={() => setFocusedInput(`upsellName-${item.key}`)}
                 onBlur={() => setFocusedInput(null)}
-                className={`block w-full pt-6 pb-2 text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
+                className={`block w-full text-center text-sm bg-transparent focus:outline-none transition-colors duration-300  mb-1 ${
                   isDarkMode ? 'text-white' : 'text-black'
                 }`}
-                placeholder=""
+                placeholder=" "
                 required
               />
 
               {/* Custom Underline */}
-              <div
-                className={`absolute bottom-1 h-px w-full transition-colors duration-300 ${
-                  item.upsellName
-                    ? 'bg-[#0258E8]'
-                    : isDarkMode
-                    ? 'bg-gray-600'
-                    : 'bg-gray-300'
-                }`}
-              ></div>
+              <div className="absolute bottom-0  left-1/2 transform -translate-x-1/2 h-0.5 w-24 bg-[#0258E8]"></div>
             </div>
           </div>
         );
       } else if (["quantityPaid", "quantityFree"].includes(columnKey)) {
         return (
-          <input
-            type="number"
-            value={item[columnKey]}
-            onChange={(e) => handleInputChange(e, columnKey, item.key)}
-            className={`w-full p-2 border ${
-              isDarkMode ? 'border-gray-600' : 'border-gray-300'
-            } rounded-lg bg-transparent text-sm focus:outline-none focus:ring-0`} // Removed border glow on focus
-            required
-          />
+          <div className="flex flex-col items-center w-full">
+            <input
+              type="text"
+              value={item[columnKey]}
+              onChange={(e) => handleInputChange(e, columnKey, item.key)}
+              className={`block text-center text-sm bg-transparent focus:outline-none transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-black'
+              }`}
+              placeholder=" "
+              required
+            />
+            {/* Custom Underline */}
+            <div className="h-0.5 bg-[#0258E8] mt-1 w-24"></div>
+          </div>
         );
       }
     }
@@ -257,54 +255,97 @@ const UpsellForm = ({ isDarkMode }) => {
         return (
           <div className="flex space-x-2 justify-center">
             {editingKey === item.key ? (
+              // Only Delete button with transparent background during edit mode
               <Button
                 variant="flat"
                 size="sm"
-                className="w-8 h-8 rounded-full p-0 flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: '#28a745', padding: 0, minWidth: '32px', height: '32px' }}
-                onClick={() => handleSave(item.key)}
+                className="w-8 h-8 rounded-full p-0 flex items-center justify-center flex-shrink-0 border border-gray-500 dark:border-white dark:text-white text-gray-900"
+                style={{
+                  backgroundColor: 'transparent',
+                  padding: 0,
+                  minWidth: '32px',
+                  height: '32px',
+                }}
+                onClick={() => handleDelete(item.key)}
+                aria-label="Delete Upsell"
               >
-                <span className="text-white text-xs">Save</span>
+                <Delete01Icon size={14}  />
               </Button>
             ) : (
-              <Button
-                variant="flat"
-                size="sm"
-                className="w-8 h-8 rounded-full p-0 flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
-              >
-                <PencilEdit01Icon size={14} style={{ color: 'white' }} />
-              </Button>
+              <>
+                {/* Edit Button */}
+                <Button
+                  variant="flat"
+                  size="sm"
+                  className="w-8 h-8 rounded-full p-0 flex items-center justify-center flex-shrink-0"
+                  style={{
+                    backgroundColor: '#0258E8',
+                    padding: 0,
+                    minWidth: '32px',
+                    height: '32px',
+                  }}
+                  onClick={() => handleEdit(item.key)}
+                  aria-label="Edit Upsell"
+                >
+                  <PencilEdit01Icon size={14} style={{ color: 'white' }} />
+                </Button>
+
+                {/* Delete Button */}
+                <Button
+                  variant="flat"
+                  size="sm"
+                  className="w-8 h-8 rounded-full p-0 flex items-center justify-center flex-shrink-0"
+                  style={{
+                    backgroundColor: '#ED0006',
+                    padding: 0,
+                    minWidth: '32px',
+                    height: '32px',
+                  }}
+                  onClick={() => handleDelete(item.key)}
+                  aria-label="Delete Upsell"
+                >
+                  <Delete01Icon size={14} style={{ color: 'white' }} />
+                </Button>
+              </>
             )}
-            <Button
-              variant="flat"
-              size="sm"
-              className="w-8 h-8 rounded-full p-0 flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
-              onClick={() => handleDelete(item.key)}
-            >
-              <Delete01Icon size={14} style={{ color: 'white' }} />
-            </Button>
           </div>
         );
       default:
-        return <span className={`text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>{item[columnKey]}</span>;
+        return (
+          <span
+            className={`text-sm ${
+              isDarkMode ? 'text-white' : 'text-black'
+            } block text-center`}
+          >
+            {item[columnKey]}
+          </span>
+        );
     }
   };
 
   return (
     <div className="space-y-4">
-      {/* Header with New Upsell Button */}
+      {/* Header with New Upsell or Save Upsell Button */}
       <div className="flex justify-end">
-        <Button 
-          color="default" 
-          className="rounded-full flex items-center space-x-2 px-4 py-2"
-          style={{ backgroundColor: '#0258E8', color: 'white' }}
-          onClick={handleAddNewUpsell} // Open the modal
-        >
-          <PlusSignIcon size={18} className="flex-shrink-0" /> 
-          <span className="text-sm sm:text-base">New Upsell</span>
-        </Button>
+        {editingKey !== null ? (
+          <Button 
+            color="default" 
+            className="rounded-full flex items-center space-x-2 px-4 py-2 bg-transparent border border-black dark:border-white"
+            onClick={() => handleSave(editingKey)} // Save the edited row
+          >
+            <span className="text-sm sm:text-base">Save Upsell</span>
+          </Button>
+        ) : (
+          <Button 
+            color="default" 
+            className="rounded-full flex items-center space-x-2 px-4 py-2"
+            style={{ backgroundColor: '#0258E8', color: 'white' }}
+            onClick={handleAddNewUpsell} // Open the modal
+          >
+            <PlusSignIcon size={18} className="flex-shrink-0" /> 
+            <span className="text-sm sm:text-base">New Upsell</span>
+          </Button>
+        )}
       </div>
       
       {/* Upsells Table */}
