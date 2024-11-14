@@ -1,4 +1,4 @@
-// StockManagement.jsx
+// Stock.jsx
 import React, { useState, useEffect } from 'react';
 import {
   DeliveryBox01Icon,
@@ -21,6 +21,7 @@ import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data'; 
 import InformationsForm from '../../stockManagement.jsx/components/InformationsForm';
 import CustomModal from '../../stockManagement.jsx/components/modal';
+import ViewModal from './ViewModal'; 
 
 const selectedButtonColor = '#0258E8';
 const headerBackgroundColorDark = 'rgba(255, 255, 255, 0.02)';
@@ -149,6 +150,9 @@ const Stock = () => {
               size="sm"
               className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
               style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
+              onClick={() => {
+
+              }}
             >
               <PencilEdit01Icon size={14} style={{ color: 'white' }} />
             </Button>
@@ -169,11 +173,6 @@ const Stock = () => {
     }
   };
 
-  const warehousesData = [
-    // Add your warehouse data here
-    // Example:
-    // { key: 1, warehouse: "Warehouse A", location: "Location A", capacity: 100 },
-  ];
   
   const countriesData = selectedProduct
     ? [
@@ -219,11 +218,11 @@ const Stock = () => {
       { key: "Australia", label: "Australia" },
     ];
 
-  const modalTableDataFinal = modalView === 'warehouses' ? warehousesData : countriesData;
 
   return (
     <DashboardLayout title="First Mile - Stock" icon={<DeliveryBox01Icon className="text-info" />}>
       <div className="p-4">
+        {/* Header Section */}
         <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mb-4">
           <div className="order-2 lg:order-1 w-full lg:w-auto mt-4">
             <StatusTabs 
@@ -252,6 +251,7 @@ const Stock = () => {
           </div>
         </div>
 
+        {/* Table Section */}
         <Table 
           columns={columns}
           data={filteredProducts}
@@ -262,144 +262,26 @@ const Stock = () => {
           className="dark:bg-gray-800 dark:text-white"
         />
 
+        {/* Custom Modal Section */}
         <CustomModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
+          width='1000px'
+
           title={
             modalType === 'new'
               ? "New Product"
               : selectedProduct
-              ? `${selectedProduct.product} - N°${selectedProduct.key}`
+              ? "Dealyno"
               : "Product Details"
           }
           isDarkMode={isDarkMode}
         >
-          {modalType === 'view' ? (
-            <>
-              <div className="flex space-x-4 mb-10">
-                <Button
-                  color="default"
-                  className="flex items-center space-x-2 rounded-full border transition-colors duration-300"
-                  onClick={() => setModalView('warehouses')}
-                  style={{
-                    backgroundColor: modalView === 'warehouses' ? selectedButtonColor : 'transparent',
-                    color: modalView === 'warehouses' ? 'white' : isDarkMode ? '#A0AEC0' : 'black',
-                    borderColor: modalView === 'warehouses' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
-                  }}
-                >
-                  <GarageIcon size={20} />
-                  <span>Warehouses</span>
-                </Button>
+          {modalType === 'view' && selectedProduct && (
+            <ViewModal product={selectedProduct} isDarkMode={isDarkMode} />
+          )}
 
-                <Button
-                  color="default"
-                  className="flex items-center space-x-2 rounded-full border transition-colors duration-300"
-                  onClick={() => setModalView('countries')}
-                  style={{
-                    backgroundColor: modalView === 'countries' ? selectedButtonColor : 'transparent',
-                    color: modalView === 'countries' ? 'white' : isDarkMode ? '#A0AEC0' : 'black',
-                    borderColor: modalView === 'countries' ? selectedButtonColor : isDarkMode ? '#A0AEC0' : 'black',
-                  }}
-                >
-                  <EarthIcon size={20} />
-                  <span>Countries</span>
-                </Button>
-              </div>
-
-              <div className="flex-1 overflow-auto">
-                <div className="overflow-x-auto">
-                  <table className="min-w-full bg-transparent border-separate border-spacing-0">
-                    <thead>
-                      <tr>
-                        <th
-                          className="py-2 px-4 text-left text-sm font-semibold"
-                          style={{ width: '192px' }}
-                        ></th>
-                        {modalTableColumns.map((col, index) => (
-                          <th
-                            key={col.key}
-                            className={`py-2 px-4 text-left text-sm font-semibold ${
-                              modalView === 'countries' && index === 0 ? 'rounded-tl-lg' : ''
-                            } ${
-                              modalView === 'countries' && index === modalTableColumns.length - 1
-                                ? 'rounded-tr-lg'
-                                : ''
-                            }`}
-                            style={{ 
-                              backgroundColor: isDarkMode ? headerBackgroundColorDark : headerBackgroundColorLight, 
-                              color: isDarkMode ? '#FFFFFF' : '#000000' 
-                            }}
-                          >
-                            {col.label}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {modalTableDataFinal.length > 0 ? (
-                        modalTableDataFinal.map((row) => (
-                          <tr key={row.key} className={`${row.status === 'deleted' ? 'bg-gray-700' : ''}`}>
-                            {modalView === 'warehouses' ? (
-                              <>
-                                <td className={`py-2 px-4 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                                  {row.warehouse} - {row.location} (Capacity: {row.capacity})
-                                </td>
-                                <td className={`py-2 px-4 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                                  {row.capacity}
-                                </td>
-                              </>
-                            ) : (
-                              <>
-                                <td
-                                  className={`py-2 px-4 text-sm whitespace-nowrap font-bold ${
-                                    modalView === 'countries' ? 'rounded-bl-lg' : ''
-                                  }`}
-                                  style={{
-                                    backgroundColor: row.status !== 'deleted' 
-                                      ? (isDarkMode ? headerBackgroundColorDark : headerBackgroundColorLight)
-                                      : undefined,
-                                    color: isDarkMode ? '#FFFFFF' : '#000000',
-                                  }}
-                                >
-                                  {row.productName}
-                                </td>
-                                {modalTableColumns.slice(1).map((col) => (
-                                  <td
-                                    key={col.key}
-                                    className="py-2 px-4 text-sm text-center whitespace-nowrap"
-                                    style={{ color: isDarkMode ? '#FFFFFF' : '#000000' }}
-                                  >
-                                    {row[col.key]}
-                                  </td>
-                                ))}
-                              </>
-                            )}
-                          </tr>
-                        ))
-                      ) : (
-                        modalView === 'warehouses' ? (
-                          <tr>
-                            <td colSpan={modalTableColumns.length} className="py-4 text-center text-gray-400">
-                              <div className="flex flex-col items-center justify-center">
-                                <DropboxIcon size={200} className="mb-4 text-[#34343450]" />
-                                <p className="text-lg text-gray-600">There is no stock of this product at the moment</p>
-                              </div>
-                            </td>
-                          </tr>
-                        ) : (
-                          <tr>
-                            <td colSpan={modalTableColumns.length + 1} className="py-4 text-center text-gray-400">
-                              No data available.
-                            </td>
-                          </tr>
-                        )
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </>
-          ) : modalType === 'new' ? (
+          {modalType === 'new' && (
             <>
               <div className="flex flex-col lg:flex-row space-x-4 mb-10">
                 <div className="flex flex-col lg:flex-row lg:space-x-4">
@@ -468,7 +350,7 @@ const Stock = () => {
                 {/* Similarly, you can create and render other sections like Stocks, Sales Price, Upsell */}
               </div>
             </>
-          ) : null}
+          )}
         </CustomModal>
       </div>
     </DashboardLayout>
