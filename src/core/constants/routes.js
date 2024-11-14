@@ -36,6 +36,7 @@ const RouteNames = {
     firstMileCollects: '/first-mile/Collects',
     firstMileStock: '/first-mile/stock',
     firstMileWarehouse: '/first-mile/warehouse',
+    firstMileEditCollect: '/first-mile/edit-collect',
     statistics: '/statistics',
     statisticsProducts: '/statistics/products',
     statisticsFunds: '/statistics/funds',

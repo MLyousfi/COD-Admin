@@ -56,6 +56,7 @@ import ResideBar from "../../modules/dashboard/components/partials/ReSideBar.jsx
 import Sidebar from "../../modules/dashboard/components/partials/Sidebar.jsx";
 import Warehouse from "../../modules/stockManagement.jsx/components/Warehouse.jsx";
 import ShipmentsInTransit from "../../modules/collects/components/ShipmentsInTransit.jsx";
+import EditCollect from "../../modules/first-mile/components/EditCollects.jsx";
 
 const routes = [
     {
@@ -122,6 +123,10 @@ const routes = [
             {
                 path: RouteNames.firstMileWarehouse,
                 element: <FirstMileWarehouse />
+            },
+            {
+                path: RouteNames.firstMileEditCollect,
+                element: <EditCollect />
             },
         ],
     },

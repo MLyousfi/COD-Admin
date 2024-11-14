@@ -16,92 +16,93 @@ import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs'; 
 import CustomModal from '../../stockManagement.jsx/components/modal'; 
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const rows = [
-    {
-        key: "1",
-        number:"WIY-58168",
-        orderNumber: "2522",
-        createdAt: "2024-01-01",
-        sentAt: "2024-01-05",
-        shippedAt: "2024-01-10",
-        shippingBy: "Moussa Karim",
-        status: "active",
-        statut: "New",
-        warehouse:"China's Warehouse",
-    },
-    {
-        key: "2",
-        number:"WIY-58168",
-        orderNumber: "2523",
-        createdAt: "2024-01-02",
-        sentAt: "2024-01-06",
-        shippedAt: "2024-01-11",
-        shippingBy: "Sara Ahmed",
-        status: "active",
-        statut: "Shipped",
-        warehouse:"China's Warehouse",
-    },
-    {
-        key: "3",
-        number:"WIY-58168",
-        orderNumber: "2524",
-        createdAt: "2024-01-03",
-        sentAt: "2024-01-07",
-        shippedAt: "2024-01-12",
-        shippingBy: "Ali Zafar",
-        status: "active",
-        statut: "Shipped",
-        warehouse:"China's Warehouse",
-    },
-    {
-        key: "4",
-        number:"WIY-58168",
-        orderNumber: "2525",
-        createdAt: "2024-01-04",
-        sentAt: "2024-01-08",
-        shippedAt: "2024-01-13",
-        shippingBy: "Nina Johnson",
-        status: "active",
-        statut: "Delivered",
-        warehouse:"China's Warehouse",
-    },
-    {
-        key: "5",
-        number:"WIY-58168",
-        orderNumber: "2526",
-        createdAt: "2024-01-05",
-        sentAt: "2024-01-09",
-        shippedAt: "2024-01-14",
-        shippingBy: "John Smith",
-        status: "active",
-        statut: "Shipped",
-        warehouse:"China's Warehouse",
-    },
-    {
-        key: "6",
-        number:"WIY-58168",
-        orderNumber: "2527",
-        createdAt: "2024-01-06",
-        sentAt: "2024-01-10",
-        shippedAt: "2024-01-15",
-        shippingBy: "Emily Clark",
-        status: "active",
-        statut: "Delivered",
-        warehouse:"China's Warehouse",
-    },
-    {
-        key: "9",
-        number:"WIY-58168",
-        orderNumber: "2530",
-        createdAt: "2024-01-09",
-        sentAt: "2024-01-13",
-        shippedAt: "2024-01-18",
-        shippingBy: "David Brown",
-        status: "archived",
-        statut: "Shipped",
-        warehouse:"China's Warehouse",
-    },
+  {
+      key: "1",
+      number:"WIY-58168",
+      orderNumber: "2522",
+      createdAt: "2024-01-01",
+      sentAt: "2024-01-05",
+      shippedAt: "2024-01-10",
+      shippingBy: "Moussa Karim",
+      status: "active",
+      statut: "New",
+      warehouse:"China's Warehouse",
+  },
+  {
+      key: "2",
+      number:"WIY-58168",
+      orderNumber: "2523",
+      createdAt: "2024-01-02",
+      sentAt: "2024-01-06",
+      shippedAt: "2024-01-11",
+      shippingBy: "Sara Ahmed",
+      status: "archived",
+      statut: "Shipped",
+      warehouse:"China's Warehouse",
+  },
+  {
+      key: "3",
+      number:"WIY-58168",
+      orderNumber: "2524",
+      createdAt: "2024-01-03",
+      sentAt: "2024-01-07",
+      shippedAt: "2024-01-12",
+      shippingBy: "Ali Zafar",
+      status: "archived",
+      statut: "Shipped",
+      warehouse:"China's Warehouse",
+  },
+  {
+      key: "4",
+      number:"WIY-58168",
+      orderNumber: "2525",
+      createdAt: "2024-01-04",
+      sentAt: "2024-01-08",
+      shippedAt: "2024-01-13",
+      shippingBy: "Nina Johnson",
+      status: "archived",
+      statut: "Delivered",
+      warehouse:"China's Warehouse",
+  },
+  {
+      key: "5",
+      number:"WIY-58168",
+      orderNumber: "2526",
+      createdAt: "2024-01-05",
+      sentAt: "2024-01-09",
+      shippedAt: "2024-01-14",
+      shippingBy: "John Smith",
+      status: "archived",
+      statut: "Shipped",
+      warehouse:"China's Warehouse",
+  },
+  {
+      key: "6",
+      number:"WIY-58168",
+      orderNumber: "2527",
+      createdAt: "2024-01-06",
+      sentAt: "2024-01-10",
+      shippedAt: "2024-01-15",
+      shippingBy: "Emily Clark",
+      status: "archived",
+      statut: "Delivered",
+      warehouse:"China's Warehouse",
+  },
+  {
+      key: "9",
+      number:"WIY-58168",
+      orderNumber: "2530",
+      createdAt: "2024-01-09",
+      sentAt: "2024-01-13",
+      shippedAt: "2024-01-18",
+      shippingBy: "David Brown",
+      status: "archived",
+      statut: "Shipped",
+      warehouse:"China's Warehouse",
+  },
 ];
 
 const columns = [
@@ -116,6 +117,7 @@ const columns = [
 ];
 
 const Collects = () => {
+  const navigate = useNavigate(); 
   const [selectedTab, setSelectedTab] = useState('active');
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -125,7 +127,6 @@ const Collects = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const addNewProduct = () => {
-    // Your existing addNewProduct function
     const newCollect = {
       key: (products.length + 1).toString(),
       number: `WIY-${58168 + products.length + 1}`,
@@ -177,6 +178,10 @@ const Collects = () => {
     setSelectedCollect(null);
   };
 
+  const handleEdit = (collect) => {
+    navigate(`/first-mile/edit-collect`);
+  };
+
   const filteredProducts = selectedTab === 'active'
     ? products.filter(product => product.status === "active")
     : products.filter(product => product.status === "archived");
@@ -220,6 +225,7 @@ const Collects = () => {
       case "options":
         return (
           <div className="flex space-x-2 justify-center">
+            {/* View Button */}
             <Button
               variant="flat"
               size="sm"
@@ -230,15 +236,18 @@ const Collects = () => {
               <EyeIcon size={16} />
             </Button>
 
+            {/* Edit Button */}
             <Button
               variant="flat"
               size="sm"
               className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
               style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
+              onClick={() => handleEdit(item)} // Use handleEdit here
             >
               <PencilEdit01Icon size={16} style={{ color: 'white' }} />
             </Button>
 
+            {/* Delete Button */}
             <Button
               variant="flat"
               size="sm"
