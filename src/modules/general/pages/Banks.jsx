@@ -56,7 +56,7 @@ const Banks = () => {
     : products.filter(product => product.status === "archived");
 
   return (
-    <DashboardLayout title="General - Bank" icon={<Settings02Icon className="text-info" />}>
+    <DashboardLayout title="General - Banks" icon={<Settings02Icon className="text-info" />}>
       <div className="p-2 md:p-4">{/**here ---|> responsv */}
         <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
           <StatusTabs
