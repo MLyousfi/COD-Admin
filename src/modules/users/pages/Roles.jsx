@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { Home01Icon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon, UserIcon } from "hugeicons-react";
+// roles.jsx
+
+import React, { useState, useEffect } from 'react';
+import { PencilEdit01Icon, PlusSignIcon, Delete01Icon, UserIcon } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
-import { Chip } from "@nextui-org/chip";
-import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
 import EditUserModal from '../components/EditUserModal';
+import NewRoleModal from '../components/NewRoleModal'; // Adjust the path as needed
 
 const rows = [
+    // ... (Your existing rows data)
     {
         key: 1,
         name: 'Amine Mghari',
@@ -222,7 +224,6 @@ const rows = [
     },
 ];
 
-
 const columns = [
     { key: "role", label: "Role", w: 'w-[80%]' },
     { key: "actions", label: "Actions", w: 'w-[20%]' },
@@ -230,12 +231,27 @@ const columns = [
 
 const Roles = () => {
 
-    const [openModal, setOpenModal] = useState(false)
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [openNewRoleModal, setOpenNewRoleModal] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const companies = [...new Set(rows.map(row => row.company))];
     const [selectedCompany, setSelectedCompany] = useState(companies[0]);
     const rowsPerPage = 10;
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
+    useEffect(() => {
+        const checkDarkMode = () => {
+            const darkMode = document.documentElement.classList.contains('dark');
+            setIsDarkMode(darkMode);
+        };
+
+        checkDarkMode();
+
+        const observer = new MutationObserver(checkDarkMode);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+        return () => observer.disconnect();
+    }, []);
 
     // Handle checkbox toggle
     const handleCheckboxChange = (key) => {
@@ -246,25 +262,19 @@ const Roles = () => {
         }
     };
 
-
-
-
-
     // Function to render cells dynamically
     const renderCell = (item, columnKey) => {
         switch (columnKey) {
             case "actions":
                 return (
                     <div className="flex space-x-2 justify-center">
-                        {/* View Button */}
-
-
                         {/* Edit Button */}
                         <Button
                             variant="flat"
                             size="sm"
                             className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
                             style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
+                            onClick={() => setOpenEditModal(true)} // Open Edit Modal
                         >
                             <PencilEdit01Icon size={14} style={{ color: 'white' }} />
                         </Button>
@@ -275,7 +285,7 @@ const Roles = () => {
                             size="sm"
                             className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
                             style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
-                        // Call handleDelete with the item's key
+                            // Call handleDelete with the item's key
                         >
                             <Delete01Icon size={14} style={{ color: 'white' }} />
                         </Button>
@@ -285,33 +295,37 @@ const Roles = () => {
                 return <span className="text-sm dark:text-white">{item[columnKey]}</span>;
         }
     };
+
     return (
         <DashboardLayout title="Users - Roles" icon={<UserIcon className="text-info" />}>
-            <div className="p-2 md:p-4">{/**here ---|> responsv */}
+            <div className="p-2 md:p-4">
                 {/* Tabs for Active and Archived */}
-                <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
+                <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
                     <div className="flex justify-center items-center gap-2 flex-wrap">
-                        {companies && companies.length > 0 && companies.map((item, index) =>
-                        (<div key={index} onClick={() => setSelectedCompany(companies[index])}
-                            className={`py-2 cursor-pointer text-sm px-6 rounded-full test-white dark:text-white ${selectedCompany === item ? 'bg-[#0258E8]' : 'bg-[#0256e83d]'} `}>
-                            {item}
-                        </div>)
-                        )}
+                        {companies && companies.length > 0 && companies.map((item, index) => (
+                            <div
+                                key={index}
+                                onClick={() => setSelectedCompany(companies[index])}
+                                className={`py-2 cursor-pointer text-sm px-6 rounded-full text-white dark:text-white ${selectedCompany === item ? 'bg-[#0258E8]' : 'bg-[#0256e83d]'}`}
+                            >
+                                {item}
+                            </div>
+                        ))}
                     </div>
 
-                    {/* New Product and Actions Buttons */}
-                    <div className="flex gap-2 flex-wrap items-center self-end"> {/**here ---|> responsv */}
+                    {/* New Role and Actions Buttons */}
+                    <div className="flex gap-2 flex-wrap items-center self-end">
                         <Button
-                            onClick={() => setOpenModal(true)}
+                            onClick={() => setOpenNewRoleModal(true)}
                             color="default"
-                            className="rounded-full"
+                            className="rounded-full flex items-center gap-1"
                             style={{ backgroundColor: '#0258E8', color: 'white' }}
                         >
                             <PlusSignIcon size={18} /> New Role
                         </Button>
                         <Button
                             color="default"
-                            className="rounded-full"
+                            className="rounded-full flex items-center gap-1"
                             style={{ backgroundColor: '#ED0006', color: 'white' }}
                         >
                             <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions
@@ -322,7 +336,7 @@ const Roles = () => {
                 {/* Use the Generalized Table Component */}
                 <Table
                     columns={columns}
-                    data={rows.filter(r => r.company === selectedCompany)}  // Pass filtered products based on the view
+                    data={rows.filter(r => r.company === selectedCompany)}  // Pass filtered data based on the view
                     renderCell={renderCell}
                     handleCheckboxChange={handleCheckboxChange}
                     selectedRows={selectedRows} // Pass selected rows state
@@ -330,7 +344,12 @@ const Roles = () => {
                     className="dark:bg-gray-800 dark:text-white" // Dark mode support
                 />
             </div>
-            <EditUserModal modalOpen={openModal} setModalOpen={setOpenModal} id={1} />
+
+            {/* Edit User Modal */}
+            <EditUserModal modalOpen={openEditModal} setModalOpen={setOpenEditModal} id={1} />
+
+            {/* New Role Modal */}
+            <NewRoleModal isOpen={openNewRoleModal} onClose={() => setOpenNewRoleModal(false)} />
         </DashboardLayout>
     );
 };
