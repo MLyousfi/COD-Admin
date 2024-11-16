@@ -52,12 +52,11 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
         };
         document.addEventListener('click', clickHandler);
         return () => document.removeEventListener('click', clickHandler);
-    });
+    }, [modalOpen]);
 
     const closeModal = (v) => {
         setSelectedNavOption(1);
         setModalOpen(v)
-
     }
 
     const [telephone, setTelephone] = useState({
@@ -74,11 +73,6 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
 
     const [openTelCode, setOpenTelCode] = useState(false)
 
-
-
-
-
-
     const onrderNumRef = useRef()
     useEffect(() => {
         if (modalOpen && onrderNumRef.current) {
@@ -90,6 +84,9 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
+
+    // New state for Status
+    const [status, setStatus] = useState("active");
 
     return (
         <>
@@ -132,10 +129,14 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                         <div className="flex w-full md:w-[25%] md:flex-col justify-start items-start  md:flex-wrap gap-2 ">
                             {NavOptions.map((i) => (
                                 <div onClick={() => setSelectedNavOption(i.key)} key={i.key}
-                                    className={`${selectedNavOption === i.key ? " dark:text-white" : ' dark:text-[#ffffff50]'} cursor-pointer p-0 m-0 bg-transparent flex justify-center items-center rounded-full`}>
-
-                                    {i.label}
-
+                                    className={`${selectedNavOption === i.key ? " dark:text-white" : ' dark:text-[#ffffff50]'} cursor-pointer p-2 m-0 bg-transparent flex justify-start items-center rounded-md`}>
+                                    <i.icon className="mr-2" />
+                                    <span>{i.label}</span>
+                                    {i.notify > 0 && (
+                                        <span className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                                            {i.notify}
+                                        </span>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -209,15 +210,16 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                                     </div>
 
 
-                                    <div className="flex flex-col gap-8 lg:flex-row items-end mt-6">
+                                    <div className="flex flex-col gap-8 lg:flex-row my-8">
+
                                         <div className="w-full lg:w-1/2">
-                                            <label htmlFor="#manager" className="block mr-2">
+                                            <label htmlFor="manager" className="block mr-2">
                                                 <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Manager</span>
                                                 <Select selectedKeys={"1"}
                                                     id="manager"
                                                     variant="underlined"
                                                     color="primary"
-                                                    placeholder="Select an manager"
+                                                    placeholder="Select a manager"
                                                     labelPlacement="outside"
                                                     classNames={{
                                                         value: " dark:!text-[#ffffff] !text-[#000000]",
@@ -235,7 +237,7 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
 
                                                 }}
                                                 endContent={
-                                                    <button className="focus:outline-none" type="button" aria-label="toggle password visibility">
+                                                    <button className="focus:outline-none" type="button" aria-label="information">
                                                         <InformationCircleIcon size={18} className="text-2xl text-default-400 pointer-events-none" />
 
                                                     </button>
@@ -244,6 +246,7 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-8 lg:flex-row mt-6">
+                                        {/* Phone Number and Partner Inputs */}
                                         <div className="w-full lg:w-1/2 flex">
                                             <NumTelSelect
                                                 id={'countries_code'}
@@ -252,21 +255,45 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                                                 onChange={updateTelephone}
                                                 selectedValue={telephone}
                                             />
-
-
                                         </div>
-
+                                        <div className="w-full lg:w-1/2">
+                                            <Input type="text" variant="underlined" color="primary"
+                                                label="Partner"
+                                                classNames={{
+                                                    label: ["!text-[#00000050] dark:!text-[#FFFFFF30]"],
+                                                }}
+                                            />
+                                        </div>
                                     </div>
-
-
+                                    {/* Status Select in a new row */}
+                                    <div className="flex flex-col gap-8 lg:flex-row mt-6">
+                                        <div className="w-full lg:w-1/2">
+                                            <label htmlFor="status" className="block mr-2">
+                                                <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Status</span>
+                                                <Select
+                                                    selectedKeys={status}
+                                                    onSelectionChange={(keys) => setStatus(keys)}
+                                                    id="status"
+                                                    variant="underlined"
+                                                    color="primary"
+                                                    placeholder="Select status"
+                                                    labelPlacement="outside"
+                                                    classNames={{
+                                                        value: " dark:!text-[#ffffff] !text-[#000000]",
+                                                    }}>
+                                                    <SelectItem key="active">Active</SelectItem>
+                                                    <SelectItem key="inactive">Inactive</SelectItem>
+                                                </Select>
+                                            </label>
+                                        </div>
+                                    </div>
 
                                 </motion.div>}
                             {selectedNavOption === 2 && <motion.div className="min-h-[500px]" initial={{ x: 100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: 100, opacity: 0 }}>
 
-
                                 <div className="flex flex-col gap-8 lg:flex-row mt-6 ">
                                     <div className="w-full lg:w-1/2">
-                                        <label htmlFor="#roles" className="block mr-2">
+                                        <label htmlFor="roles" className="block mr-2">
                                             <span className="text-sm ">Role</span>
                                             <Select
                                                 selectedKeys={"1"}
@@ -307,8 +334,6 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
 
                                 </div>
 
-
-
                             </motion.div>}
                             {selectedNavOption === 3 &&
                                 <div className="min-h-[500px] " >
@@ -332,9 +357,6 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                                             </thead>
                                         </table>
                                     </div>
-
-
-
 
                                 </div>}
 
@@ -360,4 +382,3 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
 }
 
 export default EditUserModal;
-
