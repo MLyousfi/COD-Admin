@@ -59,7 +59,8 @@ import ShipmentsInTransit from "../../modules/collects/components/ShipmentsInTra
 import EditCollect from "../../modules/first-mile/components/EditCollects.jsx";
 import Sponsoring from "../../modules/statistics/pages/Sponsoring.jsx";
 import Activities from "../../modules/statistics/pages/Activities.jsx";
-
+import GeneralTemplates from "../../modules/general/pages/Templates.jsx"
+import Configuration from "../../modules/general/pages/Configuration.jsx";
 const routes = [
     {
         path: "/",
@@ -340,13 +341,13 @@ const routes = [
 
             {
                 path: RouteNames.generalTemplates,
-                element: <Banks />
+                element: <GeneralTemplates />
             },
 
 
             {
                 path: RouteNames.generalConfiguration,
-                element: <Banks />
+                element: <Configuration />
             },
 
 
