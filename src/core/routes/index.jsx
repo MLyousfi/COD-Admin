@@ -57,6 +57,8 @@ import Sidebar from "../../modules/dashboard/components/partials/Sidebar.jsx";
 import Warehouse from "../../modules/stockManagement.jsx/components/Warehouse.jsx";
 import ShipmentsInTransit from "../../modules/collects/components/ShipmentsInTransit.jsx";
 import EditCollect from "../../modules/first-mile/components/EditCollects.jsx";
+import Sponsoring from "../../modules/statistics/pages/Sponsoring.jsx";
+import Activities from "../../modules/statistics/pages/Activities.jsx";
 
 const routes = [
     {
@@ -364,14 +366,14 @@ const routes = [
             },
             {
                 path: RouteNames.statisticsSponsoring,
-                element: <Products />
+                element: <Sponsoring />
             },
             {
                 path: RouteNames.statisticsAgents,
                 children: [
                     {
                         path: RouteNames.statisticsAgentsActivities,
-                        element: <Products />
+                        element: <Activities />
                     },
                     {
                         path: RouteNames.statisticsAgentscallCenter,
