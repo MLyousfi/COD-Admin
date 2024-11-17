@@ -302,7 +302,7 @@ const ListOfUsers = () => {
                     <div className="flex justify-center items-center gap-2 flex-wrap">
                         {companies && companies.length > 0 && companies.map((item, index) =>
                         (<div key={index} onClick={() => setSelectedCompany(companies[index])}
-                            className={`py-2 cursor-pointer text-sm px-6 rounded-full test-white dark:text-white ${selectedCompany === item ? 'bg-[#0258E8]' : 'bg-[#0256e83d]'} `}>
+                            className={`py-2 cursor-pointer text-sm px-6 rounded-full  ${selectedCompany === item ? 'bg-[#0258E8] font-bold text-white' : 'bg-[#0256e83d] font-bold text-[#0258E8] dark:text-white'} `}>
                             {item}
                         </div>)
                         )}

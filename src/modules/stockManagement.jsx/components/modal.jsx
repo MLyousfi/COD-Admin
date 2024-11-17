@@ -9,6 +9,8 @@ const CustomModal = ({
   isDarkMode,
   children,
   width, // Custom width prop
+  hideSeparator = false, // New prop to hide the separator line
+  hideCloseButton = false, // New prop to hide the close button
 }) => {
   const [modalWidth, setModalWidth] = useState(width || '600px');
 
@@ -63,25 +65,29 @@ const CustomModal = ({
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-5">
           <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>
-          <button
-            onClick={onClose}
-            className={`hover:text-gray-400 focus:outline-none ${
-              isDarkMode ? 'text-white' : 'text-black'
-            }`}
-            aria-label="Close Modal"
-          >
-            <MultiplicationSignIcon size={20} />
-          </button>
+          {!hideCloseButton && (
+            <button
+              onClick={onClose}
+              className={`hover:text-gray-400 focus:outline-none ${
+                isDarkMode ? 'text-white' : 'text-black'
+              }`}
+              aria-label="Close Modal"
+            >
+              <MultiplicationSignIcon size={20} />
+            </button>
+          )}
         </div>
 
         {/* Separator Line */}
-        <hr
-          className={
-            isDarkMode
-              ? 'w-full mb-2 border-gray-800'
-              : 'w-full mb-2 border-gray-200'
-          }
-        />
+        {!hideSeparator && (
+          <hr
+            className={
+              isDarkMode
+                ? 'w-full mb-2 border-gray-800'
+                : 'w-full mb-2 border-gray-200'
+            }
+          />
+        )}
 
         {/* Modal Content */}
         <div className="flex-1">

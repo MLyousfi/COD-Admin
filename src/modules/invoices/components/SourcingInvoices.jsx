@@ -9,7 +9,8 @@ import {
   TableIcon,
   PackageIcon,
   Settings02Icon,
-} from "hugeicons-react";
+  Upload02Icon,
+} from "hugeicons-react"; // Ensure all icons are correctly imported
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
@@ -46,21 +47,43 @@ const SourcingInvoices = () => {
   const rowsPerPage = 10;
   const { currentTheme } = useThemeProvider();
 
-  // Modal state
+  // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false); // Confirmation modal state
+
   const [newInvoiceData, setNewInvoiceData] = useState({
-    seller: '',
-    remitted: '',
+    seller1: '',
+    seller2: '',
+    otherCustomer: '',
+    date: '',
+    sourcingTab: '',
+    statut: '',
+    photo: null,
   });
 
-  const sellers = [
-    { key: 'seller1', label: 'Seller One' },
-    { key: 'seller2', label: 'Seller Two' },
+  const sellers1 = [
+    { key: 'seller1a', label: 'Seller One A' },
+    { key: 'seller1b', label: 'Seller One B' },
   ];
 
-  const orders = [
-    { key: 'order1', label: 'Order One' },
-    { key: 'order2', label: 'Order Two' },
+  const sellers2 = [
+    { key: 'seller2a', label: 'Seller Two A' },
+    { key: 'seller2b', label: 'Seller Two B' },
+  ];
+
+  const otherCustomers = [
+    { key: 'customer1', label: 'Customer One' },
+    { key: 'customer2', label: 'Customer Two' },
+  ];
+
+  const sourcingTabs = [
+    { key: 'sourcing1', label: 'Sourcing One' },
+    { key: 'sourcing2', label: 'Sourcing Two' },
+  ];
+
+  const statuts = [
+    { key: 'pending', label: 'Pending' },
+    { key: 'paid', label: 'Paid' }, 
   ];
 
   const handleOpenModal = () => {
@@ -69,21 +92,48 @@ const SourcingInvoices = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setNewInvoiceData({ seller: '', remitted: '' });
+    setNewInvoiceData({
+      seller1: '',
+      seller2: '',
+      otherCustomer: '',
+      date: '',
+      sourcingTab: '',
+      statut: '',
+      photo: null,
+    });
   };
 
   const handleCreateInvoice = () => {
-    if (!newInvoiceData.seller || !newInvoiceData.remitted) {
-      alert("Please select both 'Informations' and 'Remitted'.");
+    const { seller1, seller2, otherCustomer, date, sourcingTab, statut, photo } = newInvoiceData;
+
+    // Validate required fields
+    if (!seller1 || !seller2 || !otherCustomer || !date || !sourcingTab || !statut) {
+      alert("Please fill in all the required fields.");
       return;
     }
+
+    // Check if the status is 'paid'
+    if (statut === 'paid') {
+      setIsConfirmationOpen(true);
+    } else {
+      // Proceed to save the invoice directly
+      saveInvoice();
+    }
+  };
+
+  // Function to save the invoice
+  const saveInvoice = () => {
+    const { seller1, seller2, otherCustomer, date, sourcingTab, statut, photo } = newInvoiceData;
 
     const newKey = products.length + 1;
     const newProduct = {
       key: newKey,
       invoiceNumber: `INV-${newKey}`,
-      seller: newInvoiceData.seller,
-      date: new Date().toLocaleDateString(),
+      seller: `${seller1}, ${seller2}`,
+      otherCustomer,
+      date,
+      sourcingTab,
+      statut,
       product: "Sample Product",
       type: "Sample Type",
       qty: 10,
@@ -92,20 +142,30 @@ const SourcingInvoices = () => {
       soMargin: "$300",
       shCost: "$500",
       shMargin: "$500",
-      statut: "Pending",
-      paymentStatut: "Unpaid",
+      paymentStatut: statut === 'paid' ? "Paid" : "Unpaid",
       verified: false,
       status: "active",
+      photo, // Handle photo as needed
     };
     setProducts([...products, newProduct]);
     handleCloseModal();
   };
 
   const handleSelectChange = (key, value) => {
-    setNewInvoiceData(prev => ({
-      ...prev,
-      [key]: value,
-    }));
+    // Check if 'value' is a Set (from Select components) or a string (from date input)
+    if (value instanceof Set) {
+      const selectedValue = Array.from(value)[0] || '';
+      setNewInvoiceData(prev => ({
+        ...prev,
+        [key]: selectedValue,
+      }));
+    } else {
+      // Assume it's a string (from date input)
+      setNewInvoiceData(prev => ({
+        ...prev,
+        [key]: value,
+      }));
+    }
   };
 
   const handleCheckboxChange = (keys, isRange) => {
@@ -132,6 +192,7 @@ const SourcingInvoices = () => {
       );
     }
   };
+
   const handleDelete = (key) => {
     setProducts(products.filter(product => product.key !== key));
   };
@@ -155,22 +216,24 @@ const SourcingInvoices = () => {
           />
         );
 
-        case "statut":
-            const statutColor = {
-              Pending: currentTheme === "dark" ? "#FFD60020" : "#FFD60030",
-            };
-    
-            return (
-              <div
-                className="flex items-center justify-center px-2 py-1 rounded-full text-black dark:text-white"
-                style={{
-                  backgroundColor: statutColor[item.statut],
-                  minWidth: '80px',
-                }}
-              >
-                {item.statut}
-              </div>
-            );
+      case "statut":
+        const statutColor = {
+          Pending: currentTheme === "dark" ? "#FFD60020" : "#FFD60030",
+          Paid: currentTheme === "dark" ? "#4CAF5020" : "#4CAF5030",
+        };
+
+        return (
+          <div
+            className="flex items-center justify-center px-2 py-1 rounded-full text-black dark:text-white"
+            style={{
+              backgroundColor: statutColor[item.statut],
+              minWidth: '80px',
+            }}
+          >
+            {item.statut}
+          </div>
+        );
+
       case "options":
         return (
           <div className="flex space-x-2 justify-center items-center relative">
@@ -187,37 +250,37 @@ const SourcingInvoices = () => {
               </Button>
               {isDropdownOpen === item.key && (
                 <Menu
-                className="absolute mt-2 z-50 bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg"
-                style={{ minWidth: '200px', left: 'auto', right: 0 }}
+                  className="absolute mt-2 z-50 bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg"
+                  style={{ minWidth: '200px', left: 'auto', right: 0 }}
                   onClose={() => setIsDropdownOpen(null)}
                 >
                   <MenuItem onClick={() => {/* handle click */}}>
-  <div className="flex items-center">
-    <PrinterIcon size={14} className="mr-2" />
-    <span>Client Invoice</span>
-  </div>
-</MenuItem>
+                    <div className="flex items-center">
+                      <PrinterIcon size={14} className="mr-2" />
+                      <span>Client Invoice</span>
+                    </div>
+                  </MenuItem>
 
-<MenuItem onClick={() => {/* handle click */}}>
-  <div className="flex items-center">
-    <TableIcon size={14} className="mr-2" />
-    <span>Sourcing Invoice</span>
-  </div>
-</MenuItem>
+                  <MenuItem onClick={() => {/* handle click */}}>
+                    <div className="flex items-center">
+                      <TableIcon size={14} className="mr-2" />
+                      <span>Sourcing Invoice</span>
+                    </div>
+                  </MenuItem>
 
-<MenuItem onClick={() => {/* handle click */}}>
-  <div className="flex items-center">
-    <PackageIcon size={14} className="mr-2" />
-    <span>DDP Shipping Provider</span>
-  </div>
-</MenuItem>
+                  <MenuItem onClick={() => {/* handle click */}}>
+                    <div className="flex items-center">
+                      <PackageIcon size={14} className="mr-2" />
+                      <span>DDP Shipping Provider</span>
+                    </div>
+                  </MenuItem>
 
-<MenuItem onClick={() => {/* handle click */}}>
-  <div className="flex items-center">
-    <Settings02Icon size={14} className="mr-2" />
-    <span>General Report</span>
-  </div>
-</MenuItem>
+                  <MenuItem onClick={() => {/* handle click */}}>
+                    <div className="flex items-center">
+                      <Settings02Icon size={14} className="mr-2" />
+                      <span>General Report</span>
+                    </div>
+                  </MenuItem>
                 </Menu>
               )}
             </div>
@@ -247,6 +310,15 @@ const SourcingInvoices = () => {
 
       default:
         return <span className="text-sm dark:text-white">{item[columnKey]}</span>;
+    }
+  };
+
+  const handlePhotoChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setNewInvoiceData(prev => ({
+        ...prev,
+        photo: URL.createObjectURL(e.target.files[0]),
+      }));
     }
   };
 
@@ -291,6 +363,7 @@ const SourcingInvoices = () => {
         />
       </div>
 
+      {/* New Invoice Modal */}
       <CustomModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
@@ -298,63 +371,301 @@ const SourcingInvoices = () => {
         isDarkMode={currentTheme === "dark"}
       >
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-4">
-            <div className="w-full">
-              <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-500">
-                Seller
+          {/* First Row: Seller 1 and Seller 2 */}
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Seller 1 */}
+            <div className="w-full md:w-1/2">
+              <label htmlFor="seller1" className="block mt-6 text-sm font-medium text-[#00000050] dark:text-gray-500">
+                Seller 1
               </label>
               <Select
-                selectedKeys={newInvoiceData.seller ? [newInvoiceData.seller] : []}
-                onSelectionChange={(keys) => handleSelectChange('seller', keys)}
-                placeholder="Select Seller"
+                id="seller1"
+                selectionMode="single"
+                selectedKeys={newInvoiceData.seller1 ? [newInvoiceData.seller1] : []}
+                onSelectionChange={(keys) => handleSelectChange('seller1', keys)}
+                placeholder="Select Seller 1"
                 classNames={{
-                  trigger: 'w-full bg-transparent border border-gray-300 dark:border-gray-600',
-                  content: 'bg-transparent border border-gray-300 dark:border-gray-600',
+                  trigger: `
+                    w-full 
+                    bg-transparent 
+                    border-b 
+                    ${newInvoiceData.seller1 ? 'border-blue-300 dark:border-blue-500' : 'border-gray-300 dark:border-gray-600'} 
+                    focus:border-blue-500 
+                    focus:ring-0 
+                    rounded-none
+                  `,
+                  content: `
+                    bg-white 
+                    dark:bg-gray-800 
+                    border-none 
+                    shadow-md 
+                    rounded-md
+                  `,
                 }}
+                aria-label="Select Seller 1"
               >
-                {sellers.map((seller) => (
+                {sellers1.map((seller) => (
                   <SelectItem key={seller.key}>{seller.label}</SelectItem>
                 ))}
               </Select>
             </div>
 
-            <div className="w-full">
-              <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-500">
-                Remitted
+            {/* Seller 2 */}
+            <div className="w-full md:w-1/2">
+              <label htmlFor="seller2" className="block mt-6 text-sm font-medium text-[#00000050] dark:text-gray-500">
+                Seller 2
               </label>
               <Select
-                selectedKeys={newInvoiceData.remitted ? [newInvoiceData.remitted] : []}
-                onSelectionChange={(keys) => handleSelectChange('remitted', keys)}
-                placeholder="All Orders"
+                id="seller2"
+                selectionMode="single"
+                selectedKeys={newInvoiceData.seller2 ? [newInvoiceData.seller2] : []}
+                onSelectionChange={(keys) => handleSelectChange('seller2', keys)}
+                placeholder="Select Seller 2"
                 classNames={{
-                  trigger: 'w-full bg-transparent border border-gray-300 dark:border-gray-600',
-                  content: 'bg-transparent border border-gray-300 dark:border-gray-600',
+                  trigger: `
+                    w-full 
+                    bg-transparent 
+                    border-b 
+                    ${newInvoiceData.seller2 ? 'border-blue-300 dark:border-blue-500' : 'border-gray-300 dark:border-gray-600'} 
+                    focus:border-blue-500 
+                    focus:ring-0 
+                    rounded-none
+                  `,
+                  content: `
+                    bg-white 
+                    dark:bg-gray-800 
+                    border-none 
+                    shadow-md 
+                    rounded-md
+                  `,
                 }}
+                aria-label="Select Seller 2"
               >
-                {orders.map((order) => (
-                  <SelectItem key={order.key}>{order.label}</SelectItem>
+                {sellers2.map((seller) => (
+                  <SelectItem key={seller.key}>{seller.label}</SelectItem>
                 ))}
               </Select>
             </div>
           </div>
+
+          {/* Second Row: Other Customer and Date */}
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Other Customer */}
+            <div className="w-full md:w-1/2">
+              <label htmlFor="otherCustomer" className="block mt-6 text-sm font-medium text-[#00000050] dark:text-gray-500">
+                Other Customer
+              </label>
+              <Select
+                id="otherCustomer"
+                selectionMode="single"
+                selectedKeys={newInvoiceData.otherCustomer ? [newInvoiceData.otherCustomer] : []}
+                onSelectionChange={(keys) => handleSelectChange('otherCustomer', keys)}
+                placeholder="Select Other Customer"
+                classNames={{
+                  trigger: `
+                    w-full 
+                    bg-transparent 
+                    border-b 
+                    ${newInvoiceData.otherCustomer ? 'border-blue-300 dark:border-blue-500' : 'border-gray-300 dark:border-gray-600'} 
+                    focus:border-blue-500 
+                    focus:ring-0 
+                    rounded-none
+                  `,
+                  content: `
+                    bg-white 
+                    dark:bg-gray-800 
+                    border-none 
+                    shadow-md 
+                    rounded-md
+                  `,
+                }}
+                aria-label="Select Other Customer"
+              >
+                {otherCustomers.map((customer) => (
+                  <SelectItem key={customer.key}>{customer.label}</SelectItem>
+                ))}
+              </Select>
+            </div>
+
+            {/* Date */}
+            <div className="w-full md:w-1/2 relative">
+              <label htmlFor="invoiceDate" className="block mt-6 text-sm font-medium text-[#00000050] dark:text-gray-500">
+                Date
+              </label>
+              <div className="relative">
+                <input
+                  id="invoiceDate"
+                  type="date"
+                  value={newInvoiceData.date}
+                  onChange={(e) => handleSelectChange('date', e.target.value)}
+                  className={`w-full px-3 py-2 border-b ${
+                    newInvoiceData.date
+                      ? 'border-blue-300 dark:border-blue-500'
+                      : 'border-gray-300 dark:border-gray-600'
+                  } ${
+                    currentTheme === 'dark' ? 'bg-transparent text-white' : 'bg-white text-black'
+                  } rounded-none focus:outline-none focus:border-blue-500`}
+                />
+               
+              </div>
+            </div>
+          </div>
+
+          {/* Third Row: Sourcing Tab and Statut */}
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Sourcing Tab */}
+            <div className="w-full md:w-1/2">
+              <label htmlFor="sourcingTab" className="block mt-6 text-sm font-medium text-[#00000050] dark:text-gray-500">
+                Sourcing Tab
+              </label>
+              <Select
+                id="sourcingTab"
+                selectionMode="single"
+                selectedKeys={newInvoiceData.sourcingTab ? [newInvoiceData.sourcingTab] : []}
+                onSelectionChange={(keys) => handleSelectChange('sourcingTab', keys)}
+                placeholder="Select Sourcing Tab"
+                classNames={{
+                  trigger: `
+                    w-full 
+                    bg-transparent 
+                    border-b 
+                    ${newInvoiceData.sourcingTab ? 'border-blue-300 dark:border-blue-500' : 'border-gray-300 dark:border-gray-600'} 
+                    focus:border-blue-500 
+                    focus:ring-0 
+                    rounded-none
+                  `,
+                  content: `
+                    bg-white 
+                    dark:bg-gray-800 
+                    border-none 
+                    shadow-md 
+                    rounded-md
+                  `,
+                }}
+                aria-label="Select Sourcing Tab"
+              >
+                {sourcingTabs.map((tab) => (
+                  <SelectItem key={tab.key}>{tab.label}</SelectItem>
+                ))}
+              </Select>
+            </div>
+
+            {/* Statut */}
+            <div className="w-full md:w-1/2">
+              <label htmlFor="statut" className="block mt-6 text-sm font-medium text-[#00000050] dark:text-gray-500">
+                Statut
+              </label>
+              <Select
+                id="statut"
+                selectionMode="single"
+                selectedKeys={newInvoiceData.statut ? [newInvoiceData.statut] : []}
+                onSelectionChange={(keys) => handleSelectChange('statut', keys)}
+                placeholder="Select Statut"
+                classNames={{
+                  trigger: `
+                    w-full 
+                    bg-transparent 
+                    border-b 
+                    ${newInvoiceData.statut ? 'border-blue-300 dark:border-blue-500' : 'border-gray-300 dark:border-gray-600'} 
+                    focus:border-blue-500 
+                    focus:ring-0 
+                    rounded-none
+                  `,
+                  content: `
+                    bg-white 
+                    dark:bg-gray-800 
+                    border-none 
+                    shadow-md 
+                    rounded-md
+                  `,
+                }}
+                aria-label="Select Statut"
+              >
+                {statuts.map((statut) => (
+                  <SelectItem key={statut.key}>{statut.label}</SelectItem>
+                ))}
+              </Select>
+            </div>
+          </div>
+
+          {/* RMB to USD Conversion Rate */}
+          <div className="text-left text-sm text-gray-700 dark:text-gray-300 mt-8 font-bold mb-4">
+            1 RMB to USD : 0.14
+          </div>
+
+          {/* Photo Upload */}
+          <div className="flex flex-col">
+            <label htmlFor="invoicePhoto" className="w-full lg:w-full cursor-pointer">
+              <div className="flex items-center px-3 py-2 border-b border-gray-300 dark:border-[#ffffff10] bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <span className="text-sm text-gray-600 dark:text-[#FFFFFF30]">Choose a photo</span>
+                <Upload02Icon size={20} className="ml-auto text-gray-600" />
+              </div>
+              <input
+                type="file"
+                id="invoicePhoto"
+                name="invoicePhoto"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className="hidden"
+              />
+            </label>
+            {newInvoiceData.photo && (
+              <img src={newInvoiceData.photo} alt="Invoice" className="mt-2 w-full h-48 object-cover rounded-md" />
+            )}
+          </div>
+
+          {/* Separator Line */}
+          <hr className="my-6 border-gray-300 dark:border-gray-600" />
+
+          {/* Action Buttons */}
+          <div className="flex justify-center gap-4">
+            <Button
+              className="bg-info text-white rounded-full px-4 py-2"
+              onClick={handleCreateInvoice}
+            >
+              Save Invoice
+            </Button>
+            <Button
+              variant="light"
+              className="border border-[#00000050] dark:border-gray-300 rounded-full px-4 py-2"
+              onClick={handleCloseModal}
+            >
+              Cancel
+            </Button>
+          </div>
         </div>
+      </CustomModal>
 
-        <hr className="my-6 border-gray-300 dark:border-gray-600" />
-
-        <div className="flex justify-center gap-4">
-          <Button
-            className="bg-info text-white rounded-full px-4 py-2"
-            onClick={handleCreateInvoice}
-          >
-            Create Invoice
-          </Button>
-          <Button
-            variant="light"
-            className="border border-[#00000050] dark:border-gray-300 rounded-full px-4 py-2"
-            onClick={handleCloseModal}
-          >
-            Cancel
-          </Button>
+      {/* Confirmation Modal */}
+      <CustomModal
+        isOpen={isConfirmationOpen}
+        onClose={() => setIsConfirmationOpen(false)}
+        isDarkMode={currentTheme === "dark"}
+        hideSeparator={true}
+        width={'450px'}
+      >
+        <div className="flex flex-col items-center p-6">
+          <p className="text-center text-xl text-gray-700 dark:text-gray-300 mb-6 font-bold">
+            Are you sure you want to mark this invoice as paid?
+          </p>
+          <div className="flex gap-2">
+            <Button
+              className="bg-info text-white rounded-full px-12 py-2 "
+              onClick={() => {
+                saveInvoice();
+                setIsConfirmationOpen(false);
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              variant="light"
+              className="border border-black dark:border-white rounded-full px-12 py-2"
+              onClick={() => setIsConfirmationOpen(false)}
+            >
+              No
+            </Button>
+          </div>
         </div>
       </CustomModal>
     </DashboardLayout>
