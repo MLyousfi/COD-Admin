@@ -46,7 +46,7 @@ export default function ResideBar() {
         RoutesConfig.forEach((route) => {
             if (route.children) {
                 const isParentActive = route.children.some((child) => {
-                    // Replace includes with precise matching
+                    // Precise matching
                     const isChildActive =
                         pathname === child.path || pathname.startsWith(`${child.path}/`);
                     const isGrandchildActive =
@@ -173,20 +173,15 @@ export default function ResideBar() {
     return (
         <AnimatePresence>
             {showSidebar && (
-                <motion.div
+                <div
                     className="lg:hidden backdrop-blur-xl backdrop-saturate-150 z-30 fixed inset-0 p-0 h-screen bg-gray-500/10"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
                     onClick={() => HandleSetShowSidebar(false)}
                 >
                     <motion.div
-                        layout
                         initial={{ x: '-100%' }}
                         animate={{ x: 0 }}
                         exit={{ x: '-100%' }}
-                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                        transition={{ type: 'tween', duration: 0.3 }}
                         onClick={(e) => e.stopPropagation()}
                         className="flex max-w-80 flex-col overflow-y-auto h-full mr-auto bg-base_light dark:bg-base_dark"
                     >
@@ -228,7 +223,7 @@ export default function ResideBar() {
                                     const isActiveParent =
                                         route.children &&
                                         route.children.some((child) => {
-                                            // Replace includes with precise matching
+                                            // Precise matching
                                             const isChildActive =
                                                 pathname === child.path ||
                                                 pathname.startsWith(`${child.path}/`);
@@ -373,8 +368,9 @@ export default function ResideBar() {
                                                                                     {pathMapWithNotif &&
                                                                                     pathMapWithNotif[child.path]
                                                                                         .notifNum !== 0
-                                                                                        ? pathMapWithNotif[child.path]
-                                                                                              .notifNum
+                                                                                        ? pathMapWithNotif[
+                                                                                              child.path
+                                                                                          ].notifNum
                                                                                         : ''}
                                                                                 </motion.div>
                                                                                 {child.name}
@@ -450,7 +446,7 @@ export default function ResideBar() {
                             */}
                         </div>
                     </motion.div>
-                </motion.div>
+                </div>
             )}
         </AnimatePresence>
     );
