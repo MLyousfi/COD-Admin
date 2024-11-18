@@ -61,6 +61,7 @@ import Sponsoring from "../../modules/statistics/pages/Sponsoring.jsx";
 import Activities from "../../modules/statistics/pages/Activities.jsx";
 import GeneralTemplates from "../../modules/general/pages/Templates.jsx"
 import Configuration from "../../modules/general/pages/Configuration.jsx";
+import Currencies from "../../modules/countries/pages/Currencies.jsx";
 const routes = [
     {
         path: "/",
@@ -226,7 +227,7 @@ const routes = [
     },
     {
         path: RouteNames.currencies,
-        element: <Countries />
+        element: <Currencies />
 
     },
     {

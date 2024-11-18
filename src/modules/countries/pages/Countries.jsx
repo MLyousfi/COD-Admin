@@ -19,10 +19,12 @@ import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data5';
 import Flag from 'react-world-flags';
 import CustomModal from '../../stockManagement.jsx/components/modal'; 
+import InformationSection from '../components/InformationSection';
 
 // Define ICON_SIZE constant
 const ICON_SIZE = 16;
 
+// Define columns for the Countries Table
 const columns = [
   { key: "checkbox", label: "#" },
   { key: "id", label: "Id" },
@@ -33,6 +35,7 @@ const columns = [
   { key: "options", label: "Actions" },
 ];
 
+// Mapping of country names to country codes
 const countryCodeMap = {
   "United States": "US",
   "Canada": "CA",
@@ -66,6 +69,7 @@ const sampleCities = [
 ];
 
 const Countries = () => {
+  // State Variables
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); 
@@ -100,6 +104,9 @@ const Countries = () => {
 
   // State for Dark Mode
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // State Variable for Active Tab in New Country Modal
+  const [activeTab, setActiveTab] = useState('information'); // 'information' or 'cities'
 
   // Detect dark mode
   useEffect(() => {
@@ -152,10 +159,10 @@ const Countries = () => {
     console.log('Editing Country:', country); 
     setCurrentCountry(country);
     setEditFormData({
-      name: '',
-      tags: '',
-      countryCode: '',
-      shipping: 'Yes',
+      name: country.name || '',
+      tags: country.tags || '',
+      countryCode: country.countryCode || '',
+      shipping: country.shipping || 'Yes',
     });
     setIsEditModalOpen(true);
   };
@@ -174,11 +181,20 @@ const Countries = () => {
   // Handlers to open and close New Country Modal
   const openNewCountryModal = () => {
     setIsNewCountryModalOpen(true);
+    setActiveTab('information'); // Default to 'information' tab
     setCurrentPage(1); 
   };
 
   const closeNewCountryModal = () => {
     setIsNewCountryModalOpen(false);
+    setActiveTab('information'); // Reset to 'information' tab
+    // Reset form data if needed
+    setCreateFormData({
+      name: '',
+      tags: '',
+      countryCode: '',
+      shipping: 'Yes',
+    });
   };
 
   // New Handlers to open and close Import Modal
@@ -188,6 +204,11 @@ const Countries = () => {
 
   const closeImportModal = () => {
     setIsImportModalOpen(false);
+  };
+
+  // Function to switch tabs
+  const switchTab = (tab) => {
+    setActiveTab(tab);
   };
 
   const handleCreateCountry = () => {
@@ -382,7 +403,7 @@ const Countries = () => {
         <td className="px-4 py-2 text-xs">{city.arabicName}</td>
         <td className="px-4 py-2 text-xs">{city.zipCode}</td>
         <td className="px-4 py-2 text-xs flex justify-center">
-          <span className={`rounded-full px-2 py-1 text-xs  ${city.available === 'Yes' ? 'bg-green-600 bg-opacity-20 text-green-600' : 'bg-red-600 bg-opacity-20 text-red-600'}`}>
+          <span className={`rounded-full px-2 py-1 text-xs ${city.available === 'Yes' ? 'bg-green-600 bg-opacity-20 text-green-600' : 'bg-red-600 bg-opacity-20 text-red-600'}`}>
             {city.available}
           </span>
         </td>
@@ -393,6 +414,13 @@ const Countries = () => {
   const currentCities = React.useMemo(() => {
     return cities.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
   }, [cities, currentPage, rowsPerPage]);
+
+  // Placeholder for delete functionality
+  const handleDelete = (key) => {
+    if (window.confirm("Are you sure you want to delete this country?")) {
+      setProducts(products.filter(country => country.key !== key));
+    }
+  };
 
   return (
     <DashboardLayout title="Countries" icon={<EarthIcon className="text-info" />}>
@@ -649,94 +677,168 @@ const Countries = () => {
         </div>
       </CustomModal>
 
-      {/* New Country Modal */}
+      {/* New Country Modal with Updated Layout */}
       <CustomModal
         isOpen={isNewCountryModalOpen}
         onClose={closeNewCountryModal}
-        title={`New Country`} 
+        title="New Country" 
         isDarkMode={isDarkMode}
+        width={'800px'}
       >
-        {/* Modal Header with Import Button and Informations */}
-        <div className="flex justify-between items-center mb-4">
-          {/* Left Side: Informations */}
-          <div className="flex flex-col">
-            <p className="text-gray-500 text-xs whitespace-nowrap">Informations</p> 
-            <p className="text-black dark:text-white text-sm whitespace-nowrap">List of Cities</p> 
-          </div>
+        {/* Modal Content with Conditional Layout */}
+        <div className="flex flex-col h-full">
+          {activeTab === 'information' ? (
+            // Layout for Informations Tab
+            <div className="flex flex-col md:flex-row h-full">
+              {/* Left Side: Vertical Tabs (Full Width on Mobile, 1/5 on Desktop) */}
+              <div className="flex flex-row md:flex-col md:space-y-2 md:space-x-0 w-2/3 mt-8 md:w-1/5 mb-4 md:mb-0 md:mr-16">
+                {/* Informations Tab */}
+                <button
+                  onClick={() => switchTab('information')}
+                  className={`text-sm font-medium py-2 rounded ${
+                    activeTab === 'information'
+                      ? 'bg-transparent dark:text-white text-black '
+                      : 'text-gray-500 dark:text-gray-700 hover:text-black dark:hover:text-white'
+                  } flex-1 md:flex-none`}
+                  aria-label="Informations Tab"
+                >
+                  Informations
+                </button>
 
-          {/* Right Side: Import Button */}
-          <Button 
-            variant="outline"
-            color="info"
-            className="flex items-center gap-2 bg-info rounded-full text-xs text-white" 
-            size="sm"
-            onClick={openImportModal} // <--- Modified to open Import Modal
-          >
-            <Download02Icon size={16} />
-            Import
-          </Button>
-        </div>
+                {/* List of Cities Tab */}
+                <button
+                  onClick={() => switchTab('cities')}
+                  className={`text-sm font-medium px-4 py-2 rounded ${
+                    activeTab === 'cities'
+                      ? 'bg-transparent dark:text-white text-black'
+                      : 'text-gray-500 dark:text-gray-700 hover:text-black dark:hover:text-white'
+                  } flex-1 md:flex-none`}
+                  aria-label="List of Cities Tab"
+                >
+                  List of Cities
+                </button>
+              </div>
 
-        {/* Cities Table */}
-        <div className="overflow-x-auto">
-          <table className="min-w-full table-auto text-xs"> 
-            <thead>
-              <tr className="bg-[#00000020] dark:bg-[#FFFFFF05] text-black dark:text-white"> 
-                <th className="px-4 py-2 whitespace-nowrap ">City Code</th> 
-                <th className="px-4 py-2 whitespace-nowrap ">Dest Code</th>
-                <th className="px-4 py-2 whitespace-nowrap ">Province</th>
-                <th className="px-4 py-2 whitespace-nowrap ">Name</th>
-                <th className="px-4 py-2 whitespace-nowrap ">Arabic Name</th>
-                <th className="px-4 py-2 whitespace-nowrap ">Zip Code</th>
-                <th className="px-4 py-2 whitespace-nowrap  ">Available</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cities.length === 0 ? (
-                <tr>
-                  <td colSpan={7} className="text-center  text-xs py-4">No cities available.</td>
-                </tr>
-              ) : (
-                currentCities.map((city, index) => renderCityRow(city, index))
-              )}
-            </tbody>
-          </table>
-        </div>
+              {/* Right Side: InformationSection (Full Width on Mobile, 4/5 on Desktop) */}
+              <div className="flex-1 p-4 overflow-auto">
+                <InformationSection 
+                  formData={createFormData} 
+                  setFormData={setCreateFormData} 
+                  isDarkMode={isDarkMode} 
+                />
+              </div>
+            </div>
+          ) : (
+            // Layout for List of Cities Tab
+            <div className="flex flex-col h-full">
+              {/* Menu Row: Informations and List of Cities buttons on left, Import button on right */}
+              <div className="flex flex-col sm:flex-row items-center justify-betwen mt-8 space-y-4 sm:space-y-0 mr-auto">
+                {/* Left Group: Informations and List of Cities buttons */}
+                <div className="flex md:flex-col  ">
+                  <button
+                    onClick={() => switchTab('information')}
+                    className={`text-sm font-medium px-4 py-2 rounde ${
+                      activeTab === 'information'
+                        ? 'bg-transparent dark:text-white text-black '
+                        : 'text-gray-500 dark:text-gray-700 hover:text-black dark:hover:text-white'
+                    }`}
+                    aria-label="Informations Tab"
+                  >
+                    Informations
+                  </button>
 
-        {/* Always Render Pagination Controls */}
-        <div className="pagination-container flex justify-center items-center my-4 space-x-2">
-          <button
-            aria-label="Previous Page"
-            className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm hover:bg-gray-300 dark:hover:bg-gray-500 disabled:opacity-50"
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-          >
-            <ArrowLeft01Icon size={ICON_SIZE} /> <span>Previous</span>
-          </button>
+                  <button
+                    onClick={() => switchTab('cities')}
+                    className={`text-sm font-medium px-4 py-2 rounded    ${
+                      activeTab === 'cities'
+                        ? 'bg-transparent dark:text-white text-black'
+                        : 'text-gray-500 dark:text-gray-700 hover:text-black dark:hover:text-white'
+                    }`}
+                    aria-label="List of Cities Tab"
+                  >
+                    List of Cities
+                  </button>
+                </div>
+                </div>
+<div>
+                {/* Right Group: Import Button */}
+                <Button 
+                  variant="outline"
+                  color="info"
+                  className="flex items-center gap-2 bg-info rounded-full text-sm text-white ml-auto mb-8 md:mt-0 mt-8" 
+                  size="sm"
+                  onClick={openImportModal}
+                  aria-label="Import Button"
+                >
+                  <Download02Icon size={16} />
+                  Import
+                </Button>
+              </div>
 
-          {/* Page Number Buttons */}
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index}
-              aria-label={`Page ${index + 1}`}
-              className={`px-3 py-1 text-sm ${currentPage === index + 1
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 dark:bg-gray-600 dark:text-white'
-                } rounded hover:bg-blue-400`}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </button>
-          ))}
+              {/* Cities Table */}
+              <div className="overflow-x-auto flex-1 mt-4">
+                <table className="min-w-full table-auto text-xs">
+                  <thead>
+                    <tr className="bg-[#00000020] dark:bg-[#FFFFFF05] text-black dark:text-white"> 
+                      <th className="px-4 py-2 whitespace-nowrap ">City Code</th> 
+                      <th className="px-4 py-2 whitespace-nowrap ">Dest Code</th>
+                      <th className="px-4 py-2 whitespace-nowrap ">Province</th>
+                      <th className="px-4 py-2 whitespace-nowrap ">Name</th>
+                      <th className="px-4 py-2 whitespace-nowrap ">Arabic Name</th>
+                      <th className="px-4 py-2 whitespace-nowrap ">Zip Code</th>
+                      <th className="px-4 py-2 whitespace-nowrap  ">Available</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cities.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} className="text-center text-xs py-4">No cities available.</td>
+                      </tr>
+                    ) : (
+                      currentCities.map((city, index) => renderCityRow(city, index))
+                    )}
+                  </tbody>
+                </table>
+              </div>
 
-          <button
-            aria-label="Next Page"
-            className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm hover:bg-gray-300 dark:hover:bg-gray-500 disabled:opacity-50"
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-          >
-            <span>Next</span> <ArrowRight01Icon size={ICON_SIZE} />
-          </button>
+              {/* Pagination Controls */}
+              <div className="pagination-container flex justify-center items-center my-4 space-x-2">
+                <button
+                  aria-label="Previous Page"
+                  className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm hover:bg-gray-300 dark:hover:bg-gray-500 disabled:opacity-50"
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1}
+                >
+                  <ArrowLeft01Icon size={ICON_SIZE} /> <span>Previous</span>
+                </button>
+
+                {/* Page Number Buttons */}
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    aria-label={`Page ${index + 1}`}
+                    className={`px-3 py-1 text-sm ${
+                      currentPage === index + 1
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-200 dark:bg-gray-600 dark:text-white'
+                    } rounded hover:bg-blue-400`}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+
+                <button
+                  aria-label="Next Page"
+                  className="px-3 py-1 bg-gray-200 dark:bg-[#1a1a1a] dark:text-white rounded flex items-center space-x-1 text-sm hover:bg-gray-300 dark:hover:bg-gray-500 disabled:opacity-50"
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                >
+                  <span>Next</span> <ArrowRight01Icon size={ICON_SIZE} />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </CustomModal>
 
@@ -744,15 +846,15 @@ const Countries = () => {
       <CustomModal
         isOpen={isImportModalOpen}
         onClose={closeImportModal}
-        title="Importing your sheet file by drag or upload" // <--- Added Import Modal
+        title="Importing your sheet file by drag or upload"
         isDarkMode={isDarkMode}
+        width={'800px'}
       >
-
         <div className="flex flex-col items-center justify-center p-2">
           {/* New Section: Text and Button */}
           <div className="w-full flex justify-between items-center mb-4">
             {/* Left Side: Descriptive Text */}
-            <p className="text-gray-600 text-sm">Select relevant document to complete your computer</p> {/* <--- Added Text */}
+            <p className="text-gray-600 text-sm">Select relevant document to complete your computer</p>
 
             {/* Right Side: Document Attachment Button */}
             <Button
@@ -770,13 +872,13 @@ const Countries = () => {
           {/* Drag and Drop Area or Upload Button */}
           <div className="w-full border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 flex flex-col items-center justify-center mb-3">
             {/* Cloud Upload Icon */}
-            <CloudUploadIcon size={60} className="text-gray-400 mb-1" /> {/* <--- Added Icon */}
+            <CloudUploadIcon size={60} className="text-gray-400 mb-1" />
 
             {/* Main Text */}
-            <p className="dark:text-white text-black text-center text-xlg mb-2">Select file or drag and drop here</p> {/* <--- Updated Text */}
+            <p className="dark:text-white text-black text-center text-xl mb-2">Select file or drag and drop here</p>
 
             {/* Sub Text */}
-            <p className="text-gray-400 text-sm text-center mb-4">Excel, Google sheet, file size no more than 10MB</p> {/* <--- Updated Sub Text */}
+            <p className="text-gray-400 text-sm text-center mb-4">Excel, Google sheet, file size no more than 10MB</p>
 
             {/* Upload Button */}
             <Button 
@@ -784,6 +886,7 @@ const Countries = () => {
               color="info" 
               className="mt-2 bg-info rounded-full flex items-center gap-2 text-white" // Added border
               onClick={() => document.getElementById('import-file-input').click()}
+              aria-label="Select File Button"
             >
               Select file from here
             </Button>
@@ -806,7 +909,7 @@ const Countries = () => {
           </div>
 
           {/* New Elements: Descriptive Text and Buttons */}
-          <p className="text-gray-500 text-sm text-center mt-1">Or connect with Google Sheet or Shopify store :</p> {/* <--- Added Text */}
+          <p className="text-gray-500 text-sm text-center mt-1">Or connect with Google Sheet or Shopify store :</p>
 
           {/* Continue with Google Button */}
           <Button
