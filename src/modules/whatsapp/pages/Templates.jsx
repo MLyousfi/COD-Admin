@@ -304,10 +304,10 @@ const Templates = () => {
                       placeholder=""
                     />
                     <div
-                      className={`absolute  bottom-1 h-[1px] w-full transition-colors duration-300 ${
+                      className={`absolute  bottom-1 h-0.5 w-full transition-colors duration-300 ${
                         isFilled(newTemplateData.title)
                           ? 'bg-[#0258E8]'
-                          : 'bg-gray-500'
+                          : 'dark:bg-gray-500 bg-gray-300'
                       }`}
                     ></div>
                   </div>
@@ -337,7 +337,7 @@ const Templates = () => {
                       className={`absolute bottom-1 h-[1.8px] w-full transition-colors duration-300 ${
                         isFilled(newTemplateData.alias)
                           ? 'bg-[#0258E8]'
-                          : 'bg-gray-500'
+                          : 'dark:bg-gray-500 bg-gray-300'
                       }`}
                     ></div>
                   </div>
@@ -368,7 +368,7 @@ const Templates = () => {
                       className={`absolute  bottom-1 h-[2px] w-full transition-colors duration-300 ${
                         isFilled(newTemplateData.content)
                           ? 'bg-[#0258E8]'
-                          : 'bg-gray-500'
+                          : 'dark:bg-gray-500 bg-gray-300'
                       }`}
                     ></div>
                 </div>
