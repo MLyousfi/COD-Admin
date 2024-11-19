@@ -6,14 +6,14 @@ import {
   EyeIcon, 
   Delete01Icon, 
   WhatsappIcon, 
-  Logout02Icon 
+   
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data4';
 import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the path if necessary
-
+import EditMessageModal from '../components/EditMessageModal';
 const columns = [
   { key: "checkbox", label: "#" },
   { key: "title", label: "Title" },
@@ -34,6 +34,13 @@ const Templates = () => {
     alias: '',
     content: '',
   });
+   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
+
+  const handleEdit = (item) => {
+    setEditingItem(item);
+    setIsEditModalOpen(true);
+  };
 
   const rowsPerPage = 10;
 
@@ -172,8 +179,9 @@ const Templates = () => {
               size="sm"
               className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
               style={{ backgroundColor: '#0258E8', minWidth: '32px', height: '32px' }}
+              onClick={() => handleEdit(item)}
             >
-              <Logout02Icon size={14} style={{ color: 'white' }} />
+              <PencilEdit01Icon size={14} style={{ color: 'white' }} />
             </Button>
             <Button
               variant="flat"
@@ -406,6 +414,12 @@ const Templates = () => {
           </Button>
         </div>
       </CustomModal>
+      <EditMessageModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        item={editingItem}
+        isDarkMode={isDarkMode}
+      />
     </DashboardLayout>
   );
 };

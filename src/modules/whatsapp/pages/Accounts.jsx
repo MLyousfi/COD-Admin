@@ -5,7 +5,6 @@ import {
   EyeIcon, 
   Delete01Icon, 
   WhatsappIcon, 
-  Logout02Icon 
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
@@ -52,6 +51,7 @@ const Accounts = () => {
     publicKey: '',
     secretKey: '',
   });
+  const [editingAccount, setEditingAccount] = useState(null); // State to hold the account being edited
 
   const rowsPerPage = 10;
 
@@ -74,17 +74,31 @@ const Accounts = () => {
   }, []);
 
   // Handlers to open and close modal
-  const openModal = () => {
+  const openModal = (account = null) => {
+    setEditingAccount(account);
     setIsModalOpen(true);
-    setNewAccountData({ title: '', phone: '', publicKey: '', secretKey: '' }); // Reset form
+
+    // Pre-fill the form if editing, otherwise reset it
+    setNewAccountData(account ? { 
+      title: account.title, 
+      phone: account.phone, 
+      publicKey: account.publicKey || '', 
+      secretKey: account.secretKey || '' 
+    } : { 
+      title: '', 
+      phone: '', 
+      publicKey: '', 
+      secretKey: '' 
+    });
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setEditingAccount(null); // Reset editingAccount
     setNewAccountData({ title: '', phone: '', publicKey: '', secretKey: '' }); // Reset form
   };
 
-  // Handler to add a new account
+  // Handler to add or update an account
   const handleCreateAccount = () => {
     const { title, phone, publicKey, secretKey } = newAccountData;
 
@@ -94,19 +108,30 @@ const Accounts = () => {
       return;
     }
 
-    const newKey = (parseInt(products[products.length - 1]?.key) || 0) + 1;
-    const newAccount = {
-      key: newKey.toString(),
-      title: title.trim(),
-      phone: phone.trim(),
-      type: "Type 1", // You can make this dynamic based on your requirements
-      statut: "Enabled",
-      account: "Account 1", // Similarly, make this dynamic if needed
-      publicKey: publicKey.trim(),
-      secretKey: secretKey.trim(),
-    };
+    if (editingAccount) {
+      // Update the existing account
+      setProducts(products.map(product =>
+        product.key === editingAccount.key
+          ? { ...product, title, phone, publicKey, secretKey }
+          : product
+      ));
+    } else {
+      // Add a new account
+      const newKey = (parseInt(products[products.length - 1]?.key) || 0) + 1;
+      const newAccount = {
+        key: newKey.toString(),
+        title: title.trim(),
+        phone: phone.trim(),
+        type: "Type 1", // You can make this dynamic based on your requirements
+        statut: "Enabled",
+        account: "Account 1", // Similarly, make this dynamic if needed
+        publicKey: publicKey.trim(),
+        secretKey: secretKey.trim(),
+      };
 
-    setProducts([...products, newAccount]);
+      setProducts([...products, newAccount]);
+    }
+
     closeModal();
   };
 
@@ -186,8 +211,9 @@ const Accounts = () => {
               size="sm"
               className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
               style={{ backgroundColor: '#0258E8', minWidth: '32px', height: '32px' }}
+              onClick={() => openModal(item)} // Pass the account data to openModal
             >
-              <Logout02Icon size={14} style={{ color: 'white' }} />
+              <PencilEdit01Icon size={14} style={{ color: 'white' }} />
             </Button>
             <Button
               variant="flat"
@@ -212,7 +238,7 @@ const Accounts = () => {
         <div className="flex flex-row gap-4 justify-end items-center mb-4">
           <Button
             color="default"
-            onClick={openModal}
+            onClick={() => openModal()} // Open modal without account to create new
             className="rounded-full flex items-center gap-2"
             style={{ backgroundColor: '#0258E8', color: 'white' }}
           >
@@ -239,12 +265,12 @@ const Accounts = () => {
         />
       </div>
 
-      {/* Custom Modal for New Account */}
+      {/* Custom Modal for New/Edit Account */}
       <CustomModal
         isOpen={isModalOpen}
         onClose={closeModal}
-        title="New Account"
-        isDarkMode={isDarkMode} // Adjust based on your theme context
+        title={editingAccount ? "Edit Account" : "New Account"}
+        isDarkMode={isDarkMode}
       >
         <div className="flex flex-col">
           {/* Form Inputs */}
@@ -255,30 +281,26 @@ const Accounts = () => {
               <div className="flex flex-col gap-4">
                 {/* Title Input */}
                 <div>
-                  {/* Conditionally render label */}
-                 
                   <input
                     type="text"
                     id="title"
                     name="title"
                     value={newAccountData.title}
                     onChange={handleInputChange}
-                    className={`block w-full px-4 py-2 text-[13px] bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                    className={`block w-full px-4 py-2 text-[13px] bg-transparent border border-gray-300 dark:border-gray-800 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
                     placeholder={!isFilled(newAccountData.title) ? "Title" : ""}
                   />
                 </div>
 
                 {/* Phone Number Input */}
                 <div>
-                  {/* Conditionally render label */}
-                  
                   <input
                     type="text"
                     id="phone"
                     name="phone"
                     value={newAccountData.phone}
                     onChange={handleInputChange}
-                    className={`block w-full px-4 py-2 text-[13px] bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                    className={`block w-full px-4 py-2 text-[13px] bg-transparent border border-gray-300 dark:border-gray-800 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
                     placeholder={!isFilled(newAccountData.phone) ? "Phone Number" : ""}
                   />
                 </div>
@@ -291,30 +313,26 @@ const Accounts = () => {
               <div className="flex flex-col gap-4">
                 {/* Public Key Input */}
                 <div>
-                  {/* Conditionally render label */}
-                
                   <input
                     type="text"
                     id="publicKey"
                     name="publicKey"
                     value={newAccountData.publicKey}
                     onChange={handleInputChange}
-                    className={`block w-full px-4 py-2 text-[13px] bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                    className={`block w-full px-4 py-2 text-[13px] bg-transparent border border-gray-300 dark:border-gray-800 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
                     placeholder={!isFilled(newAccountData.publicKey) ? "Public key" : ""}
                   />
                 </div>
 
                 {/* Secret Key Input */}
                 <div>
-                  {/* Conditionally render label */}
-                
                   <input
                     type="text"
                     id="secretKey"
                     name="secretKey"
                     value={newAccountData.secretKey}
                     onChange={handleInputChange}
-                    className={`block w-full px-4 py-2 text-[13px] bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
+                    className={`block w-full px-4 py-2 text-[13px] bg-transparent border border-gray-300 dark:border-gray-800 rounded-lg focus:outline-none focus:border-[#0258E8] transition-colors duration-300`}
                     placeholder={!isFilled(newAccountData.secretKey) ? "Secret key" : ""}
                   />
                 </div>
@@ -323,7 +341,7 @@ const Accounts = () => {
           </div>
 
           {/* Separator Line */}
-          <hr className="my-6 border-gray-300 dark:border-gray-600" />
+          <hr className="my-6 border-gray-300 dark:border-gray-800" />
 
           {/* Modal Action Buttons */}
           <div className="flex justify-center gap-4">
@@ -331,7 +349,7 @@ const Accounts = () => {
               onClick={handleCreateAccount}
               className="bg-info text-white rounded-full px-4 py-2"
             >
-              Create Account
+              {editingAccount ? "Update Pixel" : "Create Account"}
             </Button>
             <Button
               onClick={closeModal}
