@@ -107,7 +107,7 @@ const Store = ({ isDarkMode }) => {
       {/* Add Button */}
       <div className="flex justify-center mt-60">
         <Button
-          className="rounded-full px-6 py-2"
+          className="rounded-full font-bold px-16 py-2"
           style={{ backgroundColor: '#0258E8', color: 'white' }}
           onClick={() => {
             // Handle Add action here
