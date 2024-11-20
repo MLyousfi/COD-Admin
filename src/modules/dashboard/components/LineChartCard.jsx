@@ -1,3 +1,5 @@
+// LineChartCard.jsx
+
 import { Line } from 'react-chartjs-2';
 import { CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement, Tooltip } from 'chart.js';
 import {
@@ -18,7 +20,7 @@ import { useEffect, useRef } from 'react';
 
 ChartJS.register(LineElement, Tooltip, CategoryScale, LinearScale, PointElement);
 
-const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => {
+const LineChartCard = ({ title, data, percentChange, timeRange, header = true }) => {
     const { currentTheme } = useThemeProvider();
     const chartRef = useRef(null);
     const chartData = {
@@ -85,7 +87,7 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
                     if (!tooltipEl) {
                         tooltipEl = document.createElement('div');
                         tooltipEl.className = 'custom-tooltip';
-                        tooltipEl.style.borderRadius = '100px';
+                        tooltipEl.style.borderRadius = '100px'; 
                         tooltipEl.style.padding = '10px';
                         tooltipEl.style.position = 'absolute';
                         tooltipEl.style.pointerEvents = 'none';
@@ -93,10 +95,10 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
                         tooltipEl.style.opacity = 0;
                         chart.canvas.parentNode.appendChild(tooltipEl);
                     }
-
-                    // Update tooltip color based on current theme
-                    tooltipEl.style.backgroundColor = currentTheme === 'light' ? '#98BFFF' : '#98BFFF10';
-                    tooltipEl.style.color = '#FFFFFF';
+                    
+                     // Update tooltip color based on current theme
+                     tooltipEl.style.backgroundColor = currentTheme === 'light' ? '#98BFFF' : '#98BFFF10';
+                     tooltipEl.style.color = '#FFFFFF';
 
                     // Hide the tooltip when not visible
                     if (tooltip.opacity === 0) {
@@ -109,7 +111,7 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
                         const titleLines = tooltip.title || [];
                         const bodyLines = tooltip.body.map(b => b.lines);
 
-                        let innerHtml = ``;
+                        let innerHtml = '';
                         bodyLines.forEach(body => {
                             innerHtml += `<div>${body} - ${titleLines[0]}</div>`;
                         });
@@ -117,11 +119,29 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
                         tooltipEl.innerHTML = innerHtml;
                     }
 
+                    // Calculate tooltip width
+                    const tooltipWidth = tooltipEl.offsetWidth;
+
+                    // Determine if the hovered point is the last one
+                    const dataIndex = tooltip.dataPoints[0].dataIndex;
+                    const totalPoints = chart.data.labels.length;
+                    const isLastPoint = dataIndex === totalPoints - 1;
+
                     // Set the position of the tooltip
                     const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
+                    const caretX = tooltip.caretX;
+                    const caretY = tooltip.caretY;
+
+                    // Adjust tooltip position based on whether it's the last point
+                    if (isLastPoint) {
+                        // Position tooltip to the left of the caret
+                        tooltipEl.style.left = `${positionX + caretX - tooltipWidth - 10}px`; // 10px offset for spacing
+                    } else {
+                        // Default position (to the right of the caret)
+                        tooltipEl.style.left = `${positionX + caretX + 10}px`; // 10px offset for spacing
+                    }
+                    tooltipEl.style.top = `${positionY + caretY - tooltipEl.offsetHeight / 2}px`;
                     tooltipEl.style.opacity = 1;
-                    tooltipEl.style.left = positionX + tooltip.caretX + 'px';
-                    tooltipEl.style.top = positionY + tooltip.caretY + 'px';
                 }
             }
         }
@@ -170,8 +190,8 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
 
     return (
         <div className="w-full lg:w-[55%]  relative">
-            <div className=" p-1 md:p-6 rounded-xl shadow-sm border-gray-200 dark:border-[#ffffff10] border md:mx-2">
-                {header && <div className="flex justify-between flex-wrap gap-2 items-center">
+        <div className=" p-1 md:p-6 rounded-xl shadow-sm border-gray-200 dark:border-[#ffffff10] border md:mx-2">
+            {header && <div className="flex justify-between flex-wrap gap-2 items-center">
                     <div>
                         <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">{title}</h3>
                         <div className="flex items-center mt-1">
@@ -224,4 +244,4 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
     );
 };
 
-export default ChartCard;
+export default LineChartCard;

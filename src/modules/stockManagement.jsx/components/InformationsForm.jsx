@@ -1,6 +1,9 @@
 // InformationsForm.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Upload04Icon } from 'hugeicons-react'; // Import the upload icon
+// Import Select and SelectItem from your UI library
+// Replace the import path with the actual path based on your project setup
+import { Select, SelectItem } from '@nextui-org/react'; // Adjust the import based on your Select component library
 
 const InformationsForm = ({ isDarkMode }) => {
   // State for each input field
@@ -21,10 +24,10 @@ const InformationsForm = ({ isDarkMode }) => {
 
   // State for dropdowns
   const [selectedProductType, setSelectedProductType] = useState('');
-  const [isProductTypeOpen, setIsProductTypeOpen] = useState(false);
+  // Removed custom open state since Select component manages its own state
 
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  // Removed custom open state since Select component manages its own state
 
   // State for new input fields
   const [productLink, setProductLink] = useState('');
@@ -66,21 +69,10 @@ const InformationsForm = ({ isDarkMode }) => {
   // Helper function to determine if a field is filled
   const isFilled = (value) => value && value.toString().trim() !== '';
 
-  // Close dropdowns when clicking outside
+  // Close dropdowns when clicking outside (No longer needed if Select manages its own state)
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        productTypeDropdownRef.current &&
-        !productTypeDropdownRef.current.contains(event.target)
-      ) {
-        setIsProductTypeOpen(false);
-      }
-      if (
-        categoryDropdownRef.current &&
-        !categoryDropdownRef.current.contains(event.target)
-      ) {
-        setIsCategoryOpen(false);
-      }
+      // If using a Select component that manages its own open state, you might not need this
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -277,267 +269,86 @@ const InformationsForm = ({ isDarkMode }) => {
         {/* Row 3: Dropdown - Select Product Type */}
         <div className="flex flex-col w-full">
           {/* Dropdown Container */}
-          <div className="relative flex-1" ref={productTypeDropdownRef}>
+          <div className="relative flex-1">
             {/* Static Label */}
             <label
               htmlFor="productType"
-              className={`absolute top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
-                isProductTypeOpen || isFilled(selectedProductType)
-                  ? 'transform -translate-y-4 scale-90'
-                  : ''
+              className={`block text-sm text-gray-500 ${
+                isFilled(selectedProductType) ? 'text-gray-700' : ''
               }`}
             >
               Select Product Type
             </label>
 
-            {/* Dropdown Selector */}
-            <div
-              className={`block w-full pt-6 pb-2 text-sm bg-transparent border-b-2 focus:outline-none transition-colors duration-300 cursor-pointer flex justify-between items-center ${
-                isFilled(selectedProductType)
-                  ? 'border-[#0258E8]'
-                  : isDarkMode
-                  ? 'border-gray-600'
-                  : 'border-gray-300'
-              }`}
-              onClick={() => setIsProductTypeOpen(!isProductTypeOpen)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  setIsProductTypeOpen(!isProductTypeOpen);
-                } else if (e.key === 'Escape') {
-                  setIsProductTypeOpen(false);
-                }
-              }}
-              role="button"
-              aria-haspopup="listbox"
-              aria-expanded={isProductTypeOpen}
-              tabIndex={0}
-            >
-              <span
-                className={
-                  selectedProductType
-                    ? isDarkMode
-                      ? 'text-white'
-                      : 'text-black'
-                    : 'text-gray-500'
-                }
-              >
-                {selectedProductType || ''}
-              </span>
-              {/* Arrow Icon */}
-              <svg
-                className={`w-4 h-4 transition-transform duration-300 ${
-                  isProductTypeOpen ? 'transform rotate-180' : ''
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
+            {/* Select Component */}
+            <Select
+              id="productType"
+              name="productType"
+              value={selectedProductType}
+              onValueChange={(value) => setSelectedProductType(value)}
+              placeholder='Select a product type'
 
-            {/* Dropdown Options */}
-            {isProductTypeOpen && (
-              <ul
-                className={`mt-2 w-full px-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto`}
-                role="listbox"
-                aria-labelledby="productType"
-              >
-                <li
-                  className={`px-4 py-2 text-sm ${
-                    isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                  } hover:text-[#0258E8] cursor-pointer`}
-                  onClick={() => {
-                    setSelectedProductType('Sensitive product');
-                    setIsProductTypeOpen(false);
-                  }}
-                  role="option"
-                  aria-selected={selectedProductType === 'Sensitive product'}
-                >
-                  Sensitive product
-                </li>
-                <li
-                  className={`px-4 py-2 text-sm ${
-                    isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                  } hover:text-[#0258E8] cursor-pointer`}
-                  onClick={() => {
-                    setSelectedProductType('Product One');
-                    setIsProductTypeOpen(false);
-                  }}
-                  role="option"
-                  aria-selected={selectedProductType === 'Product One'}
-                >
-                  Product One
-                </li>
-                <li
-                  className={`px-4 py-2 text-sm ${
-                    isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                  } hover:text-[#0258E8] cursor-pointer`}
-                  onClick={() => {
-                    setSelectedProductType('Product with Battery');
-                    setIsProductTypeOpen(false);
-                  }}
-                  role="option"
-                  aria-selected={
-                    selectedProductType === 'Product with Battery'
-                  }
-                >
-                  Product with Battery
-                </li>
-                <li
-                  className={`px-4 py-2 text-sm ${
-                    isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                  } hover:text-[#0258E8] cursor-pointer`}
-                  onClick={() => {
-                    setSelectedProductType('Pure battery');
-                    setIsProductTypeOpen(false);
-                  }}
-                  role="option"
-                  aria-selected={selectedProductType === 'Pure battery'}
-                >
-                  Pure battery
-                </li>
-                <li
-                  className={`px-4 py-2 text-sm ${
-                    isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                  } hover:text-[#0258E8] cursor-pointer`}
-                  onClick={() => {
-                    setSelectedProductType('Power bank');
-                    setIsProductTypeOpen(false);
-                  }}
-                  role="option"
-                  aria-selected={selectedProductType === 'Power bank'}
-                >
-                  Power bank
-                </li>
-              </ul>
-            )}
+              classNames={{
+                trigger:
+                  'w-full bg-transparent  border-b border-gray-300 dark:border-[#ffffff60] rounded-none text-sm ' +
+                  (isDarkMode ? 'text-white' : 'text-black'),
+                content:
+                  'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600  shadow-lg',
+                item:
+                  'px-4 py-2 text-sm cursor-pointer hover:text-[#0258E8] ' +
+                  (isDarkMode ? 'text-gray-100' : 'text-gray-900'),
+              }}
+            >
+              <SelectItem value="" disabled>
+                Select Product Type
+              </SelectItem>
+              <SelectItem value="Sensitive product">Sensitive product</SelectItem>
+              <SelectItem value="Product One">Product One</SelectItem>
+              <SelectItem value="Product with Battery">Product with Battery</SelectItem>
+              <SelectItem value="Pure battery">Pure battery</SelectItem>
+              <SelectItem value="Power bank">Power bank</SelectItem>
+            </Select>
           </div>
         </div>
 
         {/* Row 4: Dropdown - Select Category */}
         <div className="flex flex-col w-full">
           {/* Dropdown Container */}
-          <div className="relative flex-1" ref={categoryDropdownRef}>
+          <div className="relative flex-1">
             {/* Static Label */}
             <label
               htmlFor="category"
-              className={`absolute top-4 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${
-                isCategoryOpen || isFilled(selectedCategory)
-                  ? 'transform -translate-y-4 scale-90'
-                  : ''
+              className={`block mb-1 text-sm text-gray-500 ${
+                isFilled(selectedCategory) ? 'text-gray-700' : ''
               }`}
             >
               Select Category
             </label>
 
-            {/* Dropdown Selector */}
-            <div
-              className={`block w-full pt-6 pb-2 text-sm bg-transparent border-b-2 focus:outline-none transition-colors duration-300 cursor-pointer flex justify-between items-center ${
-                isFilled(selectedCategory)
-                  ? 'border-[#0258E8]'
-                  : isDarkMode
-                  ? 'border-gray-600'
-                  : 'border-gray-300'
-              }`}
-              onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  setIsCategoryOpen(!isCategoryOpen);
-                } else if (e.key === 'Escape') {
-                  setIsCategoryOpen(false);
-                }
+            {/* Select Component */}
+            <Select
+              id="category"
+              name="category"
+              value={selectedCategory}
+             placeholder='Select a category'
+              onValueChange={(value) => setSelectedCategory(value)}
+              classNames={{
+                trigger:
+                  'w-full bg-transparent  border-b border-gray-300 rounded-none dark:border-[#ffffff60] text-sm ' +
+                  (isDarkMode ? 'text-white' : 'text-black'),
+                content:
+                  'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600',
+                item:
+                  'px-4 py-2 text-sm cursor-pointer hover:text-[#0258E8] ' +
+                  (isDarkMode ? 'text-gray-100' : 'text-gray-900'),
               }}
-              role="button"
-              aria-haspopup="listbox"
-              aria-expanded={isCategoryOpen}
-              tabIndex={0}
             >
-              <span
-                className={
-                  selectedCategory
-                    ? isDarkMode
-                      ? 'text-white'
-                      : 'text-black'
-                    : 'text-gray-500'
-                }
-              >
-                {selectedCategory || ''}
-              </span>
-              {/* Arrow Icon */}
-              <svg
-                className={`w-4 h-4 transition-transform duration-300 ${
-                  isCategoryOpen ? 'transform rotate-180' : ''
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
 
-            {/* Dropdown Options */}
-            {isCategoryOpen && (
-              <ul
-                className={`mt-2 w-full px-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto`}
-                role="listbox"
-                aria-labelledby="category"
-              >
-                <li
-                  className={`px-4 py-2 text-sm hover:text-[#0258E8] cursor-pointer ${
-                    isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                  }`}
-                  onClick={() => {
-                    setSelectedCategory('Category One');
-                    setIsCategoryOpen(false);
-                  }}
-                  role="option"
-                  aria-selected={selectedCategory === 'Category One'}
-                >
-                  Category One
-                </li>
-                <li
-                  className={`px-4 py-2 text-sm hover:text-[#0258E8] cursor-pointer ${
-                    isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                  }`}
-                  onClick={() => {
-                    setSelectedCategory('Category Two');
-                    setIsCategoryOpen(false);
-                  }}
-                  role="option"
-                  aria-selected={selectedCategory === 'Category Two'}
-                >
-                  Category Two
-                </li>
-                <li
-                  className={`px-4 py-2 text-sm hover:text-[#0258E8] cursor-pointer ${
-                    isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                  }`}
-                  onClick={() => {
-                    setSelectedCategory('Category Three');
-                    setIsCategoryOpen(false);
-                  }}
-                  role="option"
-                  aria-selected={selectedCategory === 'Category Three'}
-                >
-                  Category Three
-                </li>
-                {/* Add more categories as needed */}
-              </ul>
-            )}
+              <SelectItem value="Category One">Category One</SelectItem>
+              <SelectItem value="Category Two">Category Two</SelectItem>
+              <SelectItem value="Category Three">Category Three</SelectItem>
+              {/* Add more categories as needed */}
+            </Select>
           </div>
         </div>
 

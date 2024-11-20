@@ -60,11 +60,11 @@ export default function Referral() {
                                 <div className="flex items-center gap-4 mb-6">
                                     <AvatarGroup
                                         size="md">
-                                        <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-                                        <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
-                                        <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-                                        <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-                                        <Avatar name='15K' src='' />
+                                        <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" isDisabled/>
+                                        <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" isDisabled/>
+                                        <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" isDisabled/>
+                                        <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" isDisabled/>
+                                        <Avatar name='15K' src='' isDisabled/>
                                     </AvatarGroup>
                                 </div>
 

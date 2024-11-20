@@ -10,8 +10,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'dark-gradient': 'linear-gradient(to bottom right, #141618, #121314)',
-      },
+        'dark-gradient': 'linear-gradient(to bottom right, #141316, #000000)',      },
       colors: {
 
         // brand colors
