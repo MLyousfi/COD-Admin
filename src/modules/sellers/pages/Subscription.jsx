@@ -33,7 +33,7 @@ const Subscription = ({ isDarkMode }) => {
       <div className="flex flex-col gap-6">
         {/* Statut Dropdown */}
         <div className="w-full">
-          <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-500">
+          <label className="block mb-2 text-sm  text-gray-500 dark:text-gray-500">
             Statut
           </label>
           <Select
@@ -124,7 +124,7 @@ const Subscription = ({ isDarkMode }) => {
             {/* Add Button */}
             <div className="flex justify-center mt-[70px]">
         <Button
-          className="rounded-full px-6 py-2"
+          className="rounded-full font-bold px-16 py-2"
           style={{ backgroundColor: '#0258E8', color: 'white' }}
           onClick={() => {
           }}

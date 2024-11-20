@@ -1,5 +1,6 @@
 // ListOfSellers.jsx
-import React, { useState,useEffect } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import {
   PencilEdit01Icon,
   PlusSignIcon,
@@ -14,9 +15,16 @@ import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
 import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data6';
 import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the path as needed
-import InformationsForm from './InformationForm'; // Import the updated component
+import InformationsForm from './InformationForm';
 import Store from './Store';
 import Subscription from './Subscription';
+import RegisteredBusiness from './RegisteredBusiness';
+import Services from './Services';
+import ShippingCosts from './ShippingCosts';
+import Options from './Options';
+import CallCenterFees from './CallCenterFees';
+import WhatsAppMessage from './WhatsAppMessage';
+import VATClearance from './VATClearance';
 
 const columns = [
   { key: 'id', label: 'ID' },
@@ -40,6 +48,7 @@ const ListOfSellers = () => {
   const [selectedSeller, setSelectedSeller] = useState(null);
   const [activeMenuItem, setActiveMenuItem] = useState('Informations');
   const [isDarkMode, setIsDarkMode] = useState(false);
+
   useEffect(() => {
     const checkDarkMode = () => {
       const darkMode = document.documentElement.classList.contains('dark');
@@ -54,19 +63,10 @@ const ListOfSellers = () => {
     return () => observer.disconnect();
   }, []);
 
-  const addNewSeller = () => {
-    const newSeller = {
-      key: products.length + 1,
-      id: products.length + 1,
-      partner: 'New Partner',
-      name: 'John Doe',
-      store: 'Sample Store',
-      phone: '123-456-7890',
-      subscriptions: 'Basic',
-      statut: 'Delivery Again',
-      billing: '$500',
-    };
-    setProducts([...products, newSeller]);
+  const handleNewSeller = () => {
+    setSelectedSeller(null); // Clear any selected seller
+    setActiveMenuItem('Informations'); // Reset to 'Informations' tab
+    setIsModalOpen(true); // Open the modal
   };
 
   const handleCheckboxChange = (key) => {
@@ -109,7 +109,7 @@ const ListOfSellers = () => {
                 height: '32px',
               }}
             >
-              <Logout02Icon size={14} className='text-black dark:text-white' />
+              <Logout02Icon size={14} className="text-black dark:text-white" />
             </Button>
             <Button
               variant="flat"
@@ -151,12 +151,15 @@ const ListOfSellers = () => {
     'Store',
     'Subscription',
     'Registered Business',
+    'Options',
     'Services',
-    'Cost & VAT',
-    'Whatsapp Message',
+    'Shipping Costs',
+    'Call Center Fees', 
+    'WhatsApp Message', 
+    'VAT & Clearance', 
+    'COD Fees',
     'Follow up',
-    'Api Token',
-    'Permissions',
+,
   ];
 
   // Render Content Based on Active Menu Item
@@ -168,7 +171,21 @@ const ListOfSellers = () => {
         return <Store isDarkMode={isDarkMode} />;
       case 'Subscription':
         return <Subscription isDarkMode={isDarkMode} />;
-      // Add more cases as needed
+      case 'Registered Business':
+        return <RegisteredBusiness isDarkMode={isDarkMode} />;
+      case 'Options':
+        return <Options isDarkMode={isDarkMode} />;
+      case 'Services':
+        return <Services isDarkMode={isDarkMode} />;
+      case 'Shipping Costs':
+        return <ShippingCosts isDarkMode={isDarkMode} />;
+      case 'Call Center Fees':
+        return <CallCenterFees isDarkMode={isDarkMode} />;
+      case 'WhatsApp Message':
+        return <WhatsAppMessage isDarkMode={isDarkMode} />;
+      case 'VAT & Clearance':
+        return <VATClearance isDarkMode={isDarkMode} />;
+        // Add more cases as needed
       default:
         return <div className="p-4">Content for {activeMenuItem}</div>;
     }
@@ -183,20 +200,20 @@ const ListOfSellers = () => {
         <div className="flex justify-end space-x-2 mb-4">
           <Button
             color="default"
-            onClick={addNewSeller}
+            onClick={handleNewSeller}
             className="rounded-full"
             style={{ backgroundColor: '#0258E8', color: 'white' }}
           >
-            <PlusSignIcon size={18} className="flex-shrink-0" />  New Seller
+            <PlusSignIcon size={18} className="flex-shrink-0" /> New Seller
           </Button>
           <Button
-              color="default"
-              className="rounded-full flex items-center space-x-2 px-4 py-2"
-              style={{ backgroundColor: '#ED0006', color: 'white' }}
-            >
-              <PencilEdit01Icon size={18} className="flex-shrink-0" /> 
-              <span className="text-sm sm:text-base">Actions</span>
-            </Button>
+            color="default"
+            className="rounded-full flex items-center space-x-2 px-4 py-2"
+            style={{ backgroundColor: '#ED0006', color: 'white' }}
+          >
+            <PencilEdit01Icon size={18} className="flex-shrink-0" />
+            <span className="text-sm sm:text-base">Actions</span>
+          </Button>
           <Button
             color="default"
             className="rounded-full flex items-center border transition-colors duration-200 dark:border-white border-black"
@@ -204,7 +221,7 @@ const ListOfSellers = () => {
               backgroundColor: 'transparent',
             }}
           >
-            <span className="text-black dark:text-white ">Status</span>
+            <span className="text-black dark:text-white">Status</span>
             <ArrowDown01Icon size={18} className="ml-1 text-black dark:text-white flex-shrink-0" />
           </Button>
         </div>
@@ -219,20 +236,19 @@ const ListOfSellers = () => {
           className="dark:bg-gray-800 dark:text-white"
         />
 
-        {/* Custom Modal for Editing Seller */}
-        {selectedSeller && (
+        {/* Custom Modal for Adding or Editing Seller */}
+        {isModalOpen && (
           <CustomModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            title={`Edit Seller - ${selectedSeller.id}`}
+            title={selectedSeller ? `Edit Seller - ${selectedSeller.id}` : 'New Seller'}
             isDarkMode={isDarkMode}
             width="800px"
           >
             <div className="flex flex-col md:flex-row">
               {/* Menu Section */}
               <div className="w-full md:w-1/4 p-4">
-                {/* Flex container with wrapping */}
-                <div className="flex flex-row flex-wrap md:flex-col gap-1">
+                <div className="flex flex-row flex-wrap md:flex-col font-medium gap-1">
                   {menuItems.map((item) => (
                     <button
                       key={item}
@@ -246,7 +262,8 @@ const ListOfSellers = () => {
                             ? 'dark:text-white text-black'
                             : 'dark:text-gray-600 text-gray-400'
                         } 
-                        hover:underline 
+                        dark:hover:text-white
+                        hover:text-black 
                         cursor-pointer`}
                       aria-label={`Navigate to ${item}`}
                     >
