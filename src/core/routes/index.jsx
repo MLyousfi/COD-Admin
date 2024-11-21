@@ -62,6 +62,8 @@ import Activities from "../../modules/statistics/pages/Activities.jsx";
 import GeneralTemplates from "../../modules/general/pages/Templates.jsx"
 import Configuration from "../../modules/general/pages/Configuration.jsx";
 import Currencies from "../../modules/countries/pages/Currencies.jsx";
+import SalesChannels from "../../modules/sellers/pages/SalesChannels.jsx";
+import FacebookBusiness from "../../modules/sellers/pages/FacebookBusiness.jsx";
 const routes = [
     {
         path: "/",
@@ -239,11 +241,11 @@ const routes = [
             },
             {
                 path: RouteNames.salesChannels,
-                element: <ListOfSellers />
+                element: <SalesChannels />
             },
             {
                 path: RouteNames.facebookBusiness,
-                element: <ListOfSellers />
+                element: <FacebookBusiness />
             },
         ],
     },
