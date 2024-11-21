@@ -25,6 +25,7 @@ import Options from './Options';
 import CallCenterFees from './CallCenterFees';
 import WhatsAppMessage from './WhatsAppMessage';
 import VATClearance from './VATClearance';
+import NewSellerForm from './NewSellerForm'; // Import the new form component
 
 const columns = [
   { key: 'id', label: 'ID' },
@@ -49,6 +50,9 @@ const ListOfSellers = () => {
   const [activeMenuItem, setActiveMenuItem] = useState('Informations');
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  // New State to determine modal type: 'add' or 'edit'
+  const [modalType, setModalType] = useState('edit');
+
   useEffect(() => {
     const checkDarkMode = () => {
       const darkMode = document.documentElement.classList.contains('dark');
@@ -66,6 +70,7 @@ const ListOfSellers = () => {
   const handleNewSeller = () => {
     setSelectedSeller(null); // Clear any selected seller
     setActiveMenuItem('Informations'); // Reset to 'Informations' tab
+    setModalType('add'); // Set modal type to 'add'
     setIsModalOpen(true); // Open the modal
   };
 
@@ -84,6 +89,7 @@ const ListOfSellers = () => {
   const handleEdit = (seller) => {
     setSelectedSeller(seller);
     setActiveMenuItem('Informations');
+    setModalType('edit'); // Set modal type to 'edit'
     setIsModalOpen(true);
   };
 
@@ -154,12 +160,11 @@ const ListOfSellers = () => {
     'Options',
     'Services',
     'Shipping Costs',
-    'Call Center Fees', 
-    'WhatsApp Message', 
-    'VAT & Clearance', 
+    'Call Center Fees',
+    'WhatsApp Message',
+    'VAT & Clearance',
     'COD Fees',
     'Follow up',
-,
   ];
 
   // Render Content Based on Active Menu Item
@@ -185,7 +190,7 @@ const ListOfSellers = () => {
         return <WhatsAppMessage isDarkMode={isDarkMode} />;
       case 'VAT & Clearance':
         return <VATClearance isDarkMode={isDarkMode} />;
-        // Add more cases as needed
+      // Add more cases as needed
       default:
         return <div className="p-4">Content for {activeMenuItem}</div>;
     }
@@ -241,43 +246,70 @@ const ListOfSellers = () => {
           <CustomModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            title={selectedSeller ? `Edit Seller - ${selectedSeller.id}` : 'New Seller'}
+            title={modalType === 'add' ? 'New Seller' : `Edit Seller - ${selectedSeller.id}`}
             isDarkMode={isDarkMode}
             width="800px"
           >
-            <div className="flex flex-col md:flex-row">
-              {/* Menu Section */}
-              <div className="w-full md:w-1/4 p-4">
-                <div className="flex flex-row flex-wrap md:flex-col font-medium gap-1">
-                  {menuItems.map((item) => (
-                    <button
-                      key={item}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevents the click from affecting parent elements
-                        setActiveMenuItem(item);
-                      }}
-                      className={`text-sm text-left px-1.5 
-                        ${
-                          activeMenuItem === item
-                            ? 'dark:text-white text-black'
-                            : 'dark:text-gray-600 text-gray-400'
-                        } 
-                        dark:hover:text-white
-                        hover:text-black 
-                        cursor-pointer`}
-                      aria-label={`Navigate to ${item}`}
-                    >
-                      {item}
-                    </button>
-                  ))}
+            {modalType === 'add' ? (
+              <NewSellerForm
+                onSubmit={(data) => {
+                  // Handle the new seller data
+                  console.log('Submitting new seller:', data);
+                  // You can add the new seller to the products list or perform an API call here
+                  setProducts((prev) => [
+                    ...prev,
+                    {
+                      key: Date.now(), // Assuming a unique key
+                      id: prev.length + 1,
+                      partner: 'Partner Name', // Replace with actual data
+                      name: data.name,
+                      store: 'Store Name', // Replace with actual data
+                      phone: '1234567890', // Replace with actual data
+                      subscriptions: 'Subscription Info', // Replace with actual data
+                      statut: 'Active', // Replace with actual data
+                      billing: 'Billing Info', // Replace with actual data
+                    },
+                  ]);
+                  // Close the modal
+                  setIsModalOpen(false);
+                }}
+                isDarkMode={isDarkMode}
+              />
+            ) : (
+              <div className="flex flex-col md:flex-row">
+                {/* Menu Section */}
+                <div className="w-full md:w-1/4 p-4">
+                  <div className="flex flex-row flex-wrap md:flex-col font-medium gap-1">
+                    {menuItems.map((item) => (
+                      <button
+                        key={item}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevents the click from affecting parent elements
+                          setActiveMenuItem(item);
+                        }}
+                        className={`text-sm text-left px-1.5 
+                          ${
+                            activeMenuItem === item
+                              ? 'dark:text-white text-black'
+                              : 'dark:text-gray-600 text-gray-400'
+                          } 
+                          dark:hover:text-white
+                          hover:text-black 
+                          cursor-pointer`}
+                        aria-label={`Navigate to ${item}`}
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="w-full md:w-3/4 p-4">
+                  {renderContent()}
                 </div>
               </div>
-
-              {/* Content Section */}
-              <div className="w-full md:w-3/4 p-4">
-                {renderContent()}
-              </div>
-            </div>
+            )}
           </CustomModal>
         )}
       </div>

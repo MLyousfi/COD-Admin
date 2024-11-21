@@ -27,7 +27,6 @@ const InformationsForm = ({ isDarkMode }) => {
     { code: '+1', country: 'US', flag: '🇺🇸' },
     { code: '+44', country: 'GB', flag: '🇬🇧' },
     { code: '+212', country: 'MA', flag: '🇲🇦' },
-    // Add more country options as needed
   ];
 
   // Array of stores
