@@ -15,7 +15,7 @@ import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
 import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data11';
 import CustomModal from '../../stockManagement.jsx/components/modal';
-import NewSalesChannelForm from './NewSalesChannelForm';
+import NewSalesChannelForm from '../components/saleschannels/NewSalesChannelForm';
 
 // Updated columns array
 const columns = [

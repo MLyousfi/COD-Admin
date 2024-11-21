@@ -15,7 +15,7 @@ import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
 import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data12';
 import CustomModal from '../../stockManagement.jsx/components/modal';
-import NewPixelForm from './NewPixelForm';
+import NewPixelForm from '../components/facebookbusiness/NewPixelForm';
 
 // Updated columns array
 const columns = [
