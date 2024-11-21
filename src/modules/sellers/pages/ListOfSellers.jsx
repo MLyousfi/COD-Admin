@@ -15,17 +15,17 @@ import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
 import Table from '../../stockManagement.jsx/components/Table';
 import { rows } from '../../../core/utils/data6';
 import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the path as needed
-import InformationsForm from './InformationForm';
-import Store from './Store';
-import Subscription from './Subscription';
-import RegisteredBusiness from './RegisteredBusiness';
-import Services from './Services';
-import ShippingCosts from './ShippingCosts';
-import Options from './Options';
-import CallCenterFees from './CallCenterFees';
-import WhatsAppMessage from './WhatsAppMessage';
-import VATClearance from './VATClearance';
-import NewSellerForm from './NewSellerForm'; // Import the new form component
+import InformationsForm from '../components/listofsellers/editsellermodal/InformationForm';
+import Store from '../components/listofsellers/editsellermodal/Store';
+import Subscription from '../components/listofsellers/editsellermodal/Subscription';
+import RegisteredBusiness from '../components/listofsellers/editsellermodal/RegisteredBusiness';
+import Services from '../components/listofsellers/editsellermodal/Services';
+import ShippingCosts from '../components/listofsellers/editsellermodal/ShippingCosts';
+import Options from '../components/listofsellers/editsellermodal/Options';
+import CallCenterFees from '../components/listofsellers/editsellermodal/CallCenterFees';
+import WhatsAppMessage from '../components/listofsellers/editsellermodal/WhatsAppMessage';
+import VATClearance from '../components/listofsellers/editsellermodal/VATClearance';
+import NewSellerForm from '../components/listofsellers/newsellermodal/NewSellerForm'; // Import the new form component
 
 const columns = [
   { key: 'id', label: 'ID' },
