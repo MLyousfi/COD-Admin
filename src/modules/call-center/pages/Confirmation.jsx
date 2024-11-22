@@ -1,7 +1,7 @@
 // Confirmation.jsx
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import {
   ArrowDown01Icon,
@@ -15,7 +15,6 @@ import {
   FilterIcon,
   CommandIcon,
 } from "hugeicons-react";
-import { Button } from "@nextui-org/button";
 import StatusTabs from '../../shared/components/StatusTabs';
 import Table from "../../stockManagement.jsx/components/Table";
 import { motion } from 'framer-motion';
@@ -24,8 +23,8 @@ import { agentNames } from "../../../core/utils/shared.data";
 import { Select, SelectItem } from "@nextui-org/select";
 import { Input } from "@nextui-org/input";
 import CustomModal from '../../stockManagement.jsx/components/modal';
-import { Code } from '@nextui-org/code'; // Import Code component
-
+import { Code } from '@nextui-org/code';
+import DetailedOrderModal from "../components/DetailedOrderModal";
 const rows = [
   {
     key: "1",
@@ -107,7 +106,6 @@ const rows = [
   },
 ];
 
-// Define table columns
 const columns = [
   { key: "checkbox", label: "#" },
   { key: "orderNum", label: "Order Number" },
@@ -142,6 +140,10 @@ const Confirmation = () => {
   const [fromCountry, setFromCountry] = useState('');
   const [toCountry, setToCountry] = useState('');
   const [selectedOptions, setSelectedOptions] = useState([1, 3]);
+
+  // State variables for Order Details Modal
+  const [isDetailedOrderModalOpen, setIsDetailedOrderModalOpen] = useState(false);
+  const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
 
   // Options for Select components
   const orderStatusOptions = [
@@ -269,14 +271,19 @@ const Confirmation = () => {
         return (
           <div>
             <p>{item.orderNum}</p>
-            <Link to="#" className="text-blue-500">({item.subNum})</Link>
+            <Button 
+              onClick={() => openDetailedOrderModal(item)} 
+              className="bg-transparent p-0 m-0 cursor-pointer text-blue-500"
+            >
+              ({item.subNum})
+            </Button>
           </div>
         );
       case "product":
         return (
           <div>
             <p>{item.product}</p>
-            <Link to="#" className="text-blue-500">(SKU: {item.productId})</Link>
+            <span className="text-dark_selected">(SKU: {item.productId})</span>
           </div>
         );
       default:
@@ -332,6 +339,11 @@ const Confirmation = () => {
     setSelectedOptions([1, 3]);
     setFilteredRows(allRows);
     setIsSearchModalOpen(false);
+  };
+
+  const openDetailedOrderModal = (order) => {
+    setSelectedOrderDetails(order);
+    setIsDetailedOrderModalOpen(true);
   };
 
   return (
@@ -447,6 +459,13 @@ const Confirmation = () => {
           />
         </div>
       </DashboardLayout>
+
+      {/* Order Details Modal */}
+      <DetailedOrderModal 
+        modalOpen={isDetailedOrderModalOpen} 
+        Order={selectedOrderDetails} 
+        setModalOpen={setIsDetailedOrderModalOpen} 
+      />
 
       {/* Render the Search Modal */}
       <CustomModal
