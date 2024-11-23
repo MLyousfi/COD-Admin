@@ -28,7 +28,7 @@ import DetailedOrderModal from "../components/DetailedOrderModal";
 const rows = [
   {
     key: "1",
-    orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
+    orderNum: "CSABDS",
     subNum: "JDHSKDHD",
     store: "Store 1",
     product: "Product X",
@@ -41,7 +41,7 @@ const rows = [
   },
   {
     key: "2",
-    orderNum: "DSAKDJFUIREOWJDNCAS",
+    orderNum: "DSACAS",
     subNum: "AKSKDHJS",
     store: "Store 2",
     product: "Product Y",
@@ -54,7 +54,7 @@ const rows = [
   },
   {
     key: "3",
-    orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
+    orderNum: "CSSHDS",
     subNum: "JDHSKDHD",
     store: "Store 1",
     product: "Product X",
@@ -67,7 +67,7 @@ const rows = [
   },
   {
     key: "4",
-    orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
+    orderNum: "CSAHDS",
     subNum: "JDHSKDHD",
     store: "Store 1",
     product: "Product X",
@@ -80,7 +80,7 @@ const rows = [
   },
   {
     key: "5",
-    orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
+    orderNum: "CSABSHDS",
     subNum: "JDHSKDHD",
     store: "Store 1",
     product: "Product X",
@@ -93,7 +93,7 @@ const rows = [
   },
   {
     key: "6",
-    orderNum: "CSABSJDHRJFHDDHDUIDHDGDHDJDDUEHDGFSHDS",
+    orderNum: "CSABSHDS",
     subNum: "JDHSKDHD",
     store: "Store 1",
     product: "Product X",
