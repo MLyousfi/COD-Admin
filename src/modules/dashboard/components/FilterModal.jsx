@@ -97,7 +97,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                             </div>
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#follow-up-agents" className="block mt-4 lg:mt-0 lg:ml-2">
-                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">List of Followup Agents *</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">List of Products *</span>
                                     <Select
                                         id="follow-up-agents"
                                         placeholder="Select a follow up agent"
@@ -106,7 +106,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                                             trigger: 'bg-transparent focus:border-dark_selected border border-gray-300 dark:border-[#ffffff10] rounded-lg',
                                         }}>
                                         <SelectItem>
-                                            Agent
+                                            Product 01
                                         </SelectItem>
                                     </Select>
                                 </label>
@@ -239,7 +239,7 @@ export default function FilterModal({ id, modalOpen, setModalOpen }) {
                         <div className="flex flex-col lg:flex-row my-2">
                             <div className="w-full lg:w-1/2">
                                 <label htmlFor="#agents" className="block mr-2">
-                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Shopping Company *</span>
+                                    <span className="text-sm text-[#00000050]  dark:text-[#FFFFFF30]">Shipping Company *</span>
                                     <Select
                                         id="agents"
                                         placeholder="Select a company"
