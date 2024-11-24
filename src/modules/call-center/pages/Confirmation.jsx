@@ -25,6 +25,8 @@ import { Input } from "@nextui-org/input";
 import CustomModal from '../../stockManagement.jsx/components/modal';
 import { Code } from '@nextui-org/code';
 import DetailedOrderModal from "../components/DetailedOrderModal";
+import { DatePicker } from "@nextui-org/react";
+
 const rows = [
   {
     key: "1",
@@ -135,7 +137,7 @@ const Confirmation = () => {
   const [fullName, setFullName] = useState('');
   const [orderStatus, setOrderStatus] = useState('');
   const [date, setDate] = useState('');
-  const [seller, setSeller] = useState('');
+  const [seller, setSeller] = useState(''); // Added Seller State
   const [product, setProduct] = useState('');
   const [fromCountry, setFromCountry] = useState('');
   const [toCountry, setToCountry] = useState('');
@@ -226,28 +228,7 @@ const Confirmation = () => {
   }, []);
 
   const handleCheckboxChange = (keys, isRange) => {
-    if (isRange) {
-      // Add all keys in the range
-      setSelectedRows((prevSelected) => {
-        const newSelection = [...prevSelected];
-        keys.forEach((key) => {
-          if (!newSelection.includes(key)) {
-            newSelection.push(key);
-          }
-        });
-        return newSelection;
-      });
-    } else if (Array.isArray(keys)) {
-      // Select all or unselect all
-      setSelectedRows(keys);
-    } else {
-      // Toggle single selection
-      setSelectedRows((prevSelected) =>
-        prevSelected.includes(keys)
-          ? prevSelected.filter((key) => key !== keys)
-          : [...prevSelected, keys]
-      );
-    }
+    // ... your existing handleCheckboxChange logic
   };
 
   const filteredTabRows = filteredRows.filter(row => row.status.toLowerCase() === selectedTab.toLowerCase());
@@ -317,9 +298,12 @@ const Confirmation = () => {
       const matchesOrderStatus = orderStatus && orderStatus !== 'All'
         ? row.status.toLowerCase() === orderStatus.toLowerCase()
         : true;
+      const matchesSeller = seller
+        ? row.agent.toLowerCase().includes(seller.toLowerCase())
+        : true;
       // Add more matching logic for other fields as needed
 
-      return matchesOrderNumber && matchesPhoneNumber && matchesFullName && matchesOrderStatus;
+      return matchesOrderNumber && matchesPhoneNumber && matchesFullName && matchesOrderStatus && matchesSeller;
     });
 
     setFilteredRows(filtered);
@@ -332,7 +316,7 @@ const Confirmation = () => {
     setFullName('');
     setOrderStatus('');
     setDate('');
-    setSeller('');
+    setSeller(''); // Reset Seller
     setProduct('');
     setFromCountry('');
     setToCountry('');
@@ -519,19 +503,6 @@ const Confirmation = () => {
                 }}
               />
             </div>
-            <div className="w-full lg:w-1/2">
-              <Input
-                type="text"
-                variant="underlined"
-                color="primary"
-                value={seller}
-                onChange={(e) => setSeller(e.target.value)}
-                label="Seller"
-                classNames={{
-                  label: ['!text-[#00000050] dark:!text-[#FFFFFF30]'],
-                }}
-              />
-            </div>
           </div>
 
           {/* Select Dropdowns */}
@@ -549,7 +520,7 @@ const Confirmation = () => {
                   classNames={{
                     value: 'dark:!text-[#ffffff85] !text-[#00000085]',
                     trigger:
-                      'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+                      'bg-transparent mt-2 focus:border-dark_selected dark:bg-transparent border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
                   }}
                   onSelectionChange={(keys) => setOrderStatus(keys.currentKey)}
                 >
@@ -559,32 +530,49 @@ const Confirmation = () => {
                 </Select>
               </label>
             </div>
+            <div className="md:w-1/2 w-full md:mt-1">
+            <label htmlFor="date" className="block mr-2">
+                <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Date</span>
+                <div key={"bordered"} className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                  <DatePicker 
+                    classNames={{
+                      value: " dark:!text-[#ffffff85] !text-[#00000085] ",
+                      inputWrapper: 'bg-transparent !rounded-lg !mt-2 focus:border-dark_selected dark:bg-transparent border border-[#00000030] dark:border-[#ffffff10] rounded-lg ',
+                    }} 
+                    variant={"bordered"} 
+                    selected={date}
+                    onChange={(newDate) => setDate(newDate)}
+                  />
+                </div>
+              </label>
+            </div>
+          </div>
+
+          {/* Added Seller and Product Row */}
+          <div className="flex flex-col gap-8 lg:flex-row mt-6">
             <div className="w-full lg:w-1/2">
-              <label htmlFor="date" className="block mr-2">
+              <label htmlFor="seller" className="block mr-2">
                 <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">
-                  Date
+                  Seller
                 </span>
                 <Select
-                  selectedKeys={date ? [date] : []}
-                  id="date"
-                  placeholder="Select a date"
+                  selectedKeys={seller ? [seller] : []}
+                  id="seller"
+                  placeholder="Select a seller"
                   labelPlacement="outside"
                   classNames={{
                     value: 'dark:!text-[#ffffff85] !text-[#00000085]',
                     trigger:
-                      'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+                      'bg-transparent mt-2 focus:border-dark_selected dark:bg-transparent border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
                   }}
-                  onSelectionChange={(keys) => setDate(keys.currentKey)}
+                  onSelectionChange={(keys) => setSeller(keys.currentKey)}
                 >
-                  {dateOptions.map((option) => (
+                  {sellerOptions.map((option) => (
                     <SelectItem key={option.key}>{option.label}</SelectItem>
                   ))}
                 </Select>
               </label>
             </div>
-          </div>
-
-          <div className="flex flex-col gap-8 lg:flex-row mt-6">
             <div className="w-full lg:w-1/2">
               <label htmlFor="product" className="block mr-2">
                 <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">
@@ -598,7 +586,7 @@ const Confirmation = () => {
                   classNames={{
                     value: 'dark:!text-[#ffffff85] !text-[#00000085]',
                     trigger:
-                      'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+                      'bg-transparent mt-2 focus:border-dark_selected dark:bg-transparent border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
                   }}
                   onSelectionChange={(keys) => setProduct(keys.currentKey)}
                 >
@@ -608,6 +596,10 @@ const Confirmation = () => {
                 </Select>
               </label>
             </div>
+          </div>
+
+          {/* Updated From and To Row with Transparent Backgrounds */}
+          <div className="flex flex-col gap-8 lg:flex-row mt-6">
             <div className="w-full lg:w-1/2">
               <label htmlFor="from" className="block mr-2">
                 <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">
@@ -621,7 +613,7 @@ const Confirmation = () => {
                   classNames={{
                     value: 'dark:!text-[#ffffff85] !text-[#00000085]',
                     trigger:
-                      'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+                      'bg-transparent mt-2 focus:border-dark_selected dark:bg-transparent border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
                   }}
                   onSelectionChange={(keys) => setFromCountry(keys.currentKey)}
                 >
@@ -631,9 +623,6 @@ const Confirmation = () => {
                 </Select>
               </label>
             </div>
-          </div>
-
-          <div className="flex flex-col gap-8 lg:flex-row mt-6">
             <div className="w-full lg:w-1/2">
               <label htmlFor="to" className="block mr-2">
                 <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">
@@ -647,7 +636,7 @@ const Confirmation = () => {
                   classNames={{
                     value: 'dark:!text-[#ffffff85] !text-[#00000085]',
                     trigger:
-                      'bg-transparent mt-2 focus:border-dark_selected dark:bg-base_dark border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
+                      'bg-transparent mt-2 focus:border-dark_selected dark:bg-transparent border border-[#00000030] dark:border-[#ffffff10] rounded-lg',
                   }}
                   onSelectionChange={(keys) => setToCountry(keys.currentKey)}
                 >
@@ -656,10 +645,6 @@ const Confirmation = () => {
                   ))}
                 </Select>
               </label>
-            </div>
-            {/* Additional Select if needed */}
-            <div className="w-full lg:w-1/2">
-              {/* You can add another select or leave it empty */}
             </div>
           </div>
 

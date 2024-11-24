@@ -1,6 +1,6 @@
 
 import { path } from "framer-motion/client";
-import { Briefcase01Icon, Calculator01Icon, GarageIcon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliverySent01Icon, DeliveryTruck01Icon, DollarSquareIcon, EarthIcon, FerryBoatIcon, Home01Icon, Home09Icon, InvoiceIcon, SphereIcon, Square01Icon, Suit01Icon, Task01Icon, UserIcon, UserMultiple02Icon, WhatsappIcon } from "hugeicons-react";
+import { Briefcase01Icon, Calculator01Icon, GarageIcon, ChartHistogramIcon, CustomerService01Icon, DeliveryBox01Icon, DeliverySent01Icon, DeliveryTruck01Icon, DollarSquareIcon, EarthIcon, FerryBoatIcon, Home01Icon, Home09Icon, InvoiceIcon, SphereIcon, Square01Icon, Suit01Icon, Task01Icon, UserIcon, UserMultiple02Icon, WhatsappIcon,SourceCodeSquareIcon } from "hugeicons-react";
 
 
 
@@ -78,6 +78,7 @@ const RouteNames = {
     settings: '/settings',
     referrals: '/referrals',
     help: '/help',
+    api: '/api'
 
 
 
@@ -502,6 +503,14 @@ const RoutesConfig = [
             },
 
         ],
+    },
+    
+    {
+        name: 'Api Integration',
+        path: RouteNames.api,
+        showInSidebar: true,
+        icon: SourceCodeSquareIcon,
+       
     },
 
 ];
