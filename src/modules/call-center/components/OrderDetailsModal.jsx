@@ -179,14 +179,14 @@ function OrderDetailsModal({ id, modalOpen, setModalOpen, Order }) {
                     </div>
                     
                     {/* Navigation Buttons */}
-                    <div className="flex justify-end items-center w-full flex-wrap">
+                    <div className="flex justify-end items-center w-full flex-wrap mb-3">
                         <Button color="default" className="rounded-full text-white bg-glb_red">
                             <ArrowLeft01Icon size={18} /> Order Status
                         </Button>
                     </div>
                     
-                    <div className="flex justify-start items-center w-full flex-wrap gap-2 mt-6">
-                        {NavOptions.map((i) => (
+                    <div className="flex justify-start items-center w-full flex-wrap gap-2 top-0 bg-white dark:bg-base_dark z-10 mb-6">
+                    {NavOptions.map((i) => (
                             <Button 
                                 onClick={() => setSelectedNavOption(i.key)} 
                                 key={i.key} 
