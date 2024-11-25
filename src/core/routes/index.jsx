@@ -64,6 +64,7 @@ import Configuration from "../../modules/general/pages/Configuration.jsx";
 import Currencies from "../../modules/countries/pages/Currencies.jsx";
 import SalesChannels from "../../modules/sellers/pages/SalesChannels.jsx";
 import FacebookBusiness from "../../modules/sellers/pages/FacebookBusiness.jsx";
+import CallCenter from "../../modules/statistics/pages/CallCenter.jsx";
 const routes = [
     {
         path: "/",
@@ -381,7 +382,7 @@ const routes = [
                     },
                     {
                         path: RouteNames.statisticsAgentscallCenter,
-                        element: <Products />
+                        element: <CallCenter />
                     },
                     {
                         path: RouteNames.statisticsAgentsFollowup,
