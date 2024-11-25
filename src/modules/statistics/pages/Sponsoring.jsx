@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Select, SelectItem } from "@nextui-org/select";
-import { Calendar03Icon ,FilterIcon,ArrowDown01Icon} from "hugeicons-react";
+import { Calendar03Icon ,ChartHistogramIcon,FilterIcon,ArrowDown01Icon} from "hugeicons-react";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import { Button } from "@nextui-org/button";
 import DatePicker from "react-datepicker";
@@ -67,7 +67,7 @@ export default function Sponsoring() {
         <DashboardLayout
             hasSearchInput={false}
             title="Statistics - Sponsoring"
-            icon={<Calendar03Icon className="text-info" />}
+            icon={<ChartHistogramIcon className="text-info" />}
             additionalContent={headerButtons}
         >
             {/* Embedded Custom Styles for react-datepicker */}
