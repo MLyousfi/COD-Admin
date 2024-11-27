@@ -187,18 +187,20 @@ export default function Sidebar() {
 
     return (
         <motion.div
-            transition={{ duration: 0.2 }}
-            ref={sidebar}
-            onMouseEnter={() => HandleSetShowSidebar(true)}
-            onMouseLeave={() => HandleSetShowSidebar(false)}
-            className={`${showSidebar ? "hidden lg:block lg:w-80 lg:min-w-64" : "hidden lg:block lg:w-14"
-                } fixed left-0 top-0 bottom-0 overflow-x-hidden bg-base_light dark:bg-transparent border-r border-gray-200 
+        initial={{ width: "3.5rem" }} // Initial width (collapsed state)
+        animate={{ width: showSidebar ? "20rem" : "3.5rem" }} // Width based on showSidebar
+        exit={{ width: "3.5rem" }} // Exit width (collapsed state)
+        transition={{ duration: 0.2 }} // Animation duration
+        ref={sidebar}
+        onMouseEnter={() => HandleSetShowSidebar(true)} // Expand sidebar
+        onMouseLeave={() => HandleSetShowSidebar(false)} // Collapse sidebar
+        className={`hidden lg:block flex-shrink-0 left-0 top-0 lg:max-w-72 xl:max-w-80 bottom-0 overflow-x-hidden bg-base_light dark:bg-transparent border-r border-gray-200 
             dark:border-[#ffffff10] z-30 overflow-y-auto max-h-screen`}
+    >
+        <div
+            className={`flex justify-between items-center ${showSidebar ? "my-6 px-6" : "my-6 px-2"
+                } h-10`}
         >
-            <div
-                className={`flex justify-between items-center ${showSidebar ? "my-6 px-6" : "my-6 px-2"
-                    } h-10`}
-            >
                 <Link to="/dashboard">
                     {currentTheme === "light" ? (
                         <img

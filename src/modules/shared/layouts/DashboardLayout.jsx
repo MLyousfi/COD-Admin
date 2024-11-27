@@ -2,8 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import Sidebar from "@/modules/dashboard/components/partials/Sidebar.jsx";
-import ResideBar from "@/modules/dashboard/components/partials/ReSideBar.jsx";
+import Sidebar from "@/modules/dashboard/components/partials/Sidebar.jsx"; // Import Sidebar
 import Header from "@/modules/dashboard/components/partials/Navbar.jsx";
 import FilterModal from "@/modules/dashboard/components/FilterModal.jsx";
 import SearchModal from "@/modules/dashboard/components/SearchModal.jsx";
@@ -11,7 +10,6 @@ import {
   ArrowDown01Icon,
   ArrowLeft01Icon,
   ArrowRight01Icon,
-  Clock01Icon,
   CommandIcon,
   FilterIcon,
   Search01Icon,
@@ -20,13 +18,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Code } from "@nextui-org/code";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
-import { User } from "@nextui-org/user";
-import { NavbarContent, NavbarItem } from "@nextui-org/navbar";
-import moment from "moment";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowReSidebar, setShowSidebar, setSidebarEpingled } from "../../../core/redux/slices/sidebarSlice";
+import { setShowReSidebar, setSidebarEpingled } from "../../../core/redux/slices/sidebarSlice";
 
 export default function DashboardLayout({
   children,
@@ -42,14 +36,11 @@ export default function DashboardLayout({
   const dropdownRef = useRef(null);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
-
-  // reduuuux 
+  // Redux
   const dispatch = useDispatch();
   const sidebarEpingled = useSelector((state) => state.sidebar.sidebarEpingled);
   const showSidebar = useSelector((state) => state.sidebar.showSidebar);
   const showReSidebar = useSelector((state) => state.sidebar.showReSidebar);
-
-
 
   // Handle clicks outside the dropdown to close it
   useEffect(() => {
@@ -84,139 +75,133 @@ export default function DashboardLayout({
     visible: { opacity: 1, x: 0 },
   };
 
-
-
+  // Calculate main content margin-left based on sidebar width
+  const sidebarWidth = showSidebar ? "20rem" : "3.5rem";
 
   return (
     <>
-      {/* Main Layout Container */}
-      <div className="relative flex w-screen overflow-hidden bg-base_light dark:bg-dark-gradient min-h-screen">
-        {/* Main Content Area */}
-        <div
-          className={`relative flex flex-col w-full lg:ml-auto min-h-screen ${sidebarEpingled
-            ? "lg:w-[calc(100%-20rem)]"
-            : showSidebar
-              ? "lg:w-[calc(100%-20rem)]"
-              : "lg:w-[calc(100%-3.5rem)]"
-            }`}
-        >
-          {/* Header / Navbar */}
-          <Header
-            epingled={sidebarEpingled}
-            setEpingled={(v) => dispatch(setSidebarEpingled(v))}
-            showSidebar={showReSidebar}
-            setShowSidebar={(v) => dispatch(setShowReSidebar(v))}
-          />
-
-          {/* Notification Banner (Hidden on large screens) */}
-          <div className="relative h-12 w-full p-3 md:p-4 mx-auto text-center hidden lg:hidden">
-            <div
-              ref={dropdownRef}
-              onClick={() => setSmallNotOpen(!SmallNotOpen)}
-              className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]"
+ <div
+                className={` relative flex flex-col flex-grow min-h-screen overflow-y-scroll w-full`}
             >
-              <div className="flex justify-center items-center gap-2">
-                <h4 className="text-sm font-semibold">Important Notifications in the ERP</h4>
-                {smallNotOpen ? (
-                  <ArrowDown01Icon className="font-thin" />
-                ) : (
-                  <ArrowRight01Icon className="font-thin" />
-                )}
-              </div>
+                {/* ${sidebarEpingled
+                    ? "lg:w-[calc(100%-20rem)]"
+                    : showSidebar
+                        ? "lg:w-[calc(100%-20rem)]"
+                        : "lg:w-[calc(100%-3.5rem)]"
+                    } */}
+        {/* Header / Navbar */}
+        <Header
+          epingled={sidebarEpingled}
+          setEpingled={(v) => dispatch(setSidebarEpingled(v))}
+          showSidebar={showReSidebar}
+          setShowSidebar={(v) => dispatch(setShowReSidebar(v))}
+        />
 
-              <AnimatePresence>
-                {smallNotOpen && (
-                  <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    exit="hidden"
-                    variants={dropdownVariants}
-                    className="w-full flex flex-col gap-2 mt-2"
-                  >
-                    {[
-                      { data: 154, label: "No Answers Late" },
-                      { data: 21415, label: "Schedule Late - Follow Up" },
-                      { data: 21415, label: "Schedule Late - Follow Up" },
-                      { data: 21415, label: "Schedule Late - Follow Up" },
-                    ].map((item, index) => (
-                      <motion.div
-                        variants={itemVariants}
-                        key={index}
-                        className="flex justify-start items-center gap-2"
-                      >
-                        <h4 className="text-sm">
-                          <b>{item.data}</b>
-                        </h4>
-                        <h4 className="text-sm font-thin">{item.label}</h4>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-
-          {/* Page Header with Title, Icons, and Optional Return Link */}
-          <div className="flex flex-col items-start justify-start md:items-center md:justify-between w-full gap-4 px-3 md:px-4 my-6 md:flex-row">
-            <h2 className="flex flex-row justify-start gap-2 md:ml-4 text-lg sm:text-xl whitespace-nowrap font-bold items-center">
-              {hasReturnLink && (
-                <Link
-                  to={hasReturnLink}
-                  className="overflow-visible rounded-lg p-1 flex items-center justify-center"
-                >
-                  <ArrowLeft01Icon />
-                  <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full"></div>
-                </Link>
+        {/* Notification Banner (Hidden on large screens) */}
+        <div className="relative h-12 w-full p-3 md:p-4 mx-auto text-center hidden lg:hidden">
+          <div
+            ref={dropdownRef}
+            onClick={() => setSmallNotOpen(!SmallNotOpen)}
+            className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]"
+          >
+            <div className="flex justify-center items-center gap-2">
+              <h4 className="text-sm font-semibold">Important Notifications in the ERP</h4>
+              {smallNotOpen ? (
+                <ArrowDown01Icon className="font-thin" />
+              ) : (
+                <ArrowRight01Icon className="font-thin" />
               )}
-              {icon}
-              {title}
-            </h2>
+            </div>
 
-            {/* Additional Content (Optional) */}
-            {additionalContent && additionalContent}
-
-            {/* Search and Filter Section */}
-            {hasSearchInput && (
-              <div className="hidden md:flex">
-                <Input
-                  className="ml-auto w-80"
-                  placeholder="Search"
-                  classNames={{
-                    inputWrapper: "bg-gray-100 dark:bg-neutral-800 rounded-full",
-                  }}
-                  endContent={
-                    <Code className="flex flex-row justify-center pl-0">
-                      &nbsp; <CommandIcon className="mr-1" size={16} /> + k
-                    </Code>
-                  }
-                  startContent={<Search01Icon size={24} />}
-                />
-
-                <Button
-                  isIconOnly
-                  className="mx-2 dark:text-white text-black rounded-full bg-gray-100 dark:bg-neutral-800"
-                  onClick={() => setShowFilterModal(!showFilterModal)}
+            <AnimatePresence>
+              {smallNotOpen && (
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={dropdownVariants}
+                  className="w-full flex flex-col gap-2 mt-2"
                 >
-                  <FilterIcon size={18} />
-                </Button>
-              </div>
-            )}
+                  {[
+                    { data: 154, label: "No Answers Late" },
+                    { data: 21415, label: "Schedule Late - Follow Up" },
+                    { data: 21415, label: "Schedule Late - Follow Up" },
+                    { data: 21415, label: "Schedule Late - Follow Up" },
+                  ].map((item, index) => (
+                    <motion.div
+                      variants={itemVariants}
+                      key={index}
+                      className="flex justify-start items-center gap-2"
+                    >
+                      <h4 className="text-sm">
+                        <b>{item.data}</b>
+                      </h4>
+                      <h4 className="text-sm font-thin">{item.label}</h4>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-
-          {/* Main Content Area */}
-          <div className="flex-grow">{children}</div>
-
-          {/* Footer */}
-          <footer className="mx-auto my-12 text-center">
-            <span className="text-sm text-gray-600">
-              Copyright © {new Date().getFullYear()}. COD Power Group, All rights reserved.
-            </span>
-          </footer>
         </div>
 
+        {/* Page Header with Title, Icons, and Optional Return Link */}
+        <div className="flex flex-col items-start justify-start md:items-center md:justify-between w-full gap-4 px-3 md:px-4 my-6 md:flex-row">
+          <h2 className="flex flex-row justify-start gap-2 md:ml-4 text-lg sm:text-xl  font-bold items-center">
+            {hasReturnLink && (
+              <Link
+                to={hasReturnLink}
+                className="overflow-visible rounded-lg p-1 flex items-center justify-center"
+              >
+                <ArrowLeft01Icon />
+                <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-gray-100 dark:border-gray-900 rounded-full"></div>
+              </Link>
+            )}
+            {icon}
+            {title}
+          </h2>
 
-      </div>
+          {/* Additional Content (Optional) */}
+          {additionalContent && additionalContent}
 
+          {/* Search and Filter Section */}
+          {hasSearchInput && (
+            <div className="hidden md:flex">
+              <Input
+                className="ml-auto w-80"
+                placeholder="Search"
+                classNames={{
+                  inputWrapper: "bg-gray-100 dark:bg-neutral-800 rounded-full",
+                }}
+                endContent={
+                  <Code className="flex flex-row justify-center pl-0">
+                    &nbsp; <CommandIcon className="mr-1" size={16} /> + k
+                  </Code>
+                }
+                startContent={<Search01Icon size={24} />}
+              />
+
+              <Button
+                isIconOnly
+                className="mx-2 dark:text-white text-black rounded-full bg-gray-100 dark:bg-neutral-800"
+                onClick={() => setShowFilterModal(!showFilterModal)}
+              >
+                <FilterIcon size={18} />
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Main Content Area */}
+        <div className="flex-grow">{children}</div>
+
+        {/* Footer */}
+        <footer className="mx-auto my-12 text-center">
+          <span className="text-sm text-gray-600">
+            Copyright © {new Date().getFullYear()}. COD Power Group, All rights reserved.
+          </span>
+        </footer>
+</div>
       {/* Modals */}
       <SearchModal
         id="search-modal"
