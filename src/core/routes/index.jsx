@@ -65,6 +65,7 @@ import Currencies from "../../modules/countries/pages/Currencies.jsx";
 import SalesChannels from "../../modules/sellers/pages/SalesChannels.jsx";
 import FacebookBusiness from "../../modules/sellers/pages/FacebookBusiness.jsx";
 import CallCenter from "../../modules/statistics/pages/CallCenter.jsx";
+import Agents from "../../modules/statistics/pages/Agents.jsx";
 const routes = [
     {
         path: "/",
@@ -375,20 +376,8 @@ const routes = [
             },
             {
                 path: RouteNames.statisticsAgents,
-                children: [
-                    {
-                        path: RouteNames.statisticsAgentsActivities,
-                        element: <Activities />
-                    },
-                    {
-                        path: RouteNames.statisticsAgentscallCenter,
-                        element: <CallCenter />
-                    },
-                    {
-                        path: RouteNames.statisticsAgentsFollowup,
-                        element: <FollowUpStatistics />
-                    },
-                ],
+                element: <Agents />
+
             },
         ],
     },

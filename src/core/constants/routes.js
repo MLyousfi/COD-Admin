@@ -415,24 +415,6 @@ const RoutesConfig = [
                 name: 'Agents',
                 path: RouteNames.statisticsAgents,
                 showInSidebar: true,
-                children: [
-                    {
-                        name: 'Activities',
-                        path: RouteNames.statisticsAgentsActivities,
-                        showInSidebar: true,
-                    },
-                    {
-                        name: 'Call Center',
-                        path: RouteNames.statisticsAgentscallCenter,
-                        showInSidebar: true,
-                    },
-                    {
-                        name: 'Follow Up',
-                        path: RouteNames.statisticsAgentsFollowup,
-                        showInSidebar: true,
-                    },
-
-                ]
             },
 
         ],

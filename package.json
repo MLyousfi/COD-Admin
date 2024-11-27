@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@auth-kit/react-router": "^3.1.3",
+    "@heroicons/react": "^2.2.0",
     "@nextui-org/button": "^2.0.38",
     "@nextui-org/checkbox": "^2.1.5",
     "@nextui-org/chip": "^2.0.33",
@@ -73,6 +74,7 @@
     "eslint-plugin-react-refresh": "^0.4.12",
     "globals": "^15.9.0",
     "postcss": "^8.4.47",
+    "tailwind-scrollbar": "^3.1.0",
     "tailwindcss": "^3.4.13",
     "vite": "^5.4.8"
   }
