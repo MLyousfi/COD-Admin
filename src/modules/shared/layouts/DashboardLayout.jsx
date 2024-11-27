@@ -158,7 +158,7 @@ export default function DashboardLayout({
 
           {/* Page Header with Title, Icons, and Optional Return Link */}
           <div className="flex flex-col items-start justify-start md:items-center md:justify-between w-full gap-4 px-3 md:px-4 my-6 md:flex-row">
-            <h2 className="flex flex-row justify-start gap-2 md:ml-4 text-lg sm:text-xl font-bold items-center">
+            <h2 className="flex flex-row justify-start gap-2 md:ml-4 text-lg sm:text-xl whitespace-nowrap font-bold items-center">
               {hasReturnLink && (
                 <Link
                   to={hasReturnLink}

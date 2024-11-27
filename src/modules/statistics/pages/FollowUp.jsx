@@ -28,6 +28,7 @@ import { motion } from "framer-motion";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatsCard from "../components/StatsCard";
 import { Button } from "@nextui-org/button";
+import { useNavigate, useLocation } from "react-router-dom"; // Import React Router hooks
 
 // Define columns and data for the table
 const tableColumns = [
@@ -330,7 +331,14 @@ const InlineTable = ({ columns, data, rowsPerPage = 10 }) => {
 
 export default function FollowUpStatistics() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false); // Adjust based on your theme management
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // React Router Hooks
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // State for active tab
+  const [activeTab, setActiveTab] = useState("Follow Up"); // Default to "Follow Up"
 
   useEffect(() => {
     const checkDarkMode = () => {
@@ -349,56 +357,105 @@ export default function FollowUpStatistics() {
     return () => observer.disconnect();
   }, []);
 
-  // Placeholder functions for buttons (implement functionality as needed)
+  // Update activeTab based on current path
+  useEffect(() => {
+    if (location.pathname.endsWith("/agents")) {
+      setActiveTab("Agents");
+    } else if (location.pathname.endsWith("/activities")) {
+      setActiveTab("Activities");
+    } else if (location.pathname.endsWith("/call-center")) {
+      setActiveTab("Call Center");
+    } else if (location.pathname.endsWith("/follow-up")) {
+      setActiveTab("Follow Up");
+    } else {
+      setActiveTab("Follow Up"); // Default to "Follow Up"
+    }
+  }, [location.pathname]);
+
+  // Placeholder functions for buttons
   const openModal = () => setIsModalOpen(true);
 
-  const container = {
-    hidden: { opacity: 0, scale: 0 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  // Header Buttons
+  // Header Buttons with Tabs
   const headerButtons = (
-    <div className="flex flex-col gap-2 lg:flex-row w-full items-start lg:items-center lg:justify-end">
-      {/* Apply Filter Button */}
-      <div className="order-1 lg:order-3 flex justify-end w-full mr-3 lg:w-auto">
-        <Button
-          className="bg-[#0258E8] border border-blue-800 text-white rounded-full px-4 py-2 flex items-center"
-          auto
-          aria-label="Apply Filter"
-          onClick={openModal}
-        >
-          <FilterIcon className="text-white" size={18} />
-          <span className="ml-2">Apply Filter</span>
-        </Button>
-      </div>
+    <div className="flex flex-col gap-2 lg:flex-row w-full lg:w-auto items-start lg:items-center">
+            {/* Apply Filter Button: First on small screens, Last on large screens */}
+            <div className="order-1 lg:order-3 flex justify-end mb-2 lg:mb-0 w-full lg:w-auto lg:ml-auto">
+                <Button
+                    className="bg-[#0258E8] border border-blue-800 text-white rounded-full px-4 py-2 flex items-center w-auto"
+                    auto
+                    aria-label="Apply Filter"
+                    onClick={openModal} // Use onClick instead of onPress
+                >
+                    <FilterIcon className="text-white" size={18} />
+                    <span className="ml-2">Apply Filter</span>
+                </Button>
+            </div>
 
-      {/* Today and List of Agents Buttons */}
-      <div className="order-2 lg:order-1 flex flex-row justify-end gap-2 w-full lg:w-auto">
-        <Button
-          className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center"
-          auto
-          aria-label="Select Today"
-        >
-          <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-          <span className="ml-2">Today</span>
-        </Button>
-        <Button
-          className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center"
-          auto
-          aria-label="List of Agents"
-        >
-          <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-          <span className="ml-2">List of Agents</span>
-          <ArrowDown01Icon className="ml-1 text-black dark:text-white" size={18} />
-        </Button>
+            {/* Today and List of Agents Buttons: Second on small screens, First on large screens */}
+            <div className="order-2 lg:order-1 flex flex-row justify-end gap-2 w-full lg:w-auto">
+                <Button
+                    className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center w-auto"
+                    auto
+                    aria-label="Select Today"
+                >
+                    <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
+                    <span className="ml-2">Today</span>
+                </Button>
+                <Button
+                    className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center w-auto"
+                    auto
+                    aria-label="List of Agents"
+                >
+                    <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
+                    <span className="ml-2">List of Agents</span>
+                    <ArrowDown01Icon className="ml-1 text-black dark:text-white" size={18} />
+                </Button>
+            </div>
+
+      {/* Agents, Activities, Call Center, Follow Up Tabs */}
+      <div className="flex justify-center gap-0 md:gap-2 my-4 text-sm md:text-[17px] whitespace-nowrap items-center px-4 rounded-full bg-[#0258E810] mr-0 md:mr-4">
+      {["Agents", "Activities", "Call Center", "Follow Up"].map((tab, idx) => (
+          <motion.div
+            whileTap={{ scale: 0.9 }}
+            key={idx}
+            className={`flex justify-center items-center p-2 cursor-pointer ${
+              activeTab === tab
+                ? "font-bold text-[#0258E8]"
+                : "font-normal text-black dark:text-white"
+            }`}
+            onClick={() => {
+              setActiveTab(tab);
+              if (tab === "Agents") {
+                navigate("/statistics/agents");
+              } else if (tab === "Activities") {
+                navigate("/statistics/agents/activities");
+              } else if (tab === "Call Center") {
+                navigate("/statistics/agents/call-center");
+              } else if (tab === "Follow Up") {
+                navigate("/statistics/agents/follow-up");
+              }
+            }}
+            aria-label={`${tab} Tab`}
+            role="button"
+            tabIndex={0}
+            onKeyPress={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                setActiveTab(tab);
+                if (tab === "Agents") {
+                  navigate("/statistics/agents");
+                } else if (tab === "Activities") {
+                  navigate("/statistics/agents/activities");
+                } else if (tab === "Call Center") {
+                  navigate("/statistics/agents/call-center");
+                } else if (tab === "Follow Up") {
+                  navigate("/statistics/agents/follow-up");
+                }
+              }
+            }}
+          >
+            {tab}
+          </motion.div>
+        ))}
       </div>
     </div>
   );
@@ -407,20 +464,16 @@ export default function FollowUpStatistics() {
     <DashboardLayout
       hasSearchInput={false}
       title="Statistics - Follow Up"
-      icon={<ChartHistogramIcon className="text-info" />}
+      icon={<ChartHistogramIcon className="text-info shrink-0" />}
+      additionalContent={headerButtons} // Include headerButtons here
     >
-      {/* Include headerButtons here */}
-      {headerButtons}
-
       {/* Header Section with Title */}
-      <div className="mt-14 px-8">
+      <div className="mt-8 px-8">
         <h2 className="text-xl font-semibold mb-4 text-black dark:text-white">Statistics</h2>
       </div>
 
       {/* Statistics Cards */}
-      <div
-        className="flex flex-wrap justify-start px-2 md:px-8"
-      >
+      <div className="flex flex-wrap justify-start px-2 md:px-8">
         {statistics.map((stat, index) => (
           <StatsCard
             useHover={true}

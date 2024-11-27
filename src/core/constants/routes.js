@@ -415,7 +415,7 @@ const RoutesConfig = [
                 name: 'Agents',
                 path: RouteNames.statisticsAgents,
                 showInSidebar: true,
-            },
+},
 
         ],
     },

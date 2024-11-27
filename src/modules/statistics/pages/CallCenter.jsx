@@ -1,26 +1,59 @@
 // CallCenter.jsx
 
-import React, { useState,useEffect } from "react";
-import { Calendar03Icon, FilterIcon, ArrowDown01Icon,ChartHistogramIcon } from "hugeicons-react";
+import React, { useState, useEffect } from "react";
+import { Calendar03Icon, FilterIcon, ArrowDown01Icon, ChartHistogramIcon } from "hugeicons-react";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import { Button } from "@nextui-org/button";
-import CustomModal from "../../stockManagement.jsx/components/modal"; 
+import CustomModal from "../../stockManagement.jsx/components/modal";
 import Calendar from "react-calendar";
+import { useNavigate, useLocation } from "react-router-dom"; // Import React Router hooks
+import { motion } from "framer-motion"; // Import framer-motion for animations
 import "react-calendar/dist/Calendar.css"; // Import the CSS for react-calendar
 
 export default function CallCenter() {
-    // State to control the visibility of the modal
+    // State Hooks
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // State to manage the selected agents (multiple)
     const [selectedAgents, setSelectedAgents] = useState([]);
-
-    // State to manage the selected date filter (single)
     const [selectedDateFilter, setSelectedDateFilter] = useState("");
-
-    // State for custom date range
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
+
+    // React Router Hooks
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // State for active tab
+    const [activeTab, setActiveTab] = useState(null);
+
+    // Determine if dark mode is enabled (replace with your actual dark mode logic)
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    useEffect(() => {
+        const checkDarkMode = () => {
+            const darkMode = document.documentElement.classList.contains("dark");
+            setIsDarkMode(darkMode);
+        };
+
+        checkDarkMode();
+
+        const observer = new MutationObserver(checkDarkMode);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+        return () => observer.disconnect();
+    }, []);
+
+    // Update activeTab based on current path
+    useEffect(() => {
+        if (location.pathname.endsWith("/agents")) {
+            setActiveTab("Agents");
+        } else if (location.pathname.endsWith("/activities")) {
+            setActiveTab("Activities");
+        } else if (location.pathname.endsWith("/call-center")) {
+            setActiveTab("Call Center");
+        } else {
+            setActiveTab(null); // No tab selected
+        }
+    }, [location.pathname]);
 
     // Example list of agents (replace with your actual data)
     const agents = [
@@ -42,22 +75,6 @@ export default function CallCenter() {
         { value: "thisYear", label: "This Year" },
     ];
 
-    // Determine if dark mode is enabled (replace with your actual dark mode logic)
-    const [isDarkMode, setIsDarkMode] = useState(false);
-
-    useEffect(() => {
-        const checkDarkMode = () => {
-          const darkMode = document.documentElement.classList.contains('dark');
-          setIsDarkMode(darkMode);
-        };
-    
-        checkDarkMode();
-    
-        const observer = new MutationObserver(checkDarkMode);
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    
-        return () => observer.disconnect();
-      }, []);
     // Handlers to open and close the modal
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => {
@@ -85,10 +102,10 @@ export default function CallCenter() {
 
     // Handler to remove a selected agent (optional)
     const removeAgent = (agentName) => {
-        setSelectedAgents(selectedAgents.filter(agent => agent !== agentName));
+        setSelectedAgents(selectedAgents.filter((agent) => agent !== agentName));
     };
 
-    // Header buttons with Apply Filter triggering the modal
+    // Header buttons with Apply Filter and Tabs
     const headerButtons = (
         <div className="flex flex-col gap-2 lg:flex-row w-full lg:w-auto items-start lg:items-center">
             {/* Apply Filter Button: First on small screens, Last on large screens */}
@@ -97,7 +114,7 @@ export default function CallCenter() {
                     className="bg-[#0258E8] border border-blue-800 text-white rounded-full px-4 py-2 flex items-center w-auto"
                     auto
                     aria-label="Apply Filter"
-                    onPress={openModal} // Use onClick if onPress is not supported
+                    onClick={openModal} // Use onClick instead of onPress
                 >
                     <FilterIcon className="text-white" size={18} />
                     <span className="ml-2">Apply Filter</span>
@@ -124,6 +141,52 @@ export default function CallCenter() {
                     <ArrowDown01Icon className="ml-1 text-black dark:text-white" size={18} />
                 </Button>
             </div>
+
+            {/* Agents, Activities, and Call Center Tabs */}
+            <div className="flex justify-center gap-0 md:gap-2 my-4 text-sm md:text-[17px] whitespace-nowrap items-center px-4 rounded-full bg-[#0258E810] mr-0 md:mr-4">
+            {["Agents", "Activities", "Call Center","Follow Up"].map((tab, idx) => (
+                    <motion.div
+                        whileTap={{ scale: 0.9 }}
+                        key={idx}
+                        className={`flex justify-center items-center p-2 cursor-pointer ${
+                            activeTab === tab
+                                ? "font-bold text-[#0258E8]"
+                                : "font-normal text-black dark:text-white"
+                        }`}
+                        onClick={() => {
+                            setActiveTab(tab);
+                            if (tab === "Agents") {
+                                navigate("/statistics/agents");
+                            } else if (tab === "Activities") {
+                                navigate("/statistics/agents/activities");
+                            } else if (tab === "Call Center") {
+                                navigate("/statistics/agents/call-center");
+                            } else if (tab === "Follow Up") {
+                                navigate("/statistics/agents/follow-up");
+                              }
+                        }}
+                        aria-label={`${tab} Tab`}
+                        role="button"
+                        tabIndex={0}
+                        onKeyPress={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                setActiveTab(tab);
+                                if (tab === "Agents") {
+                                    navigate("/statistics/agents");
+                                } else if (tab === "Activities") {
+                                    navigate("/statistics/agents/activities");
+                                } else if (tab === "Call Center") {
+                                    navigate("/statistics/agents/call-center");
+                                } else if (tab === "Follow Up") {
+                                    navigate("/statistics/agents/follow-up");
+                                  }
+                            }
+                        }}
+                    >
+                        {tab}
+                    </motion.div>
+                ))}
+            </div>
         </div>
     );
 
@@ -131,10 +194,9 @@ export default function CallCenter() {
         <DashboardLayout
             hasSearchInput={false}
             title="Statistics - Call Center"
-            icon={<ChartHistogramIcon className="text-info" />}
+            icon={<ChartHistogramIcon className="text-info shrink-0" />}
             additionalContent={headerButtons}
         >
-
             {/* Custom Modal for Apply Filter */}
             <CustomModal
                 isOpen={isModalOpen}
@@ -143,14 +205,14 @@ export default function CallCenter() {
                 isDarkMode={isDarkMode}
                 width="800px" // Adjust the width as needed
             >
-                {/* 
-                    Add your filter form or content here. 
-                    Example:
-                */}
+                {/* Filter Form */}
                 <form className="flex flex-col gap-6">
                     {/* Select Input for List of Agents */}
                     <div className="flex flex-col">
-                        <label htmlFor="agent-select" className="mb-2 font-medium text-sm mt-5 dark:text-[#ffffff50] text-gray-500">
+                        <label
+                            htmlFor="agent-select"
+                            className="mb-2 font-medium text-sm mt-5 dark:text-[#ffffff50] text-gray-500"
+                        >
                             List of Agents
                         </label>
                         <select
@@ -186,12 +248,14 @@ export default function CallCenter() {
                                 ))}
                             </div>
                         )}
-                        {/* Alternatively, you can add a note about selecting multiple agents */}
                     </div>
 
                     {/* Select Input for Date Filter */}
                     <div className="flex flex-col">
-                        <label htmlFor="date-filter-select" className="mb-2 font-medium text-sm dark:text-[#ffffff50] text-gray-500">
+                        <label
+                            htmlFor="date-filter-select"
+                            className="mb-2 font-medium text-sm dark:text-[#ffffff50] text-gray-500"
+                        >
                             Filter by Date
                         </label>
                         <select
@@ -223,11 +287,7 @@ export default function CallCenter() {
                             <label htmlFor="from-date" className="mb-2 font-medium text-sm text-[#ffffff50]">
                                 From
                             </label>
-                            <Calendar
-                                onChange={setFromDate}
-                                value={fromDate}
-                                className="from-date-calendar"
-                            />
+                            <Calendar onChange={setFromDate} value={fromDate} className="from-date-calendar" />
                         </div>
 
                         {/* To Date Picker */}
@@ -241,14 +301,14 @@ export default function CallCenter() {
                                 minDate={fromDate}
                                 className="to-date-calendar"
                                 tileDisabled={({ date, view }) => {
-                                    if (view === 'month') {
+                                    if (view === "month") {
                                         return date < fromDate;
                                     }
                                     return false;
                                 }}
                                 tileClassName={({ date, view }) => {
-                                    if (view === 'month' && date < fromDate) {
-                                        return 'disabled-date';
+                                    if (view === "month" && date < fromDate) {
+                                        return "disabled-date";
                                     }
                                     return null;
                                 }}
@@ -256,12 +316,12 @@ export default function CallCenter() {
                         </div>
                     </div>
 
+                    {/* Apply Filter Button */}
                     <div className="flex justify-center my-8 gap-2">
-                        
                         <Button
                             variant="solid"
                             className="rounded-full bg-info px-4 text-white font-bold"
-                            onPress={() => {
+                            onClick={() => {
                                 // Handle filter submission
                                 console.log("Selected Agents:", selectedAgents);
                                 console.log("Selected Date Filter:", selectedDateFilter);
@@ -275,7 +335,9 @@ export default function CallCenter() {
                                         alert('"From" date cannot be later than "To" date.');
                                         return;
                                     }
-                                    console.log(`Filtering from ${fromDate.toLocaleDateString()} to ${toDate.toLocaleDateString()}`);
+                                    console.log(
+                                        `Filtering from ${fromDate.toLocaleDateString()} to ${toDate.toLocaleDateString()}`
+                                    );
                                 } else if (selectedDateFilter) {
                                     console.log(`Filtering by ${selectedDateFilter}`);
                                 } else {
@@ -285,8 +347,8 @@ export default function CallCenter() {
                                 closeModal();
                             }}
                         >
-                                                <FilterIcon className="text-white" size={18} />
-                                                <span >Apply Filter</span>
+                            <FilterIcon className="text-white" size={18} />
+                            <span>Apply Filter</span>
                         </Button>
                     </div>
                 </form>

@@ -376,10 +376,18 @@ const routes = [
             },
             {
                 path: RouteNames.statisticsAgents,
-                element: <Agents />
+                element: <Agents />,
+      },
 
-            },
-        ],
+               { path: RouteNames.statisticsAgentscallCenter,
+                element: <CallCenter />},
+
+                { path: RouteNames.statisticsAgentsActivities,
+                    element: <Activities />},
+
+             { path: RouteNames.statisticsAgentsFollowup,
+             element: <FollowUpStatistics />}
+    ],
     },
 ]
 
