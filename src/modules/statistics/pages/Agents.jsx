@@ -23,6 +23,7 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-o
 import StatusTabs from "../../shared/components/StatusTabs";
 import { Button } from "@nextui-org/button";
 import { motion } from "framer-motion"; // Ensure framer-motion is installed
+import { div } from "framer-motion/client";
 
 // Sample Agents List
 const agentsList = [
@@ -79,20 +80,22 @@ const rows = [
 // AgentCard Component
 const AgentCard = ({ name, latestActivity }) => {
     return (
-        <div className="flex items-center justify-between px-4 py-2 dark:bg-[#FFFFFF07] rounded-full w-[245px]">
-            <div className="flex items-center">
-                <span className="h-3 w-3 bg-green-500 rounded-full mr-2"></span>
-                <div>
-                    <p className="text-white font-medium">{name}</p>
-                    <span className="text-gray-400 text-xs whitespace-nowrap">Latest activity: {latestActivity}</span>
-                </div>
-            </div>
-            <button className="text-gray-200 hover:text-white" aria-label="Agent Options">
-                <EllipsisVerticalIcon className="h-7 w-7" />
-            </button>
+      <div className="flex items-center justify-between px-4 py-2 dark:bg-[#FFFFFF07] bg-[#00000010] rounded-full md:w-[320px] w-[245px]">
+        <div className="flex items-center">
+          <span className="h-3 w-3 bg-green-500 rounded-full mr-2"></span>
+          <div className="md:ml-5">
+            <p className=" dark:text-white font-medium  ">{name}</p>
+            <p className=" dark:text-gray-400 text-gray-500 text-xs whitespace-nowrap ">
+              Latest activity: {latestActivity}
+            </p>
+          </div>
         </div>
+        <button className="dark:text-gray-200 hover:text-white" aria-label="Agent Options">
+          <EllipsisVerticalIcon className="h-7 w-7" />
+        </button>
+      </div>
     );
-};
+  };
 
 const Agents = () => {
     // State Hooks
@@ -158,7 +161,7 @@ const Agents = () => {
             </div>
 
             {/* Agents, Activities, Call Center, Follow Up Tabs */}
-            <div className="flex justify-center gap-0 md:gap-2 my-4 text-sm md:text-[17px] whitespace-nowrap items-center px-4 rounded-full bg-[#0258E810] mr-0 md:mr-4">
+            <div className="flex justify-center gap-0 md:gap-2 my-4  text-sm md:text-[17px] whitespace-nowrap items-center px-4 rounded-full bg-[#0258E810] mr-0 md:mr-4">
                 {["Agents", "Activities", "Call Center", "Follow Up"].map((t, idx) => (
                     <motion.div
                         whileTap={{ scale: 0.8 }}
@@ -259,7 +262,7 @@ const Agents = () => {
                     onClick={handleSort}
                 >
                     Date
-                    <ArrowUpDownIcon className="ml-1" size={16} />
+                    <ArrowUpDownIcon className="ml-1 text-gray-500" size={16} />
                 </div>
             ),
             w: "w-[12%]",
@@ -325,7 +328,7 @@ const Agents = () => {
                     {/* Scrollable Container with Padding-Bottom */}
                     <div className="overflow-x-auto pb-4">
                         {/* Grid Container */}
-                        <div className="grid grid-cols-8 gap-4 min-w-[2000px]">
+                        <div className="grid grid-cols-8 gap-4 md:min-w-[2800px] min-w-[2000px]">
                             {agentsList.map((agent) => (
                                 <AgentCard
                                     key={agent.id}

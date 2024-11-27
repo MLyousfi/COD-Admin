@@ -391,8 +391,6 @@ const routes = [
     },
 ]
 
-
-
 export default function RoutersWrapper() {
     // Should log `true`
 
@@ -411,22 +409,23 @@ export default function RoutersWrapper() {
 
         });
     }
-
     return (
         <Router>
-            <div className="w-screen h-screen">
-                <Routes>
+            <div className="w-screen h-screen bg-base_light dark:bg-dark-gradient">
+                <div className="max-w-[2000px] mx-auto w-full flex h-full relative overflow-hidden">
+                    
+                    {/* Sidebar for Larger Screens */}
+                    <Sidebar />
 
-                    {generateRoutes(routes)}
-                </Routes>
+                    {/* Sidebar for Mobile Screens */}
+                    <ResideBar />
 
-                {/* Sidebar for Mobile Screens */}
-                <ResideBar />
-
-                {/* Sidebar for Larger Screens */}
-                <Sidebar />
+                    {/* Main Content */}
+                        <Routes>
+                            {generateRoutes(routes)}
+                        </Routes>
+                </div>
             </div>
         </Router>
-
     );
 }
