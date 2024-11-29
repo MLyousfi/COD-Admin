@@ -315,7 +315,7 @@ export default function Products() {
             additionalContent={headerButtons}
         >
 
-           <div className="mt-14 px-2 md:px-8">
+           <div className="mt-4 px-2 md:px-8">
                 <h2 className="text-xl font-semibold mb-4 text-black dark:text-white ml-4">Statistics</h2>
                 <div initial="hidden" animate="visible" variants={container} className="flex flex-wrap justify-start px-2 md:px-8">
 

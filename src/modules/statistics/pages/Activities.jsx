@@ -340,7 +340,7 @@ export default function Activities() {
             </div>
 
             {/* Agents, Activities, Call Center Tabs */}
-            <div className="flex justify-center gap-0 md:gap-2 my-4 text-sm md:text-[17px] whitespace-nowrap items-center px-4 rounded-full bg-[#0258E810] mx-auto md:mr-16">
+            <div className="flex justify-center gap-0 md:gap-2 my-4 text-sm md:text-[17px] whitespace-nowrap items-center px-4 rounded-full bg-[#0258E810] mx-auto md:mr-2">
             {["Agents", "Activities", "Call Center","Follow Up"].map((tab, idx) => (
                     <motion.div
                         whileTap={{ scale: 0.9 }}
@@ -392,7 +392,7 @@ export default function Activities() {
             icon={<ChartHistogramIcon className="text-info shrink-0" size={24} /> }
             additionalContent={headerButtons}
         >
-            <div className="mt-5 px-2 md:px-8">
+            <div className="mt-1 px-2 md:px-8">
                 <h2 className="text-xl font-semibold mb-4 text-black dark:text-white ml-4">Activities</h2>
                 <div
                     initial="hidden"

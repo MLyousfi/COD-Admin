@@ -181,7 +181,7 @@ export default function Sponsoring() {
                 } */
             `}</style>
 
-            <div className="mt-14 px-4 md:px-8 w-full">
+            <div className="mt-2 px-4 md:px-8 w-full">
                 <h2 className="text-xl font-semibold mb-6 text-black dark:text-white">Select Filters</h2>
                 <div className="flex flex-col gap-6 w-full">
                     {/* List of Sponsors */}
