@@ -160,7 +160,7 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                                     </div>
                                     <div className="flex flex-col gap-8 lg:flex-row my-8">
                                         <div className="w-full lg:w-1/2">
-                                            <Input type="text" variant="underlined" color="primary" value={"First name"} ref={onrderNumRef}
+                                            <Input type="text" variant="underlined" color="primary"  ref={onrderNumRef}
                                                 classNames={{
                                                     label: ["!text-[#00000050] dark:!text-[#FFFFFF30]"],
 
@@ -169,7 +169,7 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                                                 label="First name" />
                                         </div>
                                         <div className="w-full lg:w-1/2">
-                                            <Input type="text" variant="underlined" color="primary" value={"Last name"}
+                                            <Input type="text" variant="underlined" color="primary" 
                                                 classNames={{
                                                     label: [" !text-[#00000050] dark:!text-[#FFFFFF30]"],
 
@@ -182,7 +182,7 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                                         <div className="w-full lg:w-1/2">
                                             <Input
                                                 label="Password"
-                                                variant="underlined" color="primary" value={'this is a password'}
+                                                variant="underlined" color="primary" 
                                                 placeholder="Enter your password"
                                                 endContent={
                                                     <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
@@ -198,7 +198,7 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                                             />
                                         </div>
                                         <div className="w-full lg:w-1/2">
-                                            <Input type="email" variant="underlined" color="primary" value={'example@cod.com'}
+                                            <Input type="email" variant="underlined" color="primary" 
                                                 classNames={{
                                                     label: ["!text-[#00000050] dark:!text-[#FFFFFF30]"],
 
