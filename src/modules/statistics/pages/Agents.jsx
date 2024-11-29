@@ -161,7 +161,7 @@ const Agents = () => {
             </div>
 
             {/* Agents, Activities, Call Center, Follow Up Tabs */}
-            <div className="flex justify-center gap-0 md:gap-2 my-4  text-sm md:text-[17px] whitespace-nowrap items-center px-4 rounded-full bg-[#0258E810] mr-0 md:mr-4">
+            <div className="flex justify-center gap-0 md:gap-2 my-4  text-sm md:text-[17px] whitespace-nowrap items-center px-4 rounded-full bg-[#0258E810] mx-auto md:mr-16">
                 {["Agents", "Activities", "Call Center", "Follow Up"].map((t, idx) => (
                     <motion.div
                         whileTap={{ scale: 0.8 }}
