@@ -48,7 +48,7 @@ const Configuration = () => {
       <div className="mb-8 px-8">
         {/* Call Center Rules Section */}
         {activeSection === 'callCenter' && (
-  <div className="bg-white dark:bg-transparent border dark:border-[#ffffff18] border-[#00000022] p-8 rounded-lg">
+  <div className="bg-white dark:bg-transparent border dark:border-[#ffffff18] border-[#00000022] p-4 rounded-lg">
     <div className="space-y-6">
       {/* Row 1: Call every & One call per day after */}
       <div className="flex flex-col sm:flex-row sm:space-x-6 sm:space-y-0 space-y-6 md:mb-10 w-full">

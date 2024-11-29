@@ -222,7 +222,7 @@ export default function Expenses() {
         <>
             <DashboardLayout title="Accounting - Expenses" icon={<Calculator01Icon className="text-info" />}>
 
-                <div className="flex px-4 my-12 md:px-8 justify-end">
+                <div className="flex px-4 my-3 md:px-8 justify-end">
                     <div className="flex flex-row gap-2">
                         <Button onClick={() => setOpenModal(true)} color="default" className="rounded-full bg-info text-white">
                             <PlusSignIcon size={18} /> New Expense
