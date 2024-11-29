@@ -197,14 +197,17 @@ const ShippingCost = () => {
 
     return (
         <DashboardLayout title="Shipping Costs" additionalContent={
-            <Button
-                color="default"
-                onClick={() => setOpenModal(true)}
-                className="rounded-full"
-                style={{ backgroundColor: '#0258E8', color: 'white' }}
-            >
-                <PlusSignIcon size={18} /> Create New Line
-            </Button>} hasSearchInput={false} icon={<DollarSquareIcon className="text-info" />}>
+<div className="ml-auto">
+      <Button
+        color="default"
+        onClick={() => setOpenModal(true)}
+        className="rounded-full"
+        style={{ backgroundColor: '#0258E8', color: 'white' }}
+      >
+        <PlusSignIcon size={18} /> Create New Line
+      </Button>
+    </div>
+          } hasSearchInput={false} icon={<DollarSquareIcon className="text-info" />}>
             <div className="p-4">
                 {/* Tabs for Active and Archived */}
 

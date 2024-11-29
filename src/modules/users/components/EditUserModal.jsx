@@ -126,11 +126,10 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
                         </Button>
                     </div>
                     <div className="flex flex-col md:flex-row w-full">
-                        <div className="flex w-full md:w-[25%] md:flex-col justify-start items-start  md:flex-wrap gap-2 ">
+                        <div className="flex w-full md:w-[25%] md:flex-col md:justify-start items-start md:flex-wrap  ">
                             {NavOptions.map((i) => (
                                 <div onClick={() => setSelectedNavOption(i.key)} key={i.key}
-                                    className={`${selectedNavOption === i.key ? " dark:text-white" : ' dark:text-[#ffffff50]'} cursor-pointer p-2 m-0 bg-transparent flex justify-start items-center rounded-md`}>
-                                    <i.icon className="mr-2" />
+                                    className={`${selectedNavOption === i.key ? " dark:text-white" : ' dark:text-[#ffffff50]'}  whitespace-nowrap font-bold text-sm  cursor-pointer px-1.5 md:p-2 m-0 bg-transparent flex justify-start items-center rounded-md`}>
                                     <span>{i.label}</span>
                                     {i.notify > 0 && (
                                         <span className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
@@ -349,10 +348,10 @@ function EditUserModal({ id, modalOpen, setModalOpen }) {
 
                                             <thead>
                                                 <tr className="border-b  border-[#00000030] dark:border-[#ffffff30] ">
-                                                    <th className="p-3 text-base font-normal text-[#00000050] dark:text-[#ffffff50]">SELLER</th>
-                                                    <th className="p-3 text-base font-normal text-[#00000050] dark:text-[#ffffff50]">PRODUCTS</th>
-                                                    <th className="p-3 text-base font-normal text-[#00000050] dark:text-[#ffffff50]">STORES</th>
-                                                    <th className="p-3 text-base font-normal text-[#00000050] dark:text-[#ffffff50]">ACTIONS</th>
+                                                    <th className="p-3 md:text-sm text-[14px] font-normal text-[#00000050] dark:text-[#ffffff50]">SELLER</th>
+                                                    <th className="p-3 md:text-sm text-[14px] font-normal text-[#00000050] dark:text-[#ffffff50]">PRODUCTS</th>
+                                                    <th className="p-3 md:text-sm text-[14px] font-normal text-[#00000050] dark:text-[#ffffff50]">STORES</th>
+                                                    <th className="p-3 md:text-sm  text-[14px] font-normal text-[#00000050] dark:text-[#ffffff50]">ACTIONS</th>
                                                 </tr>
                                             </thead>
                                         </table>

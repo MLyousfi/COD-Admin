@@ -85,7 +85,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
 
     return (
         <>
-            <Navbar disableAnimation isBordered className="z-20 w-full px-2 py-4 bg-transparent" maxWidth="full">
+            <Navbar disableAnimation isBordered className="z-20 w-full px-2 py-4 bg-white dark:bg-dark-gradient-header" maxWidth="full">
 
                 <Button onClick={() => setEpingled(!epingled)} isIconOnly variant="light" className="hidden lg:flex">
                     <SidebarRight01Icon />

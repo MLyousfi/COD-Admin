@@ -20,7 +20,10 @@ import { Input } from "@nextui-org/input";
 import { Code } from "@nextui-org/code";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowReSidebar, setSidebarEpingled } from "../../../core/redux/slices/sidebarSlice";
+import {
+  setShowReSidebar,
+  setSidebarEpingled,
+} from "../../../core/redux/slices/sidebarSlice";
 
 export default function DashboardLayout({
   children,
@@ -80,15 +83,9 @@ export default function DashboardLayout({
 
   return (
     <>
- <div
-                className={` relative flex flex-col flex-grow min-h-screen overflow-y-scroll w-full`}
-            >
-                {/* ${sidebarEpingled
-                    ? "lg:w-[calc(100%-20rem)]"
-                    : showSidebar
-                        ? "lg:w-[calc(100%-20rem)]"
-                        : "lg:w-[calc(100%-3.5rem)]"
-                    } */}
+      <div
+        className={`relative flex flex-col flex-grow min-h-screen overflow-y-scroll overflow-x-hidden w-full`}
+      >
         {/* Header / Navbar */}
         <Header
           epingled={sidebarEpingled}
@@ -97,57 +94,11 @@ export default function DashboardLayout({
           setShowSidebar={(v) => dispatch(setShowReSidebar(v))}
         />
 
-        {/* Notification Banner (Hidden on large screens) */}
-        <div className="relative h-12 w-full p-3 md:p-4 mx-auto text-center hidden lg:hidden">
-          <div
-            ref={dropdownRef}
-            onClick={() => setSmallNotOpen(!SmallNotOpen)}
-            className="z-30 cursor-pointer absolute top-3 w-[90%] sm:w-[80%] max-w-80 left-1/2 transform -translate-x-1/2 rounded-xl p-2 font-semibold text-red-500 dark:text-white bg-red-200 dark:bg-[#2F1214]"
-          >
-            <div className="flex justify-center items-center gap-2">
-              <h4 className="text-sm font-semibold">Important Notifications in the ERP</h4>
-              {smallNotOpen ? (
-                <ArrowDown01Icon className="font-thin" />
-              ) : (
-                <ArrowRight01Icon className="font-thin" />
-              )}
-            </div>
-
-            <AnimatePresence>
-              {smallNotOpen && (
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                  variants={dropdownVariants}
-                  className="w-full flex flex-col gap-2 mt-2"
-                >
-                  {[
-                    { data: 154, label: "No Answers Late" },
-                    { data: 21415, label: "Schedule Late - Follow Up" },
-                    { data: 21415, label: "Schedule Late - Follow Up" },
-                    { data: 21415, label: "Schedule Late - Follow Up" },
-                  ].map((item, index) => (
-                    <motion.div
-                      variants={itemVariants}
-                      key={index}
-                      className="flex justify-start items-center gap-2"
-                    >
-                      <h4 className="text-sm">
-                        <b>{item.data}</b>
-                      </h4>
-                      <h4 className="text-sm font-thin">{item.label}</h4>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
+       
 
         {/* Page Header with Title, Icons, and Optional Return Link */}
         <div className="flex flex-col items-start justify-start md:items-center md:justify-between w-full gap-4 px-3 md:px-4 my-6 md:flex-row">
-          <h2 className="flex flex-row justify-start gap-2 md:ml-4 text-lg sm:text-xl  font-bold items-center">
+          <h2 className="flex flex-row justify-start gap-2 md:ml-4 text-lg sm:text-xl font-bold items-center">
             {hasReturnLink && (
               <Link
                 to={hasReturnLink}
@@ -198,10 +149,11 @@ export default function DashboardLayout({
         {/* Footer */}
         <footer className="mx-auto my-12 text-center">
           <span className="text-sm text-gray-600">
-            Copyright © {new Date().getFullYear()}. COD Power Group, All rights reserved.
+            Copyright © {new Date().getFullYear()}. COD Power Group, All rights
+            reserved.
           </span>
         </footer>
-</div>
+      </div>
       {/* Modals */}
       <SearchModal
         id="search-modal"
@@ -209,7 +161,11 @@ export default function DashboardLayout({
         modalOpen={searchModalOpen}
         setModalOpen={setSearchModalOpen}
       />
-      <FilterModal modalOpen={showFilterModal} setModalOpen={setShowFilterModal} id={2} />
+      <FilterModal
+        modalOpen={showFilterModal}
+        setModalOpen={setShowFilterModal}
+        id={2}
+      />
     </>
   );
 }

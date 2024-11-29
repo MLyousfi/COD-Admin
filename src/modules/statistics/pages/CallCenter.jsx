@@ -143,7 +143,7 @@ export default function CallCenter() {
             </div>
 
             {/* Agents, Activities, and Call Center Tabs */}
-            <div className="flex justify-center gap-0 md:gap-2 my-4 text-sm md:text-[17px] whitespace-nowrap items-center px-4 rounded-full bg-[#0258E810] mx-auto md:mr-16">
+            <div className="flex justify-center gap-0 md:gap-2 my-4 text-sm md:text-[17px] whitespace-nowrap items-center px-4 rounded-full bg-[#0258E810] mx-auto md:mr-2">
             {["Agents", "Activities", "Call Center","Follow Up"].map((tab, idx) => (
                     <motion.div
                         whileTap={{ scale: 0.9 }}
