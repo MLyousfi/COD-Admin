@@ -86,7 +86,7 @@ const Table = ({
 
 
   return (
-    <div className="w-full mx-4 lg:mx-0">
+    <div className="w-full mx-2 lg:mx-0">
       {/* Wrapper div for table and pagination to control the fixed height */}
       <div className="min-h-[calc(3rem_*_12)] flex flex-col justify-between">
         {/* Add overflow-x-auto to enable horizontal scrolling */}
