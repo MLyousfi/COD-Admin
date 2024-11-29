@@ -240,7 +240,7 @@ const ListOfAffiliate = () => {
     };
     return (
         <DashboardLayout title="Affiliate" icon={<Home01Icon className="text-info" />}>
-            <div className="px-0">
+            <div className="pr-5">
                 {/* Tabs for Active and Archived */}
                 <div className="flex justify-end mb-4">
 
