@@ -240,14 +240,14 @@ const ListOfAffiliate = () => {
     };
     return (
         <DashboardLayout title="Affiliate" icon={<Home01Icon className="text-info" />}>
-            <div className="p-4">
+            <div className="px-0">
                 {/* Tabs for Active and Archived */}
                 <div className="flex justify-end mb-4">
 
 
 
                     {/* New Product and Actions Buttons */}
-                    <div className="space-x-4">
+                    <div className="space-x-2 pr-2">
                         <Button
                             onClick={() => setOpenModal(true)}
                             color="default"
