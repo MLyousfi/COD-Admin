@@ -59,7 +59,6 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
             y: {
                 ticks: {
                     callback: function (value) {
-                        // Convert values to "k" for thousands and add dollar sign
                         if (value >= 1000) {
                             return `${value / 1000}k$`;
                         } else {
@@ -68,35 +67,35 @@ const ChartCard = ({ title, data, percentChange, timeRange, header = true }) => 
 
                     },
                     // Manually include the ticks [0, 50, 100, 500, 1000, 3000]
-                    stepSize: 500, // Controls the spacing between ticks
-                    color: '#94a3b8', // Customize tick color for the dark theme
+                    stepSize: 500, 
+                    color: '#94a3b8', 
                 },
                 grid: {
-                    color: '#ffffff22', // Light grid lines
+                    color: '#ffffff22', 
                 },
                 beginAtZero: true,
-                max: 1500, // Set the maximum value to include 3k$
+                max: 1500, 
             },
             x: {
                 ticks: {
-                    color: '#94a3b8', // Customize x-axis tick color
+                    color: '#94a3b8', 
                 },
                 grid: {
-                    color: '#ffffff22', // Light grid lines for x-axis
+                    color: '#ffffff22', 
                 },
             },
         },
         plugins: {
             legend: {
-                display: false, // Hide the legend
+                display: false, 
             },
         },
         elements: {
             line: {
-                borderColor: '#0060FF', // Line color
+                borderColor: '#0060FF', 
                 borderWidth: 2,
                 tension: 0.3,
-                shadowColor: 'rgba(0, 96, 255, 0.6)', // Glow effect for the line
+                shadowColor: 'rgba(0, 96, 255, 0.6)', 
                 shadowBlur: 20,
             },
         },

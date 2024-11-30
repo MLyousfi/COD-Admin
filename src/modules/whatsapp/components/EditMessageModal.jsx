@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@nextui-org/button";
-import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the path if necessary
+import CustomModal from '../../shared/components/modal'; // Adjust the path if necessary
 import { InformationCircleIcon, UserSquareIcon, CubeIcon } from "hugeicons-react";
 
 const EditMessageModal = ({ isOpen, onClose, item, isDarkMode }) => {
@@ -13,8 +13,7 @@ const EditMessageModal = ({ isOpen, onClose, item, isDarkMode }) => {
     title: item?.title || '',
     alias: item?.alias || '',
     content: item?.content || '',
-    shortcodesUsed: '', // For the textarea in "List of Shortcodes" section
-    // New fields for Options section
+    shortcodesUsed: '', 
     language: '',
     timeOfSending: '',
     type: '',

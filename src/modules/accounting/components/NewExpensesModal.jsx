@@ -17,7 +17,6 @@ function NewExpensesModal({ id, modalOpen, setModalOpen }) {
 
     const modalContent = useRef(null);
 
-    // close on click outside
     useEffect(() => {
         const clickHandler = ({ target }) => {
             if (!modalOpen || modalContent.current.contains(target)) return
@@ -109,7 +108,6 @@ function NewExpensesModal({ id, modalOpen, setModalOpen }) {
                                         classNames={{
                                             input: ["!text-[#00000050] dark:!text-[#FFFFFF50]"],
 
-                                            // input tag inside innerWrapper
                                         }} />
                                 </label>
                                 <div className="w-full  mt-5">
@@ -127,11 +125,6 @@ function NewExpensesModal({ id, modalOpen, setModalOpen }) {
                             </div>
 
                         </div>
-
-
-
-
-
 
                         <div className="mt-6 pt-4 border-t border-t-gray-200 dark:border-t-[#ffffff10] flex flex-row justify-center items-center gap-4">
                             <Button className="rounded-full min-w-28 bg-blue-600 text-white px-4 py-2"

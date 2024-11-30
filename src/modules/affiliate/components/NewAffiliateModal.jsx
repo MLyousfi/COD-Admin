@@ -1,21 +1,15 @@
 import Transition from "@/core/utils/Transition.jsx";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import { Button } from "@nextui-org/button";
 import {
   Cancel01Icon,
   DeliveryBox01Icon,
   InformationCircleIcon,
-  PencilEdit01Icon,
-  Search01Icon,
-  Search02Icon,
   Upload04Icon,
   UserIdVerificationIcon,
   ViewIcon,
   ViewOffSlashIcon,
 } from "hugeicons-react";
-import CountrySelector from "@shared/components/CountrySelector.jsx";
-import { SignupSteps } from "@/core/constants/signup.js";
-import { COUNTRIES } from "@/core/constants/countries.js";
 import { Select, SelectItem } from "@nextui-org/select";
 import { Input } from "@nextui-org/input";
 import { motion } from "framer-motion";
@@ -64,9 +58,7 @@ function NewAffiliateModal({ id, modalOpen, setModalOpen }) {
       setImage(file);
     }
   };
-  // const searchInput = useRef(null);
 
-  // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (!modalOpen || modalContent.current.contains(target)) return;

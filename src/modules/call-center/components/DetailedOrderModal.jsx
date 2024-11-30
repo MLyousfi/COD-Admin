@@ -20,7 +20,6 @@ import {
   CallEnd01Icon,
   Time04Icon,
   Notebook01Icon,
-  PauseIcon
 } from "hugeicons-react";
 import { FaMapMarkerAlt, FaRegPauseCircle } from "react-icons/fa";
 import styled from "styled-components";

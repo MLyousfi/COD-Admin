@@ -13,9 +13,9 @@ import {
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs'; 
-import CustomModal from '../../stockManagement.jsx/components/modal'; 
+import CustomModal from '../../shared/components/modal'; 
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const rows = [

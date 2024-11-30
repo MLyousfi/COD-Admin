@@ -14,9 +14,8 @@ import { Chip } from "@nextui-org/chip";
 import { Button } from "@nextui-org/button";
 import { Pagination } from "@nextui-org/pagination";
 import { useCallback, useMemo, useState } from "react";
-// import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
 import { Link } from "react-router-dom";
-import Table from "../../stockManagement.jsx/components/Table";
+import Table from "../../shared/components/Table";
 import StatusTabs from "../../shared/components/StatusTabs";
 
 const rows = [
@@ -112,7 +111,7 @@ export default function MyAgent() {
                             size="sm"
                             className="w-7 h-7 rounded-full p-0 flex items-center justify-center"
                             style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
-                            onClick={() => handleDelete(item.key)} // Call handleDelete with the item's key
+                            onClick={() => handleDelete(item.key)} 
                         >
                             <Edit01Icon size={14} style={{ color: 'white' }} />
                         </Button>
@@ -129,7 +128,6 @@ export default function MyAgent() {
             th: ["bg-transparent", "text-default-500", "border-b", "border-divider", "text-center"],
             td: [
                 "text-center",
-                // changing the rows border radius
                 // first
                 "group-data-[first=true]:first:before:rounded-none",
                 "group-data-[first=true]:last:before:rounded-none",
@@ -166,12 +164,12 @@ export default function MyAgent() {
                     </div>
                     <Table
                         columns={columns}
-                        data={rows}  // Pass filtered products based on the view
+                        data={rows}  
                         renderCell={renderCell}
                         handleCheckboxChange={handleCheckboxChange}
-                        selectedRows={selectedRows} // Pass selected rows state
-                        rowsPerPage={rowsPerPage}  // Pass rows per page
-                        className="dark:bg-gray-800 dark:text-white" // Dark mode support
+                        selectedRows={selectedRows} 
+                        rowsPerPage={rowsPerPage} 
+                        className="dark:bg-gray-800 dark:text-white" 
                     />
                 </div>
 

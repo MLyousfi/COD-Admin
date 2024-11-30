@@ -12,9 +12,9 @@ import {
 } from 'hugeicons-react';
 import { Button } from '@nextui-org/button';
 import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import { rows } from '../../../core/utils/data6';
-import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the path as needed
+import CustomModal from '../../shared/components/modal'; // Adjust the path as needed
 import InformationsForm from '../components/listofsellers/editsellermodal/InformationForm';
 import Store from '../components/listofsellers/editsellermodal/Store';
 import Subscription from '../components/listofsellers/editsellermodal/Subscription';

@@ -1,28 +1,16 @@
-import CallsCard from "@/modules/dashboard/components/CallsCard.jsx";
-import GaugeChart from "@/modules/dashboard/components/GaugeChart.jsx";
-import LineChartCard from "@/modules/dashboard/components/LineChartCard.jsx";
-import ShippingCard from "@/modules/dashboard/components/ShippingCard.jsx";
-import StatsCard from "@/modules/dashboard/components/StatsCard.jsx";
 import {
-    Airplane01Icon,
     ArrowDown01Icon,
-    BoxingBagIcon,
     Calculator01Icon,
-    Calendar01Icon,
     Calendar03Icon,
-    CustomerSupportIcon,
     Delete01Icon,
     EyeIcon,
-    Home01Icon,
     PencilEdit01Icon,
     PlusSignIcon,
-    RepeatIcon,
-    ShippingTruck01Icon
 } from "hugeicons-react";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import { Button } from "@nextui-org/button";
 import ChartCard from "../components/ChartCard";
-import Table from "../../stockManagement.jsx/components/Table";
+import Table from "../../shared/components/Table";
 import { useState } from "react";
 import NewExpensesModal from "../components/NewExpensesModal";
 import NewReportModal from "../components/NewReportModal";
@@ -207,7 +195,6 @@ export default function Expenses() {
                             size="sm"
                             className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
                             style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
-                        // Call handleDelete with the item's key
                         >
                             <Delete01Icon size={14} style={{ color: 'white' }} />
                         </Button>

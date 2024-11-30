@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { PencilEdit01Icon, PlusSignIcon, Delete01Icon, UserIcon } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import EditUserModal from '../components/EditUserModal';
 import NewRoleModal from '../components/NewRoleModal'; // Adjust the path as needed
 

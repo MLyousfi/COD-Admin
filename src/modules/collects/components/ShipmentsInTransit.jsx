@@ -8,14 +8,14 @@ import {
   TableIcon,
   PackageIcon,
   Settings02Icon,
-  ArrowUpDownIcon, // Import ArrowUpDownIcon
+  ArrowUpDownIcon, 
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import { rows } from '../../../core/utils/data9'; 
 import { useThemeProvider } from '../../../core/providers/ThemeContext';
-import CustomModal from '../../stockManagement.jsx/components/modal'; 
+import CustomModal from '../../shared/components/modal'; 
 import { Select, SelectItem } from "@nextui-org/select";
 import { Menu, MenuItem } from "@nextui-org/menu";
 
@@ -87,7 +87,7 @@ const ShipmentsInTransit = () => {
     { key: "address", label: "Address" },
     { key: "shipby", label: "Ship By" },
     { key: "options", label: "Actions" },
-  ], []); // Removed sortDirection from dependencies as we handle sorting separately
+  ], []); 
 
   const handleOpenModal = () => {
     setIsModalOpen(true);

@@ -25,7 +25,7 @@ import { Pagination } from "@nextui-org/pagination";
 import { useCallback, useMemo, useState } from "react";
 // import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
 import { Link } from "react-router-dom";
-import Table from "../../stockManagement.jsx/components/Table";
+import Table from "../../shared/components/Table";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import StatusTabs from "../../shared/components/StatusTabs";
 

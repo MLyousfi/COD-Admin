@@ -16,13 +16,13 @@ import {
   CommandIcon,
 } from "hugeicons-react";
 import StatusTabs from '../../shared/components/StatusTabs';
-import Table from "../../stockManagement.jsx/components/Table";
+import Table from "../../shared/components/Table";
 import { motion } from 'framer-motion';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import { agentNames } from "../../../core/utils/shared.data";
 import { Select, SelectItem } from "@nextui-org/select";
 import { Input } from "@nextui-org/input";
-import CustomModal from '../../stockManagement.jsx/components/modal';
+import CustomModal from '../../shared/components/modal';
 import { Code } from '@nextui-org/code';
 import DetailedOrderModal from "../components/DetailedOrderModal";
 import { DatePicker } from "@nextui-org/react";

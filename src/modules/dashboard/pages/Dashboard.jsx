@@ -39,7 +39,7 @@ import ShippingCard from "@/modules/dashboard/components/ShippingCard.jsx";
 import StatsCard from "@/modules/dashboard/components/StatsCard.jsx";
 import CallsCard from "../components/CallsCard";
 import FilterModal from "../components/FilterModal";
-import CustomModal from "../../stockManagement.jsx/components/modal"; // Import your CustomModal component
+import CustomModal from "../../shared/components/modal"; // Import your CustomModal component
 
 const dataCards = [
   {

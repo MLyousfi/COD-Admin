@@ -24,9 +24,8 @@ import { Chip } from "@nextui-org/chip";
 import { Button } from "@nextui-org/button";
 import { Pagination } from "@nextui-org/pagination";
 import { useCallback, useMemo, useState } from "react";
-// import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
 import { Link } from "react-router-dom";
-import Table from "../../stockManagement.jsx/components/Table";
+import Table from "../../shared/components/Table";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import StatusTabs from "../../shared/components/StatusTabs";
 const rows = [
@@ -483,12 +482,12 @@ export default function AgentsRequests() {
                     </div>
                     <Table
                         columns={columns}
-                        data={rows}  // Pass filtered products based on the view
+                        data={rows}  
                         renderCell={renderCell}
                         handleCheckboxChange={handleCheckboxChange}
-                        selectedRows={selectedRows} // Pass selected rows state
-                        rowsPerPage={rowsPerPage}  // Pass rows per page
-                        className="dark:bg-gray-800 dark:text-white" // Dark mode support
+                        selectedRows={selectedRows} 
+                        rowsPerPage={rowsPerPage}  
+                        className="dark:bg-gray-800 dark:text-white" 
                     />
                 </div>
 

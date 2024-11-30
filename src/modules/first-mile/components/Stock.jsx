@@ -17,10 +17,10 @@ import {
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatusTabs from '../../shared/components/StatusTabs';
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import { rows } from '../../../core/utils/data'; 
-import InformationsForm from '../../stockManagement.jsx/components/InformationsForm';
-import CustomModal from '../../stockManagement.jsx/components/modal';
+import InformationsForm from '../../stockManagement/components/InformationsForm';
+import CustomModal from '../../shared/components/modal';
 import ViewModal from './ViewModal'; 
 
 const selectedButtonColor = '#0258E8';

@@ -12,9 +12,9 @@ import {
 } from 'hugeicons-react';
 import { Button } from '@nextui-org/button';
 import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import { rows } from '../../../core/utils/data11';
-import CustomModal from '../../stockManagement.jsx/components/modal';
+import CustomModal from '../../shared/components/modal';
 import NewSalesChannelForm from '../components/saleschannels/NewSalesChannelForm';
 
 // Updated columns array

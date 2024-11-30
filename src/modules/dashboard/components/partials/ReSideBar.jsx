@@ -7,7 +7,7 @@ import {
   Share08Icon,
   SidebarLeft01Icon,
 } from 'hugeicons-react';
-import React, { useEffect, useRef, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useRef, useState, useLayoutEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@nextui-org/button';
 import codPowerGroupLogo from '@shared/assets/images/cod-power-group-logo.svg';
@@ -30,9 +30,11 @@ export default function ResideBar() {
   // Redux
   const dispatch = useDispatch();
   const showSidebar = useSelector((state) => state.sidebar.showReSidebar);
-  const HandleSetShowSidebar = (v) => {
+
+  // Memoize the handler to prevent unnecessary re-creations
+  const HandleSetShowSidebar = useCallback((v) => {
     dispatch(setShowReSidebar(v));
-  };
+  }, [dispatch]);
 
   const toggleRoute = (routePath) => {
     setExpandedRoutes((prev) => ({
@@ -96,6 +98,31 @@ export default function ResideBar() {
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
   }, [showSidebar, HandleSetShowSidebar]);
+
+  // Close sidebar when navigating to a route without submenus
+  useEffect(() => {
+    // Helper function to find a route by path
+    const findRouteByPath = (routes, path) => {
+      for (const route of routes) {
+        if (route.path === path) {
+          return route;
+        }
+        if (route.children) {
+          const found = findRouteByPath(route.children, path);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+
+    const currentRoute = findRouteByPath(RoutesConfig, pathname);
+
+    // If the current route exists and has no children, close the sidebar
+    if (currentRoute && !currentRoute.children) {
+      console.log(`Navigated to ${pathname}. Closing sidebar.`);
+      HandleSetShowSidebar(false);
+    }
+  }, [pathname, RoutesConfig, HandleSetShowSidebar]);
 
   useEffect(() => {
     localStorage.setItem('sidebar-expanded', showSidebar);
@@ -296,7 +323,8 @@ export default function ResideBar() {
                                         ref={
                                           isActiveChildRoute ? activeMenuItemRef : null
                                         }
-                                        onClick={() => {
+                                        onClick={(e) => {
+                                          e.stopPropagation();
                                           HandleSetShowSidebar(false);
                                         }}
                                         to={child.path}
@@ -348,6 +376,10 @@ export default function ResideBar() {
                         <Link
                           id={route.path}
                           ref={isActiveRoute ? activeMenuItemRef : null}
+                          onClick={() => {
+                            console.log(`Closing sidebar for route: ${route.path}`);
+                            HandleSetShowSidebar(false);
+                          }}
                           to={route.path}
                           className={`flex w-full items-center px-2 py-2 rounded-xl hover:bg-dark_selected_hover hover:text-black hover:dark:text-white ${
                             isActiveRoute ? 'bg-glb_blue text-white' : ''

@@ -12,17 +12,17 @@ import {
   Search01Icon,
   FilterIcon,
   CommandIcon,
-} from 'hugeicons-react'; // Ensure these icons are available
+} from 'hugeicons-react'; 
 import { Button } from '@nextui-org/button';
 import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data2';
-import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the import path accordingly
-import { Select, SelectItem } from '@nextui-org/select'; // Ensure you have the Select components imported
+import CustomModal from '../../shared/components/modal'; 
+import { Select, SelectItem } from '@nextui-org/select';
 import { Input } from '@nextui-org/input';
 import { Code } from '@nextui-org/code';
-import FilterModal from './FilterModal'; // Import FilterModal
+import FilterModal from './FilterModal'; 
 
 // Define options for Select components
 const collectionNoOptions = [
@@ -30,7 +30,6 @@ const collectionNoOptions = [
   { key: 'COL002', label: 'COL002' },
   { key: 'COL003', label: 'COL003' },
   { key: 'COL004', label: 'COL004' },
-  // Add more as needed
 ];
 
 const shippedByOptions = [
@@ -38,7 +37,6 @@ const shippedByOptions = [
   { key: 'FedEx', label: 'FedEx' },
   { key: 'UPS', label: 'UPS' },
   { key: 'USPS', label: 'USPS' },
-  // Add more as needed
 ];
 
 const dueDateOptions = [
@@ -47,7 +45,6 @@ const dueDateOptions = [
   { key: 'This Week', label: 'This Week' },
   { key: 'Next Week', label: 'Next Week' },
   { key: 'This Month', label: 'This Month' },
-  // Add more as needed
 ];
 
 const columns = [
@@ -197,7 +194,6 @@ const ListOfShipments = () => {
 
     window.addEventListener('keydown', handleKeyDown);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
@@ -206,7 +202,6 @@ const ListOfShipments = () => {
   // Handle Search
   const handleSearch = (e) => {
     e.preventDefault();
-    // Implement your search/filter logic here
     const filtered = rows.filter((product) => {
       return (
         (collectionNo ? product.collectionNo === collectionNo : true) &&

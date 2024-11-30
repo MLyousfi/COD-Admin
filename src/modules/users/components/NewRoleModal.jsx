@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@nextui-org/button";
 import { Select, SelectItem } from '@nextui-org/select';
 import { motion } from 'framer-motion';
-import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the path as needed
+import CustomModal from '../../shared/components/modal'; 
 
 const NewRoleModal = ({ isOpen, onClose }) => {
     const [roleName, setRoleName] = useState('');

@@ -282,8 +282,7 @@ export default function NavbarComponent({ epingled, setEpingled, showSidebar, se
                                             }}
                                             classNames={{ name: "font-bold", }}
                                             className="transition-transform"
-                                        // description="Super Admin"
-                                        // name="Tony Reichert"
+                                
                                         />
                                         <div className="flex flex-col">
                                             <h4 className="font-thin">{'Hello, 👋 Good Morning'}</h4>

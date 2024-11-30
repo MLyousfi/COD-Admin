@@ -18,7 +18,7 @@ import {
     Calendar03Icon
 } from "hugeicons-react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
-import Table from "../../stockManagement.jsx/components/Table";
+import Table from "../../shared/components/Table";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import StatusTabs from "../../shared/components/StatusTabs";
 import { Button } from "@nextui-org/button";
