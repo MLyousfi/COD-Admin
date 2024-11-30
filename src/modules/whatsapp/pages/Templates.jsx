@@ -10,9 +10,9 @@ import {
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import { rows } from '../../../core/utils/data4';
-import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the path if necessary
+import CustomModal from '../../shared/components/modal'; // Adjust the path if necessary
 import EditMessageModal from '../components/EditMessageModal';
 const columns = [
   { key: "checkbox", label: "#" },

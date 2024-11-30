@@ -1,6 +1,6 @@
 // NewCurrencyModal.jsx
 import React, { useState, useEffect } from 'react';
-import CustomModal from '../../stockManagement.jsx/components/modal'; 
+import CustomModal from '../../shared/components/modal'; 
 import { Button } from "@nextui-org/button";
 
 const NewCurrencyModal = ({ isOpen, onClose, onSave, editedCurrency }) => {

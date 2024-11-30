@@ -9,7 +9,6 @@ import { Select, SelectItem } from "@nextui-org/select";
 export default function FilterModal({ id, modalOpen, setModalOpen }) {
   const modalContent = useRef(null);
 
-  // State variables for selected values
   const [seller, setSeller] = useState(null);
   const [agent, setAgent] = useState(null);
   const [product, setProduct] = useState(null);

@@ -5,10 +5,10 @@ import {
   PencilEdit01Icon,
   Delete01Icon,
   PlusSignIcon,
-} from "hugeicons-react"; // Adjust the import if using a different icon library
-import CustomModal from './modal'; // Adjust the path as necessary
-import Table from './Table'; // Ensure the path is correct based on your project structure
-import { Select, SelectItem } from '@nextui-org/react'; // Adjust the import based on your Select component library
+} from "hugeicons-react"; 
+import CustomModal from '../../shared/components/modal'; 
+import Table from '../../shared/components/Table'; 
+import { Select, SelectItem } from '@nextui-org/react'; 
 
 const UpsellForm = ({ isDarkMode }) => {
   // Initial upsell entries state with required fields
@@ -331,7 +331,7 @@ const UpsellForm = ({ isDarkMode }) => {
           <Button 
             color="default" 
             className="rounded-full flex items-center space-x-2 px-4 py-2 bg-transparent border border-black dark:border-white"
-            onClick={() => handleSave(editingKey)} // Save the edited row
+            onClick={() => handleSave(editingKey)} 
           >
             <span className="text-sm sm:text-base">Save Upsell</span>
           </Button>
@@ -363,9 +363,9 @@ const UpsellForm = ({ isDarkMode }) => {
       <CustomModal
         isOpen={isModalOpen}
         onClose={handleModalClose}
-        title="New Upsell" // Updated title
+        title="New Upsell" 
         isDarkMode={isDarkMode}
-        width="600px" // Adjusted width as needed
+        width="600px" 
       >
         {/* Upsell Form */}
         <form onSubmit={handleNewUpsellSubmit} className="space-y-6">

@@ -1,16 +1,10 @@
 import Transition from "@/core/utils/Transition.jsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@nextui-org/button";
-import { Cancel01Icon, DeliveryBox01Icon, InformationCircleIcon, PencilEdit01Icon, Search01Icon, Search02Icon, Upload04Icon, UserIdVerificationIcon, ViewIcon, ViewOffSlashIcon } from "hugeicons-react";
-import CountrySelector from "@shared/components/CountrySelector.jsx";
-import { SignupSteps } from "@/core/constants/signup.js";
-import { COUNTRIES } from "@/core/constants/countries.js";
+import { Cancel01Icon } from "hugeicons-react";
+
 import { Select, SelectItem } from "@nextui-org/select";
-import { Input } from "@nextui-org/input";
-import { motion } from "framer-motion";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
-import { Switch } from "@nextui-org/switch";
-import { DatePicker } from "@nextui-org/react";
+
 
 const years = Array.from({ length: 2024 - 2000 + 1 }, (_, i) => 2000 + i);
 const months = [
@@ -22,7 +16,6 @@ function NewReportModal({ id, modalOpen, setModalOpen }) {
 
     const modalContent = useRef(null);
 
-    // close on click outside
     useEffect(() => {
         const clickHandler = ({ target }) => {
             if (!modalOpen || modalContent.current.contains(target)) return

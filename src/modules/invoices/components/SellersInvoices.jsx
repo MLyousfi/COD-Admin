@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { InvoiceIcon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data3';
 import { useThemeProvider } from '../../../core/providers/ThemeContext';
-import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the import path accordingly
+import CustomModal from '../../shared/components/modal'; // Adjust the import path accordingly
 import { Select, SelectItem } from "@nextui-org/select";
 
 const columns = [

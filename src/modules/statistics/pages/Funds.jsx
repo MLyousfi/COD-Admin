@@ -17,7 +17,7 @@ import { motion } from "framer-motion";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import FundsCard from "../components/FundsCard";
 import { Button } from "@nextui-org/button";
-import CustomModal from "../../stockManagement.jsx/components/modal"; // Adjust the path as necessary
+import CustomModal from "../../shared/components/modal"; // Adjust the path as necessary
 
 const salesData = [
   {

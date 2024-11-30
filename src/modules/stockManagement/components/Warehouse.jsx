@@ -11,8 +11,8 @@ import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatusTabs from '../../shared/components/StatusTabs';
 
-import Table from './Table'; 
-import CustomModal from './modal'; 
+import Table from '../../shared/components/Table'; 
+import CustomModal from '../../shared/components/modal'; 
 
 
 

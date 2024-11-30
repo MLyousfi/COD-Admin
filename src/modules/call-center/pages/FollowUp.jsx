@@ -25,9 +25,8 @@ import { Chip } from "@nextui-org/chip";
 import { Button } from "@nextui-org/button";
 import { Pagination } from "@nextui-org/pagination";
 import { useCallback, useMemo, useState } from "react";
-// import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
 import { Link } from "react-router-dom";
-import Table from "../../stockManagement.jsx/components/Table";
+import Table from "../../shared/components/Table";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import StatusTabs from "../../shared/components/StatusTabs";
 import { agentNames } from "../../../core/utils/shared.data";
@@ -54,7 +53,7 @@ const rows = [
         followUp: "03/10/2024 - 14:00",
         followUpUpdated: "03/10/2024 - 14:00",
         agent: 'Dergouch Khadija',
-        status: 'active' // Added status property
+        status: 'active' 
     },
     {
         key: 2,
@@ -76,7 +75,7 @@ const rows = [
         followUp: "03/11/2024 - 10:05",
         followUpUpdated: "03/11/2024 - 10:05",
         agent: 'Dergouch Khadija',
-        status: 'archived' // Added status property
+        status: 'archived' 
     },
     {
         key: 3,
@@ -98,7 +97,7 @@ const rows = [
         followUp: "03/12/2024 - 11:30",
         followUpUpdated: "03/12/2024 - 11:30",
         agent: 'Dergouch Khadija',
-        status: 'active' // Added status property
+        status: 'active' 
     },
     {
         key: 4,
@@ -186,7 +185,7 @@ const rows = [
         followUp: "03/16/2024 - 18:35",
         followUpUpdated: "03/16/2024 - 18:35",
         agent: 'Dergouch Khadija',
-        status: 'active' // Added status property
+        status: 'active' 
     },
     {
         key: 8,
@@ -208,7 +207,7 @@ const rows = [
         followUp: "03/17/2024 - 10:50",
         followUpUpdated: "03/17/2024 - 10:50",
         agent: 'Dergouch Khadija',
-        status: 'archived' // Added status property
+        status: 'archived' 
     },
     {
         key: 9,
@@ -230,7 +229,7 @@ const rows = [
         followUp: "03/18/2024 - 12:10",
         followUpUpdated: "03/18/2024 - 12:10",
         agent: 'Dergouch Khadija',
-        status: 'active' // Added status property
+        status: 'active' 
     },
     {
         key: 10,
@@ -252,7 +251,7 @@ const rows = [
         followUp: "03/19/2024 - 16:25",
         followUpUpdated: "03/19/2024 - 16:25",
         agent: 'Dergouch Khadija',
-        status: 'archived' // Added status property
+        status: 'archived' 
     },
 ];
 
@@ -606,12 +605,12 @@ export default function FollowUp() {
                                 }
                                 : col
                         )}
-                        data={filteredRows}  // Pass filtered products based on the view
+                        data={filteredRows}  
                         renderCell={renderCell}
                         handleCheckboxChange={handleCheckboxChange}
-                        selectedRows={selectedRows} // Pass selected rows state
-                        rowsPerPage={rowsPerPage}  // Pass rows per page
-                        className="dark:bg-gray-800 dark:text-white" // Dark mode support
+                        selectedRows={selectedRows} 
+                        rowsPerPage={rowsPerPage}  
+                        className="dark:bg-gray-800 dark:text-white" 
                     />
                 </div>
 

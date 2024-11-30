@@ -4,7 +4,7 @@ import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import Table from '../../stockManagement.jsx/components/Table'; // Adjust the path as necessary
+import Table from '../../shared/components/Table'; // Adjust the path as necessary
 import CreateLineModal from '../components/CreateLineModal';
 import { AnimatePresence, motion } from 'framer-motion';
 

@@ -8,8 +8,8 @@ import {
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import Table from '../../stockManagement.jsx/components/Table';
-import CustomModal from '../../stockManagement.jsx/components/modal'; // Adjust the path if necessary
+import Table from '../../shared/components/Table';
+import CustomModal from '../../shared/components/modal'; // Adjust the path if necessary
 
 const rows = [
   {

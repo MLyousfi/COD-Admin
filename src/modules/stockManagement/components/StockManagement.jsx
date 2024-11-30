@@ -18,9 +18,9 @@ import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatusTabs from '../../shared/components/StatusTabs';
 
-import Table from './Table'; 
+import Table from '../../shared/components/Table'; 
 import { rows } from '../../../core/utils/data'; 
-import CustomModal from './modal'; 
+import CustomModal from '../../shared/components/modal'; 
 import InformationsForm from './InformationsForm'; // Import the InformationsForm component
 import StocksForm from './StockForm'; // Import the StocksForm component
 import SalesPriceForm from './SalesPriceForm';

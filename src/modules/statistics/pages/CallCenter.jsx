@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Calendar03Icon, FilterIcon, ArrowDown01Icon, ChartHistogramIcon } from "hugeicons-react";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import { Button } from "@nextui-org/button";
-import CustomModal from "../../stockManagement.jsx/components/modal";
+import CustomModal from "../../shared/components/modal";
 import Calendar from "react-calendar";
 import { useNavigate, useLocation } from "react-router-dom"; // Import React Router hooks
 import { motion } from "framer-motion"; // Import framer-motion for animations

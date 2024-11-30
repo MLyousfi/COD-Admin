@@ -10,8 +10,8 @@ import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatusTabs from '../../shared/components/StatusTabs';
 
-import Table from '../../stockManagement.jsx/components/Table'; 
-import CustomModal from '../../stockManagement.jsx/components/modal'; 
+import Table from '../../shared/components/Table'; 
+import CustomModal from '../../shared/components/modal'; 
 
 // Import Select components from @nextui-org/react
 import { Select, SelectItem } from '@nextui-org/select';

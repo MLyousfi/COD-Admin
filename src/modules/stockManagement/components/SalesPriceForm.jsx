@@ -6,8 +6,8 @@ import {
   Delete01Icon,
   PlusSignIcon
 } from "hugeicons-react";
-import CustomModal from './modal'; // Adjust the path as necessary
-import Table from './Table'; // Ensure the path is correct based on your project structure
+import CustomModal from '../../shared/components/modal'; // Adjust the path as necessary
+import Table from '../../shared/components/Table'; // Ensure the path is correct based on your project structure
 import { Select, SelectItem } from '@nextui-org/react'; // Adjust the import based on your Select component library
 
 const SalesPriceForm = ({ isDarkMode }) => {

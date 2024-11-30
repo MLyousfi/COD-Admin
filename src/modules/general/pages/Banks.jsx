@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { PencilEdit01Icon, PlusSignIcon, Delete01Icon, Settings02Icon } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs';
 import { rows } from '../../../core/utils/data7';
 import NewBankModal from '../components/NewBankModal';

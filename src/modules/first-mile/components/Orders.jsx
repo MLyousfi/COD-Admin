@@ -19,7 +19,7 @@ import {
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import { Link } from "react-router-dom";
-import Table from "../../stockManagement.jsx/components/Table";
+import Table from "../../shared/components/Table";
 import {
   Dropdown,
   DropdownItem,
@@ -28,7 +28,7 @@ import {
 } from "@nextui-org/dropdown";
 import StatusTabs from "../../shared/components/StatusTabs";
 import { Select, SelectItem } from "@nextui-org/react"; // Ensure Select components are imported
-import CustomModal from "../../stockManagement.jsx/components/modal"; // Adjust the import path accordingly
+import CustomModal from "../../shared/components/modal"; // Adjust the import path accordingly
 
 const rows = [
   {

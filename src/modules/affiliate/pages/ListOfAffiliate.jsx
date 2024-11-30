@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Home01Icon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
-import { Chip } from "@nextui-org/chip";
-import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
-import Table from '../../stockManagement.jsx/components/Table';
+import Table from '../../shared/components/Table';
 import NewAffiliateModal from '../components/NewAffiliateModal';
 
 const rows = [
@@ -165,7 +163,6 @@ const ListOfAffiliate = () => {
     const rowsPerPage = 13;
 
 
-    // Handle checkbox toggle
 
     const handleCheckboxChange = (keys, isRange) => {
         if (isRange) {
@@ -228,7 +225,6 @@ const ListOfAffiliate = () => {
                             size="sm"
                             className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
                             style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
-                        // Call handleDelete with the item's key
                         >
                             <Delete01Icon size={14} style={{ color: 'white' }} />
                         </Button>
@@ -269,12 +265,12 @@ const ListOfAffiliate = () => {
                 {/* Use the Generalized Table Component */}
                 <Table
                     columns={columns}
-                    data={rows}  // Pass filtered products based on the view
+                    data={rows}  
                     renderCell={renderCell}
                     handleCheckboxChange={handleCheckboxChange}
-                    selectedRows={selectedRows} // Pass selected rows state
-                    rowsPerPage={rowsPerPage}  // Pass rows per page
-                    className="dark:bg-gray-800 dark:text-white" // Dark mode support
+                    selectedRows={selectedRows} 
+                    rowsPerPage={rowsPerPage}  
+                    className="dark:bg-gray-800 dark:text-white" 
                 />
             </div>
             <NewAffiliateModal modalOpen={openModal} setModalOpen={setOpenModal} id={1} />
