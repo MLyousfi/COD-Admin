@@ -75,7 +75,7 @@ const rows = [
         followUp: "03/11/2024 - 10:05",
         followUpUpdated: "03/11/2024 - 10:05",
         agent: 'Dergouch Khadija',
-        status: 'archived' 
+        status: 'active' 
     },
     {
         key: 3,
@@ -393,12 +393,16 @@ export default function FollowUp() {
     };
 
     const filteredRows = useMemo(() => {
-        return selectedTab === "active"
-            ? sortedRows.filter(row => row.status === "active")
-            : sortedRows.filter(row => row.status === "archived");
-    }, [selectedTab, sortedRows]);
-    // Toggle the sort order between ascending and descending
-
+        return sortedRows.filter((row) => {
+          const rowStatus = typeof row.status === 'string' ? row.status.toLowerCase() : '';
+          const currentTab = selectedTab.toLowerCase();
+      
+          const statusMatch =
+            currentTab === 'active' ? rowStatus === 'active' : rowStatus === 'archived';
+      
+          return statusMatch;
+        });
+      }, [selectedTab, sortedRows]);
     const renderCell = useCallback((item, columnKey) => {
         const cellValue = item[columnKey];
 
@@ -527,63 +531,67 @@ export default function FollowUp() {
                                     ))}
                                 </DropdownMenu>
                             </Dropdown>
-                            <Dropdown className="!backdrop-blur-md !bg-gray-400/30">
-                                <DropdownTrigger>
-                                    <Button color="default" className="rounded-full text-white bg-glb_red">
-                                        <PencilEdit01Icon size={18} /> Actions
-                                    </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu aria-label="Static Actions" classNames={{ list: "!bg-transparent" }} >
-                                    <DropdownItem key="1">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <PrinterIcon size={15} /> Print
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="2">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <Download01Icon size={15} /> Export
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="3">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <CustomerSupportIcon size={15} /> Call center
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="4">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <CallOutgoing01Icon size={15} /> Follow up
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="5">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <DropboxIcon size={15} /> Shipping
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="6">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <Settings02Icon size={15} /> General
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
+                             {/* Actions Dropdown */}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
 
                         </div>
                     </div>

@@ -1,14 +1,22 @@
 // ListOfSellers.jsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   PencilEdit01Icon,
-  PlusSignIcon,
   Delete01Icon,
   ArrowDown01Icon,
   Logout02Icon,
   UserMultipleIcon,
   Recycle03Icon,
+  PrinterIcon,          
+  PlusSignIcon,
+  Download01Icon,
+  ArrowRight01Icon,
+  CustomerSupportIcon,
+  CallOutgoing01Icon,
+  DropboxIcon,
+  Settings02Icon,
+
 } from 'hugeicons-react';
 import { Button } from '@nextui-org/button';
 import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
@@ -26,6 +34,9 @@ import CallCenterFees from '../components/listofsellers/editsellermodal/CallCent
 import WhatsAppMessage from '../components/listofsellers/editsellermodal/WhatsAppMessage';
 import VATClearance from '../components/listofsellers/editsellermodal/VATClearance';
 import NewSellerForm from '../components/listofsellers/newsellermodal/NewSellerForm'; // Import the new form component
+
+// Import Dropdown components from @nextui-org/dropdown
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 
 const columns = [
   { key: 'id', label: 'ID' },
@@ -52,6 +63,9 @@ const ListOfSellers = () => {
 
   // New State to determine modal type: 'add' or 'edit'
   const [modalType, setModalType] = useState('edit');
+
+  // State for status filter
+  const [statusFilter, setStatusFilter] = useState('All'); // 'All', 'Paid', 'Unpaid', 'Delivery'
 
   useEffect(() => {
     const checkDarkMode = () => {
@@ -83,7 +97,10 @@ const ListOfSellers = () => {
   };
 
   const handleDelete = (key) => {
-    setProducts(products.filter((product) => product.key !== key));
+    if (window.confirm("Are you sure you want to delete this seller?")) {
+      setProducts(products.filter((product) => product.key !== key));
+      setSelectedRows(selectedRows.filter((selectedKey) => selectedKey !== key));
+    }
   };
 
   const handleEdit = (seller) => {
@@ -114,6 +131,7 @@ const ListOfSellers = () => {
                 minWidth: '32px',
                 height: '32px',
               }}
+              aria-label="Logout Seller"
             >
               <Logout02Icon size={14} className="text-black dark:text-white" />
             </Button>
@@ -127,6 +145,7 @@ const ListOfSellers = () => {
                 height: '32px',
               }}
               onClick={() => handleEdit(item)}
+              aria-label="Edit Seller"
             >
               <PencilEdit01Icon size={14} style={{ color: 'white' }} />
             </Button>
@@ -140,6 +159,7 @@ const ListOfSellers = () => {
                 height: '32px',
               }}
               onClick={() => handleDelete(item.key)}
+              aria-label="Delete Seller"
             >
               <Delete01Icon size={14} style={{ color: 'white' }} />
             </Button>
@@ -151,7 +171,7 @@ const ListOfSellers = () => {
     }
   };
 
-  // Menu Items
+  // Menu Items for the edit modal
   const menuItems = [
     'Informations',
     'Store',
@@ -196,52 +216,153 @@ const ListOfSellers = () => {
     }
   };
 
+  // Filtered Products based on statusFilter
+  const filteredProducts = useMemo(() => {
+    return products.filter(product => {
+      const filter = statusFilter.toLowerCase();
+      const statut = product.statut.toLowerCase();
+
+      if (filter === 'all') return true;
+      if (filter === 'paid') return statut === 'paid';
+      if (filter === 'unpaid') return statut === 'unpaid';
+      if (filter === 'deliveryAgain') return statut === 'deliveryAgain';
+      return true;
+    });
+  }, [statusFilter, products]);
+
   return (
     <DashboardLayout
       title="Sellers - List of Sellers"
       icon={<UserMultipleIcon className="text-info" />}
     >
       <div className="p-4">
+        {/* === Header Section === */}
         <div className="flex justify-end space-x-2 mb-4">
-          <Button
-            color="default"
-            onClick={handleNewSeller}
-            className="rounded-full"
-            style={{ backgroundColor: '#0258E8', color: 'white' }}
-          >
-            <PlusSignIcon size={18} className="flex-shrink-0" /> New Seller
-          </Button>
-          <Button
-            color="default"
-            className="rounded-full flex items-center space-x-2 px-4 py-2"
-            style={{ backgroundColor: '#ED0006', color: 'white' }}
-          >
-            <PencilEdit01Icon size={18} className="flex-shrink-0" />
-            <span className="text-sm sm:text-base">Actions</span>
-          </Button>
-          <Button
-            color="default"
-            className="rounded-full flex items-center border transition-colors duration-200 dark:border-white border-black"
-            style={{
-              backgroundColor: 'transparent',
-            }}
-          >
-            <span className="text-black dark:text-white">Status</span>
-            <ArrowDown01Icon size={18} className="ml-1 text-black dark:text-white flex-shrink-0" />
-          </Button>
-        </div>
+       
+          {/* Action Buttons */}
+          <div className="flex md:space-x-2 space-x-1 mt-4 md:mt-0">
+            <Button
+              color="default"
+              onClick={handleNewSeller}
+              className="rounded-full flex items-center space-x-0 px-4 py-2"
+              style={{ backgroundColor: '#0258E8', color: 'white' }}
+              aria-label="Add New Seller"
+            >
+              <PlusSignIcon size={18} className="flex-shrink-0" /> New Seller
+            </Button>
 
+            {/* Actions Dropdown */}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+
+               {/* Status Filter Dropdown */}
+          <Dropdown>
+            <DropdownTrigger>
+              <Button
+                color="default"
+                className="rounded-full flex items-center space-x-0 px-4 py-2 border dark:border-white border-black text-black"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: '#000',
+                }}
+                aria-label="Status Filter"
+              >
+                <span className="text-black dark:text-white">Status</span>
+                <ArrowDown01Icon size={18} className="ml-1 text-black dark:text-white flex-shrink-0" />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Status Filters">
+              <DropdownItem key="All" onClick={() => setStatusFilter('All')}>
+                All
+              </DropdownItem>
+              <DropdownItem key="Paid" onClick={() => setStatusFilter('Paid')}>
+                Paid
+              </DropdownItem>
+              <DropdownItem key="Unpaid" onClick={() => setStatusFilter('Unpaid')}>
+                Unpaid
+              </DropdownItem>
+              <DropdownItem key="Delivery again" onClick={() => setStatusFilter('deliveryAgain')}>
+                Delivery Again
+              </DropdownItem>
+              {/* Add more status options as needed */}
+            </DropdownMenu>
+          </Dropdown>
+
+          </div>
+        </div>
+        {/* === End of Header Section === */}
+
+        {/* === Table Section === */}
         <Table
           columns={columns}
-          data={products}
+          data={filteredProducts}
           renderCell={renderCell}
           handleCheckboxChange={handleCheckboxChange}
           selectedRows={selectedRows}
           rowsPerPage={rowsPerPage}
           className="dark:bg-gray-800 dark:text-white"
         />
+        {/* === End of Table Section === */}
 
-        {/* Custom Modal for Adding or Editing Seller */}
+        {/* === Custom Modal for Adding or Editing Seller === */}
         {isModalOpen && (
           <CustomModal
             isOpen={isModalOpen}
@@ -255,19 +376,19 @@ const ListOfSellers = () => {
                 onSubmit={(data) => {
                   // Handle the new seller data
                   console.log('Submitting new seller:', data);
-                  // You can add the new seller to the products list or perform an API call here
+                  // Add the new seller to the products list
                   setProducts((prev) => [
                     ...prev,
                     {
                       key: Date.now(), // Assuming a unique key
                       id: prev.length + 1,
-                      partner: 'Partner Name', // Replace with actual data
+                      partner: data.partner || 'Partner Name', // Replace with actual data
                       name: data.name,
-                      store: 'Store Name', // Replace with actual data
-                      phone: '1234567890', // Replace with actual data
-                      subscriptions: 'Subscription Info', // Replace with actual data
-                      statut: 'Active', // Replace with actual data
-                      billing: 'Billing Info', // Replace with actual data
+                      store: data.store || 'Store Name', // Replace with actual data
+                      phone: data.phone || '1234567890', // Replace with actual data
+                      subscriptions: data.subscriptions || 'Subscription Info', // Replace with actual data
+                      statut: data.statut || 'Paid', // Replace with actual data
+                      billing: data.billing || 'Billing Info', // Replace with actual data
                     },
                   ]);
                   // Close the modal
@@ -312,6 +433,7 @@ const ListOfSellers = () => {
             )}
           </CustomModal>
         )}
+        {/* === End of Custom Modal === */}
       </div>
     </DashboardLayout>
   );

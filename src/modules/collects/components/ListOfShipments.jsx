@@ -12,6 +12,14 @@ import {
   Search01Icon,
   FilterIcon,
   CommandIcon,
+  ArrowRight01Icon,
+  Calculator01Icon,
+  CallOutgoing01Icon,
+  CustomerSupportIcon,
+  Download01Icon,
+  DropboxIcon,
+  PrinterIcon,
+  Settings02Icon,
 } from 'hugeicons-react'; 
 import { Button } from '@nextui-org/button';
 import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
@@ -23,8 +31,8 @@ import { Select, SelectItem } from '@nextui-org/select';
 import { Input } from '@nextui-org/input';
 import { Code } from '@nextui-org/code';
 import FilterModal from './FilterModal'; 
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 
-// Define options for Select components
 const collectionNoOptions = [
   { key: 'COL001', label: 'COL001' },
   { key: 'COL002', label: 'COL002' },
@@ -53,7 +61,7 @@ const columns = [
   { key: 'createdAt', label: 'Created At' },
   { key: 'sentAt', label: 'Sent At' },
   { key: 'shippedAt', label: 'Shipped At' },
-  { key: 'shoppingBy', label: 'Shipping By' },
+  { key: 'shippingBy', label: 'Shipping By' }, // Corrected typo from 'shoppingBy' to 'shippingBy'
   { key: 'statut', label: 'Status' },
   { key: 'send', label: 'Send' },
   { key: 'options', label: 'Actions' },
@@ -61,7 +69,7 @@ const columns = [
 
 const ListOfShipments = () => {
   const navigate = useNavigate();
-  const [selectedTab, setSelectedTab] = useState('active');
+  // Removed selectedTab
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -78,6 +86,9 @@ const ListOfShipments = () => {
   const [statut, setStatut] = useState('');
   const [shippedBy, setShippedBy] = useState('');
   const [dueDate, setDueDate] = useState('');
+
+  // State for Status Dropdown Filter
+  const [selectedStatusFilter, setSelectedStatusFilter] = useState('All');
 
   const addNewProduct = () => {
     navigate('/collects/new-collect');
@@ -111,10 +122,23 @@ const ListOfShipments = () => {
     setProducts(products.filter((product) => product.key !== key));
   };
 
-  const filteredProducts =
-    selectedTab === 'active'
-      ? products.filter((product) => product.status === 'active')
-      : products.filter((product) => product.status === 'archived');
+  const filteredProducts = products.filter((product) => {
+    // Ensure product.status is a string and convert to lowercase
+    const productStatus = typeof product.status === 'string' ? product.status.toLowerCase() : '';
+    
+    // Ensure activeView is in lowercase
+    const currentView = activeView.toLowerCase();
+  
+    const statusMatch =
+      currentView === 'active' ? productStatus === 'active' : productStatus === 'archived';
+  
+    // For 'statut', assuming it should match exactly. If case-insensitive is needed, apply similar logic.
+    const statutMatch =
+      selectedStatusFilter === 'All' ? true : product.statut === selectedStatusFilter;
+  
+    return statusMatch && statutMatch;
+  });
+  
 
   const renderCell = (item, columnKey) => {
     switch (columnKey) {
@@ -226,9 +250,7 @@ const ListOfShipments = () => {
   return (
     <DashboardLayout
       title="Collects - List of Shipments"
-      icon={<DeliveryTruck01Icon className="text-info" />
-        
-      }
+      icon={<DeliveryTruck01Icon className="text-info" />}
       filterModalComponent={<FilterModal />}
     >
       <div className="pr-2 pl-1 md:p-4">
@@ -270,40 +292,117 @@ const ListOfShipments = () => {
               activeCount={products.filter((product) => product.status === 'active').length}
               archivedCount={products.filter((product) => product.status === 'archived').length}
               selectedTab={activeView}
-              onTabChange={setActiveView}
+              onTabChange={(tab) => {
+                setActiveView(tab);
+                setSelectedStatusFilter('All'); // Optional: Reset status filter when changing tabs
+              }}
             />
           </div>
 
-          <div className="flex flex-wrap space-x-1 justify-center px-2 md:px-4 ml-auto">
+          <div className="flex space-x-1 justify-center px-2 md:px-4 ml-auto">
             <Button
               color="default"
               onClick={addNewProduct}
-              className="rounded-full flex items-center px-3 py-1 text-sm md:px-4 md:py-2 "
+              className="rounded-full flex items-center px-3 py-1 text-sm md:px-4 md:py-2"
               style={{ backgroundColor: '#0258E8', color: 'white' }}
             >
               <PlusSignIcon size={16} className="mr-1" /> New Collect
             </Button>
 
-            <Button
-              color="default"
-              className="rounded-full flex items-center px-3 py-1 text-sm md:px-4 md:py-2"
-              style={{ backgroundColor: '#ED0006', color: 'white' }}
-            >
-              <PencilEdit01Icon size={16} className="mr-1" /> Actions
-            </Button>
+            {/* Actions Dropdown */}
+           {/* Actions Dropdown */}
+           <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
 
-            <Button
-              color="default"
-              className="rounded-full flex items-center px-3 py-1 text-sm md:px-4 md:py-2  border"
-              style={{
-                backgroundColor: 'transparent',
-                borderColor: isDarkMode ? '#ffffff10' : '#00000030',
-                color: isDarkMode ? '#ffffff' : '#000000',
-              }}
-            >
-              <span className="mr-1">Status</span>
-              <ArrowDown01Icon size={16} className="ml-1" />
-            </Button>
+            {/* Status Dropdown */}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full flex items-center px-3 py-1 text-sm md:px-4 md:py-2 border"
+                  style={{
+                    backgroundColor: 'transparent',
+                    borderColor: isDarkMode ? '#ffffff' : '#000000',
+                    color: isDarkMode ? '#ffffff' : '#000000',
+                  }}
+                >
+                  <span className="mr-1">Status</span>
+                  <ArrowDown01Icon size={16} className="ml-1" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Status Filters">
+                <DropdownItem key="All" onClick={() => setSelectedStatusFilter('All')}>
+                  All
+                </DropdownItem>
+                <DropdownItem key="Paid" onClick={() => setSelectedStatusFilter('Paid')}>
+                  Paid
+                </DropdownItem>
+                <DropdownItem key="Unpaid" onClick={() => setSelectedStatusFilter('Unpaid')}>
+                  Unpaid
+                </DropdownItem>
+                <DropdownItem key="Delivery Again" onClick={() => setSelectedStatusFilter('Delivery Again')}>
+                  Delivery Again
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
 
@@ -313,7 +412,10 @@ const ListOfShipments = () => {
             activeCount={products.filter((product) => product.status === 'active').length}
             archivedCount={products.filter((product) => product.status === 'archived').length}
             selectedTab={activeView}
-            onTabChange={setActiveView}
+            onTabChange={(tab) => {
+              setActiveView(tab);
+              setSelectedStatusFilter('All'); // Optional: Reset status filter when changing tabs
+            }}
           />
         </div>
 

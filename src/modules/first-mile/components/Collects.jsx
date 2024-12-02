@@ -1,5 +1,5 @@
 // Collects.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
   DeliveryBox01Icon, 
   PencilEdit01Icon, 
@@ -9,9 +9,20 @@ import {
   CheckmarkCircle01Icon, 
   Recycle03Icon, 
   ArrowDown01Icon,
-  InformationCircleIcon 
+  InformationCircleIcon ,
+  CustomerService01Icon,
+  Edit01Icon,
+  Logout03Icon,
+  PrinterIcon,
+  ArrowRight01Icon,
+  CallOutgoing01Icon,
+  CustomerSupportIcon,
+  Download01Icon,
+  DropboxIcon,
+  Settings02Icon,
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown"; // Import Dropdown components
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../shared/components/Table';
 import StatusTabs from '../../shared/components/StatusTabs'; 
@@ -119,6 +130,7 @@ const columns = [
 const Collects = () => {
   const navigate = useNavigate(); 
   const [selectedTab, setSelectedTab] = useState('active');
+  const [statutFilter, setStatutFilter] = useState('All'); // New state for statut filter
   const [products, setProducts] = useState(rows);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -126,7 +138,8 @@ const Collects = () => {
   const rowsPerPage = 10;
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const addNewProduct = () => {
+  // Function to add a new collect
+  const addNewCollect = () => {
     const newCollect = {
       key: (products.length + 1).toString(),
       number: `WIY-${58168 + products.length + 1}`,
@@ -142,6 +155,7 @@ const Collects = () => {
     setProducts([...products, newCollect]);
   };
 
+  // Detect dark mode
   useEffect(() => {
     const checkDarkMode = () => {
       const darkMode = document.documentElement.classList.contains('dark');
@@ -156,6 +170,7 @@ const Collects = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Handle checkbox changes
   const handleCheckboxChange = (key) => {
     if (selectedRows.includes(key)) {
       setSelectedRows(selectedRows.filter(rowKey => rowKey !== key));
@@ -164,10 +179,12 @@ const Collects = () => {
     }
   };
 
+  // Handle delete action
   const handleDelete = (key) => {
     setProducts(products.filter(product => product.key !== key));
   };
 
+  // Handle view modal
   const openModal = (collect) => {
     setSelectedCollect(collect);
     setIsModalOpen(true);
@@ -178,14 +195,38 @@ const Collects = () => {
     setSelectedCollect(null);
   };
 
+  // Handle edit action
   const handleEdit = (collect) => {
     navigate(`/first-mile/edit-collect`);
   };
 
-  const filteredProducts = selectedTab === 'active'
-    ? products.filter(product => product.status === "active")
-    : products.filter(product => product.status === "archived");
+  // Filtering logic with useMemo and case-insensitive comparison
+  const filteredProducts = useMemo(() => {
+    return products.filter(product => {
+      const productStatus = typeof product.status === 'string' ? product.status.toLowerCase() : '';
+      const currentTab = selectedTab.toLowerCase();
+      const currentStatut = statutFilter.toLowerCase();
+      
+      const statusMatch =
+        currentTab === 'active' ? productStatus === 'active' : productStatus === 'archived';
+      
+      const statutMatch = statutFilter === 'All' ? true : product.statut.toLowerCase() === currentStatut;
+      
+      return statusMatch && statutMatch;
+    });
+  }, [selectedTab, statutFilter, products]);
 
+  // Debugging: Log selectedTab and statutFilter
+  useEffect(() => {
+    console.log('Selected Tab:', selectedTab);
+  }, [selectedTab]);
+
+  useEffect(() => {
+    console.log('Statut Filter:', statutFilter);
+    console.log('Filtered Products:', filteredProducts);
+  }, [statutFilter, filteredProducts]);
+
+  // Function to determine statut styles
   const getStatutStyle = (statut) => {
     switch (statut) {
       case "Shipped":
@@ -199,10 +240,11 @@ const Collects = () => {
     }
   };
 
-  const renderCell = (item, columnKey) => {
+  // Render cell content
+  const renderCell = useCallback((item, columnKey) => {
     switch (columnKey) {
       case "statut":
-        let bgColor;
+        let bgColor = "";
         let textColor = "text-black dark:text-white";
 
         if (item.statut === "Shipped") {
@@ -211,6 +253,8 @@ const Collects = () => {
           bgColor = "bg-[#00FF2930]";
         } else if (item.statut === "New") {
           bgColor = "bg-[#0242E830]";
+        } else {
+          bgColor = "bg-gray-300";
         }
 
         return (
@@ -242,7 +286,7 @@ const Collects = () => {
               size="sm"
               className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
               style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
-              onClick={() => handleEdit(item)} // Use handleEdit here
+              onClick={() => handleEdit(item)}
             >
               <PencilEdit01Icon size={16} style={{ color: 'white' }} />
             </Button>
@@ -263,7 +307,7 @@ const Collects = () => {
       default:
         return <span className="text-sm dark:text-white text-center">{item[columnKey]}</span>;
     }
-  };
+  }, [handleDelete, handleEdit, openModal]);
 
   return (
     <DashboardLayout title="First Mile - Collects" icon={<DeliveryBox01Icon className="text-info" />}>
@@ -273,10 +317,13 @@ const Collects = () => {
           {/* StatusTabs - Order 2 on small screens, Order 1 on large screens */}
           <div className="order-2 lg:order-1 w-full lg:w-auto">
             <StatusTabs
-              activeCount={products.filter(product => product.status === "active").length}
-              archivedCount={products.filter(product => product.status === "archived").length}
+              activeCount={products.filter(product => product.status.toLowerCase() === "active").length}
+              archivedCount={products.filter(product => product.status.toLowerCase() === "archived").length}
               selectedTab={selectedTab}
-              onTabChange={setSelectedTab}
+              onTabChange={(tab) => {
+                setSelectedTab(tab);
+                setStatutFilter('All'); // Reset statutFilter when changing tabs
+              }}
             />
           </div>
 
@@ -284,29 +331,104 @@ const Collects = () => {
           <div className="order-1 lg:order-2 flex flex-row gap-2 w-full lg:w-auto justify-end">
             <Button
               color="default"
-              onClick={addNewProduct}
+              onClick={addNewCollect}
               className="rounded-full flex items-center"
               style={{ backgroundColor: '#0258E8', color: 'white' }}
             >
-              <PlusSignIcon size={18} className="flex-shrink-0" /> New Collect
+              <PlusSignIcon size={18} className="flex-shrink-0 mr-0" /> New Collect
             </Button>
-            <Button
-              color="default"
-              className="rounded-full flex items-center"
-              style={{ backgroundColor: '#ED0006', color: 'white' }}
-            >
-              <PencilEdit01Icon size={18} className="flex-shrink-0" /> Actions
-            </Button>
-            <Button
-              color="default"
-              className="rounded-full flex items-center border transition-colors duration-200 dark:border-white border-black flex-shrink-0"
-              style={{
-                backgroundColor: 'transparent',
-              }}
-            >
-              <span className="text-black dark:text-white">Status</span>
-              <ArrowDown01Icon className="ml-1 text-black dark:text-white" />
-            </Button>
+            
+            {/* Actions Dropdown */}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="flex-shrink-0 mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+
+            {/* Status Dropdown */}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full flex items-center border transition-colors duration-200 dark:border-white border-black flex-shrink-0"
+                  style={{
+                    backgroundColor: 'transparent',
+                  }}
+                >
+                  <span className="text-black dark:text-white">Status</span>
+                  <ArrowDown01Icon className="ml-0 text-black dark:text-white" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Status Filters">
+                <DropdownItem key="All" onClick={() => setStatutFilter('All')}>
+                  All
+                </DropdownItem>
+                <DropdownItem key="New" onClick={() => setStatutFilter('New')}>
+                  New
+                </DropdownItem>
+                <DropdownItem key="Shipped" onClick={() => setStatutFilter('Shipped')}>
+                  Shipped
+                </DropdownItem>
+                <DropdownItem key="Delivered" onClick={() => setStatutFilter('Delivered')}>
+                  Delivered
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
 
@@ -328,6 +450,7 @@ const Collects = () => {
             onClose={closeModal}
             title={`Collect - N° ${selectedCollect.number}`}
             isDarkMode={isDarkMode}
+            width="600px" // Optional: customize width if needed
           >
             {/* Information Button */}
             <div className="mb-8 mt-10 flex items-center justify-center">

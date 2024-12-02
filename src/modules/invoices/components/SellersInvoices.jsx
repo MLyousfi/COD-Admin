@@ -1,6 +1,14 @@
 // SellersInvoices.jsx
-import React, { useState } from 'react';
-import { InvoiceIcon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon } from "hugeicons-react";
+import React, { useState, useEffect } from 'react';
+import { InvoiceIcon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon,
+  PrinterIcon, 
+  Download01Icon,
+  CustomerSupportIcon,
+  ArrowRight01Icon,
+  CallOutgoing01Icon,
+  DropboxIcon,
+  Settings02Icon
+ } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../shared/components/Table';
@@ -9,6 +17,7 @@ import { rows } from '../../../core/utils/data3';
 import { useThemeProvider } from '../../../core/providers/ThemeContext';
 import CustomModal from '../../shared/components/modal'; // Adjust the import path accordingly
 import { Select, SelectItem } from "@nextui-org/select";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 
 const columns = [
   { key: "checkbox", label: "#" },
@@ -72,7 +81,7 @@ const SellersInvoices = () => {
       key: newKey,
       invoiceNumber: `INV-${newKey}`,
       store: newInvoiceData.seller || "New Store",
-      totalRemittance: "$1000",
+      totalRemittance: "$1,000",
       netRemittance: "$900",
       totalCharges: "$100",
       statut: "Unpaid",
@@ -91,28 +100,11 @@ const SellersInvoices = () => {
     }));
   };
 
-  const handleCheckboxChange = (keys, isRange) => {
-    if (isRange) {
-      // Add all keys in the range
-      setSelectedRows((prevSelected) => {
-        const newSelection = [...prevSelected];
-        keys.forEach((key) => {
-          if (!newSelection.includes(key)) {
-            newSelection.push(key);
-          }
-        });
-        return newSelection;
-      });
-    } else if (Array.isArray(keys)) {
-      // Select all or unselect all
-      setSelectedRows(keys);
+  const handleCheckboxChange = (key) => {
+    if (selectedRows.includes(key)) {
+      setSelectedRows(selectedRows.filter(selectedKey => selectedKey !== key));
     } else {
-      // Toggle single selection
-      setSelectedRows((prevSelected) =>
-        prevSelected.includes(keys)
-          ? prevSelected.filter((key) => key !== keys)
-          : [...prevSelected, keys]
-      );
+      setSelectedRows([...selectedRows, key]);
     }
   };
 
@@ -120,9 +112,17 @@ const SellersInvoices = () => {
     setProducts(products.filter(product => product.key !== key));
   };
 
-  const filteredProducts = selectedTab === 'active'
-    ? products.filter(product => product.status === "active")
-    : products.filter(product => product.status === "archived");
+  const filteredProducts = selectedTab.toLowerCase() === 'active'
+    ? products.filter(product => product.status && product.status.toLowerCase() === "active")
+    : products.filter(product => product.status && product.status.toLowerCase() === "archived");
+
+  // Debugging: Log the filtered products
+  useEffect(() => {
+    console.log("Selected Tab:", selectedTab);
+    console.log("Total Products:", products.length);
+    console.log("Filtered Products:", filteredProducts.length);
+    console.log("Filtered Products List:", filteredProducts);
+  }, [selectedTab, products, filteredProducts]);
 
   const renderCell = (item, columnKey) => {
     switch (columnKey) {
@@ -146,7 +146,7 @@ const SellersInvoices = () => {
           <div
             className="flex items-center justify-center px-2 py-1 rounded-full text-black dark:text-white"
             style={{
-              backgroundColor: statutColor[item.statut],
+              backgroundColor: statutColor[item.statut] || "#CCCCCC",
               minWidth: '80px',
             }}
           >
@@ -168,11 +168,22 @@ const SellersInvoices = () => {
       case "options":
         return (
           <div className="flex space-x-2 justify-center">
-            <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}>
+            <Button
+              variant="flat"
+              size="sm"
+              className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
+              style={{ backgroundColor: '#0258E8', padding: 0, minWidth: '32px', height: '32px' }}
+            >
               <EyeIcon size={14} style={{ color: 'white' }} />
             </Button>
 
-            <Button variant="flat" size="sm" className="w-8 h-8 rounded-full p-0 flex items-center justify-center" style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }} onClick={() => handleDelete(item.key)}>
+            <Button
+              variant="flat"
+              size="sm"
+              className="w-8 h-8 rounded-full p-0 flex items-center justify-center"
+              style={{ backgroundColor: '#ED0006', padding: 0, minWidth: '32px', height: '32px' }}
+              onClick={() => handleDelete(item.key)}
+            >
               <Delete01Icon size={14} style={{ color: 'white' }} />
             </Button>
           </div>
@@ -188,10 +199,14 @@ const SellersInvoices = () => {
       <div className="p-2 md:p-4">
         <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
           <StatusTabs
-            activeCount={products.filter(product => product.status === "active").length}
-            archivedCount={products.filter(product => product.status === "archived").length}
+            activeCount={products.filter(product => product.status && product.status.toLowerCase() === "active").length}
+            archivedCount={products.filter(product => product.status && product.status.toLowerCase() === "archived").length}
             selectedTab={selectedTab}
-            onTabChange={setSelectedTab}
+            onTabChange={(tab) => {
+              setSelectedTab(tab);
+              // Optional: Reset selectedRows when changing tabs
+              setSelectedRows([]);
+            }}
           />
 
           {/* Updated Buttons Container */}
@@ -204,13 +219,66 @@ const SellersInvoices = () => {
             >
               <PlusSignIcon size={18} /> New Invoice
             </Button>
-            <Button
-              color="default"
-              className="rounded-full flex items-center gap-2"
-              style={{ backgroundColor: '#ED0006', color: 'white' }}
-            >
-              <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions
-            </Button>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
 

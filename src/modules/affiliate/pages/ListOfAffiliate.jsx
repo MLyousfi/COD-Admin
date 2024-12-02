@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
-import { Home01Icon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon } from "hugeicons-react";
+import { Home01Icon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon,
+    PrinterIcon, 
+    Download01Icon,
+    CustomerSupportIcon,
+    ArrowRight01Icon,
+    CallOutgoing01Icon,
+    DropboxIcon,
+    Settings02Icon
+ } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../shared/components/Table';
 import NewAffiliateModal from '../components/NewAffiliateModal';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger ,
+    
+} from "@nextui-org/dropdown";
 
 const rows = [
     {
@@ -243,7 +254,7 @@ const ListOfAffiliate = () => {
 
 
                     {/* New Product and Actions Buttons */}
-                    <div className="space-x-2 pr-2">
+                    <div className="order-1 md:order-2 flex flex-row gap-2 w-full md:w-auto justify-end">
                         <Button
                             onClick={() => setOpenModal(true)}
                             color="default"
@@ -252,13 +263,67 @@ const ListOfAffiliate = () => {
                         >
                             <PlusSignIcon size={18} /> New Affiliate
                         </Button>
-                        <Button
-                            color="default"
-                            className="rounded-full"
-                            style={{ backgroundColor: '#ED0006', color: 'white' }}
-                        >
-                            <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions
-                        </Button>
+                                   {/* Actions Dropdown */}
+           <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
                     </div>
                 </div>
 

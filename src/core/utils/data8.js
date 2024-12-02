@@ -36,7 +36,7 @@ export const rows = [
       paymentStatut: "Unpaid",
       options: "",
       verified: false,
-      status: "archived",
+      status: "active",
     },
     {
       key: "3",

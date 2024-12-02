@@ -1,20 +1,27 @@
 // Warehouse.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   DeliveryBox01Icon,
   PlusSignIcon,
   PencilEdit01Icon,
   Delete01Icon,
+  PrinterIcon, 
+  Download01Icon,
+  CustomerSupportIcon,
+  ArrowRight01Icon,
+  CallOutgoing01Icon,
+  DropboxIcon,
+  Settings02Icon
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import StatusTabs from '../../shared/components/StatusTabs';
+import { Select, SelectItem } from "@nextui-org/react"; // Ensure Select components are imported
 
 import Table from '../../shared/components/Table'; 
 import CustomModal from '../../shared/components/modal'; 
 
-// Import Select components from @nextui-org/react
-import { Select, SelectItem } from '@nextui-org/select';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 
 const columns = [
   { key: "checkbox", label: "#" },
@@ -59,7 +66,7 @@ const Warehouse = () => {
       city: 'Kuwait City',
       description: 'Eastern region storage.',
     },
-    // Additional Sample Rows
+    // ... Additional Sample Rows
     {
       key: 4,
       warehouseCode: 'WH-004',
@@ -337,11 +344,18 @@ const Warehouse = () => {
     }, 5000);
   };
 
-  const filteredProducts = products.filter(product => {
-    if (activeView === 'active') return product.statut === 'enabled';
-    if (activeView === 'archived') return product.statut === 'disabled';
-    return true;
-  });
+  // Memoize filtered products for performance
+  const filteredProducts = useMemo(() => {
+    return products.filter(product => {
+      const productStatut = typeof product.statut === 'string' ? product.statut.toLowerCase() : '';
+      const currentView = activeView.toLowerCase();
+
+      const statutMatch =
+        currentView === 'active' ? productStatut === 'enabled' : productStatut === 'disabled';
+
+      return statutMatch;
+    });
+  }, [activeView, products]);
 
   const renderCell = (item, columnKey) => {
     switch (columnKey) {
@@ -406,35 +420,92 @@ const Warehouse = () => {
       <div className="p-2 md:p-4">
         {/* === Updated Flex Container === */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
-          {/* Buttons Container */}
-          <div className="order-1 md:order-2 flex gap-2 flex-wrap w-full md:w-auto justify-end">
+          {/* StatusTabs */}
+          <div className="order-2 md:order-1 w-full md:w-auto">
+            <StatusTabs
+              activeCount={products.filter(product => product.statut.toLowerCase() === "enabled").length}
+              archivedCount={products.filter(product => product.statut.toLowerCase() === "disabled").length}
+              selectedTab={activeView}
+              onTabChange={(tab) => {
+                setActiveView(tab);
+                setSelectedRows([]); // Optional: Reset selected rows when changing tabs
+              }}
+            />
+          </div>
+
+          {/* Action Buttons */}
+          <div className="order-1 md:order-2 flex flex-row gap-2 w-full md:w-auto justify-end">
             <Button 
               color="default" 
-              onClick={handleOpenNewProductModal} // Updated to open modal
+              onClick={handleOpenNewProductModal}
               className="rounded-full flex items-center space-x-2 px-4 py-2"
               style={{ backgroundColor: '#0258E8', color: 'white' }}  
             >
               <PlusSignIcon size={18} className="flex-shrink-0" /> 
               <span className="text-sm sm:text-base">New Warehouse</span>
             </Button>
-            <Button
-              color="default"
-              className="rounded-full flex items-center space-x-2 px-4 py-2"
-              style={{ backgroundColor: '#ED0006', color: 'white' }}
-            >
-              <PencilEdit01Icon size={18} className="flex-shrink-0" /> 
-              <span className="text-sm sm:text-base">Actions</span>
-            </Button>
-          </div>
-
-          {/* StatusTabs */}
-          <div className="order-2 md:order-1 w-full md:w-auto">
-            <StatusTabs
-              activeCount={products.filter(product => product.statut === "enabled").length}
-              archivedCount={products.filter(product => product.statut === "disabled").length}
-              selectedTab={activeView}
-              onTabChange={setActiveView}
-            />
+            
+           {/* Actions Dropdown */}
+           <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
         {/* === End of Updated Flex Container === */}
@@ -502,7 +573,7 @@ const Warehouse = () => {
                         newWarehouse.warehouseName ? 'transform -translate-y-4 scale-90' : ''
                       }`}
                     >
-                      Warehouse Name
+                      Warehouse Name *
                     </label>
                     {/* Custom Line */}
                     <div
@@ -522,7 +593,7 @@ const Warehouse = () => {
                   {/* Statut Select */}
                   <div className="w-full lg:w-1/2">
                     <label htmlFor="statut" className="block mt-4 lg:mt-0">
-                      <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Statut</span>
+                      <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Statut *</span>
                       <Select
                         id="statut"
                         placeholder="Select statut"
@@ -542,7 +613,7 @@ const Warehouse = () => {
                   {/* Country Select */}
                   <div className="w-full lg:w-1/2">
                     <label htmlFor="country" className="block mt-4 lg:mt-0">
-                      <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Country</span>
+                      <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">Country *</span>
                       <Select
                         id="country"
                         placeholder="Select country"
@@ -580,7 +651,7 @@ const Warehouse = () => {
                   {/* City Select */}
                   <div className="w-full lg:w-1/2">
                     <label htmlFor="city" className="block mt-4 lg:mt-0">
-                      <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">City</span>
+                      <span className="text-sm text-[#00000050] dark:text-[#FFFFFF30]">City *</span>
                       <Select
                         id="city"
                         placeholder="Select city"
@@ -616,7 +687,7 @@ const Warehouse = () => {
                 {/* Row 4: Description */}
                 <div className="flex flex-col w-full">
                   <label htmlFor="description" className="block relative">
-                    <input
+                    <textarea
                       id="description"
                       name="description"
                       value={newWarehouse.description}
@@ -626,7 +697,7 @@ const Warehouse = () => {
                       }`}
                       placeholder=""
                       rows={4}
-                    ></input>
+                    ></textarea>
                     <label
                       htmlFor="description"
                       className={`absolute top-4 left-0 text-sm text-gray-500 transition-all duration-300 pointer-events-none ${

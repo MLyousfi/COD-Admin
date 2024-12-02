@@ -1,0 +1,39 @@
+/* datepicker.css */
+
+/* Override the default react-datepicker styles for dark mode */
+.dark .react-datepicker {
+  background-color: #2B292C;
+  color: #FFFFFF;
+  border: 1px solid #444;
+}
+
+.dark .react-datepicker__header {
+  background-color: #3B3A3C;
+  border-bottom: 1px solid #444;
+}
+
+.dark .react-datepicker__day,
+.dark .react-datepicker__day-name,
+.dark .react-datepicker__month,
+.dark .react-datepicker__year {
+  color: #FFFFFF;
+}
+
+.dark .react-datepicker__day:hover {
+  background-color: #444;
+}
+
+.dark .react-datepicker__day--selected,
+.dark .react-datepicker__day--keyboard-selected {
+  background-color: #0452D4;
+  color: #FFFFFF;
+}
+
+.dark .react-datepicker__triangle {
+  border-bottom-color: #2B292C;
+}
+
+/* Optional: Customize other parts as needed */
+.react-datepicker {
+  z-index: 1000; /* Ensure the datepicker appears above other elements */
+}

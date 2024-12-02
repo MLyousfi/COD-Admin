@@ -11,26 +11,26 @@ import CustomModal from '../../shared/components/modal'; // Adjust the import pa
 import { Select, SelectItem } from "@nextui-org/select";
 
 const rows = [
-    { key: 1, name: 'Tech Solutions Inc.' },
-    { key: 2, name: 'Global Ventures LLC' },
-    { key: 3, name: 'Innovatech Ltd.' },
-    { key: 4, name: 'Pioneer Corp' },
-    { key: 5, name: 'Green Energy Co.' },
-    { key: 6, name: 'Skyline Networks' },
-    { key: 7, name: 'Blue Ocean Industries' },
-    { key: 8, name: 'Fusion Tech' },
-    { key: 9, name: 'Sunrise Solutions' },
-    { key: 10, name: 'Peak Performance' },
-    { key: 11, name: 'NexGen Enterprises' },
-    { key: 12, name: 'Visionary Minds' },
-    { key: 13, name: 'Smart Innovations' },
-    { key: 14, name: 'Synergy Systems' },
-    { key: 15, name: 'Bright Future Holdings' },
-    { key: 16, name: 'Prime Logistics' },
-    { key: 17, name: 'Infinity Labs' },
-    { key: 18, name: 'Apex Global' },
-    { key: 19, name: 'Velocity Partners' },
-    { key: 20, name: 'Summit Technologies' },
+    { key: 1, name: 'Tech Solutions Inc.',status:"active" },
+    { key: 2, name: 'Global Ventures LLC',status:"active" },
+    { key: 3, name: 'Innovatech Ltd.',status:"active" },
+    { key: 4, name: 'Pioneer Corp',status:"active" },
+    { key: 5, name: 'Green Energy Co.',status:"active" },
+    { key: 6, name: 'Skyline Networks',status:"active" },
+    { key: 7, name: 'Blue Ocean Industries',status:"active" },
+    { key: 8, name: 'Fusion Tech',status:"active" },
+    { key: 9, name: 'Sunrise Solutions',status:"archived" },
+    { key: 10, name: 'Peak Performance' ,status:"archived"},
+    { key: 11, name: 'NexGen Enterprises',status:"archived" },
+    { key: 12, name: 'Visionary Minds',status:"active" },
+    { key: 13, name: 'Smart Innovations',status:"archived" },
+    { key: 14, name: 'Synergy Systems' ,status:"archived"},
+    { key: 15, name: 'Bright Future Holdings',status:"active" },
+    { key: 16, name: 'Prime Logistics',status:"active" },
+    { key: 17, name: 'Infinity Labs' ,status:"active"},
+    { key: 18, name: 'Apex Global' ,status:"active"},
+    { key: 19, name: 'Velocity Partners',status:"archived" },
+    { key: 20, name: 'Summit Technologies' ,status:"archived"},
 ];
 
 
@@ -50,6 +50,8 @@ const ShippingCompanies = () => {
         key: null,
         value: ''
     })
+    const [activeView, setActiveView] = useState('active');
+
 
     const updateEditting = (property, newValue) => {
         setEditting(prevState => ({
@@ -103,7 +105,21 @@ const ShippingCompanies = () => {
 
 
 
-
+      const filteredProducts = products.filter((product) => {
+        // Ensure product.status is a string and convert to lowercase
+        const productStatus = typeof product.status === 'string' ? product.status.toLowerCase() : '';
+        
+        // Ensure activeView is in lowercase
+        const currentView = activeView.toLowerCase();
+      
+        const statusMatch =
+          currentView === 'active' ? productStatus === 'active' : productStatus === 'archived';
+      
+        // For 'statut', assuming it should match exactly. If case-insensitive is needed, apply similar logic.
+        
+      
+        return statusMatch;
+      });
     const renderCell = (item, columnKey) => {
         switch (columnKey) {
             case "checkbox":
@@ -186,7 +202,7 @@ const ShippingCompanies = () => {
 
                 <Table
                     columns={columns}
-                    data={rows}
+                    data={filteredProducts}
                     renderCell={renderCell}
                     handleCheckboxChange={handleCheckboxChange}
                     selectedRows={selectedRows}
