@@ -318,7 +318,6 @@ const Stock = () => {
           <div className="order-1 lg:order-2 flex flex-row gap-2 w-full lg:w-auto justify-end">
             <Button 
               color="default" 
-              onClick={handleOpenNewProductModal}
               className="rounded-full" 
               style={{ backgroundColor: '#0258E8', color: 'white' }}  
             >
