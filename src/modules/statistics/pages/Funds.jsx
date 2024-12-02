@@ -12,7 +12,12 @@ import {
   DeliveryTruck02Icon,
   PackageDeliveredIcon,
   DeliveryReturn01Icon,
+  UserIcon,
+
 } from "hugeicons-react";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
+import { agentNames } from "../../../core/utils/shared.data";
+
 import { motion } from "framer-motion";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import FundsCard from "../components/FundsCard";
@@ -186,7 +191,9 @@ export default function Funds() {
       [name]: value,
     }));
   };
-
+  const [selectedDateRange, setSelectedDateRange] = useState("Today");
+  const dateRangeOptions = ["Today", "Yesterday", "Last Week", "Last Month", "This Year"];
+  
   const handleApplyFilter = () => {
     // Implement your filter logic here using the `filters` state
     console.log("Filters applied:", filters);
@@ -225,23 +232,50 @@ export default function Funds() {
 
       {/* Today and List of Agents Buttons */}
       <div className="order-2 lg:order-1 flex flex-row justify-end gap-2 w-full lg:w-auto">
+      <Dropdown>
+    <DropdownTrigger>
         <Button
-          className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center"
-          auto
-          aria-label="Select Today"
+            variant="bordered"
+            className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center w-auto"
+            aria-label="Select Date Range"
         >
-          <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-          <span className="ml-2">Today</span>
+            <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
+            <span className="ml-2">{selectedDateRange}</span>
+            <ArrowDown01Icon size={16} className="ml-1" />
         </Button>
-        <Button
-          className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center"
-          auto
-          aria-label="List of Agents"
-        >
-          <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-          <span className="ml-2">List of Agents</span>
-          <ArrowDown01Icon className="ml-1 text-black dark:text-white" size={18} />
-        </Button>
+    </DropdownTrigger>
+    <DropdownMenu
+        aria-label="Select Date Range"
+        onAction={(key) => setSelectedDateRange(key)}
+    >
+        {dateRangeOptions.map((option) => (
+            <DropdownItem key={option} keyValue={option}>
+                {option}
+            </DropdownItem>
+        ))}
+    </DropdownMenu>
+</Dropdown>
+
+        <Dropdown>
+                <DropdownTrigger>
+                  <Button variant="bordered" className="rounded-full text-sm md:text-lg bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center w-auto">
+                  <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
+
+                    <h6 className="text-sm md:text-sm">List of Agents</h6> <ArrowDown01Icon size={16} />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Static Actions">
+                  {agentNames.map((i) => (
+                    <DropdownItem key={i}>
+                      <div className="flex justify-between items-center">
+                        <div className="flex gap-2">
+                          <UserIcon size={15} /> {i}
+                        </div>
+                      </div>
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 // CallCenter.jsx
 
 import React, { useState, useEffect } from "react";
-import { Calendar03Icon, FilterIcon, ArrowDown01Icon, ChartHistogramIcon } from "hugeicons-react";
+import { Calendar03Icon, UserIcon,FilterIcon, ArrowDown01Icon, ChartHistogramIcon } from "hugeicons-react";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import { Button } from "@nextui-org/button";
 import CustomModal from "../../shared/components/modal";
@@ -9,6 +9,8 @@ import Calendar from "react-calendar";
 import { useNavigate, useLocation } from "react-router-dom"; // Import React Router hooks
 import { motion } from "framer-motion"; // Import framer-motion for animations
 import "react-calendar/dist/Calendar.css"; // Import the CSS for react-calendar
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
+import { agentNames } from "../../../core/utils/shared.data";
 
 export default function CallCenter() {
     // State Hooks
@@ -64,6 +66,9 @@ export default function CallCenter() {
         { id: 5, name: "Agent Wilson" },
         // Add more agents as needed
     ];
+    const [selectedDateRange, setSelectedDateRange] = useState("Today");
+    const dateRangeOptions = ["Today", "Yesterday", "Last Week", "Last Month", "This Year"];
+    
 
     // Example list of date filters
     const dateFilters = [
@@ -123,23 +128,49 @@ export default function CallCenter() {
 
             {/* Today and List of Agents Buttons: Second on small screens, First on large screens */}
             <div className="order-2 lg:order-1 flex flex-row justify-end gap-2 w-full lg:w-auto">
-                <Button
-                    className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center w-auto"
-                    auto
-                    aria-label="Select Today"
-                >
-                    <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-                    <span className="ml-2">Today</span>
-                </Button>
-                <Button
-                    className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center w-auto"
-                    auto
-                    aria-label="List of Agents"
-                >
-                    <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
-                    <span className="ml-2">List of Agents</span>
-                    <ArrowDown01Icon className="ml-1 text-black dark:text-white" size={18} />
-                </Button>
+            <Dropdown>
+    <DropdownTrigger>
+        <Button
+            variant="bordered"
+            className="bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center w-auto"
+            aria-label="Select Date Range"
+        >
+            <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
+            <span className="ml-2">{selectedDateRange}</span>
+        </Button>
+    </DropdownTrigger>
+    <DropdownMenu
+        aria-label="Select Date Range"
+        onAction={(key) => setSelectedDateRange(key)}
+    >
+        {dateRangeOptions.map((option) => (
+            <DropdownItem key={option} keyValue={option}>
+                {option}
+            </DropdownItem>
+        ))}
+    </DropdownMenu>
+</Dropdown>
+
+                <Dropdown>
+                <DropdownTrigger>
+                  <Button variant="bordered" className="rounded-full text-sm md:text-lg bg-transparent border border-gray-700 text-black dark:text-white rounded-full px-4 py-2 flex items-center w-auto">
+                  <Calendar03Icon className="text-gray-500 dark:text-gray-300" size={18} />
+
+                    <h6 className="text-sm md:text-sm">List of Agents</h6> <ArrowDown01Icon size={16} />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Static Actions">
+                  {agentNames.map((i) => (
+                    <DropdownItem key={i}>
+                      <div className="flex justify-between items-center">
+                        <div className="flex gap-2">
+                          <UserIcon size={15} /> {i}
+                        </div>
+                      </div>
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
             </div>
 
             {/* Agents, Activities, and Call Center Tabs */}

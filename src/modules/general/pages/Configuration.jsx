@@ -26,7 +26,7 @@ const Configuration = () => {
   return (
     <DashboardLayout title="General - Configuration" icon={<Settings02Icon className="text-info" />}>
       {/* Buttons on Top */}
-      <div className="flex space-x-4 mt-8 p-8 justify-center md:justify-start">        <button
+      <div className="flex space-x-4  p-8 whitespace-nowrap justify-center md:justify-start">        <button
           onClick={() => setActiveSection('callCenter')}
           className={`py-2 px-7 rounded-full font-bold text-[15px]  ${
             activeSection === 'callCenter' ? 'bg-info text-white' : 'bg-[#00000015] dark:bg-[#ffffff10] text-black dark:text-white'

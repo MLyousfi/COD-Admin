@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
-import { Home01Icon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon, UserIcon } from "hugeicons-react";
+import { Home01Icon, PencilEdit01Icon, PlusSignIcon, EyeIcon, Delete01Icon, UserIcon ,
+    PrinterIcon, 
+    Download01Icon,
+    CustomerSupportIcon,
+    ArrowRight01Icon,
+    CallOutgoing01Icon,
+    DropboxIcon,
+    Settings02Icon
+} from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import Table from '../../shared/components/Table';
 import EditUserModal from '../components/EditUserModal';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 
 const rows = [
     {
@@ -298,14 +307,17 @@ const ListOfUsers = () => {
         <DashboardLayout title="Users - List of Users" icon={<UserIcon className="text-info" />}>
             <div className="p-2 md:p-4">{/**here ---|> responsv */}
                 {/* Tabs for Active and Archived */}
-                <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
+                <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">
                     <div className="flex justify-center items-center gap-2 flex-wrap">
-                        {companies && companies.length > 0 && companies.map((item, index) =>
-                        (<div key={index} onClick={() => setSelectedCompany(companies[index])}
-                            className={`py-2 cursor-pointer text-sm px-6 rounded-full  ${selectedCompany === item ? 'bg-[#0258E8] font-bold text-white' : 'bg-[#0256e83d] font-bold text-[#0258E8] dark:text-white'} `}>
-                            {item}
-                        </div>)
-                        )}
+                        {companies && companies.length > 0 && companies.map((item, index) => (
+                            <div
+                                key={index}
+                                onClick={() => setSelectedCompany(companies[index])}
+                                className={`py-2 cursor-pointer text-sm px-6 rounded-full text-white dark:text-white ${selectedCompany === item ? 'bg-[#0258E8]' : 'bg-[#0256e83d]'}`}
+                            >
+                                {item}
+                            </div>
+                        ))}
                     </div>
 
                     {/* New Product and Actions Buttons */}
@@ -318,13 +330,67 @@ const ListOfUsers = () => {
                         >
                             <PlusSignIcon size={18} /> New User
                         </Button>
-                        <Button
-                            color="default"
-                            className="rounded-full"
-                            style={{ backgroundColor: '#ED0006', color: 'white' }}
-                        >
-                            <PencilEdit01Icon size={18} style={{ color: 'white' }} /> Actions
-                        </Button>
+                        {/* Actions Dropdown */}
+           <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
                     </div>
                 </div>
 

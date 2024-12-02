@@ -2,7 +2,6 @@
 import React, { useCallback, useState, useMemo, useEffect } from "react";
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import {
-  ArrowDown01Icon,
   ArrowUpDownIcon,
   PlusSignIcon,
   PencilEdit01Icon,
@@ -14,8 +13,7 @@ import {
   DropboxIcon,
   Settings02Icon,
   DeliveryBox01Icon,
-  MultiplicationSignIcon,
-  Upload02Icon, // For CustomModal close button
+  Upload02Icon, 
 } from "hugeicons-react";
 import { Button } from "@nextui-org/button";
 import { Link } from "react-router-dom";
@@ -359,10 +357,17 @@ export default function Orders() {
 
   // Filter rows based on selected tab
   const filteredRows = useMemo(() => {
-    return selectedTab === "active"
-      ? sortedRows.filter((row) => row.status === "active")
-      : sortedRows.filter((row) => row.status === "archived");
+    return sortedRows.filter((row) => {
+      const rowStatus = typeof row.status === 'string' ? row.status.toLowerCase() : '';
+      const currentTab = selectedTab.toLowerCase();
+  
+      const statusMatch =
+        currentTab === 'active' ? rowStatus === 'active' : rowStatus === 'archived';
+  
+      return statusMatch;
+    });
   }, [selectedTab, sortedRows]);
+  
 
   // Render cell content
   const renderCell = useCallback((item, columnKey) => {
@@ -466,8 +471,8 @@ export default function Orders() {
     >
       <div>
         {/* Header Section */}
-        <div className="flex flex-col lg:flex-row justify-between items-center gap-4 p-4 lg:p-12">
-          <div className="order-2 lg:order-1 w-full lg:w-auto mt-8">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-4 p-4 lg:p-4">
+          <div className="order-2 lg:order-1 w-full lg:w-auto ">
             <StatusTabs
               activeCount={rows.filter((row) => row.status === "active").length}
               archivedCount={

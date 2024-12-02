@@ -1,13 +1,17 @@
 import DashboardLayout from "@shared/layouts/DashboardLayout.jsx";
 import {
-    ArrowDown01Icon,
-    ArrowLeft02Icon,
-    ArrowRight02Icon,
-    Calling02Icon,
+
     CustomerService01Icon,
     Edit01Icon,
     Logout03Icon,
-    PencilEdit01Icon
+    PrinterIcon,
+    PencilEdit01Icon,
+    ArrowRight01Icon,
+    CallOutgoing01Icon,
+    CustomerSupportIcon,
+    Download01Icon,
+    DropboxIcon,
+    Settings02Icon,
 } from "hugeicons-react";
 import { Tab, Tabs } from "@nextui-org/tabs";
 import { Chip } from "@nextui-org/chip";
@@ -17,18 +21,19 @@ import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Table from "../../shared/components/Table";
 import StatusTabs from "../../shared/components/StatusTabs";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 
 const rows = [
-    { key: 1, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
-    { key: 2, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
-    { key: 3, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Affiliate Marketer", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
-    { key: 4, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Logistics", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
-    { key: 5, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
-    { key: 6, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
-    { key: 7, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
-    { key: 8, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
-    { key: 9, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" },
-    { key: 10, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" }
+    { key: 1, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" ,status:"active"},
+    { key: 2, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun",status:"active" },
+    { key: 3, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Affiliate Marketer", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun",status:"active" },
+    { key: 4, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Logistics", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" ,status:"active"},
+    { key: 5, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" ,status:"active"},
+    { key: 6, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" ,status:"active"},
+    { key: 7, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun",status:"active" },
+    { key: 8, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun",status:"archived" },
+    { key: 9, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" ,status:"archived"},
+    { key: 10, name: "Amine M'ghari", email: "amine@codpowergroup.com", role: "Operators", workingTime: "Mon, Tue, Wed, Thur, Fri, Sat, Sun" ,status:"active"}
 
 ];
 
@@ -62,6 +67,7 @@ export default function MyAgent() {
 
     const [selectedRows, setSelectedRows] = useState([]);
     const rowsPerPage = 10;
+    const [products, setProducts] = useState(rows);
 
     const handleCheckboxChange = (key) => {
         if (selectedRows.includes(key)) {
@@ -140,6 +146,9 @@ export default function MyAgent() {
         }),
         [],
     );
+    const filteredProducts = selectedTab.toLowerCase() === 'active'
+    ? products.filter(product => product.status && product.status.toLowerCase() === "active")
+    : products.filter(product => product.status && product.status.toLowerCase() === "archived");
     return (
         <>
             <DashboardLayout title="Call Center Manager - My Agents" icon={<CustomerService01Icon className="text-info" />}
@@ -147,8 +156,8 @@ export default function MyAgent() {
                 <div className="p-2 md:p-4">{/**here ---|> responsv */}
                     <div className="flex gap-4 md:justify-between md:items-center mb-4 flex-wrap flex-col-reverse md:flex-row">{/**here ---|> responsv */}
                         <StatusTabs
-                            activeCount={10928}
-                            archivedCount={10}
+                                activeCount={rows.filter(row => row.status === "active").length}
+                                archivedCount={rows.filter(row => row.status === "archived").length}
                             selectedTab={selectedTab}
                             onTabChange={setSelectedTab}
                         />
@@ -156,15 +165,72 @@ export default function MyAgent() {
                         {/*Tab content*/}
 
                         <div className="flex gap-2 flex-wrap items-center self-end"> {/**here ---|> responsv */}
-
-                            <Button color="default" className="rounded-full text-white bg-danger">
-                                <PencilEdit01Icon size={18} /> Actions
-                            </Button>
+        {/* Actions Dropdown */}
+        <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
                         </div>
                     </div>
                     <Table
                         columns={columns}
-                        data={rows}  
+                        data={filteredProducts}  // Pass filtered products based on the view
                         renderCell={renderCell}
                         handleCheckboxChange={handleCheckboxChange}
                         selectedRows={selectedRows} 

@@ -5,10 +5,16 @@ import {
   PencilEdit01Icon,
   PlusSignIcon,
   Delete01Icon,
-  ArrowDown01Icon,
   UserMultipleIcon,
   Recycle03Icon,
-  Upload02Icon,
+  PrinterIcon,          
+  Download01Icon,
+  ArrowRight01Icon,
+  CustomerSupportIcon,
+  CallOutgoing01Icon,
+  DropboxIcon,
+  Settings02Icon,
+
 } from 'hugeicons-react';
 import { Button } from '@nextui-org/button';
 import DashboardLayout from '@shared/layouts/DashboardLayout.jsx';
@@ -16,6 +22,7 @@ import Table from '../../shared/components/Table';
 import { rows } from '../../../core/utils/data11';
 import CustomModal from '../../shared/components/modal';
 import NewSalesChannelForm from '../components/saleschannels/NewSalesChannelForm';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 
 // Updated columns array
 const columns = [
@@ -205,14 +212,67 @@ const SalesChannels = () => {
           >
             <PlusSignIcon size={18} className="flex-shrink-0" /> New Sales Channel
           </Button>
-          <Button
-            color="default"
-            className="rounded-full flex items-center space-x-2 px-4 py-2"
-            style={{ backgroundColor: '#ED0006', color: 'white' }}
-          >
-            <PencilEdit01Icon size={18} className="flex-shrink-0" />
-            <span className="text-sm sm:text-base">Actions</span>
-          </Button>
+           {/* Actions Dropdown */}
+           <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
     
         </div>
 

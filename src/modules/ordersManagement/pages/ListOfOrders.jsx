@@ -49,7 +49,9 @@ const rows = [
         orderStatus: "Confirmed at 03/10/2024 - 14:00",
         created: "03/10/2024 - 14:00",
         followUp: "03/10/2024 - 14:00",
-        followUpUpdated: "03/10/2024 - 14:00"
+        followUpUpdated: "03/10/2024 - 14:00",
+        status:"archived"
+
     },
     {
         key: 2,
@@ -69,7 +71,9 @@ const rows = [
         orderStatus: "Confirmed at 03/11/2024 - 10:05",
         created: "03/11/2024 - 10:05",
         followUp: "03/11/2024 - 10:05",
-        followUpUpdated: "03/11/2024 - 10:05"
+        followUpUpdated: "03/11/2024 - 10:05",
+        status:"active"
+
     },
     {
         key: 3,
@@ -89,7 +93,9 @@ const rows = [
         orderStatus: "Confirmed at 03/12/2024 - 11:30",
         created: "03/12/2024 - 11:30",
         followUp: "03/12/2024 - 11:30",
-        followUpUpdated: "03/12/2024 - 11:30"
+        followUpUpdated: "03/12/2024 - 11:30",
+        status:"active"
+
     },
     {
         key: 4,
@@ -109,7 +115,9 @@ const rows = [
         orderStatus: "Confirmed at 03/13/2024 - 13:45",
         created: "03/13/2024 - 13:45",
         followUp: "03/13/2024 - 13:45",
-        followUpUpdated: "03/13/2024 - 13:45"
+        followUpUpdated: "03/13/2024 - 13:45",
+        status:"active"
+
     },
     {
         key: 5,
@@ -129,7 +137,9 @@ const rows = [
         orderStatus: "Confirmed at 03/14/2024 - 09:15",
         created: "03/14/2024 - 09:15",
         followUp: "03/14/2024 - 09:15",
-        followUpUpdated: "03/14/2024 - 09:15"
+        followUpUpdated: "03/14/2024 - 09:15",
+        status:"active"
+
     },
     {
         key: 6,
@@ -149,7 +159,9 @@ const rows = [
         orderStatus: "Confirmed at 03/15/2024 - 17:20",
         created: "03/15/2024 - 17:20",
         followUp: "03/15/2024 - 17:20",
-        followUpUpdated: "03/15/2024 - 17:20"
+        followUpUpdated: "03/15/2024 - 17:20",
+        status:"archived"
+
     },
     {
         key: 7,
@@ -169,7 +181,9 @@ const rows = [
         orderStatus: "Confirmed at 03/16/2024 - 18:35",
         created: "03/16/2024 - 18:35",
         followUp: "03/16/2024 - 18:35",
-        followUpUpdated: "03/16/2024 - 18:35"
+        followUpUpdated: "03/16/2024 - 18:35",
+        status:"active"
+
     },
     {
         key: 8,
@@ -189,7 +203,9 @@ const rows = [
         orderStatus: "Confirmed at 03/17/2024 - 10:50",
         created: "03/17/2024 - 10:50",
         followUp: "03/17/2024 - 10:50",
-        followUpUpdated: "03/17/2024 - 10:50"
+        followUpUpdated: "03/17/2024 - 10:50",
+        status:"active"
+
     },
     {
         key: 9,
@@ -209,7 +225,9 @@ const rows = [
         orderStatus: "Confirmed at 03/18/2024 - 12:10",
         created: "03/18/2024 - 12:10",
         followUp: "03/18/2024 - 12:10",
-        followUpUpdated: "03/18/2024 - 12:10"
+        followUpUpdated: "03/18/2024 - 12:10",
+        status:"active"
+
     },
     {
         key: 10,
@@ -229,7 +247,8 @@ const rows = [
         orderStatus: "Confirmed at 03/19/2024 - 16:25",
         created: "03/19/2024 - 16:25",
         followUp: "03/19/2024 - 16:25",
-        followUpUpdated: "03/19/2024 - 16:25"
+        followUpUpdated: "03/19/2024 - 16:25",
+        status:"active"
     }
 ];
 
@@ -313,6 +332,7 @@ export default function ListOfOrders() {
     const [selectedRows, setSelectedRows] = useState([]);
     const rowsPerPage = 10;
 
+    const [products, setProducts] = useState(rows);
 
 
     const handleCheckboxChange = (keys, isRange) => {
@@ -410,7 +430,9 @@ export default function ListOfOrders() {
         }
     }, []);
 
-
+    const filteredProducts = selectedTab.toLowerCase() === 'active'
+    ? products.filter(product => product.status && product.status.toLowerCase() === "active")
+    : products.filter(product => product.status && product.status.toLowerCase() === "archived");
     return (
         <>
             <DashboardLayout title="Orders Management - List Of Orders" icon={<DeliveryBox01Icon className="text-info" />}
@@ -447,69 +469,73 @@ export default function ListOfOrders() {
                                     ))}
                                 </DropdownMenu>
                             </Dropdown>
-                            <Dropdown className="!backdrop-blur-md !bg-gray-400/30">
-                                <DropdownTrigger>
-                                    <Button color="default" className="rounded-full text-white bg-glb_red">
-                                        <PencilEdit01Icon size={18} /> Actions
-                                    </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu aria-label="Static Actions" classNames={{ list: "!bg-transparent" }} >
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <PrinterIcon size={15} /> Print
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <Download01Icon size={15} /> Export
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <CustomerSupportIcon size={15} /> Call center
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <CallOutgoing01Icon size={15} /> Follow up
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <DropboxIcon size={15} /> Shipping
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem key="new">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-2">
-                                                <Settings02Icon size={15} /> General
-                                            </div>
-                                            <ArrowRight01Icon size={18} />
-                                        </div>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
+                            {/* Actions Dropdown */}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color="default"
+                  className="rounded-full text-white bg-glb_red flex items-center"
+                >
+                  <PencilEdit01Icon size={18} className="mr-1" /> Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="print">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <PrinterIcon size={15} /> Print
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="export">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Download01Icon size={15} /> Export
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="call-center">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CustomerSupportIcon size={15} /> Call center
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="follow-up">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <CallOutgoing01Icon size={15} /> Follow up
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="shipping">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <DropboxIcon size={15} /> Shipping
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="general">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                      <Settings02Icon size={15} /> General
+                    </div>
+                    <ArrowRight01Icon size={18} />
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
 
                         </div>
                     </div>
                     <Table
                         columns={columns}
-                        data={rows}  // Pass filtered products based on the view
+                        data={filteredProducts}  // Pass filtered products based on the view
                         renderCell={renderCell}
                         handleCheckboxChange={handleCheckboxChange}
                         selectedRows={selectedRows} // Pass selected rows state
